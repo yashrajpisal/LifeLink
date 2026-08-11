@@ -10,7 +10,7 @@ public class Welcome extends Application{
     public void start(Stage argWelcom) throws Exception {
         welcomStage = argWelcom;
 
-        welcomStage.show();
+        new otp().show(welcomStage);
     }
     
 }

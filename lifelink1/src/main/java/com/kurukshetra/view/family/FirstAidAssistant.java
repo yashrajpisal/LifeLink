@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
-public class AICareAssistant {
+public class FirstAidAssistant {
 
     public BorderPane setBorderPane(){
 

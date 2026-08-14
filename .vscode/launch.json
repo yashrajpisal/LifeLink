@@ -6,9 +6,19 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Current File",
+            "name": "SavedHospitals",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "com.kurukshetra.view.family.SavedHospitals",
+            "projectName": "lifelink1",
+            "vmArgs": "--module-path \"C://Users//Acer//Desktop//Core2Web//Java Batch//javafx-sdk-21.0.12//lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "EmergencyServices",
+            "request": "launch",
+            "mainClass": "com.kurukshetra.view.family.EmergencyServices",
+            "projectName": "lifelink1",
+            "vmArgs": "--module-path \"C://Users//Acer//Desktop//Core2Web//Java Batch//javafx-sdk-21.0.12//lib\" --add-modules javafx.controls,javafx.fxml"
         },
         {
             "type": "java",

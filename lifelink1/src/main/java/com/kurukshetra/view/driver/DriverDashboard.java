@@ -155,8 +155,13 @@ public class DriverDashboard extends Application {
         // );
 
 
-        DriverTripHistory driverTripHistory = new DriverTripHistory();
-        root.setCenter(driverTripHistory.getDriverTripsPage());
+      
+        root.setCenter(  createScrollPane(
+                            createSimplePage(
+                                    "Dashboard",
+                                    "Emergency ambulance overview and current mission status."
+                            )
+                    ));
 
         hospitalScene =
                 new Scene(
@@ -413,96 +418,6 @@ public class DriverDashboard extends Application {
         });
 
 
-        // recommendationButton.setOnAction(event -> {
-
-        //     setActiveNavigation(
-        //             navigation,
-        //             recommendationButton
-        //     );
-
-        //     root.setCenter(
-        //             createScrollPane(
-        //                     createSimplePage(
-        //                             "AI Recommendation",
-        //                             "AI-powered hospital recommendation and emergency routing."
-        //                     )
-        //             )
-        //     );
-        // });
-
-
-        // navigationButton.setOnAction(event -> {
-
-        //     setActiveNavigation(
-        //             navigation,
-        //             navigationButton
-        //     );
-
-        //     root.setCenter(
-        //             createScrollPane(
-        //                     createSimplePage(
-        //                             "Navigation",
-        //                             "Live navigation and emergency route information."
-        //                     )
-        //             )
-        //     );
-        // });
-
-
-        // patientDetailsButton.setOnAction(event -> {
-
-        //     setActiveNavigation(
-        //             navigation,
-        //             patientDetailsButton
-        //     );
-
-        //     root.setCenter(
-        //             createScrollPane(
-        //                     createSimplePage(
-        //                             "Patient Details",
-        //                             "Current emergency patient information."
-        //                     )
-        //             )
-        //     );
-        // });
-
-
-        // policeButton.setOnAction(event -> {
-
-        //     setActiveNavigation(
-        //             navigation,
-        //             policeButton
-        //     );
-
-        //     root.setCenter(
-        //             createScrollPane(
-        //                     createSimplePage(
-        //                             "Police Clearance",
-        //                             "Traffic clearance and emergency corridor information."
-        //                     )
-        //             )
-        //     );
-        // });
-
-
-        // nurseButton.setOnAction(event -> {
-
-        //     setActiveNavigation(
-        //             navigation,
-        //             nurseButton
-        //     );
-
-        //     root.setCenter(
-        //             createScrollPane(
-        //                     createSimplePage(
-        //                             "Nurse Updates",
-        //                             "Receive patient and hospital handover updates."
-        //                     )
-        //             )
-        //     );
-        // });
-
-
         notificationButton.setOnAction(event -> {
 
             setActiveNavigation(
@@ -563,13 +478,15 @@ public class DriverDashboard extends Application {
                     settingsButton
             );
 
+            DriverSetting driversettings = new DriverSetting();
             root.setCenter(
-                    createScrollPane(
-                            createSimplePage(
-                                    "Settings",
-                                    "Manage ambulance and application settings."
-                            )
-                    )
+                //     createScrollPane(
+                //             createSimplePage(
+                //                     "Settings",
+                //                     "Manage ambulance and application settings."
+                //             )
+                        driversettings.getAppSettingsPage()
+                //     )
             );
         });
 

@@ -8,6 +8,6 @@ import com.kurukshetra.view.driver.*;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Shree Ganeshay Namhaa!!");
-        Application.launch(Dashboard.class, args);
+        Application.launch(DriverDashboard.class, args);
     }
 }

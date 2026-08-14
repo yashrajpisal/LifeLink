@@ -26,7 +26,7 @@ public class DriverSetting {
 
     public BorderPane settingsRoot;
 
-    public BorderPane getAppSettingsPage(Runnable callBackDashboard) {
+    public BorderPane getAppSettingsPage() {
 
         settingsRoot = new BorderPane();
         settingsRoot.setStyle("-fx-background-color : #F7F9FC; -fx-font-family : 'Segoe UI';");
@@ -43,8 +43,8 @@ public class DriverSetting {
         backButton.setStyle("-fx-background-color : #EAF7FD; -fx-text-fill : #08A1E5; -fx-font-size : 22px; -fx-font-weight : bold; -fx-background-radius : 20; -fx-cursor : hand;");
 
         backButton.setOnAction(e -> {
-            System.out.println("Back to Dashboard");
-            callBackDashboard.run();
+            // System.out.println("Back to Dashboard");
+            // callBackDashboard.run();
         });
 
         backButton.setOnMouseEntered(e ->
@@ -203,8 +203,8 @@ public class DriverSetting {
         cancelButton.setStyle("-fx-background-color : #F0F4F9; -fx-text-fill : #536277; -fx-font-size : 12px; -fx-font-weight : bold; -fx-background-radius : 9; -fx-cursor : hand;");
 
         cancelButton.setOnAction(e -> {
-            System.out.println("Cancel button clicked");
-            callBackDashboard.run();
+            // System.out.println("Cancel button clicked");
+            // callBackDashboard.run();
         });
 
         cancelButton.setOnMouseEntered(e ->

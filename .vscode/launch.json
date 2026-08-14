@@ -6,17 +6,11 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "com.kurukshetra.Main",
             "projectName": "lifelink1",
-            "vmArgs": "--module-path \"C://Users//Acer//Desktop//Core2Web//Java Batch//javafx-sdk-21.0.12//lib\" --add-modules javafx.controls,javafx.fxml"
+            "vmArgs": "--module-path \"C:\\Users\\Asus\\Desktop\\Core2web\\Java\\javafx-sdk-21.0.12\\lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }

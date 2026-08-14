@@ -1,0 +1,246 @@
+// package com.kurukshetra.view.family;
+
+// import com.kurukshetra.view.Welcome;
+
+// import javafx.application.Application;
+// import javafx.geometry.Pos;
+// import javafx.scene.Scene;
+// import javafx.scene.control.Button;
+// import javafx.scene.control.Label;
+// import javafx.scene.layout.BorderPane;
+// import javafx.scene.layout.HBox;
+// import javafx.scene.layout.Priority;
+// import javafx.scene.layout.Region;
+// import javafx.scene.layout.VBox;
+// import javafx.scene.text.Text;
+// import javafx.stage.Stage;
+
+// public class Dashboard extends Application {
+
+//     public static Stage dashboardStage;
+//     private Scene dashboardScene ;
+
+//     @Override 
+//     public void start(Stage newStage){
+//         dashboardStage = newStage;
+//         Region spacer = new Region();
+//         VBox.setVgrow(spacer, Priority.ALWAYS);
+
+//         BorderPane  borderPane = new BorderPane();
+//         borderPane.setStyle("-fx-background-color: white;");
+
+//         Text findHospital = new Text("Find Nearby Hospitals");
+//         findHospital.setStyle("-fx-font-size: 36px; -fx-font-weight: bold");
+
+//         Text subfindHospital = new Text("Real-time availability of critical care across your current radius.");
+//         subfindHospital.setStyle("-fx-font-size: 22px");
+
+//         Text filerText = new Text("Filter by:");
+//         filerText.setStyle("-fx-font-size: 18px;");
+
+//         Label icu = new Label("ICU Availability");
+//         icu.setStyle("-fx-font-size: 18px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #e1f0f9; -fx-padding:10px 10px");
+
+//         Label emergancy = new Label("Emergency Beds");
+//         emergancy.setStyle("-fx-font-size: 18px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #e1f0f9; -fx-padding:10px 10px");
+
+//         Label drOnDuty = new Label("👥 Doctors on Duty");
+//         drOnDuty.setStyle("-fx-font-size: 18px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #e1f0f9; -fx-padding:10px 10px");
+
+//         Label specilists = new Label("Specialists");
+//         specilists.setStyle("-fx-font-size: 18px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #e1f0f9; -fx-padding:10px 10px");
+
+//         Label blood = new Label("Blood Available");
+//         blood.setStyle("-fx-font-size: 18px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #e1f0f9; -fx-padding:10px 10px");
+
+//         Label clear = new Label("Clear All");
+//         clear.setStyle("-fx-font-size: 18px; -fx-text-fill: #0c79ed; -fx-padding:10px 10px");
+        
+//         // Filter by options
+//         HBox hBox1 = new HBox(20, filerText, icu, emergancy, drOnDuty, specilists);
+//         HBox hBox2 = new HBox(20, blood, clear);
+
+//         VBox vBox1 = new VBox(10,findHospital, subfindHospital);
+//         VBox vBox2 = new VBox(10, hBox1, hBox2);
+//         vBox2.setStyle("-fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #ffffff; -fx-padding:20px 20px; -fx-border-color: gray;");
+
+//         // hospital card1
+//         Text card1Text = new Text("Sairatna Hospital");
+//         card1Text.setStyle("-fx-font-size: 18px;");
+
+//         Text ratingCard1 = new Text("4.3 *");
+//         ratingCard1.setStyle("-fx-font-size: 12px");
+        
+//         Text distCard1 = new Text("Distance");
+//         distCard1.setStyle("-fx-font-size: 14px");
+
+//         Text travCard1 = new Text("Travel");
+//         travCard1.setStyle("-fx-font-size: 14px");
+        
+//         Text icubedsText = new Text("Awailable ICU Beds");
+//         icubedsText.setStyle("-fx-font-size: 14px;");
+
+//         Text awailableDr = new Text("Awailable Doctors");
+//         awailableDr.setStyle("-fx-font-size: 14px;");
+
+//         Button detailCard1 = new Button("Details");
+//         detailCard1.setStyle("fx-font-size: 18px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #e1f0f9; -fx-padding:10px 10px; -fx-font-size: 14px");
+        
+        
+//         Button navCard1 = new Button("Navigation");
+//         navCard1.setStyle("fx-font-size: 18px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #e1f0f9; -fx-padding:10px 10px; -fx-font-size: 14px; -fx-border-color: #58b7f3");
+
+//         VBox cardText_rating = new VBox(10, card1Text, ratingCard1);
+//         HBox dist_trav = new HBox(20, distCard1, travCard1);
+//         HBox icu_dr = new HBox(20, icubedsText, awailableDr);
+//         HBox detail_nav = new HBox(20, detailCard1, navCard1);
+//         VBox card1 = new VBox(30,cardText_rating,dist_trav, icu_dr, detail_nav);
+//         card1.setStyle("-fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #f4f8f8; -fx-padding:20px 20px; -fx-border-color: gray;");
+//         card1.setPrefWidth(300);
+
+//         // hospital card2
+//         Text card2Text = new Text("Sairatna Hospital");
+//         card2Text.setStyle("-fx-font-size: 18px;");
+
+//         Text ratingCard2 = new Text("4.3 *");
+//         ratingCard2.setStyle("-fx-font-size: 12px");
+        
+//         Text distCard2 = new Text("Distance");
+//         distCard2.setStyle("-fx-font-size: 14px");
+
+//         Text travCard2 = new Text("Travel");
+//         travCard2.setStyle("-fx-font-size: 14px");
+        
+//         Text icubeds2Text = new Text("Awailable ICU Beds");
+//         icubeds2Text.setStyle("-fx-font-size: 14px;");
+
+//         Text awailable2Dr = new Text("Awailable Doctors");
+//         awailable2Dr.setStyle("-fx-font-size: 14px;");
+
+//         Button detailCard2 = new Button("Details");
+//         detailCard2.setStyle("fx-font-size: 18px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #e1f0f9; -fx-padding:10px 10px; -fx-font-size: 14px");
+        
+        
+//         Button navCard2 = new Button("Navigation");
+//         navCard2.setStyle("fx-font-size: 18px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #e1f0f9; -fx-padding:10px 10px; -fx-font-size: 14px; -fx-border-color: #58b7f3");
+
+//         Button selecHospital2 = new Button("Select Hospital");
+//         selecHospital2.setStyle("fx-font-size: 22px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #19a1f6; -fx-padding:10px 10px; -fx-font-size: 14px; -fx-text-fill: white");
+
+//         VBox cardText_rating2 = new VBox(10, card2Text, ratingCard2);
+//         HBox dist_trav2 = new HBox(20, distCard2, travCard2);
+//         HBox icu_dr2 = new HBox(20, icubeds2Text, awailable2Dr);
+//         HBox detail_nav2 = new HBox(20, detailCard2, navCard2);
+//         VBox card2 = new VBox(30,cardText_rating2,dist_trav2, icu_dr2, detail_nav2, selecHospital2);
+//         card2.setStyle("-fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #f4f8f8; -fx-padding:20px 20px; -fx-border-color: gray;");
+//         card2.setPrefWidth(300);
+
+//         // hospital card3
+//         Text card3Text = new Text("Sairatna Hospital");
+//         card3Text.setStyle("-fx-font-size: 18px;");
+
+//         Text ratingCard3 = new Text("4.3 *");
+//         ratingCard3.setStyle("-fx-font-size: 12px");
+        
+//         Text distCard3 = new Text("Distance");
+//         distCard3.setStyle("-fx-font-size: 14px");
+
+//         Text travCard3 = new Text("Travel");
+//         travCard3.setStyle("-fx-font-size: 14px");
+        
+//         Text icubeds3Text = new Text("Awailable ICU Beds");
+//         icubeds3Text.setStyle("-fx-font-size: 14px;");
+
+//         Text awailable3Dr = new Text("Awailable Doctors");
+//         awailable3Dr.setStyle("-fx-font-size: 14px;");
+
+//         Button detailCard3 = new Button("Details");
+//         detailCard3.setStyle("fx-font-size: 18px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #e1f0f9; -fx-padding:10px 10px; -fx-font-size: 14px");
+        
+        
+//         Button navCard3 = new Button("Navigation");
+//         navCard3.setStyle("fx-font-size: 18px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #e1f0f9; -fx-padding:10px 10px; -fx-font-size: 14px; -fx-border-color: #58b7f3");
+
+//         Button selecHospital3 = new Button("Select Hospital");
+//         selecHospital3.setStyle("fx-font-size: 22px; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #19a1f6; -fx-padding:10px 10px; -fx-font-size: 14px; -fx-text-fill: white");
+
+//         VBox cardText_rating3 = new VBox(10, card3Text, ratingCard3);
+//         HBox dist_trav3 = new HBox(20, distCard3, travCard3);
+//         HBox icu_dr3 = new HBox(20, icubeds3Text, awailable3Dr);
+//         HBox detail_nav3 = new HBox(20, detailCard3, navCard3);
+//         VBox card3 = new VBox(30,cardText_rating3,dist_trav3, icu_dr3, detail_nav3, selecHospital3);
+//         card3.setStyle("-fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #f4f8f8; -fx-padding:20px 20px; -fx-border-color: gray;");
+//         card3.setPrefWidth(300);
+
+//         Text mapText = new Text("Live Network Map");
+//         mapText.setStyle("-fx-font-size: 14px;");
+//         VBox vmapBox = new VBox(mapText);
+//         vmapBox.setStyle("-fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #f4f8f8; -fx-padding:20px 20px; -fx-border-color: gray;");
+//         vmapBox.setPrefWidth(300);
+//         vmapBox.setPrefHeight(500);
+        
+//         HBox cardHBox = new HBox(20, card1, card2, card3, vmapBox);
+//         cardHBox.setMaxWidth(900);
+//         VBox vmain = new VBox(20, vBox1,vBox2, cardHBox);
+//         vmain.setStyle("-fx-padding:80px 40px");
+//         borderPane.setCenter(vmain);
+        
+//         Button dashboardText = new Button("Dashboard");
+//         dashboardText.setStyle("-fx-font-size: 18px; -fx-font-weight:bold; -fx-background-color: #e7eef6");
+//         dashboardText.setOnAction(event ->{
+//             System.out.println("Dashboard");
+//             borderPane.setCenter(vmain);
+//         });
+
+//         Button hospitalsText = new Button("Hospitals");
+//         hospitalsText.setStyle("-fx-font-size: 18px; -fx-font-weight:bold; -fx-background-color: #e7eef6");
+//         hospitalsText.setOnAction(event ->{
+//             System.out.println("Hospitals");
+//             Hospitals hosp = new Hospitals();
+//             borderPane.setCenter(hosp.getHospitalVBox());
+//         });
+
+//         Button medicalDetailsText = new Button("Medical Details");
+//         medicalDetailsText.setStyle("-fx-font-size: 18px; -fx-font-weight:bold ;-fx-background-color: #e7eef6");
+//         medicalDetailsText.setOnAction(event ->{
+//             System.out.println("Medical Details");
+//             MedicalDetails medic = new MedicalDetails();
+//             borderPane.setCenter(medic.getMedicalVBox());
+//         });
+
+//         Button profileText = new Button("Profile");
+//         profileText.setStyle("-fx-font-size: 18px; -fx-font-weight:bold; -fx-background-color: #e7eef6");
+//         profileText.setOnAction(event ->{
+//             System.out.println("Profile");
+//             Profile pf = new Profile();
+//             borderPane.setCenter(pf.getProfileVBox());
+//         });
+
+//         Button settingText = new Button("Setting");
+//         settingText.setStyle("-fx-font-size: 18px; -fx-font-weight:bold;-fx-background-color: #e7eef6");
+//         settingText.setOnAction(event ->{
+//             System.out.println("Setting");
+//             Setting sct = new Setting();
+//             borderPane.setCenter(sct.getSettingVBox());
+//         });
+
+//         Button logoutText = new Button("Logout");
+//         logoutText.setStyle("-fx-font-size: 18px; -fx-font-weight:bold; -fx-background-color: #e7eef6");
+//         logoutText.setOnAction(event ->{
+//             System.out.println("Logout");
+//         });
+
+//         VBox vleftsideBox = new VBox(dashboardText, hospitalsText, medicalDetailsText, profileText, settingText,spacer, logoutText);
+//         vleftsideBox.setAlignment(Pos.TOP_LEFT);
+//         vleftsideBox.setStyle("-fx-border-width: 1px; -fx-background-color: #e7eef6; -fx-padding:40px 40px; -fx-border-color: gray;");
+//         borderPane.setLeft(vleftsideBox);
+
+
+//         dashboardScene = new Scene(borderPane, dashboardStage.getWidth(),dashboardStage.getHeight());
+//         dashboardStage.setScene(dashboardScene);
+//         dashboardStage.setMaximized(true);
+//         dashboardStage.show();
+//     }
+
+    
+// }

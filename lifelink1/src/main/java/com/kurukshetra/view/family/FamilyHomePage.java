@@ -1,5 +1,5 @@
-package com.kurukshetra.view.family;
 
+package com.kurukshetra.view.family;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,9 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-// This class builds the Dashboard / Home screen.
-// It does NOT extend Application. It just returns a BorderPane
-// that MainApp puts on the Stage.
 public class FamilyHomePage {
 
     // ---------- DUMMY / STATIC DATA (replace with backend later) ----------
@@ -38,10 +35,10 @@ public class FamilyHomePage {
         BorderPane bp = new BorderPane();
         bp.getStyleClass().add("root-pane");
 
-        VBox sidebar = buildSidebar(stage);
+        VBox sidebar = Sidebar.build(stage, Sidebar.Page.DASHBOARD);
         bp.setLeft(sidebar);
 
-        VBox mainContent = buildMainContent();
+        VBox mainContent = buildMainContent(stage);
         ScrollPane scrollPane = new ScrollPane(mainContent);
         scrollPane.setFitToWidth(true);
         scrollPane.getStyleClass().add("main-scroll");
@@ -50,73 +47,8 @@ public class FamilyHomePage {
         return bp;
     }
 
-    // ---------------- SIDEBAR ----------------
-    private VBox buildSidebar(Stage stage) {
-
-        Label logo = new Label("💙 LifeLink");
-        logo.getStyleClass().add("logo-label");
-
-        Button dashboardBtn = new Button("🏠  Dashboard");
-        Button findHospitalsBtn = new Button("➕  Find Hospitals");
-        Button emergencyBtn = new Button("✳  Emergency Services");
-        Button firstAidBtn = new Button("🩹  First-Aid Assistant");
-        Button appointmentsBtn = new Button("📅  Appointments");
-        Button medicalHistoryBtn = new Button("🕘  Medical History");
-        Button savedHospitalsBtn = new Button("🔖  Saved Hospitals");
-
-        dashboardBtn.getStyleClass().addAll("nav-button", "nav-button-active");
-        findHospitalsBtn.getStyleClass().add("nav-button");
-        emergencyBtn.getStyleClass().add("nav-button");
-        firstAidBtn.getStyleClass().add("nav-button");
-        appointmentsBtn.getStyleClass().add("nav-button");
-        medicalHistoryBtn.getStyleClass().add("nav-button");
-        savedHospitalsBtn.getStyleClass().add("nav-button");
-
-        dashboardBtn.setMaxWidth(Double.MAX_VALUE);
-        findHospitalsBtn.setMaxWidth(Double.MAX_VALUE);
-        emergencyBtn.setMaxWidth(Double.MAX_VALUE);
-        firstAidBtn.setMaxWidth(Double.MAX_VALUE);
-        appointmentsBtn.setMaxWidth(Double.MAX_VALUE);
-        medicalHistoryBtn.setMaxWidth(Double.MAX_VALUE);
-        savedHospitalsBtn.setMaxWidth(Double.MAX_VALUE);
-
-        // Navigate to Find Care screen
-        findHospitalsBtn.setOnAction(event -> {
-            FamilyFindCare findCare = new FamilyFindCare();
-            BorderPane fcPane = findCare.setBorderPane(stage);
-            stage.getScene().setRoot(fcPane);
-        });
-
-        VBox navBox = new VBox(6,
-                dashboardBtn, findHospitalsBtn, emergencyBtn,
-                firstAidBtn, appointmentsBtn, medicalHistoryBtn, savedHospitalsBtn);
-
-        // Spacer pushes settings/logout to the bottom
-        Region spacer = new Region();
-        VBox.setVgrow(spacer, Priority.ALWAYS);
-
-        Button settingsBtn = new Button("⚙  Settings");
-        Button logoutBtn = new Button("↩  Logout");
-        settingsBtn.getStyleClass().add("nav-button");
-        logoutBtn.getStyleClass().add("nav-button");
-        settingsBtn.setMaxWidth(Double.MAX_VALUE);
-        logoutBtn.setMaxWidth(Double.MAX_VALUE);
-
-        Button sosBtn = new Button("🆘  Emergency Help");
-        sosBtn.getStyleClass().add("emergency-btn");
-        sosBtn.setMaxWidth(Double.MAX_VALUE);
-        sosBtn.setOnAction(event -> System.out.println("SOS Emergency Help pressed!"));
-
-        VBox sidebar = new VBox(20, logo, navBox, spacer, settingsBtn, logoutBtn, sosBtn);
-        sidebar.getStyleClass().add("sidebar");
-        sidebar.setPrefWidth(230);
-        sidebar.setPadding(new Insets(20, 14, 20, 14));
-
-        return sidebar;
-    }
-
     // ---------------- MAIN CONTENT ----------------
-    private VBox buildMainContent() {
+    private VBox buildMainContent(Stage stage) {
 
         HBox topBar = buildTopBar();
 
@@ -126,30 +58,25 @@ public class FamilyHomePage {
         Label subGreeting = new Label("How can LifeLink help you today?");
         subGreeting.getStyleClass().add("sub-greeting-label");
 
-        VBox emergencyCard = buildEmergencyCard();
+        VBox emergencyCard = buildEmergencyCard(stage);
         VBox familyHubCard = buildFamilyHubCard();
 
         HBox row1 = new HBox(20, emergencyCard, familyHubCard);
         HBox.setHgrow(emergencyCard, Priority.ALWAYS);
 
-        VBox quickActionsGrid = buildQuickActionsGrid();
+        VBox quickActionsGrid = buildQuickActionsGrid(stage);
         VBox nearbyCareCard = buildNearbyCareCard();
 
         HBox row2 = new HBox(20, quickActionsGrid, nearbyCareCard);
         HBox.setHgrow(quickActionsGrid, Priority.ALWAYS);
 
-        VBox chatCard = buildChatAssistantCard();
+        // VBox chatCard = buildChatAssistantCard();
 
-        VBox mainContent = new VBox(20, topBar, greeting, subGreeding(subGreeting), row1, row2, chatCard);
+        VBox mainContent = new VBox(20, topBar, greeting, subGreeting, row1, row2);
         mainContent.getStyleClass().add("main-content");
         mainContent.setPadding(new Insets(24));
 
         return mainContent;
-    }
-
-    // small helper just so subGreeting label lines up under the greeting text
-    private Label subGreeding(Label label) {
-        return label;
     }
 
     private HBox buildTopBar() {
@@ -178,7 +105,7 @@ public class FamilyHomePage {
         return topBar;
     }
 
-    private VBox buildEmergencyCard() {
+    private VBox buildEmergencyCard(Stage stage) {
         Label tag = new Label("⚠ IMMEDIATE ASSISTANCE");
         tag.getStyleClass().add("emergency-tag");
 
@@ -196,11 +123,23 @@ public class FamilyHomePage {
         emergencyHelpBtn.getStyleClass().add("primary-red-btn");
         findHospitalsBtn.getStyleClass().add("primary-dark-btn");
 
+        // Connect these two buttons straight into the Emergency Services
+        // and Find Care pages.
+        emergencyHelpBtn.setOnAction(event -> {
+            EmergencyServices emergencyServices = new EmergencyServices();
+            stage.getScene().setRoot(emergencyServices.setBorderPane(stage));
+        });
+
+        findHospitalsBtn.setOnAction(event -> {
+            FamilyFindCare findCare = new FamilyFindCare();
+            stage.getScene().setRoot(findCare.setBorderPane(stage));
+        });
+
         HBox btnRow = new HBox(12, emergencyHelpBtn, findHospitalsBtn);
 
         VBox card = new VBox(10, tag, title, desc, btnRow);
         card.getStyleClass().addAll("card", "emergency-card");
-        card.setPadding(new Insets(20));
+        card.setPadding(new Insets(20));           
         return card;
     }
 
@@ -249,32 +188,31 @@ public class FamilyHomePage {
         return row;
     }
 
-    private VBox buildQuickActionsGrid() {
+    private VBox buildQuickActionsGrid(Stage stage) {
         Button firstAid = makeQuickActionCard("🩹", "First Aid");
-        Button findHospital = makeQuickActionCard("➕", "Find Hospital");
-        Button emergency = makeQuickActionCard("✳", "Emergency");
         Button myHealth = makeQuickActionCard("💗", "My Health");
         Button savedPlaces = makeQuickActionCard("🔖", "Saved Places");
-        Button history = makeQuickActionCard("🕘", "History");
 
-        HBox rowOne = new HBox(16, firstAid, findHospital, emergency);
-        HBox rowTwo = new HBox(16, myHealth, savedPlaces, history);
+        // Wire the tiles that map onto existing pages.
+        firstAid.setOnAction(e -> stage.getScene().setRoot(new FirstAidAssistant().setBorderPane(stage)));
+        savedPlaces.setOnAction(e -> stage.getScene().setRoot(new SavedHospitals().setBorderPane(stage)));
+        myHealth.setOnAction(event -> { System.out.println("enter myhealth button");});
+        VBox chatCard = buildChatAssistantCard();
+
+        HBox rowOne = new HBox(16, firstAid,myHealth, savedPlaces);
+        HBox rowTwo = new HBox(chatCard);
+        
 
         firstAid.setMaxWidth(Double.MAX_VALUE);
-        findHospital.setMaxWidth(Double.MAX_VALUE);
-        emergency.setMaxWidth(Double.MAX_VALUE);
         myHealth.setMaxWidth(Double.MAX_VALUE);
         savedPlaces.setMaxWidth(Double.MAX_VALUE);
-        history.setMaxWidth(Double.MAX_VALUE);
 
         HBox.setHgrow(firstAid, Priority.ALWAYS);
-        HBox.setHgrow(findHospital, Priority.ALWAYS);
-        HBox.setHgrow(emergency, Priority.ALWAYS);
         HBox.setHgrow(myHealth, Priority.ALWAYS);
         HBox.setHgrow(savedPlaces, Priority.ALWAYS);
-        HBox.setHgrow(history, Priority.ALWAYS);
+    
 
-        VBox grid = new VBox(16, rowOne, rowTwo);
+        VBox grid = new VBox(16, rowOne,rowTwo);       
         return grid;
     }
 
@@ -291,7 +229,6 @@ public class FamilyHomePage {
         Button card = new Button();
         card.setGraphic(box);
         card.getStyleClass().add("quick-action-card");
-        card.setOnAction(event -> System.out.println(text + " clicked"));
         return card;
     }
 
@@ -377,6 +314,8 @@ public class FamilyHomePage {
         VBox card = new VBox(14, header, chatBubble, chipRow);
         card.getStyleClass().add("card");
         card.setPadding(new Insets(20));
+        card.setPrefWidth(1000);
+        card.setPrefHeight(220);
         return card;
     }
 }

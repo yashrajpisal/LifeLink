@@ -1,3 +1,5 @@
+
+
 package com.kurukshetra.view.family;
 
 import javafx.geometry.Insets;
@@ -6,25 +8,24 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 
 public class FirstAidAssistant {
 
-    public BorderPane setBorderPane(){
+    public BorderPane setBorderPane(Stage stage) {
 
         BorderPane bp = new BorderPane();
         bp.getStyleClass().add("root-pane");
 
-        VBox sidebar = createSidebar();
+        VBox sidebar = Sidebar.build(stage, Sidebar.Page.FIRST_AID);
         VBox mainContent = createMainContent();
 
         bp.setLeft(sidebar);
@@ -33,100 +34,13 @@ public class FirstAidAssistant {
         return bp;
     }
 
-    // ---------------- SIDEBAR ----------------
-
-    private VBox createSidebar(){
-
-        VBox sidebar = new VBox(5);
-        sidebar.getStyleClass().add("sidebar");
-        sidebar.setPrefWidth(250);
-        sidebar.setPadding(new Insets(20,15,20,15));
-
-        // profile section
-        Image img1 = new Image("https://ui-avatars.com/api/?name=Sarah+Miller&background=6C63FF&color=fff");
-        ImageView imView = new ImageView(img1);
-        imView.setFitWidth(45);
-        imView.setFitHeight(45);
-
-        Circle clip = new Circle(22.5,22.5,22.5);
-        imView.setClip(clip);
-
-        Label nameLbl = new Label("Sarah Miller");
-        nameLbl.getStyleClass().add("profile-name");
-
-        Label roleLbl = new Label("Family Care Lead");
-        roleLbl.getStyleClass().add("profile-role");
-
-        VBox nameBox = new VBox(2,nameLbl,roleLbl);
-
-        HBox profileBox = new HBox(10,imView,nameBox);
-        profileBox.setAlignment(Pos.CENTER_LEFT);
-        profileBox.setPadding(new Insets(0,0,20,0));
-
-        // nav buttons
-        Button dashboardBtn = createNavButton("Dashboard", false);
-        Button findHospitalsBtn = createNavButton("Find Hospitals", false);
-        Button emergencyBtn = createNavButton("Emergency Services", false);
-        Button firstAidBtn = createNavButton("First-Aid Assistant", true);
-        Button appointmentsBtn = createNavButton("Appointments", false);
-        Button medicalHistoryBtn = createNavButton("Medical History", false);
-        Button savedHospitalsBtn = createNavButton("Saved Hospitals", false);
-        Button settingsBtn = createNavButton("Settings", false);
-
-        VBox navBox = new VBox(3,dashboardBtn,findHospitalsBtn,emergencyBtn,firstAidBtn,
-                appointmentsBtn,medicalHistoryBtn,savedHospitalsBtn,settingsBtn);
-
-        // spacer pushes SOS button + logout to bottom
-        Region spacer = new Region();
-        VBox.setVgrow(spacer, Priority.ALWAYS);
-
-        Button sosBtn = new Button("SOS Emergency Help");
-        sosBtn.getStyleClass().add("sos-button");
-        sosBtn.setMaxWidth(Double.MAX_VALUE);
-        sosBtn.setOnAction(event -> {
-            System.out.println("SOS Emergency Help clicked!");
-        });
-
-        Button logoutBtn = new Button("Logout");
-        logoutBtn.getStyleClass().add("logout-button");
-        logoutBtn.setMaxWidth(Double.MAX_VALUE);
-        logoutBtn.setOnAction(event -> {
-            System.out.println("Logout clicked!");
-        });
-
-        VBox bottomBox = new VBox(10,sosBtn,logoutBtn);
-        bottomBox.setPadding(new Insets(15,0,0,0));
-
-        sidebar.getChildren().addAll(profileBox, navBox, spacer, bottomBox);
-
-        return sidebar;
-    }
-
-    private Button createNavButton(String text, boolean selected){
-
-        Button btn = new Button(text);
-        btn.getStyleClass().add("nav-button");
-        btn.setMaxWidth(Double.MAX_VALUE);
-        btn.setAlignment(Pos.CENTER_LEFT);
-
-        if(selected){
-            btn.getStyleClass().add("nav-button-selected");
-        }
-
-        btn.setOnAction(event -> {
-            System.out.println(text + " clicked!");
-        });
-
-        return btn;
-    }
-
     // ---------------- MAIN CONTENT ----------------
 
-    private VBox createMainContent(){
+    private VBox createMainContent() {
 
         VBox mainBox = new VBox(20);
         mainBox.getStyleClass().add("main-content");
-        mainBox.setPadding(new Insets(25,30,25,30));
+        mainBox.setPadding(new Insets(25, 30, 25, 30));
 
         // top bar
         Label heading = new Label("AI Care Assistant");
@@ -141,7 +55,7 @@ public class FirstAidAssistant {
         Label helpIcon = new Label("\u2753");
         helpIcon.getStyleClass().add("top-icon");
 
-        HBox topBar = new HBox(15,heading,topSpacer,bellIcon,helpIcon);
+        HBox topBar = new HBox(15, heading, topSpacer, bellIcon, helpIcon);
         topBar.setAlignment(Pos.CENTER_LEFT);
 
         // assistant card
@@ -153,7 +67,7 @@ public class FirstAidAssistant {
         return mainBox;
     }
 
-    private VBox createAssistantCard(){
+    private VBox createAssistantCard() {
 
         VBox card = new VBox();
         card.getStyleClass().add("assistant-card");
@@ -168,7 +82,7 @@ public class FirstAidAssistant {
         Label statusLbl = new Label("Status: Available");
         statusLbl.getStyleClass().add("assistant-status");
 
-        VBox titleBox = new VBox(2,titleLbl,statusLbl);
+        VBox titleBox = new VBox(2, titleLbl, statusLbl);
 
         Region headerSpacer = new Region();
         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
@@ -176,10 +90,10 @@ public class FirstAidAssistant {
         Label menuLbl = new Label("\u22EE");
         menuLbl.getStyleClass().add("menu-icon");
 
-        HBox headerBox = new HBox(10,avatarLbl,titleBox,headerSpacer,menuLbl);
+        HBox headerBox = new HBox(10, avatarLbl, titleBox, headerSpacer, menuLbl);
         headerBox.setAlignment(Pos.CENTER_LEFT);
         headerBox.getStyleClass().add("assistant-header");
-        headerBox.setPadding(new Insets(15,20,15,20));
+        headerBox.setPadding(new Insets(15, 20, 15, 20));
 
         // scrollable chat area
         VBox chatArea = createChatArea();
@@ -200,10 +114,10 @@ public class FirstAidAssistant {
         return card;
     }
 
-    private VBox createChatArea(){
+    private VBox createChatArea() {
 
         VBox chatBox = new VBox(15);
-        chatBox.setPadding(new Insets(15,20,15,20));
+        chatBox.setPadding(new Insets(15, 20, 15, 20));
 
         // disclaimer
         Label disclaimerLbl = new Label("Disclaimer: This assistant provides general first aid information and " +
@@ -236,7 +150,7 @@ public class FirstAidAssistant {
         return chatBox;
     }
 
-    private HBox createUserMessage(){
+    private HBox createUserMessage() {
 
         Text msgText = new Text("My son just touched a hot pan and burned his hand. " +
                 "It's red and hurts, but there are no blisters yet. What should I do?");
@@ -245,7 +159,7 @@ public class FirstAidAssistant {
 
         VBox bubble = new VBox(msgText);
         bubble.getStyleClass().add("user-bubble");
-        bubble.setPadding(new Insets(12,15,12,15));
+        bubble.setPadding(new Insets(12, 15, 12, 15));
 
         HBox box = new HBox(bubble);
         box.setAlignment(Pos.CENTER_RIGHT);
@@ -253,7 +167,7 @@ public class FirstAidAssistant {
         return box;
     }
 
-    private VBox createAssistantMessage(){
+    private VBox createAssistantMessage() {
 
         Label iconLbl = new Label("\uD83E\uDD16");
         iconLbl.getStyleClass().add("bot-icon");
@@ -268,19 +182,17 @@ public class FirstAidAssistant {
         line2.getStyleClass().add("assistant-message-text");
         line2.setWrappingWidth(480);
 
-        VBox textBox = new VBox(10,line1,line2);
+        VBox textBox = new VBox(10, line1, line2);
         textBox.getStyleClass().add("assistant-bubble");
-        textBox.setPadding(new Insets(12,15,12,15));
+        textBox.setPadding(new Insets(12, 15, 12, 15));
 
-        HBox rowBox = new HBox(10,iconLbl,textBox);
+        HBox rowBox = new HBox(10, iconLbl, textBox);
         rowBox.setAlignment(Pos.TOP_LEFT);
 
-        VBox wrapper = new VBox(rowBox);
-
-        return wrapper;
+        return new VBox(rowBox);
     }
 
-    private VBox createFirstAidCard(){
+    private VBox createFirstAidCard() {
 
         VBox card = new VBox(10);
         card.getStyleClass().add("first-aid-card");
@@ -295,20 +207,20 @@ public class FirstAidAssistant {
         Label subLbl = new Label("Immediate Action Plan");
         subLbl.getStyleClass().add("first-aid-subtitle");
 
-        VBox titleBox = new VBox(2,titleLbl,subLbl);
+        VBox titleBox = new VBox(2, titleLbl, subLbl);
 
-        HBox headerBox = new HBox(10,iconLbl,titleBox);
+        HBox headerBox = new HBox(10, iconLbl, titleBox);
         headerBox.setAlignment(Pos.CENTER_LEFT);
 
         VBox stepsBox = new VBox(10);
         stepsBox.getChildren().addAll(
-                createStepRow(1,"Cool the burn immediately.", "Run cool (not cold) water over the burn " +
+                createStepRow(1, "Cool the burn immediately.", "Run cool (not cold) water over the burn " +
                         "for 10-15 minutes or apply a cool, wet compress. Do not use ice."),
-                createStepRow(2,"Remove tight items.", "Take off rings, watches, or tight clothing near the " +
+                createStepRow(2, "Remove tight items.", "Take off rings, watches, or tight clothing near the " +
                         "burn before swelling starts."),
-                createStepRow(3,"Cover loosely.", "Cover the burn with a clean, non-stick bandage or cloth. " +
+                createStepRow(3, "Cover loosely.", "Cover the burn with a clean, non-stick bandage or cloth. " +
                         "Do not apply butter or ointments."),
-                createStepRow(4,"Watch for warning signs.", "Seek medical attention if blisters get larger, " +
+                createStepRow(4, "Watch for warning signs.", "Seek medical attention if blisters get larger, " +
                         "signs of infection appear, or pain worsens.")
         );
 
@@ -317,7 +229,7 @@ public class FirstAidAssistant {
         return card;
     }
 
-    private HBox createStepRow(int number, String boldPart, String restPart){
+    private HBox createStepRow(int number, String boldPart, String restPart) {
 
         Label numberLbl = new Label(String.valueOf(number));
         numberLbl.getStyleClass().add("step-number");
@@ -328,16 +240,16 @@ public class FirstAidAssistant {
         Text restText = new Text(restPart);
         restText.getStyleClass().add("step-text");
 
-        javafx.scene.text.TextFlow flow = new javafx.scene.text.TextFlow(boldText, restText);
+        TextFlow flow = new TextFlow(boldText, restText);
         flow.setPrefWidth(430);
 
-        HBox row = new HBox(10,numberLbl,flow);
+        HBox row = new HBox(10, numberLbl, flow);
         row.setAlignment(Pos.TOP_LEFT);
 
         return row;
     }
 
-    private HBox createSuggestionChips(){
+    private HBox createSuggestionChips() {
 
         Button burnsChip = createChip("Burns");
         Button bleedingChip = createChip("Bleeding");
@@ -345,25 +257,23 @@ public class FirstAidAssistant {
         Button feverChip = createChip("Fever");
         Button nauseaChip = createChip("Nausea");
 
-        HBox chipsBox = new HBox(10,burnsChip,bleedingChip,injuriesChip,feverChip,nauseaChip);
+        HBox chipsBox = new HBox(10, burnsChip, bleedingChip, injuriesChip, feverChip, nauseaChip);
         chipsBox.setAlignment(Pos.CENTER_LEFT);
-        chipsBox.setPadding(new Insets(0,20,10,20));
+        chipsBox.setPadding(new Insets(0, 20, 10, 20));
 
         return chipsBox;
     }
 
-    private Button createChip(String text){
+    private Button createChip(String text) {
 
         Button chip = new Button(text);
         chip.getStyleClass().add("suggestion-chip");
-        chip.setOnAction(event -> {
-            System.out.println(text + " chip clicked!");
-        });
+        chip.setOnAction(event -> System.out.println(text + " chip clicked!"));
 
         return chip;
     }
 
-    private HBox createInputArea(){
+    private HBox createInputArea() {
 
         Label attachIcon = new Label("\uD83D\uDCCE");
         attachIcon.getStyleClass().add("input-icon");
@@ -378,16 +288,14 @@ public class FirstAidAssistant {
 
         Button sendBtn = new Button("\u27A4");
         sendBtn.getStyleClass().add("send-button");
-        sendBtn.setOnAction(event -> {
-            System.out.println("Send message: " + inputField.getText());
-        });
+        sendBtn.setOnAction(event -> System.out.println("Send message: " + inputField.getText()));
 
         StackPane sendWrapper = new StackPane(sendBtn);
 
-        HBox inputBox = new HBox(12,attachIcon,inputField,micIcon,sendWrapper);
+        HBox inputBox = new HBox(12, attachIcon, inputField, micIcon, sendWrapper);
         inputBox.setAlignment(Pos.CENTER);
         inputBox.getStyleClass().add("input-bar");
-        inputBox.setPadding(new Insets(12,20,15,20));
+        inputBox.setPadding(new Insets(12, 20, 15, 20));
 
         return inputBox;
     }

@@ -1,9 +1,5 @@
 package com.kurukshetra.view.family;
 
-
-
-
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -15,17 +11,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-// import javafx.scene.web.WebEngine;
-// import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-// This class builds the "Find Care" screen.
-// It does NOT extend Application. It just returns a BorderPane
-// that MainApp / HomePage put on the Stage.
 public class FamilyFindCare {
 
-    // ---------- DUMMY / STATIC DATA (replace with backend later) ----------
-    // name, subtitle, waitTag, waitTagStyle, distance, eta, rating, specialty1, specialty2
     private String[][] hospitals = {
             {"Mercy General Hospital", "Level 1 Trauma Center • Teaching Hospital",
                     "Low Wait Time", "tag-green", "1.2 miles away", "5 min ETA", "4.8",
@@ -34,88 +23,18 @@ public class FamilyFindCare {
                     "Moderate Wait", "tag-orange", "3.4 miles away", "12 min ETA", "4.6",
                     "Cardiology", "Neurology"}
     };
-    // ------------------------------------------------------------------
-
     public BorderPane setBorderPane(Stage stage) {
 
         BorderPane bp = new BorderPane();
         bp.getStyleClass().add("root-pane");
 
-        VBox sidebar = buildSidebar(stage);
+        VBox sidebar = Sidebar.build(stage, Sidebar.Page.FIND_HOSPITALS);
         bp.setLeft(sidebar);
 
         VBox mainContent = buildMainContent();
         bp.setCenter(mainContent);
 
         return bp;
-    }
-
-    // ---------------- SIDEBAR ----------------
-    // Same style as HomePage sidebar, "Find Hospitals" is active here.
-    private VBox buildSidebar(Stage stage) {
-
-        Label logo = new Label("💙 LifeLink");
-        logo.getStyleClass().add("logo-label");
-
-        Button dashboardBtn = new Button("🏠  Dashboard");
-        Button findHospitalsBtn = new Button("➕  Find Hospitals");
-        Button emergencyBtn = new Button("✳  Emergency Services");
-        Button firstAidBtn = new Button("🩹  First-Aid Assistant");
-        Button appointmentsBtn = new Button("📅  Appointments");
-        Button medicalHistoryBtn = new Button("🕘  Medical History");
-        Button savedHospitalsBtn = new Button("🔖  Saved Hospitals");
-
-        dashboardBtn.getStyleClass().add("nav-button");
-        findHospitalsBtn.getStyleClass().addAll("nav-button", "nav-button-active");
-        emergencyBtn.getStyleClass().add("nav-button");
-        firstAidBtn.getStyleClass().add("nav-button");
-        appointmentsBtn.getStyleClass().add("nav-button");
-        medicalHistoryBtn.getStyleClass().add("nav-button");
-        savedHospitalsBtn.getStyleClass().add("nav-button");
-
-        dashboardBtn.setMaxWidth(Double.MAX_VALUE);
-        findHospitalsBtn.setMaxWidth(Double.MAX_VALUE);
-        emergencyBtn.setMaxWidth(Double.MAX_VALUE);
-        firstAidBtn.setMaxWidth(Double.MAX_VALUE);
-        appointmentsBtn.setMaxWidth(Double.MAX_VALUE);
-        medicalHistoryBtn.setMaxWidth(Double.MAX_VALUE);
-        savedHospitalsBtn.setMaxWidth(Double.MAX_VALUE);
-
-        // Navigate back to Dashboard screen
-        dashboardBtn.setOnAction(event -> {
-            FamilyHomePage homePage = new FamilyHomePage();
-            BorderPane homePane = homePage.setBorderPane(stage);
-            stage.getScene().setRoot(homePane);
-        });
-
-        VBox navBox = new VBox(6,
-                dashboardBtn, findHospitalsBtn, emergencyBtn,
-                firstAidBtn, appointmentsBtn, medicalHistoryBtn, savedHospitalsBtn);
-
-        Region spacer = new Region();
-        VBox.setVgrow(spacer, Priority.ALWAYS);
-
-        Label avatar = new Label("👩");
-        avatar.getStyleClass().add("avatar-label");
-        Label name = new Label("Sarah Miller");
-        Label role = new Label("Family Care Lead");
-        name.getStyleClass().add("member-name");
-        role.getStyleClass().add("member-relation");
-        VBox profileText = new VBox(name, role);
-        HBox profileBox = new HBox(10, avatar, profileText);
-        profileBox.setAlignment(Pos.CENTER_LEFT);
-
-        Button sosBtn = new Button("🆘  Emergency Help");
-        sosBtn.getStyleClass().add("emergency-btn");
-        sosBtn.setMaxWidth(Double.MAX_VALUE);
-        sosBtn.setOnAction(event -> System.out.println("SOS Emergency Help pressed!"));
-
-        VBox sidebar = new VBox(20, logo, navBox, spacer, profileBox, sosBtn);
-        sidebar.getStyleClass().add("sidebar");
-        sidebar.setPrefWidth(230);
-        sidebar.setPadding(new Insets(20, 14, 20, 14));
-
-        return sidebar;
     }
 
     // ---------------- MAIN CONTENT ----------------
@@ -140,15 +59,7 @@ public class FamilyFindCare {
         leftColumn.setPrefWidth(420);
         VBox.setVgrow(listScroll, Priority.ALWAYS);
 
-        // WebView mapView = buildMapView();
-        // VBox mapColumn = new VBox(mapView);
-        // mapColumn.getStyleClass().add("map-container");
-        // HBox.setHgrow(mapColumn, Priority.ALWAYS);
-        // VBox.setVgrow(mapView, Priority.ALWAYS);
-        // mapView.prefWidthProperty().bind(mapColumn.widthProperty());
-        // mapView.prefHeightProperty().bind(mapColumn.heightProperty());
-
-        HBox bodyRow = new HBox(20, leftColumn /*mapColumn*/);
+        HBox bodyRow = new HBox(20, leftColumn);
         VBox.setVgrow(bodyRow, Priority.ALWAYS);
 
         VBox mainContent = new VBox(18, header, searchBox, filterRow, bodyRow);
@@ -259,34 +170,4 @@ public class FamilyFindCare {
         HBox.setHgrow(r, Priority.ALWAYS);
         return r;
     }
-
-    // ---------------- MAP (WebView + Leaflet / OpenStreetMap) ----------------
-    // No API key needed. Uses free OpenStreetMap tiles loaded through Leaflet.js.
-
-
-    // private WebView buildMapView() {
-    //     WebView webView = new WebView();
-    //     WebEngine engine = webView.getEngine();
-    //     engine.loadContent(buildMapHtml());
-    //     return webView;
-    // }
-
-    // private String buildMapHtml() {
-    //     // Simple Leaflet map centered on Seattle with a few dummy hospital markers.
-    //     StringBuilder html = new StringBuilder();
-    //     html.append("<html><head>");
-    //     html.append("<link rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css' />");
-    //     html.append("<script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>");
-    //     html.append("<style>html,body,#map{height:100%;margin:0;padding:0;}</style>");
-    //     html.append("</head><body>");
-    //     html.append("<div id='map'></div>");
-    //     html.append("<script>");
-    //     html.append("var map = L.map('map').setView([47.6062, -122.3321], 13);");
-    //     html.append("L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);");
-    //     html.append("L.marker([47.6205, -122.3493]).addTo(map).bindPopup('Mercy General Hospital<br>1.2 miles - 5 min drive').openPopup();");
-    //     html.append("L.marker([47.5980, -122.3200]).addTo(map).bindPopup('St. Jude Medical Center<br>3.4 miles - 12 min drive');");
-    //     html.append("</script>");
-    //     html.append("</body></html>");
-    //     return html.toString();
-    // }
 }

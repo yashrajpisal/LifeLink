@@ -9,7 +9,7 @@ import javafx.application.Application;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Shree Ganeshay Namhaa!!");
-        Application.launch(DriverDashboard.class,args);
+        Application.launch(Welcome.class,args);
     }
 }
 

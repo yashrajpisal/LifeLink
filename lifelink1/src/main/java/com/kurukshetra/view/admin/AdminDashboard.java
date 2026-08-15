@@ -801,7 +801,7 @@ public class AdminDashboard extends Application {
             settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
             hospitalButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-            HospitalManagement hospManagement = new HospitalManagement();
+            AdminHospitalManagement hospManagement = new AdminHospitalManagement();
             borderPane.setCenter(hospManagement.getHospitalManagement());
         });
 
@@ -819,7 +819,7 @@ public class AdminDashboard extends Application {
             settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;");
             ambulanceButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-            AmbulanceManagement ambulManagement = new AmbulanceManagement();
+            AdminAmbulanceManagement ambulManagement = new AdminAmbulanceManagement();
             borderPane.setCenter(ambulManagement.getAmbulanceManagement());
 
         });
@@ -837,7 +837,7 @@ public class AdminDashboard extends Application {
 
             userButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-            UserManagement userManagement = new UserManagement();
+            AdminUserManagement userManagement = new AdminUserManagement();
             borderPane.setCenter(userManagement.getUserManagement());
 
         });
@@ -854,7 +854,7 @@ public class AdminDashboard extends Application {
 
             policeButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-            PoliceManagement policeManagement = new PoliceManagement();
+            AdminPoliceManagement policeManagement = new AdminPoliceManagement();
             borderPane.setCenter(policeManagement.getPoliceManagement());
 
         });
@@ -871,7 +871,7 @@ public class AdminDashboard extends Application {
             settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;");
             emergencyButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-            EmergencyMonitoring emergencyMonitoring = new EmergencyMonitoring();
+            AdminEmergencyMonitoring emergencyMonitoring = new AdminEmergencyMonitoring();
             borderPane.setCenter(emergencyMonitoring.getEmergencyMonitoring());
 
         });
@@ -888,7 +888,7 @@ public class AdminDashboard extends Application {
             settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;");
             analyticsButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-            AnalyticsAndReports analyticsReports = new AnalyticsAndReports();
+            AdminAnalyticsAndReports analyticsReports = new AdminAnalyticsAndReports();
             borderPane.setCenter(analyticsReports.getAnalyticsAndReports());
 
         });
@@ -905,7 +905,7 @@ public class AdminDashboard extends Application {
             settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;");
             activityButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-             ActivityLogs activityLogs = new ActivityLogs();
+             AdminActivityLogs activityLogs = new AdminActivityLogs();
              borderPane.setCenter(activityLogs.getActivityLogsPage());
         });
 
@@ -921,7 +921,7 @@ public class AdminDashboard extends Application {
             activityButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;");
             settingsButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-            Settings settings = new Settings();
+            AdminSettings settings = new AdminSettings();
             borderPane.setCenter(settings.getSettingsPage());
              
         });

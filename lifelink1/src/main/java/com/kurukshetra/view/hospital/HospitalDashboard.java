@@ -856,7 +856,7 @@ public class HospitalDashboard extends Application {
                 emergencyButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
         // Show Emergency Requests page
-                EmergencyRequests emergencyRequests = new EmergencyRequests();
+                HospitalEmergencyRequests emergencyRequests = new HospitalEmergencyRequests();
                 borderPane.setCenter(emergencyRequests.getEmergencyRequests());
         });
 
@@ -878,7 +878,7 @@ public class HospitalDashboard extends Application {
                 // Active button
                 resourceButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-                ResourceManagement resourceManagement = new ResourceManagement();
+                HospitalResourceManagement resourceManagement = new HospitalResourceManagement();
                 borderPane.setCenter(resourceManagement.getResourceManagement());
         });
 
@@ -901,7 +901,7 @@ public class HospitalDashboard extends Application {
                 doctorButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
                 // Add your Doctor Management page here
-                DoctorManagement doctorManagement = new DoctorManagement();
+                HospitalDoctorManagement doctorManagement = new HospitalDoctorManagement();
                 borderPane.setCenter(doctorManagement.getDoctorManagement());
         });
 
@@ -924,7 +924,7 @@ public class HospitalDashboard extends Application {
                 otButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
                  
-                OperationTheatre operationTheatre = new OperationTheatre();
+                HospitalOperationTheatre operationTheatre = new HospitalOperationTheatre();
                 borderPane.setCenter(operationTheatre.getOperationTheatre());
         });
 
@@ -947,7 +947,7 @@ public class HospitalDashboard extends Application {
                 patientButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
                  
-                PatientRecords patientRecords = new PatientRecords();
+                HospitalPatientRecords patientRecords = new HospitalPatientRecords();
                 borderPane.setCenter(patientRecords.getPatientRecords());
         });
 
@@ -970,7 +970,7 @@ public class HospitalDashboard extends Application {
                 ambulanceButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
                  
-                AmbulanceTracking ambulanceTracking = new AmbulanceTracking();
+                HospitalAmbulanceTracking ambulanceTracking = new HospitalAmbulanceTracking();
                 borderPane.setCenter(ambulanceTracking.getAmbulanceTracking());
         });
 
@@ -992,7 +992,7 @@ public class HospitalDashboard extends Application {
                 // Active button
                 notificationButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-                Notification notification = new Notification();
+                HospitalNotification notification = new HospitalNotification();
                 borderPane.setCenter(notification.getNotification());
         });
 
@@ -1014,7 +1014,7 @@ public class HospitalDashboard extends Application {
                 // Active button
                 analyticsButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-                Analytics analytics = new Analytics();
+                HospitalAnalytics analytics = new HospitalAnalytics();
                 borderPane.setCenter(analytics.getAnalytics());
         });
 
@@ -1036,7 +1036,7 @@ public class HospitalDashboard extends Application {
                 // Active button
                 settingsButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
 
-                Settings settings = new Settings();
+                HospitalSettings settings = new HospitalSettings();
                 borderPane.setCenter(settings.getSettings());
         });
 

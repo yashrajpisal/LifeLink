@@ -96,7 +96,7 @@ public class PoliceDashboard extends Application {
 
                 historyButton.setStyle("-fx-background-color: #e9edff; -fx-text-fill: #3949ab; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 10px;");
 
-                History history = new History();
+                PoliceHistory history = new PoliceHistory();
                 borderPane.setCenter(history.getHistoryVBox());
         });
 
@@ -108,7 +108,7 @@ public class PoliceDashboard extends Application {
 
                 profileButton.setStyle("-fx-background-color: #e9edff; -fx-text-fill: #3949ab; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 10px;");
 
-                Profile profile = new Profile();
+                PoliceProfile profile = new PoliceProfile();
                 borderPane.setCenter(profile.getProfileVBox());
         });
 
@@ -120,7 +120,7 @@ public class PoliceDashboard extends Application {
 
                 settingsButton.setStyle("-fx-background-color: #e9edff; -fx-text-fill: #3949ab; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 10px;");
 
-                Settings setting = new Settings();
+                PoliceSettings setting = new PoliceSettings();
                 borderPane.setCenter(setting.getSettingsVBox());
         });
 
@@ -466,7 +466,7 @@ public class PoliceDashboard extends Application {
          logoutButton.setOnAction(event ->{
 
 
-                SignIn signInPage = new SignIn();
+                PoliceSignIn signInPage = new PoliceSignIn();
                 dashboardStage.setScene(signInPage.getSignInScene()); 
         });
 

@@ -1,3192 +1,2114 @@
 package com.kurukshetra.view.driver;
 
-// public class DriverDashboard {
-
-// }
-
-// package com.kurukshetra.view.hospital;
-
 import com.kurukshetra.view.Welcome;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class DriverDashboard extends Application {
 
-    public static Stage hospitalStage;
-    private Scene hospitalScene;
-
-    public static BorderPane root;
-
-    private static final String BODY_BACKGROUND = "#F7F9FC";
-    private static final String WHITE = "#FFFFFF";
-
-    private static final String BLUE = "#0754D9";
-    private static final String DARK_BLUE = "#0645B8";
-    private static final String LIGHT_BLUE = "#EAF2FF";
-    private static final String ACTIVE_BLUE = "#DCE9FF";
-
-    private static final String BORDER = "#D7DFEB";
-    private static final String DIVIDER = "#E3E7EF";
-
-    private static final String TEXT = "#101828";
-    private static final String SECONDARY_TEXT = "#475467";
-    private static final String MUTED_TEXT = "#667085";
-
-    private static final String GREEN = "#087A35";
-    private static final String GREEN_BACKGROUND = "#DDF8E8";
-
-    private static final String RED = "#C91C1C";
-    private static final String RED_BACKGROUND = "#FFE3E0";
-
-    private static final String HEADER_BACKGROUND = "#FBFCFE";
-
-
-
-    private final ObservableList<TripRecord> tripRecords =
-            FXCollections.observableArrayList(
-
-                    new TripRecord(
-                            "TRP-8492-A",
-                            "Oct 24,\n14:32",
-                            "Sarah Jenkins",
-                            "Mercy General\nHosp.",
-                            "4.2 mi",
-                            "11 min",
-                            "Critical\nHandover",
-                            true
-                    ),
-
-                    new TripRecord(
-                            "TRP-8491-C",
-                            "Oct 24,\n12:15",
-                            "Michael Chang",
-                            "St. Jude Medical",
-                            "7.8 mi",
-                            "24 min",
-                            "Completed",
-                            false
-                    ),
-
-                    new TripRecord(
-                            "TRP-8490-B",
-                            "Oct 24,\n09:45",
-                            "Unknown Male\n(UID-44)",
-                            "City Central\nTrauma",
-                            "2.1 mi",
-                            "6 min",
-                            "Critical\nHandover",
-                            true
-                    ),
-
-                    new TripRecord(
-                            "TRP-8489-C",
-                            "Oct 24,\n08:10",
-                            "Elena Rodriguez",
-                            "Mercy General\nHosp.",
-                            "5.5 mi",
-                            "18 min",
-                            "Completed",
-                            false
-                    ),
-
-                    new TripRecord(
-                            "TRP-8488-C",
-                            "Oct 24,\n07:30",
-                            "David Smith",
-                            "Westside Clinic",
-                            "3.0 mi",
-                            "12 min",
-                            "Completed",
-                            false
-                    )
-            );
-
-
-
-    @Override
-    public void start(Stage stage) {
-
-        hospitalStage = stage;
-
-        root = new BorderPane();
-
-        root.setStyle(
-                "-fx-background-color: " +
-                        BODY_BACKGROUND + ";"
-        );
+        // =========================================================
+        // COLORS
+        // =========================================================
 
-        VBox sidebar =
-                createSidebar(root);
-
-        root.setLeft(sidebar);
+        private static final String BG = "#F7F9FC";
+        private static final String WHITE = "#FFFFFF";
 
+        private static final String BLUE = "#08A1E5";
+        private static final String BLUE_DARK = "#007FAE";
+        private static final String LIGHT_BLUE = "#EAF7FD";
 
-        // HBox topHeader =
-        //         createTopHeader();
-
-        // root.setTop(topHeader);
-
-        // root.setCenter(
-        //         createScrollPane(
-        //                 createTripHistoryBody()
-        //         )
-        // );
-
+        private static final String GREEN = "#20B86A";
+        private static final String LIGHT_GREEN = "#E7FBF1";
 
-      
-        root.setCenter(  createScrollPane(
-                            createSimplePage(
-                                    "Dashboard",
-                                    "Emergency ambulance overview and current mission status."
-                            )
-                    ));
+        private static final String ORANGE = "#C98A1B";
+        private static final String LIGHT_ORANGE = "#FFF6E5";
 
-        hospitalScene =
-                new Scene(
-                        root,
-                        1553,
-                        820
-                );
+        private static final String RED = "#D71920";
+        private static final String LIGHT_RED = "#FDEBEC";
 
-        hospitalStage.setScene(
-                hospitalScene
-        );
+        private static final String TEXT = "#172B4D";
+        private static final String SECONDARY = "#728096";
 
-        hospitalStage.setTitle(
-                "LifeLink - Trip History Audit Log"
-        );
+        private static final String BORDER = "#DCE5EC";
+        private static final String LIGHT_BG = "#F0F4F9";
 
-        hospitalStage.setMaximized(
-                true
-        );
+        public static Stage driverStage;
+        private Scene driverScene;
 
-        hospitalStage.show();
-    }
+        public static BorderPane root;
 
+        // =========================================================
+        // COLORS
+        // =========================================================
 
-    // =========================================================
-    // SIDEBAR
-    // =========================================================
+        private static final String BODY_BACKGROUND = "#F7F9FC";
+        private static final String DARK_BLUE = "#007FAE";
+        private static final String ACTIVE_BLUE = "#DFF4FC";
+        private static final String SECONDARY_TEXT = "#728096";
 
-    private VBox createSidebar(
-            BorderPane root
-    ) {
+        private static final String HOVER_BACKGROUND = "#F2F8FB";
 
-        VBox sidebar =
-                new VBox();
+        // MAIN PAGE
 
-        sidebar.setPrefWidth(300);
-        sidebar.setMinWidth(300);
-        sidebar.setMaxWidth(300);
+        public BorderPane getEmergencyPane() {
 
-        sidebar.setPadding(
-                new Insets(
-                        28,
-                        18,
-                        20,
-                        18
-                )
-        );
+                BorderPane root = new BorderPane();
 
-        sidebar.setStyle(
-                "-fx-background-color: " +
-                        WHITE + ";" +
-                        "-fx-border-color: " +
-                        BORDER + ";" +
-                        "-fx-border-width: 0 1px 0 0;"
-        );
+                root.setStyle(
+                                "-fx-background-color: " + BG + ";" +
+                                                "-fx-font-family: 'Segoe UI';");
 
+                VBox content = new VBox(18);
 
-        // =====================================================
-        // BRAND
-        // =====================================================
+                content.setPadding(
+                                new Insets(22, 30, 25, 30));
 
-        VBox brand =
-                new VBox(4);
+                // =====================================================
+                // TOP SECTION
+                // =====================================================
 
-        brand.setPadding(
-                new Insets(
-                        0,
-                        16,
-                        38,
-                        16
-                )
-        );
+                HBox topSection = new HBox(16);
 
+                VBox emergencyCard = createActiveEmergencyCard();
 
-        Label lifeLink =
-                new Label(
-                        "LifeLink"
-                );
+                HBox.setHgrow(
+                                emergencyCard,
+                                Priority.ALWAYS);
 
-        lifeLink.setStyle(
-                "-fx-font-size: 34px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: " +
-                        BLUE + ";"
-        );
+                VBox missionCard = createMissionProgressCard();
 
+                topSection.getChildren().addAll(
+                                emergencyCard,
+                                missionCard);
 
-        Label ambulanceName =
-                new Label(
-                        "Ambulance Alpha-1"
-                );
+                // =====================================================
+                // HOSPITAL SECTION
+                // =====================================================
 
-        ambulanceName.setStyle(
-                "-fx-font-size: 15px;" +
-                        "-fx-text-fill: " +
-                        SECONDARY_TEXT + ";"
-        );
+                HBox hospitalArea = createHospitalArea();
 
+                content.getChildren().addAll(
+                                topSection,
+                                hospitalArea);
 
-        brand.getChildren().addAll(
-                lifeLink,
-                ambulanceName
-        );
+                // =====================================================
+                // SCROLL PANE
+                // =====================================================
 
+                ScrollPane scrollPane = new ScrollPane(content);
 
-        // =====================================================
-        // NAVIGATION
-        // =====================================================
+                scrollPane.setFitToWidth(true);
+                scrollPane.setFitToHeight(false);
 
-        VBox navigation =
-                new VBox(7);
-
-
-        Button dashboardButton =
-                createNavigationButton(
-                        "▦",
-                        "Dashboard",
-                        false
-                );
-
+                scrollPane.setHbarPolicy(
+                                ScrollPane.ScrollBarPolicy.NEVER);
 
-        Button emergencyButton =
-                createNavigationButton(
-                        "✱",
-                        "Emergency Requests",
-                        false
-                );
+                scrollPane.setVbarPolicy(
+                                ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
+                scrollPane.setPannable(true);
 
-        // Button recommendationButton =
-        //         createNavigationButton(
-        //                 "✦",
-        //                 "AI Recommendation",
-        //                 false
-        //         );
-
-
-        // Button navigationButton =
-        //         createNavigationButton(
-        //                 "◉",
-        //                 "Navigation",
-        //                 false
-        //         );
-
-
-        // Button patientDetailsButton =
-        //         createNavigationButton(
-        //                 "♙",
-        //                 "Patient Details",
-        //                 false
-        //         );
-
-
-        // Button policeButton =
-        //         createNavigationButton(
-        //                 "♢",
-        //                 "Police Clearance",
-        //                 false
-        //         );
-
-
-        // Button nurseButton =
-        //         createNavigationButton(
-        //                 "⊞",
-        //                 "Nurse Updates",
-        //                 false
-        //         );
-
-
-        Button notificationButton =
-                createNavigationButton(
-                        "♧",
-                        "Notifications",
-                        false
-                );
-
-
-        Button tripHistoryButton =
-                createNavigationButton(
-                        "♧",
-                        "Trip History",
-                        true
-                );
-
-
-        Button statisticsButton =
-                createNavigationButton(
-                        "▥",
-                        "Statistics",
-                        false
-                );
-
-
-        Button settingsButton =
-                createNavigationButton(
-                        "⚙",
-                        "Settings",
-                        false
-                );
-
-
-        navigation.getChildren().addAll(
-                dashboardButton,
-                emergencyButton,
-                // recommendationButton,
-                // navigationButton,
-                // patientDetailsButton,
-                // policeButton,
-                // nurseButton,
-                notificationButton,
-                tripHistoryButton,
-                statisticsButton,
-                settingsButton
-        );
-
-
-        // =====================================================
-        // NAVIGATION ACTIONS
-        // =====================================================
-
-        dashboardButton.setOnAction(event -> {
-
-            setActiveNavigation(
-                    navigation,
-                    dashboardButton
-            );
-
-            root.setCenter(
-                    createScrollPane(
-                            createSimplePage(
-                                    "Dashboard",
-                                    "Emergency ambulance overview and current mission status."
-                            )
-                    )
-            );
-        });
-
-
-        emergencyButton.setOnAction(event -> {
-
-            setActiveNavigation(
-                    navigation,
-                    emergencyButton
-            );
-
-            root.setCenter(
-                    createScrollPane(
-                            createSimplePage(
-                                    "Emergency Requests",
-                                    "View and manage incoming emergency transport requests."
-                            )
-                    )
-            );
-        });
-
-
-        notificationButton.setOnAction(event -> {
-
-            setActiveNavigation(
-                    navigation,
-                    notificationButton
-            );
+                scrollPane.setStyle(
+                                "-fx-background-color: transparent;" +
+                                                "-fx-background: " + BG + ";" +
+                                                "-fx-border-color: transparent;");
 
-            root.setCenter(
-                    createScrollPane(
-                            createSimplePage(
-                                    "Notifications",
-                                    "Emergency notifications and system alerts."
-                            )
-                    )
-            );
-        });
+                root.setCenter(scrollPane);
 
+                // =====================================================
+                // PAGE ANIMATION
+                // =====================================================
 
-        tripHistoryButton.setOnAction(event -> {
+                FadeTransition fade = new FadeTransition(
+                                Duration.millis(350),
+                                root);
 
-            setActiveNavigation(
-                    navigation,
-                    tripHistoryButton
-            );
+                fade.setFromValue(0.3);
+                fade.setToValue(1);
 
-            DriverTripHistory driverTripHistory = new DriverTripHistory();
-            root.setCenter(
-                driverTripHistory.getDriverTripsPage()
-                    // createScrollPane(
-                            // createTripHistoryBody()
-                    // )
-            );
-        });
+                fade.play();
 
-
-        statisticsButton.setOnAction(event -> {
-
-            setActiveNavigation(
-                    navigation,
-                    statisticsButton
-            );
-
-            root.setCenter(
-                    createScrollPane(
-                            createSimplePage(
-                                    "Statistics",
-                                    "Ambulance performance and emergency transport analytics."
-                            )
-                    )
-            );
-        });
-
-
-        settingsButton.setOnAction(event -> {
-
-            setActiveNavigation(
-                    navigation,
-                    settingsButton
-            );
-
-            DriverSetting driversettings = new DriverSetting();
-            root.setCenter(
-                //     createScrollPane(
-                //             createSimplePage(
-                //                     "Settings",
-                //                     "Manage ambulance and application settings."
-                //             )
-                        driversettings.getAppSettingsPage()
-                //     )
-            );
-        });
-
-
-        // =====================================================
-        // SPACER
-        // =====================================================
-
-        Region spacer =
-                new Region();
-
-        VBox.setVgrow(
-                spacer,
-                Priority.ALWAYS
-        );
-
-
-        // =====================================================
-        // LOGOUT
-        // =====================================================
-
-        Region divider =
-                createSidebarDivider();
-
-
-        Button logoutButton =
-                createLogoutButton();
-
-
-        logoutButton.setOnAction(event -> {
-
-            try {
-
-                Welcome welcome =
-                        new Welcome();
-
-                welcome.start(
-                        hospitalStage
-                );
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-            }
-        });
-
-
-        sidebar.getChildren().addAll(
-                brand,
-                navigation,
-                spacer,
-                divider,
-                logoutButton
-        );
-
-
-        return sidebar;
-    }
-
-
-    // =========================================================
-    // NAVIGATION BUTTON
-    // =========================================================
-
-    private Button createNavigationButton(
-            String icon,
-            String text,
-            boolean active
-    ) {
-
-        Button button =
-                new Button();
-
-
-        HBox content =
-                new HBox(13);
-
-        content.setAlignment(
-                Pos.CENTER_LEFT
-        );
-
-
-        Label iconLabel =
-                new Label(icon);
-
-        iconLabel.setMinWidth(22);
-
-        iconLabel.setAlignment(
-                Pos.CENTER
-        );
-
-
-        Label textLabel =
-                new Label(text);
-
-
-        content.getChildren().addAll(
-                iconLabel,
-                textLabel
-        );
-
-
-        button.setGraphic(
-                content
-        );
-
-        button.setText("");
-
-        button.setMaxWidth(
-                Double.MAX_VALUE
-        );
-
-        button.setMinHeight(
-                50
-        );
-
-        button.setPrefHeight(
-                50
-        );
-
-        button.setAlignment(
-                Pos.CENTER_LEFT
-        );
-
-        button.setPadding(
-                new Insets(
-                        0,
-                        14,
-                        0,
-                        14
-                )
-        );
-
-
-        if (active) {
-
-            applyActiveStyle(
-                    button,
-                    iconLabel,
-                    textLabel
-            );
-
-        } else {
-
-            applyInactiveStyle(
-                    button,
-                    iconLabel,
-                    textLabel
-            );
+                return root;
         }
 
+        // =========================================================
+        // ACTIVE EMERGENCY CARD
+        // =========================================================
 
-        button.setOnMouseEntered(event -> {
+        private VBox createActiveEmergencyCard() {
 
-            if (!button
-                    .getStyleClass()
-                    .contains("active-nav")) {
+                VBox card = new VBox(16);
 
-                applyHoverStyle(
-                        button,
-                        iconLabel,
-                        textLabel
-                );
-            }
-        });
+                card.setPadding(
+                                new Insets(20));
 
+                card.setStyle(
+                                "-fx-background-color: " + WHITE + ";" +
+                                                "-fx-border-color: " + BORDER + ";" +
+                                                "-fx-border-width: 1;" +
+                                                "-fx-background-radius: 14;" +
+                                                "-fx-border-radius: 14;" +
+                                                "-fx-effect: dropshadow(gaussian, rgba(30,60,90,0.07), 10, 0, 0, 3);");
 
-        button.setOnMouseExited(event -> {
+                // =====================================================
+                // HEADER
+                // =====================================================
 
-            if (!button
-                    .getStyleClass()
-                    .contains("active-nav")) {
+                HBox header = new HBox(10);
 
-                applyInactiveStyle(
-                        button,
-                        iconLabel,
-                        textLabel
-                );
-            }
-        });
+                header.setAlignment(
+                                Pos.CENTER_LEFT);
 
+                Label icon = new Label("⚠");
 
-        return button;
-    }
+                icon.setStyle(
+                                "-fx-font-size: 18px;" +
+                                                "-fx-text-fill: " + RED + ";");
 
+                VBox heading = new VBox(2);
 
-    // =========================================================
-    // ACTIVE STYLE
-    // =========================================================
+                Label title = new Label("Active Emergency Request");
 
-    private void applyActiveStyle(
-            Button button,
-            Label icon,
-            Label text
-    ) {
+                title.setStyle(
+                                "-fx-font-size: 17px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + TEXT + ";");
 
-        if (!button
-                .getStyleClass()
-                .contains("active-nav")) {
+                Label subtitle = new Label(
+                                "Patient pickup request assigned to you");
 
-            button.getStyleClass()
-                    .add("active-nav");
+                subtitle.setStyle(
+                                "-fx-font-size: 10px;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
+
+                heading.getChildren().addAll(
+                                title,
+                                subtitle);
+
+                Region spacer = new Region();
+
+                HBox.setHgrow(
+                                spacer,
+                                Priority.ALWAYS);
+
+                Label priority = new Label("● HIGH PRIORITY");
+
+                priority.setStyle(
+                                "-fx-background-color: " + LIGHT_RED + ";" +
+                                                "-fx-text-fill: " + RED + ";" +
+                                                "-fx-font-size: 9px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-padding: 5 9 5 9;" +
+                                                "-fx-background-radius: 9;");
+
+                header.getChildren().addAll(
+                                icon,
+                                heading,
+                                spacer,
+                                priority);
+
+                // =====================================================
+                // BODY
+                // =====================================================
+
+                HBox body = new HBox(14);
+
+                VBox details = new VBox(10);
+
+                HBox.setHgrow(
+                                details,
+                                Priority.ALWAYS);
+
+                // =====================================================
+                // LOCATION BOX
+                // =====================================================
+
+                VBox locationBox = new VBox(5);
+
+                locationBox.setPadding(
+                                new Insets(12));
+
+                locationBox.setStyle(
+                                "-fx-background-color: " + LIGHT_BG + ";" +
+                                                "-fx-background-radius: 10;");
+
+                Label locationTitle = new Label("PATIENT PICKUP LOCATION");
+
+                locationTitle.setStyle(
+                                "-fx-font-size: 9px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
+
+                Label location = new Label("Sector 4, Main Street");
+
+                location.setStyle(
+                                "-fx-font-size: 15px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + TEXT + ";");
+
+                HBox locationMeta = new HBox(16);
+
+                Label distance = new Label("📍 2.4 km away");
+
+                distance.setStyle(
+                                "-fx-font-size: 10px;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
+
+                Label eta = new Label("⏱ ETA: 6 min");
+
+                eta.setStyle(
+                                "-fx-font-size: 10px;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
+
+                locationMeta.getChildren().addAll(
+                                distance,
+                                eta);
+
+                locationBox.getChildren().addAll(
+                                locationTitle,
+                                location,
+                                locationMeta);
+
+                // =====================================================
+                // PATIENT BOX
+                // =====================================================
+
+                VBox patientBox = new VBox(5);
+
+                patientBox.setPadding(
+                                new Insets(12));
+
+                patientBox.setStyle(
+                                "-fx-background-color: " + LIGHT_BG + ";" +
+                                                "-fx-background-radius: 10;");
+
+                Label patientTitle = new Label("PATIENT INFORMATION");
+
+                patientTitle.setStyle(
+                                "-fx-font-size: 9px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
+
+                Label patient = new Label(
+                                "Male, ~45 yrs • Cardiac distress reported");
+
+                patient.setStyle(
+                                "-fx-font-size: 12px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + TEXT + ";");
+
+                patientBox.getChildren().addAll(
+                                patientTitle,
+                                patient);
+
+                details.getChildren().addAll(
+                                locationBox,
+                                patientBox);
+
+                // =====================================================
+                // MAP
+                // =====================================================
+
+                StackPane map = new StackPane();
+
+                map.setPrefWidth(270);
+                map.setMinWidth(240);
+                map.setPrefHeight(155);
+
+                map.setStyle(
+                                "-fx-background-color: #E8EEF5;" +
+                                                "-fx-background-radius: 10;" +
+                                                "-fx-border-color: " + BORDER + ";" +
+                                                "-fx-border-radius: 10;");
+
+                Label mapText = new Label("🗺  Map Route");
+
+                mapText.setStyle(
+                                "-fx-font-size: 12px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
+
+                map.getChildren().add(
+                                mapText);
+
+                body.getChildren().addAll(
+                                details,
+                                map);
+
+                // =====================================================
+                // NAVIGATION BUTTON
+                // =====================================================
+
+                Button navigation = new Button("⌖   START NAVIGATION");
+
+                navigation.setMaxWidth(
+                                Double.MAX_VALUE);
+
+                navigation.setPrefHeight(42);
+
+                navigation.setStyle(
+                                "-fx-background-color: " + BLUE + ";" +
+                                                "-fx-text-fill: white;" +
+                                                "-fx-font-size: 11px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-background-radius: 9;" +
+                                                "-fx-cursor: hand;");
+
+                navigation.setOnMouseEntered(e -> navigation.setStyle(
+                                "-fx-background-color: " + BLUE_DARK + ";" +
+                                                "-fx-text-fill: white;" +
+                                                "-fx-font-size: 11px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-background-radius: 9;" +
+                                                "-fx-cursor: hand;"));
+
+                navigation.setOnMouseExited(e -> navigation.setStyle(
+                                "-fx-background-color: " + BLUE + ";" +
+                                                "-fx-text-fill: white;" +
+                                                "-fx-font-size: 11px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-background-radius: 9;" +
+                                                "-fx-cursor: hand;"));
+
+                card.getChildren().addAll(
+                                header,
+                                body,
+                                navigation);
+
+                return card;
         }
 
+        // =========================================================
+        // MISSION PROGRESS CARD
+        // =========================================================
 
-        button.setStyle(
-                "-fx-background-color: " +
-                        ACTIVE_BLUE + ";" +
-                        "-fx-background-radius: 10px;" +
-                        "-fx-border-color: " +
-                        BLUE + ";" +
-                        "-fx-border-width: 0 0 0 4px;" +
-                        "-fx-border-radius: 10px;" +
-                        "-fx-cursor: hand;"
-        );
+        private VBox createMissionProgressCard() {
 
+                VBox card = new VBox(14);
 
-        icon.setStyle(
-                "-fx-font-size: 19px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: " +
-                        BLUE + ";"
-        );
+                card.setPrefWidth(275);
+                card.setMinWidth(260);
 
+                card.setPadding(
+                                new Insets(20));
 
-        text.setStyle(
-                "-fx-font-size: 14px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: " +
-                        SECONDARY_TEXT + ";"
-        );
-    }
+                card.setStyle(
+                                "-fx-background-color: " + WHITE + ";" +
+                                                "-fx-border-color: " + BORDER + ";" +
+                                                "-fx-border-width: 1;" +
+                                                "-fx-background-radius: 14;" +
+                                                "-fx-border-radius: 14;" +
+                                                "-fx-effect: dropshadow(gaussian, rgba(30,60,90,0.07), 10, 0, 0, 3);");
 
+                VBox heading = new VBox(2);
 
-    // =========================================================
-    // INACTIVE STYLE
-    // =========================================================
+                Label title = new Label("Mission Progress");
 
-    private void applyInactiveStyle(
-            Button button,
-            Label icon,
-            Label text
-    ) {
+                title.setStyle(
+                                "-fx-font-size: 15px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + TEXT + ";");
 
-        button.setStyle(
-                "-fx-background-color: transparent;" +
-                        "-fx-background-radius: 10px;" +
-                        "-fx-border-color: transparent;" +
-                        "-fx-cursor: hand;"
-        );
+                Label subtitle = new Label("Emergency response status");
 
+                subtitle.setStyle(
+                                "-fx-font-size: 10px;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
 
-        icon.setStyle(
-                "-fx-font-size: 19px;" +
-                        "-fx-text-fill: " +
-                        SECONDARY_TEXT + ";"
-        );
+                heading.getChildren().addAll(
+                                title,
+                                subtitle);
 
+                VBox timeline = new VBox(13);
 
-        text.setStyle(
-                "-fx-font-size: 14px;" +
-                        "-fx-font-weight: normal;" +
-                        "-fx-text-fill: " +
-                        SECONDARY_TEXT + ";"
-        );
-    }
+                timeline.getChildren().add(
+                                createTimelineStep(
+                                                "●",
+                                                "Emergency Received",
+                                                "10:42 AM",
+                                                true,
+                                                false,
+                                                GREEN));
 
+                timeline.getChildren().add(
+                                createTimelineStep(
+                                                "●",
+                                                "En Route to Patient",
+                                                "Navigation started",
+                                                false,
+                                                true,
+                                                BLUE));
 
-    // =========================================================
-    // HOVER STYLE
-    // =========================================================
+                timeline.getChildren().add(
+                                createTimelineStep(
+                                                "○",
+                                                "Patient Picked Up",
+                                                "Awaiting pickup",
+                                                false,
+                                                false,
+                                                SECONDARY));
 
-    private void applyHoverStyle(
-            Button button,
-            Label icon,
-            Label text
-    ) {
+                timeline.getChildren().add(
+                                createTimelineStep(
+                                                "○",
+                                                "En Route to Hospital",
+                                                "",
+                                                false,
+                                                false,
+                                                SECONDARY));
 
-        button.setStyle(
-                "-fx-background-color: #F1F5FA;" +
-                        "-fx-background-radius: 10px;" +
-                        "-fx-cursor: hand;"
-        );
+                timeline.getChildren().add(
+                                createTimelineStep(
+                                                "○",
+                                                "Patient Delivered",
+                                                "",
+                                                false,
+                                                false,
+                                                SECONDARY));
 
+                card.getChildren().addAll(
+                                heading,
+                                timeline);
 
-        icon.setStyle(
-                "-fx-font-size: 19px;" +
-                        "-fx-text-fill: " +
-                        BLUE + ";"
-        );
+                return card;
+        }
 
+        // =========================================================
+        // TIMELINE STEP
+        // =========================================================
 
-        text.setStyle(
-                "-fx-font-size: 14px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: " +
-                        TEXT + ";"
-        );
-    }
+        private HBox createTimelineStep(
+                        String symbol,
+                        String mainText,
+                        String subText,
+                        boolean done,
+                        boolean active,
+                        String color) {
 
+                HBox step = new HBox(10);
 
-    // =========================================================
-    // SET ACTIVE NAVIGATION
-    // =========================================================
+                step.setAlignment(
+                                Pos.TOP_LEFT);
 
-    private void setActiveNavigation(
-            VBox navigation,
-            Button selectedButton
-    ) {
+                Label icon = new Label(symbol);
 
-        for (Node node :
-                navigation.getChildren()) {
+                icon.setStyle(
+                                "-fx-font-size: 13px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + color + ";");
 
-            if (node instanceof Button button) {
+                VBox textBox = new VBox(2);
 
-                if (button.getGraphic()
-                        instanceof HBox content) {
+                Label main = new Label(mainText);
 
-                    Label icon =
-                            (Label) content
-                                    .getChildren()
-                                    .get(0);
+                main.setStyle(
+                                "-fx-font-size: 11px;" +
+                                                "-fx-font-weight: " +
+                                                ((active || done) ? "bold" : "normal") +
+                                                ";" +
+                                                "-fx-text-fill: " +
+                                                ((active || done) ? TEXT : SECONDARY) +
+                                                ";");
 
-                    Label text =
-                            (Label) content
-                                    .getChildren()
-                                    .get(1);
+                textBox.getChildren().add(
+                                main);
 
+                if (!subText.isEmpty()) {
 
-                    button.getStyleClass()
-                            .remove("active-nav");
+                        Label sub = new Label(subText);
 
+                        sub.setStyle(
+                                        "-fx-font-size: 9px;" +
+                                                        "-fx-text-fill: " +
+                                                        (active ? BLUE : SECONDARY) +
+                                                        ";");
 
-                    if (button ==
-                            selectedButton) {
+                        textBox.getChildren().add(
+                                        sub);
+                }
+
+                step.getChildren().addAll(
+                                icon,
+                                textBox);
+
+                return step;
+        }
+
+        // =========================================================
+        // HOSPITAL AREA
+        //
+        // LEFT = Recommended Hospitals
+        // RIGHT = Other Nearby Hospitals
+        // =========================================================
+
+        private HBox createHospitalArea() {
+
+                HBox area = new HBox(18);
+
+                area.setFillHeight(true);
+
+                // =====================================================
+                // LEFT SIDE - RECOMMENDED HOSPITALS
+                // =====================================================
+
+                VBox recommendedSection = createRecommendedHospitalsSection();
+
+                HBox.setHgrow(
+                                recommendedSection,
+                                Priority.ALWAYS);
+
+                // =====================================================
+                // RIGHT SIDE - OTHER NEARBY HOSPITALS
+                // =====================================================
+
+                VBox otherHospitals = createOtherNearbyHospitals();
+
+                otherHospitals.setPrefWidth(300);
+                otherHospitals.setMinWidth(280);
+                otherHospitals.setMaxWidth(330);
+
+                area.getChildren().addAll(
+                                recommendedSection,
+                                otherHospitals);
+
+                return area;
+        }
+
+        // =========================================================
+        // RECOMMENDED HOSPITALS SECTION
+        // =========================================================
+
+        private VBox createRecommendedHospitalsSection() {
+
+                VBox section = new VBox(12);
+
+                // =====================================================
+                // HEADER
+                // =====================================================
+
+                HBox header = new HBox();
+
+                header.setAlignment(
+                                Pos.CENTER_LEFT);
+
+                VBox heading = new VBox(2);
+
+                Label title = new Label(
+                                "Recommended Hospitals Nearby");
+
+                title.setStyle(
+                                "-fx-font-size: 15px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + TEXT + ";");
+
+                Label subtitle = new Label(
+                                "Based on availability, distance and emergency facilities");
+
+                subtitle.setStyle(
+                                "-fx-font-size: 10px;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
+
+                heading.getChildren().addAll(
+                                title,
+                                subtitle);
+
+                Region spacer = new Region();
+
+                HBox.setHgrow(
+                                spacer,
+                                Priority.ALWAYS);
+
+                Label count = new Label("5 Hospitals");
+
+                count.setStyle(
+                                "-fx-font-size: 10px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + BLUE + ";" +
+                                                "-fx-background-color: " + LIGHT_BLUE + ";" +
+                                                "-fx-padding: 5 9 5 9;" +
+                                                "-fx-background-radius: 8;");
+
+                header.getChildren().addAll(
+                                heading,
+                                spacer,
+                                count);
+
+                // =====================================================
+                // HORIZONTAL SCROLL
+                // =====================================================
+
+                HBox cards = new HBox(14);
+
+                cards.setPadding(
+                                new Insets(2, 3, 8, 2));
+
+                // =====================================================
+                // HOSPITAL 1
+                // =====================================================
+
+                VBox hospital1 = createHospitalCard(
+                                "City General Hospital",
+                                "Emergency Available",
+                                "12 Beds",
+                                "4 Doctors",
+                                "5.2 km",
+                                "12 min",
+                                GREEN,
+                                LIGHT_GREEN);
+
+                // =====================================================
+                // HOSPITAL 2
+                // =====================================================
+
+                VBox hospital2 = createHospitalCard(
+                                "St. Jude's Medical",
+                                "Limited Capacity",
+                                "3 Beds",
+                                "2 Doctors",
+                                "7.8 km",
+                                "18 min",
+                                ORANGE,
+                                LIGHT_ORANGE);
+
+                // =====================================================
+                // HOSPITAL 3
+                // =====================================================
+
+                VBox hospital3 = createHospitalCard(
+                                "County Annex Facility",
+                                "Emergency Available",
+                                "8 Beds",
+                                "6 Doctors",
+                                "9.1 km",
+                                "22 min",
+                                GREEN,
+                                LIGHT_GREEN);
+
+                // =====================================================
+                // HOSPITAL 4
+                // =====================================================
+
+                VBox hospital4 = createHospitalCard(
+                                "Metro Care Hospital",
+                                "Emergency Available",
+                                "15 Beds",
+                                "7 Doctors",
+                                "6.4 km",
+                                "14 min",
+                                GREEN,
+                                LIGHT_GREEN);
+
+                // =====================================================
+                // HOSPITAL 5
+                // =====================================================
+
+                VBox hospital5 = createHospitalCard(
+                                "Apollo Emergency Center",
+                                "Limited Capacity",
+                                "5 Beds",
+                                "3 Doctors",
+                                "10.2 km",
+                                "25 min",
+                                ORANGE,
+                                LIGHT_ORANGE);
+
+                cards.getChildren().addAll(
+                                hospital1,
+                                hospital2,
+                                hospital3,
+                                hospital4,
+                                hospital5);
+
+                // =====================================================
+                // HORIZONTAL SCROLL PANE
+                // =====================================================
+
+                ScrollPane horizontalScroll = new ScrollPane(cards);
+
+                horizontalScroll.setFitToHeight(true);
+                horizontalScroll.setFitToWidth(false);
+
+                horizontalScroll.setHbarPolicy(
+                                ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+                horizontalScroll.setVbarPolicy(
+                                ScrollPane.ScrollBarPolicy.NEVER);
+
+                horizontalScroll.setPannable(true);
+
+                horizontalScroll.setPrefHeight(245);
+                horizontalScroll.setMinHeight(245);
+
+                horizontalScroll.setStyle(
+                                "-fx-background-color: transparent;" +
+                                                "-fx-background: transparent;" +
+                                                "-fx-border-color: transparent;");
+
+                section.getChildren().addAll(
+                                header,
+                                horizontalScroll);
+
+                return section;
+        }
+
+        // =========================================================
+        // OTHER NEARBY HOSPITALS
+        // =========================================================
+
+        private VBox createOtherNearbyHospitals() {
+
+                VBox box = new VBox(10);
+
+                box.setPadding(
+                                new Insets(16));
+
+                box.setStyle(
+                                "-fx-background-color: " + WHITE + ";" +
+                                                "-fx-border-color: " + BORDER + ";" +
+                                                "-fx-border-width: 1;" +
+                                                "-fx-background-radius: 14;" +
+                                                "-fx-border-radius: 14;" +
+                                                "-fx-effect: dropshadow(gaussian, rgba(30,60,90,0.06), 8, 0, 0, 2);");
+
+                // =====================================================
+                // HEADER
+                // =====================================================
+
+                HBox header = new HBox();
+
+                header.setAlignment(
+                                Pos.CENTER_LEFT);
+
+                VBox heading = new VBox(2);
+
+                Label title = new Label("Other Nearby Hospitals");
+
+                title.setStyle(
+                                "-fx-font-size: 14px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + TEXT + ";");
+
+                Label subtitle = new Label(
+                                "Nearby facilities");
+
+                subtitle.setStyle(
+                                "-fx-font-size: 9px;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
+
+                heading.getChildren().addAll(
+                                title,
+                                subtitle);
+
+                Region spacer = new Region();
+
+                HBox.setHgrow(
+                                spacer,
+                                Priority.ALWAYS);
+
+                Label count = new Label("4");
+
+                count.setStyle(
+                                "-fx-background-color: " + LIGHT_BLUE + ";" +
+                                                "-fx-text-fill: " + BLUE + ";" +
+                                                "-fx-font-size: 9px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-padding: 4 8 4 8;" +
+                                                "-fx-background-radius: 8;");
+
+                header.getChildren().addAll(
+                                heading,
+                                spacer,
+                                count);
+
+                // =====================================================
+                // HOSPITAL LIST
+                // =====================================================
+
+                VBox list = new VBox(8);
+
+                list.getChildren().add(
+                                createNearbyHospitalRow(
+                                                "Green Valley Hospital",
+                                                "4.8 km",
+                                                "10 min",
+                                                "6 Beds",
+                                                GREEN));
+
+                list.getChildren().add(
+                                createNearbyHospitalRow(
+                                                "Sunrise Medical Center",
+                                                "6.1 km",
+                                                "15 min",
+                                                "4 Beds",
+                                                GREEN));
+
+                list.getChildren().add(
+                                createNearbyHospitalRow(
+                                                "Central Health Clinic",
+                                                "7.3 km",
+                                                "17 min",
+                                                "2 Beds",
+                                                ORANGE));
+
+                list.getChildren().add(
+                                createNearbyHospitalRow(
+                                                "Hope Emergency Hospital",
+                                                "8.6 km",
+                                                "21 min",
+                                                "7 Beds",
+                                                GREEN));
+
+                // =====================================================
+                // LIST SCROLL
+                // =====================================================
+
+                ScrollPane listScroll = new ScrollPane(list);
+
+                listScroll.setFitToWidth(true);
+                listScroll.setHbarPolicy(
+                                ScrollPane.ScrollBarPolicy.NEVER);
+
+                listScroll.setVbarPolicy(
+                                ScrollPane.ScrollBarPolicy.NEVER);
+
+                listScroll.setPannable(true);
+
+                listScroll.setPrefHeight(190);
+
+                listScroll.setStyle(
+                                "-fx-background-color: transparent;" +
+                                                "-fx-background: transparent;" +
+                                                "-fx-border-color: transparent;");
+
+                box.getChildren().addAll(
+                                header,
+                                listScroll);
+
+                return box;
+        }
+
+        // =========================================================
+        // OTHER HOSPITAL LIST ROW
+        // =========================================================
+
+        private HBox createNearbyHospitalRow(
+                        String name,
+                        String distance,
+                        String time,
+                        String beds,
+                        String statusColor) {
+
+                HBox row = new HBox(9);
+
+                row.setAlignment(
+                                Pos.CENTER_LEFT);
+
+                row.setPadding(
+                                new Insets(9));
+
+                row.setStyle(
+                                "-fx-background-color: #F8FAFC;" +
+                                                "-fx-border-color: #EEF2F6;" +
+                                                "-fx-border-width: 1;" +
+                                                "-fx-background-radius: 9;" +
+                                                "-fx-border-radius: 9;" +
+                                                "-fx-cursor: hand;");
+
+                // =====================================================
+                // HOSPITAL ICON
+                // =====================================================
+
+                StackPane iconBox = new StackPane();
+
+                iconBox.setPrefSize(
+                                32,
+                                32);
+
+                iconBox.setMinSize(
+                                32,
+                                32);
+
+                iconBox.setStyle(
+                                "-fx-background-color: " + LIGHT_BLUE + ";" +
+                                                "-fx-background-radius: 8;");
+
+                Label icon = new Label("🏥");
+
+                icon.setStyle(
+                                "-fx-font-size: 13px;");
+
+                iconBox.getChildren().add(
+                                icon);
+
+                // =====================================================
+                // NAME
+                // =====================================================
+
+                VBox nameBox = new VBox(2);
+
+                HBox.setHgrow(
+                                nameBox,
+                                Priority.ALWAYS);
+
+                Label hospitalName = new Label(name);
+
+                hospitalName.setStyle(
+                                "-fx-font-size: 10px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + TEXT + ";");
+
+                Label info = new Label(
+                                distance + "  •  " + time);
+
+                info.setStyle(
+                                "-fx-font-size: 8px;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
+
+                nameBox.getChildren().addAll(
+                                hospitalName,
+                                info);
+
+                // =====================================================
+                // BEDS
+                // =====================================================
+
+                Label bedLabel = new Label(beds);
+
+                bedLabel.setStyle(
+                                "-fx-font-size: 8px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + statusColor + ";");
+
+                row.getChildren().addAll(
+                                iconBox,
+                                nameBox,
+                                bedLabel);
+
+                // =====================================================
+                // HOVER
+                // =====================================================
+
+                row.setOnMouseEntered(e -> row.setStyle(
+                                "-fx-background-color: " + LIGHT_BLUE + ";" +
+                                                "-fx-border-color: " + BLUE + ";" +
+                                                "-fx-border-width: 1;" +
+                                                "-fx-background-radius: 9;" +
+                                                "-fx-border-radius: 9;" +
+                                                "-fx-cursor: hand;"));
+
+                row.setOnMouseExited(e -> row.setStyle(
+                                "-fx-background-color: #F8FAFC;" +
+                                                "-fx-border-color: #EEF2F6;" +
+                                                "-fx-border-width: 1;" +
+                                                "-fx-background-radius: 9;" +
+                                                "-fx-border-radius: 9;" +
+                                                "-fx-cursor: hand;"));
+
+                return row;
+        }
+
+        // =========================================================
+        // HOSPITAL CARD
+        // =========================================================
+
+        private VBox createHospitalCard(
+                        String name,
+                        String status,
+                        String beds,
+                        String doctors,
+                        String distance,
+                        String time,
+                        String accent,
+                        String statusBackground) {
+
+                VBox card = new VBox(11);
+
+                card.setPrefWidth(245);
+                card.setMinWidth(245);
+                card.setMaxWidth(245);
+
+                card.setPadding(
+                                new Insets(16));
+
+                card.setStyle(
+                                "-fx-background-color: " + WHITE + ";" +
+                                                "-fx-border-color: " + BORDER + ";" +
+                                                "-fx-border-width: 1;" +
+                                                "-fx-border-radius: 12;" +
+                                                "-fx-background-radius: 12;" +
+                                                "-fx-effect: dropshadow(gaussian, rgba(30,60,90,0.06), 8, 0, 0, 2);" +
+                                                "-fx-cursor: hand;");
+
+                // =====================================================
+                // HOSPITAL HEADER
+                // =====================================================
+
+                HBox top = new HBox(10);
+
+                top.setAlignment(
+                                Pos.CENTER_LEFT);
+
+                StackPane hospitalIcon = new StackPane();
+
+                hospitalIcon.setPrefSize(
+                                34,
+                                34);
+
+                hospitalIcon.setMinSize(
+                                34,
+                                34);
+
+                hospitalIcon.setStyle(
+                                "-fx-background-color: " + LIGHT_BLUE + ";" +
+                                                "-fx-background-radius: 9;");
+
+                Label icon = new Label("🏥");
+
+                icon.setStyle(
+                                "-fx-font-size: 14px;");
+
+                hospitalIcon.getChildren().add(
+                                icon);
+
+                VBox nameBox = new VBox(2);
+
+                HBox.setHgrow(
+                                nameBox,
+                                Priority.ALWAYS);
+
+                Label hospitalName = new Label(name);
+
+                hospitalName.setStyle(
+                                "-fx-font-size: 12px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + TEXT + ";");
+
+                Label recommendation = new Label("AI Recommended");
+
+                recommendation.setStyle(
+                                "-fx-font-size: 9px;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
+
+                nameBox.getChildren().addAll(
+                                hospitalName,
+                                recommendation);
+
+                Label statusLabel = new Label(status);
+
+                statusLabel.setStyle(
+                                "-fx-background-color: " + statusBackground + ";" +
+                                                "-fx-text-fill: " + accent + ";" +
+                                                "-fx-font-size: 8px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-padding: 4 7 4 7;" +
+                                                "-fx-background-radius: 7;");
+
+                top.getChildren().addAll(
+                                hospitalIcon,
+                                nameBox,
+                                statusLabel);
+
+                // =====================================================
+                // DIVIDER
+                // =====================================================
+
+                Region divider = new Region();
+
+                divider.setPrefHeight(
+                                1);
+
+                divider.setStyle(
+                                "-fx-background-color: #EEF1F6;");
+
+                // =====================================================
+                // FOUR METRIC BOXES - 2 x 2
+                // =====================================================
+
+                GridPane metricsGrid = new GridPane();
+
+                metricsGrid.setHgap(8);
+                metricsGrid.setVgap(8);
+
+                VBox bedsBox = createMetricBox(
+                                "BEDS",
+                                beds,
+                                beds.startsWith("3")
+                                                ? ORANGE
+                                                : GREEN);
+
+                VBox doctorsBox = createMetricBox(
+                                "DOCTORS",
+                                doctors,
+                                TEXT);
+
+                VBox distanceBox = createMetricBox(
+                                "DISTANCE",
+                                distance,
+                                BLUE);
+
+                VBox etaBox = createMetricBox(
+                                "ETA",
+                                time,
+                                BLUE);
+
+                ColumnConstraints column1 = new ColumnConstraints();
+
+                column1.setPercentWidth(50);
+
+                ColumnConstraints column2 = new ColumnConstraints();
+
+                column2.setPercentWidth(50);
+
+                metricsGrid.getColumnConstraints().addAll(
+                                column1,
+                                column2);
+
+                metricsGrid.add(
+                                bedsBox,
+                                0,
+                                0);
+
+                metricsGrid.add(
+                                doctorsBox,
+                                1,
+                                0);
+
+                metricsGrid.add(
+                                distanceBox,
+                                0,
+                                1);
+
+                metricsGrid.add(
+                                etaBox,
+                                1,
+                                1);
+
+                // =====================================================
+                // ACTION BUTTONS
+                // SAME WIDTH
+                // =====================================================
+
+                HBox actions = new HBox(8);
+
+                Button directionButton = new Button("Get Directions");
+
+                Button selectButton = new Button("Select");
+
+                // Both buttons same width
+                directionButton.setPrefWidth(100);
+                directionButton.setMinWidth(100);
+                directionButton.setMaxWidth(100);
+
+                selectButton.setPrefWidth(100);
+                selectButton.setMinWidth(100);
+                selectButton.setMaxWidth(100);
+
+                HBox.setHgrow(
+                                directionButton,
+                                Priority.ALWAYS);
+
+                HBox.setHgrow(
+                                selectButton,
+                                Priority.ALWAYS);
+
+                directionButton.setPrefHeight(
+                                34);
+
+                selectButton.setPrefHeight(
+                                34);
+
+                directionButton.setStyle(
+                                "-fx-background-color: " + BLUE + ";" +
+                                                "-fx-text-fill: white;" +
+                                                "-fx-font-size: 10px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-background-radius: 8;" +
+                                                "-fx-cursor: hand;");
+
+                selectButton.setStyle(
+                                "-fx-background-color: " + LIGHT_BLUE + ";" +
+                                                "-fx-text-fill: " + BLUE + ";" +
+                                                "-fx-font-size: 10px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-background-radius: 8;" +
+                                                "-fx-cursor: hand;");
+
+                directionButton.setOnMouseEntered(e -> directionButton.setStyle(
+                                "-fx-background-color: " + BLUE_DARK + ";" +
+                                                "-fx-text-fill: white;" +
+                                                "-fx-font-size: 10px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-background-radius: 8;" +
+                                                "-fx-cursor: hand;"));
+
+                directionButton.setOnMouseExited(e -> directionButton.setStyle(
+                                "-fx-background-color: " + BLUE + ";" +
+                                                "-fx-text-fill: white;" +
+                                                "-fx-font-size: 10px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-background-radius: 8;" +
+                                                "-fx-cursor: hand;"));
+
+                selectButton.setOnMouseEntered(e -> selectButton.setStyle(
+                                "-fx-background-color: " + BLUE + ";" +
+                                                "-fx-text-fill: white;" +
+                                                "-fx-font-size: 10px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-background-radius: 8;" +
+                                                "-fx-cursor: hand;"));
+
+                selectButton.setOnMouseExited(e -> selectButton.setStyle(
+                                "-fx-background-color: " + LIGHT_BLUE + ";" +
+                                                "-fx-text-fill: " + BLUE + ";" +
+                                                "-fx-font-size: 10px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-background-radius: 8;" +
+                                                "-fx-cursor: hand;"));
+
+                actions.getChildren().addAll(
+                                directionButton,
+                                selectButton);
+
+                // =====================================================
+                // ADD CONTENT
+                // =====================================================
+
+                card.getChildren().addAll(
+                                top,
+                                divider,
+                                metricsGrid,
+                                actions);
+
+                // =====================================================
+                // CARD HOVER
+                // =====================================================
+
+                card.setOnMouseEntered(e -> {
+
+                        card.setStyle(
+                                        "-fx-background-color: " + WHITE + ";" +
+                                                        "-fx-border-color: " + BLUE + ";" +
+                                                        "-fx-border-width: 1;" +
+                                                        "-fx-border-radius: 12;" +
+                                                        "-fx-background-radius: 12;" +
+                                                        "-fx-effect: dropshadow(gaussian, rgba(8,161,229,0.15), 12, 0, 0, 3);"
+                                                        +
+                                                        "-fx-cursor: hand;");
+                });
+
+                card.setOnMouseExited(e -> {
+
+                        card.setStyle(
+                                        "-fx-background-color: " + WHITE + ";" +
+                                                        "-fx-border-color: " + BORDER + ";" +
+                                                        "-fx-border-width: 1;" +
+                                                        "-fx-border-radius: 12;" +
+                                                        "-fx-background-radius: 12;" +
+                                                        "-fx-effect: dropshadow(gaussian, rgba(30,60,90,0.06), 8, 0, 0, 2);"
+                                                        +
+                                                        "-fx-cursor: hand;");
+                });
+
+                // =====================================================
+                // CARD ANIMATION
+                // =====================================================
+
+                card.setOpacity(0);
+                card.setScaleX(0.97);
+                card.setScaleY(0.97);
+
+                FadeTransition fade = new FadeTransition(
+                                Duration.millis(350),
+                                card);
+
+                fade.setToValue(1);
+
+                ScaleTransition scale = new ScaleTransition(
+                                Duration.millis(350),
+                                card);
+
+                scale.setToX(1);
+                scale.setToY(1);
+
+                new ParallelTransition(
+                                fade,
+                                scale).play();
+
+                return card;
+        }
+
+        // =========================================================
+        // METRIC BOX
+        // =========================================================
+
+        private VBox createMetricBox(
+                        String label,
+                        String value,
+                        String valueColor) {
+
+                VBox box = new VBox(3);
+
+                box.setPadding(
+                                new Insets(8, 9, 8, 9));
+
+                box.setMaxWidth(
+                                Double.MAX_VALUE);
+
+                box.setStyle(
+                                "-fx-background-color: #F8FAFC;" +
+                                                "-fx-background-radius: 8;" +
+                                                "-fx-border-color: #EEF2F6;" +
+                                                "-fx-border-width: 1;" +
+                                                "-fx-border-radius: 8;");
+
+                Label labelText = new Label(label);
+
+                labelText.setStyle(
+                                "-fx-font-size: 8px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + SECONDARY + ";");
+
+                Label valueText = new Label(value);
+
+                valueText.setStyle(
+                                "-fx-font-size: 11px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " + valueColor + ";");
+
+                box.getChildren().addAll(
+                                labelText,
+                                valueText);
+
+                return box;
+        }
+
+        @Override
+        public void start(Stage stage) {
+
+                driverStage = stage;
+
+                // -----------------------------------------------------
+                // ROOT
+                // -----------------------------------------------------
+
+                root = new BorderPane();
+
+                root.setStyle(
+                                "-fx-background-color: " +
+                                                BODY_BACKGROUND + ";");
+
+                // -----------------------------------------------------
+                // LEFT SIDEBAR
+                // -----------------------------------------------------
+
+                VBox sidebar = createSidebar(root);
+
+                root.setLeft(sidebar);
+
+                // -----------------------------------------------------
+                // DEFAULT PAGE = DASHBOARD
+                // -----------------------------------------------------
+
+                DriverDashboard driverDashboard = new DriverDashboard();
+
+                root.setCenter(
+                                driverDashboard.getEmergencyPane());
+
+                // -----------------------------------------------------
+                // SCENE
+                // -----------------------------------------------------
+
+                driverScene = new Scene(
+                                root,
+                                1553,
+                                820);
+
+                driverStage.setScene(
+                                driverScene);
+
+                driverStage.setTitle(
+                                "LifeLink - Ambulance Driver");
+
+                driverStage.setMaximized(
+                                true);
+
+                driverStage.show();
+        }
+
+        // =========================================================
+        // SIDEBAR
+        // =========================================================
+
+        private VBox createSidebar(
+                        BorderPane root) {
+
+                VBox sidebar = new VBox();
+
+                sidebar.setPrefWidth(300);
+                sidebar.setMinWidth(300);
+                sidebar.setMaxWidth(300);
+
+                sidebar.setPadding(
+                                new Insets(
+                                                28,
+                                                18,
+                                                20,
+                                                18));
+
+                sidebar.setStyle(
+                                "-fx-background-color: " +
+                                                WHITE + ";" +
+
+                                                "-fx-border-color: " +
+                                                BORDER + ";" +
+
+                                                "-fx-border-width: 0 1 0 0;");
+
+                // =====================================================
+                // BRAND
+                // =====================================================
+
+                VBox brand = new VBox(4);
+
+                brand.setPadding(
+                                new Insets(
+                                                0,
+                                                16,
+                                                38,
+                                                16));
+
+                Label lifeLink = new Label(
+                                "LifeLink");
+
+                lifeLink.setStyle(
+                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 34px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " +
+                                                BLUE + ";");
+
+                Label ambulanceName = new Label(
+                                "Ambulance Alpha-1");
+
+                ambulanceName.setStyle(
+                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 14px;" +
+                                                "-fx-font-weight: normal;" +
+                                                "-fx-text-fill: " +
+                                                SECONDARY_TEXT + ";");
+
+                brand.getChildren().addAll(
+                                lifeLink,
+                                ambulanceName);
+
+                // =====================================================
+                // NAVIGATION
+                // =====================================================
+
+                VBox navigation = new VBox(7);
+
+                // -----------------------------------------------------
+                // DASHBOARD
+                // -----------------------------------------------------
+
+                Button dashboardButton = createNavigationButton(
+                                "▦",
+                                "Dashboard",
+                                true);
+
+                // -----------------------------------------------------
+                // NOTIFICATIONS
+                // -----------------------------------------------------
+
+                Button notificationButton = createNavigationButton(
+                                "♧",
+                                "Notifications",
+                                false);
+
+                // -----------------------------------------------------
+                // TRIP HISTORY
+                // -----------------------------------------------------
+
+                Button tripHistoryButton = createNavigationButton(
+                                "◷",
+                                "Trip History",
+                                false);
+
+                // -----------------------------------------------------
+                // SETTINGS
+                // -----------------------------------------------------
+
+                Button settingsButton = createNavigationButton(
+                                "⚙",
+                                "Settings",
+                                false);
+
+                navigation.getChildren().addAll(
+                                dashboardButton,
+                                notificationButton,
+                                tripHistoryButton,
+                                settingsButton);
+
+                // =====================================================
+                // NAVIGATION ACTIONS
+                // =====================================================
+
+                // -----------------------------------------------------
+                // DASHBOARD
+                // -----------------------------------------------------
+
+                dashboardButton.setOnAction(event -> {
+
+                        setActiveNavigation(
+                                        navigation,
+                                        dashboardButton);
+
+                        DriverDashboard driverDashboard = new DriverDashboard();
+
+                        BorderPane dashboardPane = driverDashboard.getEmergencyPane();
+
+                        root.setCenter(
+                                        dashboardPane);
+                });
+
+                // -----------------------------------------------------
+                // NOTIFICATIONS
+                // -----------------------------------------------------
+
+                notificationButton.setOnAction(event -> {
+
+                        setActiveNavigation(
+                                        navigation,
+                                        notificationButton);
+
+                        root.setCenter(
+                                        createNotificationPage());
+                });
+
+                // -----------------------------------------------------
+                // TRIP HISTORY
+                // -----------------------------------------------------
+
+                tripHistoryButton.setOnAction(event -> {
+
+                        setActiveNavigation(
+                                        navigation,
+                                        tripHistoryButton);
+
+                        DriverTripHistory driverTripHistory = new DriverTripHistory();
+
+                        root.setCenter(
+                                        driverTripHistory.getDriverTripsPage());
+                });
+
+                // -----------------------------------------------------
+                // SETTINGS
+                // -----------------------------------------------------
+
+                settingsButton.setOnAction(event -> {
+
+                        setActiveNavigation(
+                                        navigation,
+                                        settingsButton);
+
+                        DriverSetting driverSetting = new DriverSetting();
+
+                        root.setCenter(
+                                        driverSetting.getAppSettingsPage());
+                });
+
+                // =====================================================
+                // BOTTOM SPACER
+                // =====================================================
+
+                Region spacer = new Region();
+
+                VBox.setVgrow(
+                                spacer,
+                                Priority.ALWAYS);
+
+                // =====================================================
+                // SIDEBAR DIVIDER
+                // =====================================================
+
+                Region divider = createSidebarDivider();
+
+                // =====================================================
+                // LOGOUT
+                // =====================================================
+
+                Button logoutButton = createLogoutButton();
+
+                logoutButton.setOnAction(event -> {
+
+                        try {
+
+                                Welcome welcome = new Welcome();
+
+                                welcome.start(
+                                                driverStage);
+
+                        } catch (Exception e) {
+
+                                e.printStackTrace();
+
+                        }
+                });
+
+                // =====================================================
+                // ADD EVERYTHING
+                // =====================================================
+
+                sidebar.getChildren().addAll(
+                                brand,
+                                navigation,
+                                spacer,
+                                divider,
+                                logoutButton);
+
+                return sidebar;
+        }
+
+        // =========================================================
+        // NAVIGATION BUTTON
+        // =========================================================
+
+        private Button createNavigationButton(
+                        String icon,
+                        String text,
+                        boolean active) {
+
+                Button button = new Button();
+
+                HBox content = new HBox(13);
+
+                content.setAlignment(
+                                Pos.CENTER_LEFT);
+
+                Label iconLabel = new Label(icon);
+
+                iconLabel.setMinWidth(24);
+
+                iconLabel.setPrefWidth(24);
+
+                iconLabel.setAlignment(
+                                Pos.CENTER);
+
+                Label textLabel = new Label(text);
+
+                content.getChildren().addAll(
+                                iconLabel,
+                                textLabel);
+
+                button.setGraphic(
+                                content);
+
+                button.setText("");
+
+                button.setMaxWidth(
+                                Double.MAX_VALUE);
+
+                button.setMinHeight(
+                                52);
+
+                button.setPrefHeight(
+                                52);
+
+                button.setAlignment(
+                                Pos.CENTER_LEFT);
+
+                button.setPadding(
+                                new Insets(
+                                                0,
+                                                14,
+                                                0,
+                                                14));
+
+                if (active) {
 
                         applyActiveStyle(
-                                button,
-                                icon,
-                                text
-                        );
+                                        button,
+                                        iconLabel,
+                                        textLabel);
 
-                    } else {
+                } else {
 
                         applyInactiveStyle(
-                                button,
-                                icon,
-                                text
-                        );
-                    }
+                                        button,
+                                        iconLabel,
+                                        textLabel);
                 }
-            }
+
+                // =====================================================
+                // HOVER
+                // =====================================================
+
+                button.setOnMouseEntered(event -> {
+
+                        if (!button
+                                        .getStyleClass()
+                                        .contains("active-nav")) {
+
+                                applyHoverStyle(
+                                                button,
+                                                iconLabel,
+                                                textLabel);
+                        }
+                });
+
+                button.setOnMouseExited(event -> {
+
+                        if (!button
+                                        .getStyleClass()
+                                        .contains("active-nav")) {
+
+                                applyInactiveStyle(
+                                                button,
+                                                iconLabel,
+                                                textLabel);
+                        }
+                });
+
+                return button;
         }
-    }
 
-
-    // =========================================================
-    // LOGOUT
-    // =========================================================
-
-    private Button createLogoutButton() {
-
-        Button logout =
-                new Button();
-
-
-        HBox content =
-                new HBox(13);
-
-        content.setAlignment(
-                Pos.CENTER_LEFT
-        );
-
-
-        Label icon =
-                new Label("↪");
-
-        icon.setMinWidth(22);
-
-        icon.setAlignment(
-                Pos.CENTER
-        );
-
-
-        Label text =
-                new Label("Logout");
-
-
-        icon.setStyle(
-                "-fx-font-size: 20px;" +
-                        "-fx-text-fill: " +
-                        SECONDARY_TEXT + ";"
-        );
-
-
-        text.setStyle(
-                "-fx-font-size: 14px;" +
-                        "-fx-text-fill: " +
-                        SECONDARY_TEXT + ";"
-        );
-
-
-        content.getChildren().addAll(
-                icon,
-                text
-        );
-
-
-        logout.setGraphic(
-                content
-        );
-
-        logout.setText("");
-
-        logout.setMaxWidth(
-                Double.MAX_VALUE
-        );
-
-        logout.setMinHeight(
-                48
-        );
-
-        logout.setPrefHeight(
-                48
-        );
-
-        logout.setAlignment(
-                Pos.CENTER_LEFT
-        );
-
-        logout.setPadding(
-                new Insets(
-                        0,
-                        14,
-                        0,
-                        14
-                )
-        );
-
-
-        logout.setStyle(
-                "-fx-background-color: transparent;" +
-                        "-fx-background-radius: 10px;" +
-                        "-fx-cursor: hand;"
-        );
-
-
-        logout.setOnMouseEntered(event -> {
-
-            logout.setStyle(
-                    "-fx-background-color: #F5F7FA;" +
-                            "-fx-background-radius: 10px;" +
-                            "-fx-cursor: hand;"
-            );
-        });
-
-
-        logout.setOnMouseExited(event -> {
-
-            logout.setStyle(
-                    "-fx-background-color: transparent;" +
-                            "-fx-background-radius: 10px;" +
-                            "-fx-cursor: hand;"
-            );
-        });
-
-
-        return logout;
-    }
-
-
-    // =========================================================
-    // SIDEBAR DIVIDER
-    // =========================================================
-
-    private Region createSidebarDivider() {
-
-        Region divider =
-                new Region();
-
-        divider.setPrefHeight(1);
-
-        divider.setMaxWidth(
-                Double.MAX_VALUE
-        );
-
-        divider.setStyle(
-                "-fx-background-color: " +
-                        BORDER + ";"
-        );
-
-        // divider.setMargin(
-        //         null
-        // );
-
-        return divider;
-    }
-
-
-    // =========================================================
-    // TOP HEADER
-    // =========================================================
-
-    // private HBox createTopHeader() {
-
-        // HBox header =
-        //         new HBox(20);
-
-        // header.setPrefHeight(
-        //         68
-        // );
-
-        // header.setMinHeight(
-        //         68
-        // );
-
-        // header.setAlignment(
-        //         Pos.CENTER_RIGHT
-        // );
-
-        // header.setPadding(
-        //         new Insets(
-        //                 0,
-        //                 28,
-        //                 0,
-        //                 28
-        //         )
-        // );
-
-        // header.setStyle(
-        //         "-fx-background-color: " +
-        //                 HEADER_BACKGROUND + ";" +
-        //                 "-fx-border-color: " +
-        //                 BORDER + ";" +
-        //                 "-fx-border-width: 0 0 1px 0;"
-        // );
-
-
-        // // =====================================================
-        // // GPS ACTIVE
-        // // =====================================================
-
-        // Label gpsIcon =
-        //         new Label("◎");
-
-
-        // Label gpsText =
-        //         new Label(
-        //                 "GPS ACTIVE"
-        //         );
-
-
-        // gpsIcon.setStyle(
-        //         "-fx-font-size: 20px;" +
-        //                 "-fx-font-weight: bold;" +
-        //                 "-fx-text-fill: " +
-        //                 BLUE + ";"
-        // );
-
-
-        // gpsText.setStyle(
-        //         "-fx-font-size: 13px;" +
-        //                 "-fx-font-weight: bold;" +
-        //                 "-fx-text-fill: " +
-        //                 BLUE + ";"
-        // );
-
-
-        // HBox gpsBox =
-        //         new HBox(
-        //                 7,
-        //                 gpsIcon,
-        //                 gpsText
-        //         );
-
-        // gpsBox.setAlignment(
-        //         Pos.CENTER
-        // );
-
-
-        // // =====================================================
-        // // NETWORK
-        // // =====================================================
-
-        // Label networkIcon =
-        //         new Label("◢");
-
-
-        // Label networkText =
-        //         new Label(
-        //                 "NETWORK"
-        //         );
-
-
-        // networkIcon.setStyle(
-        //         "-fx-font-size: 18px;" +
-        //                 "-fx-text-fill: #667085;"
-        // );
-
-
-        // networkText.setStyle(
-        //         "-fx-font-size: 13px;" +
-        //                 "-fx-font-weight: bold;" +
-        //                 "-fx-text-fill: #667085;"
-        // );
-
-
-        // HBox networkBox =
-        //         new HBox(
-        //                 7,
-        //                 networkIcon,
-        //                 networkText
-        //         );
-
-        // networkBox.setAlignment(
-        //         Pos.CENTER
-        // );
-
-
-        // // =====================================================
-        // // ACTIVE EMERGENCY
-        // // =====================================================
-
-        // Label emergencyStatus =
-        //         new Label(
-        //                 "ACTIVE EMERGENCY"
-        //         );
-
-
-        // emergencyStatus.setPadding(
-        //         new Insets(
-        //                 6,
-        //                 14,
-        //                 6,
-        //                 14
-        //         )
-        // );
-
-
-        // emergencyStatus.setStyle(
-        //         "-fx-background-color: " +
-        //                 RED_BACKGROUND + ";" +
-        //                 "-fx-text-fill: " +
-        //                 RED + ";" +
-        //                 "-fx-font-size: 12px;" +
-        //                 "-fx-font-weight: bold;" +
-        //                 "-fx-background-radius: 18px;" +
-        //                 "-fx-border-color: #F3B5B1;" +
-        //                 "-fx-border-radius: 18px;"
-        // );
-
-
-        // // =====================================================
-        // // ALPHA STATUS
-        // // =====================================================
-
-        // Label alphaStatus =
-        //         new Label(
-        //                 "Alpha-1 Status"
-        //         );
-
-
-        // alphaStatus.setPadding(
-        //         new Insets(
-        //                 6,
-        //                 14,
-        //                 6,
-        //                 14
-        //         )
-        // );
-
-
-        // alphaStatus.setStyle(
-        //         "-fx-background-color: #EFF1F8;" +
-        //                 "-fx-text-fill: " +
-        //                 TEXT + ";" +
-        //                 "-fx-font-size: 12px;" +
-        //                 "-fx-font-weight: bold;" +
-        //                 "-fx-background-radius: 18px;" +
-        //                 "-fx-border-color: #C8CEDD;" +
-        //                 "-fx-border-radius: 18px;"
-        // );
-
-
-        // // =====================================================
-        // // HEADER DIVIDER
-        // // =====================================================
-
-        // Region divider =
-        //         new Region();
-
-        // divider.setPrefWidth(1);
-        // divider.setPrefHeight(42);
-
-        // divider.setStyle(
-        //         "-fx-background-color: " +
-        //                 BORDER + ";"
-        // );
-
-
-        // // =====================================================
-        // // DRIVER PROFILE
-        // // =====================================================
-
-        // VBox driverInfo =
-        //         new VBox(2);
-
-        // driverInfo.setAlignment(
-        //         Pos.CENTER_RIGHT
-        // );
-
-
-        // Label driverName =
-        //         new Label(
-        //                 "Marcus Thorne"
-        //         );
-
-
-        // driverName.setStyle(
-        //         "-fx-font-size: 14px;" +
-        //                 "-fx-font-weight: bold;" +
-        //                 "-fx-text-fill: " +
-        //                 TEXT + ";"
-        // );
-
-
-        // Label driverId =
-        //         new Label(
-        //                 "Driver ID: DT-894"
-        //         );
-
-
-        // driverId.setStyle(
-        //         "-fx-font-size: 12px;" +
-        //                 "-fx-text-fill: " +
-        //                 SECONDARY_TEXT + ";"
-        // );
-
-
-        // driverInfo.getChildren().addAll(
-        //         driverName,
-        //         driverId
-        // );
-
-
-        // =====================================================
-        // AVATAR
-        // =====================================================
-
-    //     StackPane avatar =
-    //             new StackPane();
-
-    //     avatar.setPrefSize(
-    //             42,
-    //             42
-    //     );
-
-    //     avatar.setMinSize(
-    //             42,
-    //             42
-    //     );
-
-    //     avatar.setMaxSize(
-    //             42,
-    //             42
-    //     );
-
-
-    //     avatar.setStyle(
-    //             "-fx-background-color: #DDE7F2;" +
-    //                     "-fx-background-radius: 50%;" +
-    //                     "-fx-border-color: #B9C8D9;" +
-    //                     "-fx-border-radius: 50%;"
-    //     );
-
-
-    //     Label avatarText =
-    //             new Label(
-    //                     "MT"
-    //             );
-
-
-    //     avatarText.setStyle(
-    //             "-fx-font-size: 11px;" +
-    //                     "-fx-font-weight: bold;" +
-    //                     "-fx-text-fill: " +
-    //                     BLUE + ";"
-    //     );
-
-
-    //     avatar.getChildren().add(
-    //             avatarText
-    //     );
-
-
-    //     header.getChildren().addAll(
-    //             gpsBox,
-    //             networkBox,
-    //             emergencyStatus,
-    //             alphaStatus,
-    //             divider,
-    //             driverInfo,
-    //             avatar
-    //     );
-
-
-    //     return header;
-    // }
-
-
-    // =========================================================
-    // TRIP HISTORY BODY
-    // =========================================================
-
-    private VBox createTripHistoryBody() {
-
-        VBox body =
-                new VBox(22);
-
-        body.setPadding(
-                new Insets(
-                        34,
-                        38,
-                        40,
-                        38
-                )
-        );
-
-        body.setStyle(
-                "-fx-background-color: " +
-                        BODY_BACKGROUND + ";"
-        );
-
-
-        // =====================================================
-        // PAGE HEADER
-        // =====================================================
-
-        VBox pageHeader =
-                createPageHeader();
-
-
-        // =====================================================
-        // STATISTICS
-        // =====================================================
-
-        HBox statistics =
-                createStatisticsSection();
-
-
-        // =====================================================
-        // FILTER / EXPORT
-        // =====================================================
-
-        VBox filterPanel =
-                createFilterPanel();
-
-
-        // =====================================================
-        // TRIP TABLE
-        // =====================================================
-
-        VBox tablePanel =
-                createTripTablePanel();
-
-
-        body.getChildren().addAll(
-                pageHeader,
-                statistics,
-                filterPanel,
-                tablePanel
-        );
-
-
-        return body;
-    }
-
-
-    // =========================================================
-    // PAGE HEADER
-    // =========================================================
-
-    private VBox createPageHeader() {
-
-        VBox header =
-                new VBox(5);
-
-
-        Label title =
-                new Label(
-                        "Trip History Audit Log"
-                );
-
-
-        title.setStyle(
-                "-fx-font-size: 34px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: " +
-                        TEXT + ";"
-        );
-
-
-        Label subtitle =
-                new Label(
-                        "Review and export previous emergency transport records."
-                );
-
-
-        subtitle.setStyle(
-                "-fx-font-size: 16px;" +
-                        "-fx-text-fill: " +
-                        SECONDARY_TEXT + ";"
-        );
-
-
-        header.getChildren().addAll(
-                title,
-                subtitle
-        );
-
-
-        return header;
-    }
-
-
-    // =========================================================
-    // STATISTICS SECTION
-    // =========================================================
-
-    private HBox createStatisticsSection() {
-
-        HBox statistics =
-                new HBox(18);
-
-
-        VBox totalTrips =
-                createStatisticCard(
-                        "TOTAL TRIPS (TODAY)",
-                        "14",
-                        "▱",
-                        BLUE,
-                        "#DDE7FF"
-                );
-
-
-        VBox responseTime =
-                createStatisticCard(
-                        "AVG. RESPONSE TIME",
-                        "8.2 min",
-                        "◴",
-                        TEXT,
-                        "#E4E6EF"
-                );
-
-
-        VBox criticalTrips =
-                createStatisticCard(
-                        "CRITICAL TRANSPORTS",
-                        "3",
-                        "⚠",
-                        RED,
-                        "#FFDCD8"
-                );
-
-
-        HBox.setHgrow(
-                totalTrips,
-                Priority.ALWAYS
-        );
-
-        HBox.setHgrow(
-                responseTime,
-                Priority.ALWAYS
-        );
-
-        HBox.setHgrow(
-                criticalTrips,
-                Priority.ALWAYS
-        );
-
-
-        statistics.getChildren().addAll(
-                totalTrips,
-                responseTime,
-                criticalTrips
-        );
-
-
-        return statistics;
-    }
-
-
-    // =========================================================
-    // STATISTIC CARD
-    // =========================================================
-
-    private VBox createStatisticCard(
-            String title,
-            String value,
-            String icon,
-            String valueColor,
-            String iconBackground
-    ) {
-
-        VBox card =
-                new VBox();
-
-
-        card.setPrefHeight(
-                135
-        );
-
-        card.setMinHeight(
-                135
-        );
-
-        card.setPadding(
-                new Insets(
-                        22,
-                        24,
-                        20,
-                        24
-                )
-        );
-
-
-        card.setStyle(
-                "-fx-background-color: " +
-                        WHITE + ";" +
-                        "-fx-border-color: " +
-                        BORDER + ";" +
-                        "-fx-border-radius: 13px;" +
-                        "-fx-background-radius: 13px;"
-        );
-
-
-        Label titleLabel =
-                new Label(
-                        title
-                );
-
-
-        titleLabel.setStyle(
-                "-fx-font-size: 12px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: " +
-                        SECONDARY_TEXT + ";" +
-                        "-fx-letter-spacing: 1px;"
-        );
-
-
-        Label valueLabel =
-                new Label(
-                        value
-                );
-
-
-        valueLabel.setStyle(
-                "-fx-font-size: 52px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: " +
-                        valueColor + ";"
-        );
-
-
-        StackPane iconCircle =
-                new StackPane();
-
-
-        iconCircle.setPrefSize(
-                52,
-                52
-        );
-
-        iconCircle.setMinSize(
-                52,
-                52
-        );
-
-        iconCircle.setMaxSize(
-                52,
-                52
-        );
-
-
-        iconCircle.setStyle(
-                "-fx-background-color: " +
-                        iconBackground + ";" +
-                        "-fx-background-radius: 50%;"
-        );
-
-
-        Label iconLabel =
-                new Label(
-                        icon
-                );
-
-
-        iconLabel.setStyle(
-                "-fx-font-size: 23px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: " +
-                        valueColor + ";"
-        );
-
-
-        iconCircle.getChildren().add(
-                iconLabel
-        );
-
-
-        Region spacer =
-                new Region();
-
-        HBox.setHgrow(
-                spacer,
-                Priority.ALWAYS
-        );
-
-
-        HBox valueRow =
-                new HBox(
-                        valueLabel,
-                        spacer,
-                        iconCircle
-                );
-
-
-        valueRow.setAlignment(
-                Pos.CENTER_LEFT
-        );
-
-
-        VBox.setVgrow(
-                valueRow,
-                Priority.ALWAYS
-        );
-
-
-        card.getChildren().addAll(
-                titleLabel,
-                valueRow
-        );
-
-
-        return card;
-    }
-
-
-    // =========================================================
-    // FILTER PANEL
-    // =========================================================
-
-    private VBox createFilterPanel() {
-
-        VBox panel =
-                new VBox(14);
-
-
-        panel.setPadding(
-                new Insets(
-                        18,
-                        18,
-                        18,
-                        18
-                )
-        );
-
-
-        panel.setStyle(
-                "-fx-background-color: " +
-                        WHITE + ";" +
-                        "-fx-border-color: " +
-                        BORDER + ";" +
-                        "-fx-border-radius: 13px;" +
-                        "-fx-background-radius: 13px;"
-        );
-
-
-        // =====================================================
-        // SEARCH FIELD
-        // =====================================================
-
-        TextField searchField =
-                new TextField();
-
-
-        searchField.setPromptText(
-                "Search by ID, Patient, or Hospital..."
-        );
-
-
-        searchField.setPrefWidth(
-                480
-        );
-
-
-        searchField.setMaxWidth(
-                480
-        );
-
-
-        searchField.setPrefHeight(
-                42
-        );
-
-
-        searchField.setStyle(
-                "-fx-background-color: #FBFBFF;" +
-                        "-fx-border-color: #BBC5D8;" +
-                        "-fx-border-radius: 8px;" +
-                        "-fx-background-radius: 8px;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-padding: 0 14px 0 14px;"
-        );
-
-
-        // =====================================================
-        // SEARCH ICON
-        // =====================================================
-
-        Label searchIcon =
-                new Label(
-                        "⌕"
-                );
-
-
-        searchIcon.setStyle(
-                "-fx-font-size: 24px;" +
-                        "-fx-text-fill: " +
-                        SECONDARY_TEXT + ";"
-        );
-
-
-        StackPane searchContainer =
-                new StackPane(
-                        searchField
-                );
-
-
-        searchContainer.setAlignment(
-                Pos.CENTER_LEFT
-        );
-
-
-        // =====================================================
-        // PERIOD BUTTONS
-        // =====================================================
-
-        Button todayButton =
-                createPeriodButton(
-                        "Today",
-                        true
-                );
-
-
-        Button weekButton =
-                createPeriodButton(
-                        "This Week",
-                        false
-                );
-
-
-        Button monthButton =
-                createPeriodButton(
-                        "This Month",
-                        false
-                );
-
-
-        HBox periodBox =
-                new HBox(
-                        0,
-                        todayButton,
-                        weekButton,
-                        monthButton
-                );
-
-
-        periodBox.setPadding(
-                new Insets(3)
-        );
-
-
-        periodBox.setStyle(
-                "-fx-background-color: #E9ECF6;" +
-                        "-fx-background-radius: 9px;" +
-                        "-fx-border-color: #C6CCDD;" +
-                        "-fx-border-radius: 9px;"
-        );
-
-
-        // =====================================================
-        // VERTICAL DIVIDER
-        // =====================================================
-
-        Region verticalDivider =
-                new Region();
-
-
-        verticalDivider.setPrefWidth(
-                1
-        );
-
-        verticalDivider.setPrefHeight(
-                34
-        );
-
-
-        verticalDivider.setStyle(
-                "-fx-background-color: #C9CFDC;"
-        );
-
-
-        // =====================================================
-        // EXPORT PDF
-        // =====================================================
-
-        Button exportPdf =
-                createExportButton(
-                        "▣  Export PDF"
-                );
-
-
-        exportPdf.setOnAction(event -> {
-
-            showInformation(
-                    "Export PDF",
-                    "PDF export is ready to be connected to your report generator."
-            );
-        });
-
-
-        // =====================================================
-        // EXPORT EXCEL
-        // =====================================================
-
-        Button exportExcel =
-                createExportButton(
-                        "▤  Export Excel"
-                );
-
-
-        exportExcel.setOnAction(event -> {
-
-            showInformation(
-                    "Export Excel",
-                    "Excel export is ready to be connected to your report generator."
-            );
-        });
-
-
-        // =====================================================
-        // SECOND ROW
-        // =====================================================
-
-        HBox controlRow =
-                new HBox(
-                        14,
-                        periodBox,
-                        verticalDivider,
-                        exportPdf,
-                        exportExcel
-                );
-
-
-        controlRow.setAlignment(
-                Pos.CENTER_LEFT
-        );
-
-
-        panel.getChildren().addAll(
-                searchContainer,
-                controlRow
-        );
-
-
-        return panel;
-    }
-
-
-    // =========================================================
-    // PERIOD BUTTON
-    // =========================================================
-
-    private Button createPeriodButton(
-            String text,
-            boolean active
-    ) {
-
-        Button button =
-                new Button(text);
-
-
-        button.setPrefHeight(
-                34
-        );
-
-
-        button.setMinWidth(
-                text.equals("Today")
-                        ? 75
-                        : 100
-        );
-
-
-        button.setStyle(
-                active
-                        ? "-fx-background-color: #FFFFFF;" +
-                          "-fx-background-radius: 7px;" +
-                          "-fx-text-fill: " + TEXT + ";" +
-                          "-fx-font-size: 12px;" +
-                          "-fx-font-weight: bold;" +
-                          "-fx-cursor: hand;"
-                        : "-fx-background-color: transparent;" +
-                          "-fx-background-radius: 7px;" +
-                          "-fx-text-fill: " + TEXT + ";" +
-                          "-fx-font-size: 12px;" +
-                          "-fx-font-weight: bold;" +
-                          "-fx-cursor: hand;"
-        );
-
-
-        button.setOnMouseEntered(event -> {
-
-            if (!active) {
+        // =========================================================
+        // ACTIVE STYLE
+        // =========================================================
+
+        private void applyActiveStyle(
+                        Button button,
+                        Label icon,
+                        Label text) {
+
+                if (!button
+                                .getStyleClass()
+                                .contains("active-nav")) {
+
+                        button.getStyleClass()
+                                        .add("active-nav");
+                }
 
                 button.setStyle(
-                        "-fx-background-color: #F7F8FC;" +
-                                "-fx-background-radius: 7px;" +
-                                "-fx-text-fill: " +
-                                BLUE + ";" +
-                                "-fx-font-size: 12px;" +
-                                "-fx-font-weight: bold;" +
-                                "-fx-cursor: hand;"
-                );
-            }
-        });
+                                "-fx-background-color: " +
+                                                ACTIVE_BLUE + ";" +
 
+                                                "-fx-background-radius: 10px;" +
 
-        button.setOnMouseExited(event -> {
+                                                "-fx-border-color: " +
+                                                BLUE + ";" +
 
-            if (!active) {
+                                                "-fx-border-width: 0 0 0 4px;" +
+
+                                                "-fx-border-radius: 10px;" +
+
+                                                "-fx-cursor: hand;");
+
+                icon.setStyle(
+                                "-fx-font-family: 'Segoe UI Symbol';" +
+                                                "-fx-font-size: 19px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " +
+                                                BLUE + ";");
+
+                text.setStyle(
+                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 14px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " +
+                                                TEXT + ";");
+        }
+
+        // =========================================================
+        // INACTIVE STYLE
+        // =========================================================
+
+        private void applyInactiveStyle(
+                        Button button,
+                        Label icon,
+                        Label text) {
 
                 button.setStyle(
-                        "-fx-background-color: transparent;" +
-                                "-fx-background-radius: 7px;" +
-                                "-fx-text-fill: " +
-                                TEXT + ";" +
-                                "-fx-font-size: 12px;" +
-                                "-fx-font-weight: bold;" +
-                                "-fx-cursor: hand;"
-                );
-            }
-        });
-
-
-        return button;
-    }
-
-
-    // =========================================================
-    // EXPORT BUTTON
-    // =========================================================
-
-    private Button createExportButton(
-            String text
-    ) {
-
-        Button button =
-                new Button(text);
-
-
-        button.setPrefHeight(
-                38
-        );
-
-
-        button.setPadding(
-                new Insets(
-                        0,
-                        17,
-                        0,
-                        17
-                )
-        );
-
-
-        button.setStyle(
-                "-fx-background-color: #FFFFFF;" +
-                        "-fx-border-color: #BEC7D8;" +
-                        "-fx-border-radius: 8px;" +
-                        "-fx-background-radius: 8px;" +
-                        "-fx-text-fill: " +
-                        TEXT + ";" +
-                        "-fx-font-size: 12px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-cursor: hand;"
-        );
-
-
-        button.setOnMouseEntered(event -> {
-
-            button.setStyle(
-                    "-fx-background-color: #F4F7FC;" +
-                            "-fx-border-color: " +
-                            BLUE + ";" +
-                            "-fx-border-radius: 8px;" +
-                            "-fx-background-radius: 8px;" +
-                            "-fx-text-fill: " +
-                            BLUE + ";" +
-                            "-fx-font-size: 12px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-cursor: hand;"
-            );
-        });
-
-
-        button.setOnMouseExited(event -> {
-
-            button.setStyle(
-                    "-fx-background-color: #FFFFFF;" +
-                            "-fx-border-color: #BEC7D8;" +
-                            "-fx-border-radius: 8px;" +
-                            "-fx-background-radius: 8px;" +
-                            "-fx-text-fill: " +
-                            TEXT + ";" +
-                            "-fx-font-size: 12px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-cursor: hand;"
-            );
-        });
-
-
-        return button;
-    }
-
-
-    // =========================================================
-    // TRIP TABLE PANEL
-    // =========================================================
-
-    private VBox createTripTablePanel() {
-
-        VBox panel =
-                new VBox();
-
-
-        panel.setStyle(
-                "-fx-background-color: " +
-                        WHITE + ";" +
-                        "-fx-border-color: " +
-                        BORDER + ";" +
-                        "-fx-border-radius: 13px;" +
-                        "-fx-background-radius: 13px;"
-        );
-
-
-        TableView<TripRecord> table =
-                createTripTable();
-
-
-        VBox.setVgrow(
-                table,
-                Priority.ALWAYS
-        );
-
-
-        // =====================================================
-        // PAGINATION FOOTER
-        // =====================================================
-
-        HBox footer =
-                createPaginationFooter();
-
-
-        panel.getChildren().addAll(
-                table,
-                footer
-        );
-
-
-        return panel;
-    }
-
-
-    // =========================================================
-    // CREATE TRIP TABLE
-    // =========================================================
-
-    private TableView<TripRecord> createTripTable() {
-
-        TableView<TripRecord> table =
-                new TableView<>();
-
-
-        table.setItems(
-                tripRecords
-        );
-
-
-        table.setPrefHeight(
-                430
-        );
-
-
-        table.setMinHeight(
-                390
-        );
-
-
-        table.setColumnResizePolicy(
-                TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
-        );
-
-
-        table.setPlaceholder(
-                new Label("No trip records found.")
-        );
-
-
-        table.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-border-color: transparent;" +
-                        "-fx-font-size: 13px;"
-        );
-
-
-        // =====================================================
-        // TRIP ID
-        // =====================================================
-
-        TableColumn<TripRecord, String> tripIdColumn =
-                new TableColumn<>(
-                        "TRIP ID"
-                );
-
-
-        tripIdColumn.setCellValueFactory(
-                data ->
-                        data.getValue()
-                                .tripIdProperty()
-        );
-
-
-        tripIdColumn.setPrefWidth(
-                110
-        );
-
-
-        tripIdColumn.setCellFactory(
-                column ->
-                        new TableCell<>() {
-
-                            @Override
-                            protected void updateItem(
-                                    String item,
-                                    boolean empty
-                            ) {
-
-                                super.updateItem(
-                                        item,
-                                        empty
-                                );
-
-
-                                if (empty ||
-                                        item == null) {
-
-                                    setText(null);
-
-                                } else {
-
-                                    setText(
-                                            item
-                                                    .replace(
-                                                            "-",
-                                                            "-\n"
-                                                    )
-                                    );
-
-                                    setStyle(
-                                            "-fx-font-weight: bold;" +
-                                                    "-fx-text-fill: " +
-                                                    TEXT + ";" +
-                                                    "-fx-alignment: CENTER_LEFT;"
-                                    );
-                                }
-                            }
-                        }
-        );
-
-
-        // =====================================================
-        // DATE / TIME
-        // =====================================================
-
-        TableColumn<TripRecord, String> dateColumn =
-                new TableColumn<>(
-                        "DATE &\nTIME"
-                );
-
-
-        dateColumn.setCellValueFactory(
-                data ->
-                        data.getValue()
-                                .dateTimeProperty()
-        );
-
-
-        dateColumn.setPrefWidth(
-                120
-        );
-
-
-        dateColumn.setCellFactory(
-                column ->
-                        new TableCell<>() {
-
-                            @Override
-                            protected void updateItem(
-                                    String item,
-                                    boolean empty
-                            ) {
-
-                                super.updateItem(
-                                        item,
-                                        empty
-                                );
-
-
-                                if (empty ||
-                                        item == null) {
-
-                                    setText(null);
-
-                                } else {
-
-                                    setText(item);
-
-                                    setStyle(
-                                            "-fx-text-fill: " +
-                                                    TEXT + ";" +
-                                                    "-fx-alignment: CENTER_LEFT;"
-                                    );
-                                }
-                            }
-                        }
-        );
-
-
-        // =====================================================
-        // PATIENT
-        // =====================================================
-
-        TableColumn<TripRecord, String> patientColumn =
-                new TableColumn<>(
-                        "PATIENT"
-                );
-
-
-        patientColumn.setCellValueFactory(
-                data ->
-                        data.getValue()
-                                .patientProperty()
-        );
-
-
-        patientColumn.setPrefWidth(
-                175
-        );
-
-
-        patientColumn.setCellFactory(
-                column ->
-                        createWrappedCell()
-        );
-
-
-        // =====================================================
-        // HOSPITAL DESTINATION
-        // =====================================================
-
-        TableColumn<TripRecord, String> hospitalColumn =
-                new TableColumn<>(
-                        "HOSPITAL\nDESTINATION"
-                );
-
-
-        hospitalColumn.setCellValueFactory(
-                data ->
-                        data.getValue()
-                                .hospitalDestinationProperty()
-        );
-
-
-        hospitalColumn.setPrefWidth(
-                190
-        );
-
-
-        hospitalColumn.setCellFactory(
-                column ->
-                        createHospitalCell()
-        );
-
-
-        // =====================================================
-        // DISTANCE
-        // =====================================================
-
-        TableColumn<TripRecord, String> distanceColumn =
-                new TableColumn<>(
-                        "DISTANCE"
-                );
-
-
-        distanceColumn.setCellValueFactory(
-                data ->
-                        data.getValue()
-                                .distanceProperty()
-        );
-
-
-        distanceColumn.setPrefWidth(
-                105
-        );
-
-
-        // =====================================================
-        // TOTAL TIME
-        // =====================================================
-
-        TableColumn<TripRecord, String> totalTimeColumn =
-                new TableColumn<>(
-                        "TOTAL\nTIME"
-                );
-
-
-        totalTimeColumn.setCellValueFactory(
-                data ->
-                        data.getValue()
-                                .totalTimeProperty()
-        );
-
-
-        totalTimeColumn.setPrefWidth(
-                110
-        );
-
-
-        // =====================================================
-        // STATUS
-        // =====================================================
-
-        TableColumn<TripRecord, String> statusColumn =
-                new TableColumn<>(
-                        "STATUS"
-                );
-
-
-        statusColumn.setCellValueFactory(
-                data ->
-                        data.getValue()
-                                .statusProperty()
-        );
-
-
-        statusColumn.setPrefWidth(
-                155
-        );
-
-
-        statusColumn.setCellFactory(
-                column ->
-                        new TableCell<>() {
-
-                            @Override
-                            protected void updateItem(
-                                    String item,
-                                    boolean empty
-                            ) {
-
-                                super.updateItem(
-                                        item,
-                                        empty
-                                );
-
-
-                                if (empty ||
-                                        item == null) {
-
-                                    setGraphic(null);
-
-                                } else {
-
-                                    TripRecord record =
-                                            getTableView()
-                                                    .getItems()
-                                                    .get(getIndex());
-
-
-                                    Label status =
-                                            new Label(
-                                                    item
-                                            );
-
-
-                                    status.setPadding(
-                                            new Insets(
-                                                    6,
-                                                    13,
-                                                    6,
-                                                    13
-                                            )
-                                    );
-
-
-                                    if (record.isCritical()) {
-
-                                        status.setStyle(
-                                                "-fx-background-color: #FFF4F3;" +
-                                                        "-fx-border-color: #F2B8B5;" +
-                                                        "-fx-border-radius: 18px;" +
-                                                        "-fx-background-radius: 18px;" +
-                                                        "-fx-text-fill: " +
-                                                        RED + ";" +
-                                                        "-fx-font-size: 11px;" +
-                                                        "-fx-font-weight: bold;"
-                                        );
-
-                                    } else {
-
-                                        status.setStyle(
-                                                "-fx-background-color: " +
-                                                        GREEN_BACKGROUND + ";" +
-                                                        "-fx-border-color: #A8E8BF;" +
-                                                        "-fx-border-radius: 18px;" +
-                                                        "-fx-background-radius: 18px;" +
-                                                        "-fx-text-fill: " +
-                                                        GREEN + ";" +
-                                                        "-fx-font-size: 11px;" +
-                                                        "-fx-font-weight: bold;"
-                                        );
-                                    }
-
-
-                                    setGraphic(status);
-
-                                    setAlignment(
-                                            Pos.CENTER_LEFT
-                                    );
-                                }
-                            }
-                        }
-        );
-
-
-        // =====================================================
-        // ACTIONS
-        // =====================================================
-
-        TableColumn<TripRecord, String> actionsColumn =
-                new TableColumn<>(
-                        "ACTIONS"
-                );
-
-
-        actionsColumn.setPrefWidth(
-                85
-        );
-
-
-        actionsColumn.setCellFactory(
-                column ->
-                        new TableCell<>() {
-
-                            private final Button viewButton =
-                                    new Button("◉");
-
-
-                            {
-
-                                viewButton.setPrefSize(
-                                        38,
-                                        38
-                                );
-
-
-                                viewButton.setStyle(
-                                        "-fx-background-color: transparent;" +
-                                                "-fx-text-fill: #344054;" +
-                                                "-fx-font-size: 17px;" +
-                                                "-fx-cursor: hand;"
-                                );
-
-
-                                viewButton.setOnAction(
-                                        event -> {
-
-                                            TripRecord record =
-                                                    getTableView()
-                                                            .getItems()
-                                                            .get(getIndex());
-
-
-                                            showInformation(
-                                                    "Trip Details",
-                                                    "Trip ID: " +
-                                                            record.getTripId() +
-                                                            "\n\nPatient: " +
-                                                            record.getPatient() +
-                                                            "\n\nHospital: " +
-                                                            record.getHospitalDestination() +
-                                                            "\n\nDistance: " +
-                                                            record.getDistance() +
-                                                            "\n\nTotal Time: " +
-                                                            record.getTotalTime() +
-                                                            "\n\nStatus: " +
-                                                            record.getStatus()
-                                            );
-                                        }
-                                );
-                            }
-
-
-                            @Override
-                            protected void updateItem(
-                                    String item,
-                                    boolean empty
-                            ) {
-
-                                super.updateItem(
-                                        item,
-                                        empty
-                                );
-
-
-                                if (empty) {
-
-                                    setGraphic(null);
-
-                                } else {
-
-                                    setGraphic(
-                                            viewButton
-                                    );
-
-                                    setAlignment(
-                                            Pos.CENTER
-                                    );
-                                }
-                            }
-                        }
-        );
-
-
-        table.getColumns().addAll(
-                tripIdColumn,
-                dateColumn,
-                patientColumn,
-                hospitalColumn,
-                distanceColumn,
-                totalTimeColumn,
-                statusColumn,
-                actionsColumn
-        );
-
-
-        // =====================================================
-        // HEADER STYLE
-        // =====================================================
-
-        table.skinProperty().addListener(
-                (observable, oldValue, newValue) -> {
-
-                    if (newValue != null) {
-
-                        Node header =
-                                table.lookup(
-                                        ".column-header-background"
-                                );
-
-
-                        if (header != null) {
-
-                            header.setStyle(
-                                    "-fx-background-color: #F1F4F9;"
-                            );
-                        }
-                    }
-                }
-        );
-
-
-        return table;
-    }
-
-
-    // =========================================================
-    // WRAPPED TABLE CELL
-    // =========================================================
-
-    private TableCell<TripRecord, String>
-    createWrappedCell() {
-
-        return new TableCell<>() {
-
-            @Override
-            protected void updateItem(
-                    String item,
-                    boolean empty
-            ) {
-
-                super.updateItem(
-                        item,
-                        empty
-                );
-
-
-                if (empty ||
-                        item == null) {
-
-                    setText(null);
-
-                } else {
-
-                    setText(item);
-
-                    setStyle(
-                            "-fx-text-fill: " +
-                                    TEXT + ";" +
-                                    "-fx-alignment: CENTER_LEFT;"
-                    );
-                }
-            }
-        };
-    }
-
-
-    // =========================================================
-    // HOSPITAL CELL
-    // =========================================================
-
-    private TableCell<TripRecord, String>
-    createHospitalCell() {
-
-        return new TableCell<>() {
-
-            @Override
-            protected void updateItem(
-                    String item,
-                    boolean empty
-            ) {
-
-                super.updateItem(
-                        item,
-                        empty
-                );
-
-
-                if (empty ||
-                        item == null) {
-
-                    setText(null);
-
-                } else {
-
-                    setText(item);
-
-                    setStyle(
-                            "-fx-text-fill: " +
-                                    TEXT + ";" +
-                                    "-fx-font-weight: bold;" +
-                                    "-fx-alignment: CENTER_LEFT;"
-                    );
-                }
-            }
-        };
-    }
-
-
-    // =========================================================
-    // PAGINATION FOOTER
-    // =========================================================
-
-    private HBox createPaginationFooter() {
-
-        HBox footer =
-                new HBox();
-
-
-        footer.setPrefHeight(
-                68
-        );
-
-
-        footer.setPadding(
-                new Insets(
-                        0,
-                        18,
-                        0,
-                        18
-                )
-        );
-
-
-        footer.setAlignment(
-                Pos.CENTER_LEFT
-        );
-
-
-        footer.setStyle(
-                "-fx-background-color: #FBF9FF;" +
-                        "-fx-border-color: " +
-                        BORDER + ";" +
-                        "-fx-border-width: 1px 0 0 0;" +
-                        "-fx-background-radius: 0 0 13px 13px;"
-        );
-
-
-        Label showing =
-                new Label(
-                        "Showing 1 to 5 of 14 trips"
-                );
-
-
-        showing.setStyle(
-                "-fx-font-size: 13px;" +
-                        "-fx-text-fill: " +
-                        SECONDARY_TEXT + ";"
-        );
-
-
-        Region spacer =
-                new Region();
-
-
-        HBox.setHgrow(
-                spacer,
-                Priority.ALWAYS
-        );
-
-
-        Button previous =
-                createPageButton(
-                        "‹",
-                        false
-                );
-
-
-        Button pageOne =
-                createPageButton(
-                        "1",
-                        true
-                );
-
-
-        Button pageTwo =
-                createPageButton(
-                        "2",
-                        false
-                );
-
-
-        Button pageThree =
-                createPageButton(
-                        "3",
-                        false
-                );
-
-
-        Button next =
-                createPageButton(
-                        "›",
-                        false
-                );
-
-
-        HBox pages =
-                new HBox(
-                        8,
-                        previous,
-                        pageOne,
-                        pageTwo,
-                        pageThree,
-                        next
-                );
-
-
-        pages.setAlignment(
-                Pos.CENTER
-        );
-
-
-        footer.getChildren().addAll(
-                showing,
-                spacer,
-                pages
-        );
-
-
-        return footer;
-    }
-
-
-    // =========================================================
-    // PAGE BUTTON
-    // =========================================================
-
-    private Button createPageButton(
-            String text,
-            boolean active
-    ) {
-
-        Button button =
-                new Button(text);
-
-
-        button.setPrefSize(
-                38,
-                38
-        );
-
-
-        if (active) {
-
-            button.setStyle(
-                    "-fx-background-color: " +
-                            BLUE + ";" +
-                            "-fx-text-fill: white;" +
-                            "-fx-font-size: 13px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-background-radius: 7px;" +
-                            "-fx-cursor: hand;"
-            );
-
-        } else {
-
-            button.setStyle(
-                    "-fx-background-color: transparent;" +
-                            "-fx-text-fill: " +
-                            TEXT + ";" +
-                            "-fx-font-size: 13px;" +
-                            "-fx-background-radius: 7px;" +
-                            "-fx-cursor: hand;"
-            );
-
-
-            button.setOnMouseEntered(
-                    event -> {
-
-                        button.setStyle(
-                                "-fx-background-color: #EDF3FF;" +
-                                        "-fx-text-fill: " +
-                                        BLUE + ";" +
-                                        "-fx-font-size: 13px;" +
-                                        "-fx-background-radius: 7px;" +
-                                        "-fx-cursor: hand;"
-                        );
-                    }
-            );
-
-
-            button.setOnMouseExited(
-                    event -> {
-
-                        button.setStyle(
                                 "-fx-background-color: transparent;" +
-                                        "-fx-text-fill: " +
-                                        TEXT + ";" +
-                                        "-fx-font-size: 13px;" +
-                                        "-fx-background-radius: 7px;" +
-                                        "-fx-cursor: hand;"
-                        );
-                    }
-            );
+                                                "-fx-background-radius: 10px;" +
+                                                "-fx-border-color: transparent;" +
+                                                "-fx-cursor: hand;");
+
+                icon.setStyle(
+                                "-fx-font-family: 'Segoe UI Symbol';" +
+                                                "-fx-font-size: 19px;" +
+                                                "-fx-text-fill: " +
+                                                SECONDARY_TEXT + ";");
+
+                text.setStyle(
+                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 14px;" +
+                                                "-fx-font-weight: normal;" +
+                                                "-fx-text-fill: " +
+                                                SECONDARY_TEXT + ";");
         }
 
-
-        return button;
-    }
-
-
-    // =========================================================
-    // SIMPLE PLACEHOLDER PAGE
-    // =========================================================
-
-    private VBox createSimplePage(
-            String title,
-            String description
-    ) {
-
-        VBox page =
-                new VBox(10);
-
-
-        page.setPadding(
-                new Insets(
-                        40
-                )
-        );
-
-
-        page.setStyle(
-                "-fx-background-color: " +
-                        BODY_BACKGROUND + ";"
-        );
-
-
-        Label titleLabel =
-                new Label(title);
-
-
-        titleLabel.setStyle(
-                "-fx-font-size: 34px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: " +
-                        TEXT + ";"
-        );
-
-
-        Label descriptionLabel =
-                new Label(description);
-
-
-        descriptionLabel.setStyle(
-                "-fx-font-size: 16px;" +
-                        "-fx-text-fill: " +
-                        SECONDARY_TEXT + ";"
-        );
-
-
-        page.getChildren().addAll(
-                titleLabel,
-                descriptionLabel
-        );
-
-
-        return page;
-    }
-
-
-    // =========================================================
-    // SCROLL PANE
-    // =========================================================
-
-    private ScrollPane createScrollPane(
-            VBox content
-    ) {
-
-        ScrollPane scrollPane =
-                new ScrollPane(
-                        content
-                );
-
-
-        scrollPane.setFitToWidth(
-                true
-        );
-
-
-        scrollPane.setFitToHeight(
-                false
-        );
-
-
-        scrollPane.setHbarPolicy(
-                ScrollPane.ScrollBarPolicy.NEVER
-        );
-
-
-        scrollPane.setVbarPolicy(
-                ScrollPane.ScrollBarPolicy.AS_NEEDED
-        );
-
-
-        scrollPane.setPannable(
-                true
-        );
-
-
-        scrollPane.setStyle(
-                "-fx-background-color: transparent;" +
-                        "-fx-background: " +
-                        BODY_BACKGROUND + ";"
-        );
-
-
-        return scrollPane;
-    }
-
-
-    // =========================================================
-    // INFORMATION ALERT
-    // =========================================================
-
-    private void showInformation(
-            String title,
-            String message
-    ) {
-
-        Alert alert =
-                new Alert(
-                        Alert.AlertType.INFORMATION
-                );
-
-
-        alert.setTitle(
-                title
-        );
-
-
-        alert.setHeaderText(
-                null
-        );
-
-
-        alert.setContentText(
-                message
-        );
-
-
-        alert.showAndWait();
-    }
-
-
-    // =========================================================
-    // TRIP RECORD MODEL
-    // =========================================================
-
-    public static class TripRecord {
-
-        private final javafx.beans.property.SimpleStringProperty tripId;
-        private final javafx.beans.property.SimpleStringProperty dateTime;
-        private final javafx.beans.property.SimpleStringProperty patient;
-        private final javafx.beans.property.SimpleStringProperty hospitalDestination;
-        private final javafx.beans.property.SimpleStringProperty distance;
-        private final javafx.beans.property.SimpleStringProperty totalTime;
-        private final javafx.beans.property.SimpleStringProperty status;
-
-        private final boolean critical;
-
-
-        public TripRecord(
-                String tripId,
-                String dateTime,
-                String patient,
-                String hospitalDestination,
-                String distance,
-                String totalTime,
-                String status,
-                boolean critical
-        ) {
-
-            this.tripId =
-                    new javafx.beans.property.SimpleStringProperty(
-                            tripId
-                    );
-
-            this.dateTime =
-                    new javafx.beans.property.SimpleStringProperty(
-                            dateTime
-                    );
-
-            this.patient =
-                    new javafx.beans.property.SimpleStringProperty(
-                            patient
-                    );
-
-            this.hospitalDestination =
-                    new javafx.beans.property.SimpleStringProperty(
-                            hospitalDestination
-                    );
-
-            this.distance =
-                    new javafx.beans.property.SimpleStringProperty(
-                            distance
-                    );
-
-            this.totalTime =
-                    new javafx.beans.property.SimpleStringProperty(
-                            totalTime
-                    );
-
-            this.status =
-                    new javafx.beans.property.SimpleStringProperty(
-                            status
-                    );
-
-            this.critical = critical;
+        // =========================================================
+        // HOVER STYLE
+        // =========================================================
+
+        private void applyHoverStyle(
+                        Button button,
+                        Label icon,
+                        Label text) {
+
+                button.setStyle(
+                                "-fx-background-color: " +
+                                                HOVER_BACKGROUND + ";" +
+
+                                                "-fx-background-radius: 10px;" +
+
+                                                "-fx-border-color: transparent;" +
+
+                                                "-fx-cursor: hand;");
+
+                icon.setStyle(
+                                "-fx-font-family: 'Segoe UI Symbol';" +
+                                                "-fx-font-size: 19px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " +
+                                                BLUE + ";");
+
+                text.setStyle(
+                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 14px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " +
+                                                TEXT + ";");
         }
 
+        // =========================================================
+        // SET ACTIVE NAVIGATION
+        // =========================================================
 
-        public javafx.beans.property.StringProperty
-        tripIdProperty() {
+        private void setActiveNavigation(
+                        VBox navigation,
+                        Button selectedButton) {
 
-            return tripId;
+                for (Node node : navigation.getChildren()) {
+
+                        if (node instanceof Button button) {
+
+                                if (button.getGraphic() instanceof HBox content) {
+
+                                        Label icon = (Label) content
+                                                        .getChildren()
+                                                        .get(0);
+
+                                        Label text = (Label) content
+                                                        .getChildren()
+                                                        .get(1);
+
+                                        button.getStyleClass()
+                                                        .remove("active-nav");
+
+                                        if (button == selectedButton) {
+
+                                                applyActiveStyle(
+                                                                button,
+                                                                icon,
+                                                                text);
+
+                                        } else {
+
+                                                applyInactiveStyle(
+                                                                button,
+                                                                icon,
+                                                                text);
+                                        }
+                                }
+                        }
+                }
         }
 
+        // =========================================================
+        // LOGOUT BUTTON
+        // =========================================================
 
-        public javafx.beans.property.StringProperty
-        dateTimeProperty() {
+        private Button createLogoutButton() {
 
-            return dateTime;
+                Button logout = new Button();
+
+                HBox content = new HBox(13);
+
+                content.setAlignment(
+                                Pos.CENTER_LEFT);
+
+                Label icon = new Label("↪");
+
+                icon.setMinWidth(24);
+
+                icon.setPrefWidth(24);
+
+                icon.setAlignment(
+                                Pos.CENTER);
+
+                Label text = new Label("Logout");
+
+                icon.setStyle(
+                                "-fx-font-family: 'Segoe UI Symbol';" +
+                                                "-fx-font-size: 20px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " +
+                                                SECONDARY_TEXT + ";");
+
+                text.setStyle(
+                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 14px;" +
+                                                "-fx-text-fill: " +
+                                                SECONDARY_TEXT + ";");
+
+                content.getChildren().addAll(
+                                icon,
+                                text);
+
+                logout.setGraphic(
+                                content);
+
+                logout.setText("");
+
+                logout.setMaxWidth(
+                                Double.MAX_VALUE);
+
+                logout.setMinHeight(
+                                48);
+
+                logout.setPrefHeight(
+                                48);
+
+                logout.setAlignment(
+                                Pos.CENTER_LEFT);
+
+                logout.setPadding(
+                                new Insets(
+                                                0,
+                                                14,
+                                                0,
+                                                14));
+
+                logout.setStyle(
+                                "-fx-background-color: transparent;" +
+                                                "-fx-background-radius: 10px;" +
+                                                "-fx-cursor: hand;");
+
+                logout.setOnMouseEntered(event -> {
+
+                        logout.setStyle(
+                                        "-fx-background-color: #FFF3F3;" +
+                                                        "-fx-background-radius: 10px;" +
+                                                        "-fx-cursor: hand;");
+
+                        icon.setStyle(
+                                        "-fx-font-family: 'Segoe UI Symbol';" +
+                                                        "-fx-font-size: 20px;" +
+                                                        "-fx-font-weight: bold;" +
+                                                        "-fx-text-fill: #D71920;");
+
+                        text.setStyle(
+                                        "-fx-font-family: 'Segoe UI';" +
+                                                        "-fx-font-size: 14px;" +
+                                                        "-fx-font-weight: bold;" +
+                                                        "-fx-text-fill: #D71920;");
+                });
+
+                logout.setOnMouseExited(event -> {
+
+                        logout.setStyle(
+                                        "-fx-background-color: transparent;" +
+                                                        "-fx-background-radius: 10px;" +
+                                                        "-fx-cursor: hand;");
+
+                        icon.setStyle(
+                                        "-fx-font-family: 'Segoe UI Symbol';" +
+                                                        "-fx-font-size: 20px;" +
+                                                        "-fx-font-weight: bold;" +
+                                                        "-fx-text-fill: " +
+                                                        SECONDARY_TEXT + ";");
+
+                        text.setStyle(
+                                        "-fx-font-family: 'Segoe UI';" +
+                                                        "-fx-font-size: 14px;" +
+                                                        "-fx-text-fill: " +
+                                                        SECONDARY_TEXT + ";");
+                });
+
+                return logout;
         }
 
+        
+        // SIDEBAR DIVIDER
 
-        public javafx.beans.property.StringProperty
-        patientProperty() {
+        private Region createSidebarDivider() {
 
-            return patient;
+                Region divider = new Region();
+
+                divider.setPrefHeight(
+                                1);
+
+                divider.setMaxWidth(
+                                Double.MAX_VALUE);
+
+                divider.setStyle(
+                                "-fx-background-color: " +
+                                                BORDER + ";");
+
+                return divider;
         }
 
+        // NOTIFICATION PAGE
+        private VBox createNotificationPage() {
 
-        public javafx.beans.property.StringProperty
-        hospitalDestinationProperty() {
+                VBox page = new VBox(10);
 
-            return hospitalDestination;
+                page.setPadding(
+                                new Insets(40));
+
+                page.setStyle(
+                                "-fx-background-color: " +
+                                                BODY_BACKGROUND + ";");
+
+                Label title = new Label(
+                                "Notifications");
+
+                title.setStyle(
+                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 34px;" +
+                                                "-fx-font-weight: bold;" +
+                                                "-fx-text-fill: " +
+                                                TEXT + ";");
+
+                Label description = new Label(
+                                "Emergency notifications and system alerts.");
+
+                description.setStyle(
+                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 16px;" +
+                                                "-fx-text-fill: " +
+                                                SECONDARY_TEXT + ";");
+
+                page.getChildren().addAll(
+                                title,
+                                description);
+
+                return page;
         }
 
-
-        public javafx.beans.property.StringProperty
-        distanceProperty() {
-
-            return distance;
-        }
-
-
-        public javafx.beans.property.StringProperty
-        totalTimeProperty() {
-
-            return totalTime;
-        }
-
-
-        public javafx.beans.property.StringProperty
-        statusProperty() {
-
-            return status;
-        }
-
-
-        public String getTripId() {
-
-            return tripId.get();
-        }
-
-
-        public String getDateTime() {
-
-            return dateTime.get();
-        }
-
-
-        public String getPatient() {
-
-            return patient.get();
-        }
-
-
-        public String getHospitalDestination() {
-
-            return hospitalDestination.get();
-        }
-
-
-        public String getDistance() {
-
-            return distance.get();
-        }
-
-
-        public String getTotalTime() {
-
-            return totalTime.get();
-        }
-
-
-        public String getStatus() {
-
-            return status.get();
-        }
-
-
-        public boolean isCritical() {
-
-            return critical;
-        }
-    }
-
-
-    // =========================================================
-    // MAIN
-    // =========================================================
-
-    public static void main(
-            String[] args
-    ) {
-
-        launch(args);
-    }
 }

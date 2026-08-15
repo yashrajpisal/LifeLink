@@ -73,6 +73,7 @@ public class SavedHospitals {
         scrollPane.getStyleClass().add("main-scroll");
 
         root.setCenter(scrollPane);
+        MedicalReports.playPageAnimation(scrollPane);
 
         return root;
     }

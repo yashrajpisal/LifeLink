@@ -103,6 +103,8 @@ public class FirstAidAssistant {
         scrollPane.getStyleClass().add("chat-scroll");
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
 
+        MedicalReports.playPageAnimation(scrollPane);
+
         // suggestion chips
         HBox chipsBox = createSuggestionChips();
 

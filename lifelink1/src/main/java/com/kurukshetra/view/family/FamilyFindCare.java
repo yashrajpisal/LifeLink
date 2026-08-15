@@ -59,6 +59,8 @@ public class FamilyFindCare {
         leftColumn.setPrefWidth(420);
         VBox.setVgrow(listScroll, Priority.ALWAYS);
 
+        MedicalReports.playPageAnimation(leftColumn);
+
         HBox bodyRow = new HBox(20, leftColumn);
         VBox.setVgrow(bodyRow, Priority.ALWAYS);
 

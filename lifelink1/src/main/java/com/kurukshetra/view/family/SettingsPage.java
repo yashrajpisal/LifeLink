@@ -34,6 +34,8 @@ public class SettingsPage {
         scrollPane.getStyleClass().add("main-scroll");
         bp.setCenter(scrollPane);
 
+        MedicalReports.playPageAnimation(scrollPane);
+
         return bp;
     }
 

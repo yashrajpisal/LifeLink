@@ -83,6 +83,7 @@ public class EmergencyServices {
         scrollPane.getStyleClass().add("main-scroll");
 
         root.setCenter(scrollPane);
+        MedicalReports.playPageAnimation(scrollPane);
 
         return root;
     }

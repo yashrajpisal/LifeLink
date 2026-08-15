@@ -56,7 +56,7 @@ public class MedicalReports {
 
         ScrollPane scrollPane =createMainScrollPane(body);
         root.setCenter(scrollPane);
-        // playPageAnimation(scrollPane);
+        playPageAnimation(scrollPane);
 
         return root;
     }
@@ -79,36 +79,20 @@ public class MedicalReports {
                 Double.MAX_VALUE
         );
 
-        reportsContainer.setStyle(
-                "-fx-background-color: " +
-                        WHITE + ";" +
-                "-fx-border-color: " +
-                        BORDER + ";" +
-                "-fx-border-width: 1;" +
-                "-fx-border-radius: 10;" +
-                "-fx-background-radius: 10;"
-        );
-
-        // =====================================================
+        reportsContainer.setStyle("-fx-background-color: " +WHITE + ";" +"-fx-border-color: " +BORDER + ";" +"-fx-border-width: 1;" +"-fx-border-radius: 10;" +"-fx-background-radius: 10;");
+  
         // MEMBER PANEL
-        // =====================================================
 
         VBox memberPanel = createMemberPanel();
 
         /*
          * MEMBER PANEL SIZE IS NOT CHANGED.
          */
-        memberPanel.setPrefWidth(
-                MEMBER_PANEL_WIDTH
-        );
+        memberPanel.setPrefWidth(MEMBER_PANEL_WIDTH);
 
-        memberPanel.setMinWidth(
-                MEMBER_PANEL_WIDTH
-        );
+        memberPanel.setMinWidth(MEMBER_PANEL_WIDTH);
 
-        memberPanel.setMaxWidth(
-                MEMBER_PANEL_WIDTH
-        );
+        memberPanel.setMaxWidth(MEMBER_PANEL_WIDTH);
 
         // =====================================================
         // DETAILS PANEL
@@ -120,19 +104,11 @@ public class MedicalReports {
         /*
          * Details panel uses remaining space.
          */
-        HBox.setHgrow(
-                detailsPanel,
-                Priority.ALWAYS
-        );
+        HBox.setHgrow(detailsPanel,Priority.ALWAYS);
 
-        reportsContainer.getChildren().addAll(
-                memberPanel,
-                detailsPanel
-        );
+        reportsContainer.getChildren().addAll(memberPanel,detailsPanel);
 
-        body.getChildren().add(
-                reportsContainer
-        );
+        body.getChildren().add( reportsContainer);
 
         return body;
     }
@@ -158,57 +134,29 @@ public class MedicalReports {
 
         panel.setFillWidth(true);
 
-        panel.setStyle(
-                "-fx-background-color: #FAFBFF;" +
-                "-fx-border-color: " +
-                        BORDER + ";" +
-                "-fx-border-width: 0 1 0 0;"
-        );
+        panel.setStyle("-fx-background-color: #FAFBFF;" +"-fx-border-color: " +BORDER + ";" +"-fx-border-width: 0 1 0 0;");
 
         // =====================================================
         // HEADER
         // =====================================================
 
         HBox heading = new HBox();
+        heading.setAlignment(Pos.CENTER_LEFT);
+        Label title = new Label("Medical\nReports");
 
-        heading.setAlignment(
-                Pos.CENTER_LEFT
-        );
-
-        Label title =
-                new Label(
-                        "Medical\nReports"
-                );
-
-        title.setStyle(
-                "-fx-font-size: 16px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-text-fill: " +
-                        TEXT + ";"
-        );
+        title.setStyle("-fx-font-size: 16px;" +"-fx-font-weight: bold;" +"-fx-text-fill: " +TEXT + ";");
 
         Region space = new Region();
 
-        HBox.setHgrow(
-                space,
-                Priority.ALWAYS
-        );
+        HBox.setHgrow(space,Priority.ALWAYS);
 
-        Button newButton =
-                new Button("+ New");
+        Button newButton = new Button("+ New");
 
         newButton.setPrefWidth(55);
 
         newButton.setPrefHeight(32);
 
-        newButton.setStyle(
-                "-fx-background-color: transparent;" +
-                "-fx-text-fill: " +
-                        BLUE + ";" +
-                "-fx-font-size: 11px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-cursor: hand;"
-        );
+        newButton.setStyle("-fx-background-color: transparent;" +"-fx-text-fill: " +BLUE + ";" +"-fx-font-size: 11px;" +"-fx-font-weight: bold;" +"-fx-cursor: hand;");
 
         newButton.setOnAction(
                 e -> showMessage(
@@ -391,32 +339,6 @@ public class MedicalReports {
                 Priority.ALWAYS
         );
 
-        // =====================================================
-        // ARROW
-        // =====================================================
-
-        Label arrow =
-                new Label(
-                        selected
-                                ? "›"
-                                : ""
-                );
-
-        arrow.setPrefWidth(12);
-
-        arrow.setMinWidth(12);
-
-        arrow.setMaxWidth(12);
-
-        arrow.setAlignment(
-                Pos.CENTER
-        );
-
-        arrow.setStyle(
-                "-fx-font-size: 22px;" +
-                "-fx-text-fill: " +
-                        BLUE + ";"
-        );
 
         // =====================================================
         // ADD CHILDREN
@@ -425,8 +347,7 @@ public class MedicalReports {
         card.getChildren().addAll(
                 avatar,
                 name,
-                nameSpace,
-                arrow
+                nameSpace
         );
 
         // =====================================================
@@ -489,9 +410,9 @@ public class MedicalReports {
 
                         card.setStyle(
                                 "-fx-background-color: " +
-                                        WHITE + ";" +
+                                WHITE + ";" +
                                 "-fx-border-color: " +
-                                        BORDER + ";" +
+                                BORDER + ";" +
                                 "-fx-border-width: 1;" +
                                 "-fx-border-radius: 9;" +
                                 "-fx-background-radius: 9;" +
@@ -508,44 +429,22 @@ public class MedicalReports {
         return card;
     }
 
-    // =========================================================
     // DETAILS PANEL
-    // =========================================================
 
     private VBox createDetailsPanel() {
 
-        VBox details =
-                new VBox();
+        VBox details = new VBox();
 
-        details.setPadding(
-                new Insets(
-                        22,
-                        24,
-                        22,
-                        24
-                )
-        );
-
+        details.setPadding( new Insets(22,24,22,24));
         details.setSpacing(14);
+        details.setStyle("-fx-background-color: " +WHITE + ";");
 
-        details.setStyle(
-                "-fx-background-color: " +
-                        WHITE + ";"
-        );
-
-        // =====================================================
         // TITLE
-        // =====================================================
 
         Label title =
                 new Label("Details");
 
-        title.setStyle(
-                "-fx-font-size: 19px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-text-fill: " +
-                        TEXT + ";"
-        );
+        title.setStyle("-fx-font-size: 19px;" +"-fx-font-weight: bold;" +"-fx-text-fill: " +TEXT + ";");
 
         details.getChildren().add(
                 title
@@ -624,43 +523,19 @@ public class MedicalReports {
                 weightBox
         );
 
-        // =====================================================
         // PHONE + REPORT BUTTON
-        // =====================================================
 
-        HBox phoneRow =
-                new HBox(14);
+        HBox phoneRow = new HBox(14);
 
-        VBox phoneBox =
-                createFormBox(
-                        "Phn No.",
-                        "555-0198"
-                );
+        VBox phoneBox = createFormBox( "Phn No.",  "555-0198");
 
-        HBox.setHgrow(
-                phoneBox,
-                Priority.ALWAYS
-        );
+        HBox.setHgrow(phoneBox,Priority.ALWAYS);
 
-        Button reportButton =
-                new Button(
-                        "▤  View Report"
-                );
-
+        Button reportButton =new Button("▤  View Report");
+ 
         reportButton.setPrefWidth(145);
-
         reportButton.setPrefHeight(42);
-
-        reportButton.setStyle(
-                "-fx-background-color: #E8EBF3;" +
-                "-fx-text-fill: " +
-                        TEXT + ";" +
-                "-fx-font-size: 12px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 7;" +
-                "-fx-cursor: hand;"
-        );
-
+        reportButton.setStyle("-fx-background-color: #E8EBF3;" +"-fx-text-fill: " +TEXT + ";" +"-fx-font-size: 12px;" +"-fx-font-weight: bold;" +"-fx-background-radius: 7;" +"-fx-cursor: hand;");
         reportButton.setOnAction(
                 e -> showMessage(
                         "Medical report opened."
@@ -672,24 +547,15 @@ public class MedicalReports {
                 reportButton
         );
 
-        // =====================================================
         // SAVE BUTTON
-        // =====================================================
+        
+        HBox saveRow =   new HBox();
 
-        HBox saveRow =
-                new HBox();
+        saveRow.setAlignment(Pos.CENTER_RIGHT);
 
-        saveRow.setAlignment(
-                Pos.CENTER_RIGHT
-        );
-
-        Button saveButton =
-                createPrimaryButton(
-                        "Save"
-                );
+        Button saveButton = createPrimaryButton("Save");
 
         saveButton.setPrefWidth(84);
-
         saveButton.setOnAction(
                 e -> showMessage(
                         "Medical details saved."
@@ -711,146 +577,64 @@ public class MedicalReports {
                 saveRow
         );
 
-        // =====================================================
         // SPACE
-        // =====================================================
 
-        Region verticalSpace =
-                new Region();
+        Region verticalSpace = new Region();
 
-        VBox.setVgrow(
-                verticalSpace,
-                Priority.ALWAYS
-        );
+        VBox.setVgrow(verticalSpace,Priority.ALWAYS);
 
-        details.getChildren().add(
-                verticalSpace
-        );
+        details.getChildren().add(verticalSpace);
 
-        // =====================================================
         // ALL REPORT
-        // =====================================================
 
-        details.getChildren().add(
-                createAllReportSection()
-        );
+        details.getChildren().add(createAllReportSection());
 
         return details;
     }
 
-    // =========================================================
     // FORM BOX
-    // =========================================================
 
-    private VBox createFormBox(
-            String labelText,
-            String value
-    ) {
+    private VBox createFormBox(String labelText,String value) {
 
-        VBox box =
-                new VBox(5);
+        VBox box = new VBox(5);
 
         HBox.setHgrow(
                 box,
                 Priority.ALWAYS
         );
 
-        Label label =
-                new Label(labelText);
+        Label label = new Label(labelText);
+        label.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" +"-fx-text-fill: " +SECONDARY + ";");
 
-        label.setStyle(
-                "-fx-font-size: 11px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-text-fill: " +
-                        SECONDARY + ";"
-        );
-
-        TextField field =
-                new TextField(value);
-
+        TextField field = new TextField(value);
         field.setPrefHeight(44);
-
         field.setMinHeight(44);
-
-        field.setMaxWidth(
-                Double.MAX_VALUE
-        );
-
-        field.setStyle(
-                "-fx-background-color: #FBFCFF;" +
-                "-fx-border-color: " +
-                        BORDER + ";" +
-                "-fx-border-width: 1;" +
-                "-fx-border-radius: 7;" +
-                "-fx-background-radius: 7;" +
-                "-fx-font-size: 13px;" +
-                "-fx-text-fill: " +
-                        TEXT + ";" +
-                "-fx-padding: 0 12px;"
-        );
-
-        box.getChildren().addAll(
-                label,
-                field
-        );
+        field.setMaxWidth( Double.MAX_VALUE);
+        field.setStyle("-fx-background-color: #FBFCFF;" +"-fx-border-color: " +BORDER + ";" +"-fx-border-width: 1;" +"-fx-border-radius: 7;" +"-fx-background-radius: 7;" +"-fx-font-size: 13px;" +"-fx-text-fill: " +TEXT + ";" +"-fx-padding: 0 12px;");
+        box.getChildren().addAll(label,field);
 
         return box;
     }
 
-    // =========================================================
     // ALL REPORT SECTION
-    // =========================================================
 
     private VBox createAllReportSection() {
 
-        VBox section =
-                new VBox(10);
+        VBox section = new VBox(10);
+        section.setPadding(new Insets(16,0,0,0));
 
-        section.setPadding(
-                new Insets(
-                        16,
-                        0,
-                        0,
-                        0
-                )
-        );
+        section.setStyle("-fx-border-color: " + DIVIDER + ";" +"-fx-border-width: 1 0 0 0;");
 
-        section.setStyle(
-                "-fx-border-color: " +
-                        DIVIDER + ";" +
-                "-fx-border-width: 1 0 0 0;"
-        );
+        Label title = new Label("All Report");
+        title.setStyle("-fx-font-size: 14px;" +"-fx-font-weight: bold;" +"-fx-text-fill: " +TEXT + ";");
 
-        Label title =
-                new Label(
-                        "All Report"
-                );
+        HBox uploadRow = new HBox(12);
+        uploadRow.setAlignment(Pos.CENTER_LEFT);
 
-        title.setStyle(
-                "-fx-font-size: 14px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-text-fill: " +
-                        TEXT + ";"
-        );
-
-        HBox uploadRow =
-                new HBox(12);
-
-        uploadRow.setAlignment(
-                Pos.CENTER_LEFT
-        );
-
-        // =====================================================
         // REPORT TYPE
-        // =====================================================
 
-        HBox reportType =
-                new HBox();
-
-        reportType.setAlignment(
-                Pos.CENTER
-        );
-
+        HBox reportType = new HBox();
+        reportType.setAlignment(Pos.CENTER);
         reportType.setPrefHeight(48);
 
         HBox.setHgrow(
@@ -858,56 +642,22 @@ public class MedicalReports {
                 Priority.ALWAYS
         );
 
-        reportType.setStyle(
-                "-fx-background-color: #FBFCFF;" +
-                "-fx-border-color: " +
-                        BORDER + ";" +
-                "-fx-border-radius: 7;" +
-                "-fx-background-radius: 7;"
-        );
+        reportType.setStyle("-fx-background-color: #FBFCFF;" +"-fx-border-color: " +BORDER + ";" +"-fx-border-radius: 7;" +"-fx-background-radius: 7;");
 
-        Label selectText =
-                new Label(
-                        "Select Report Type"
-                );
-
-        selectText.setStyle(
-                "-fx-font-size: 12px;" +
-                "-fx-text-fill: " +
-                        TEXT + ";"
-        );
+        Label selectText = new Label("Select Report Type");
+        selectText.setStyle("-fx-font-size: 12px;" +"-fx-text-fill: " +TEXT + ";" );
 
         reportType.getChildren().add(
                 selectText
         );
 
-        // =====================================================
         // UPLOAD BUTTON
-        // =====================================================
 
-        Button uploadButton =
-                new Button(
-                        "☁  Upload File"
-                );
+        Button uploadButton = new Button("☁  Upload File");
 
         uploadButton.setPrefWidth(130);
-
         uploadButton.setPrefHeight(48);
-
-        uploadButton.setStyle(
-                "-fx-background-color: white;" +
-                "-fx-border-color: #9FB4DD;" +
-                "-fx-border-style: dashed;" +
-                "-fx-border-width: 1.5;" +
-                "-fx-border-radius: 7;" +
-                "-fx-background-radius: 7;" +
-                "-fx-text-fill: " +
-                        BLUE + ";" +
-                "-fx-font-size: 11px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-cursor: hand;"
-        );
-
+        uploadButton.setStyle("-fx-background-color: white;" +"-fx-border-color: #9FB4DD;" +"-fx-border-style: dashed;" +"-fx-border-width: 1.5;" +"-fx-border-radius: 7;" +"-fx-background-radius: 7;" +"-fx-text-fill: " +BLUE + ";" +"-fx-font-size: 11px;" +"-fx-font-weight: bold;" +"-fx-cursor: hand;");
         uploadButton.setOnAction(
                 e -> chooseReportFile()
         );
@@ -925,34 +675,16 @@ public class MedicalReports {
         return section;
     }
 
-    // =========================================================
     // FILE CHOOSER
-    // =========================================================
 
     private void chooseReportFile() {
 
-        FileChooser chooser =
-                new FileChooser();
+        FileChooser chooser = new FileChooser();
 
-        chooser.setTitle(
-                "Select Medical Report"
-        );
+        chooser.setTitle("Select Medical Report");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Medical Documents","*.pdf","*.png","*.jpg","*.jpeg","*.doc","*.docx"));
 
-        chooser.getExtensionFilters()
-                .add(
-                        new FileChooser.ExtensionFilter(
-                                "Medical Documents",
-                                "*.pdf",
-                                "*.png",
-                                "*.jpg",
-                                "*.jpeg",
-                                "*.doc",
-                                "*.docx"
-                        )
-                );
-
-        File file =
-                chooser.showOpenDialog(stage);
+        File file = chooser.showOpenDialog(stage);
 
         if (file != null) {
 
@@ -963,28 +695,13 @@ public class MedicalReports {
         }
     }
 
-    // =========================================================
     // PRIMARY BUTTON
-    // =========================================================
 
-    private Button createPrimaryButton(
-            String text
-    ) {
+    private Button createPrimaryButton(String text) {
 
-        Button button =
-                new Button(text);
-
+        Button button = new Button(text);
         button.setPrefHeight(42);
-
-        button.setStyle(
-                "-fx-background-color: " +
-                        BLUE + ";" +
-                "-fx-text-fill: white;" +
-                "-fx-font-size: 12px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 7;" +
-                "-fx-cursor: hand;"
-        );
+        button.setStyle("-fx-background-color: " +BLUE + ";" +"-fx-text-fill: white;" +"-fx-font-size: 12px;" +"-fx-font-weight: bold;" +"-fx-background-radius: 7;" +"-fx-cursor: hand;");
 
         button.setOnMouseEntered(
                 e -> button.setStyle(
@@ -1013,161 +730,81 @@ public class MedicalReports {
         return button;
     }
 
-    // =========================================================
     // DIVIDER
-    // =========================================================
 
     private Region createDivider() {
 
-        Region divider =
-                new Region();
-
+        Region divider = new Region();
         divider.setPrefHeight(1);
-
-        divider.setMaxWidth(
-                Double.MAX_VALUE
-        );
-
-        divider.setStyle(
-                "-fx-background-color: " +
-                        DIVIDER + ";"
-        );
+        divider.setMaxWidth( Double.MAX_VALUE);
+        divider.setStyle("-fx-background-color: " +DIVIDER + ";");
 
         return divider;
     }
 
-    // =========================================================
     // SCROLL PANE
-    // =========================================================
 
     private ScrollPane createMainScrollPane(
             VBox content
     ) {
 
-        ScrollPane scrollPane =
-                new ScrollPane(content);
-
+        ScrollPane scrollPane = new ScrollPane(content);
         scrollPane.setFitToWidth(true);
-
-        scrollPane.setHbarPolicy(
-                ScrollPane.ScrollBarPolicy.NEVER
-        );
-
-        scrollPane.setVbarPolicy(
-                ScrollPane.ScrollBarPolicy.AS_NEEDED
-        );
-
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setPannable(true);
-
-        scrollPane.setStyle(
-                "-fx-background-color: transparent;" +
-                "-fx-background: " +
-                        BACKGROUND + ";"
-        );
+        scrollPane.setStyle("-fx-background-color: transparent;" +"-fx-background: " +BACKGROUND + ";");
 
         return scrollPane;
     }
 
-    // =========================================================
-    // FILE / MESSAGE
-    // =========================================================
+     // FILE / MESSAGE
 
-    private void showMessage(
-            String message
-    ) {
+    private void showMessage(String message) {
 
-        Alert alert =
-                new Alert(
-                        Alert.AlertType.INFORMATION
-                );
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-        alert.setTitle(
-                "LifeLink"
-        );
-
+        alert.setTitle("LifeLink");
         alert.setHeaderText(null);
-
-        alert.setContentText(
-                message
-        );
-
+        alert.setContentText(message);
         alert.showAndWait();
     }
 
-
-
-
-    
-    // =========================================================
     // ANIMATION
-    // =========================================================
 
-    // private void playPageAnimation(
-    //         Node node
-    // ) {
+    public static void playPageAnimation(Node node) {
 
-    //     node.setOpacity(0);
+        node.setOpacity(0);
 
-    //     FadeTransition fade =
-    //             new FadeTransition(
-    //                     Duration.millis(300),
-    //                     node
-    //             );
+        FadeTransition fade = new FadeTransition(Duration.millis(500),node);
 
-    //     fade.setFromValue(0.3);
+        fade.setFromValue(0.3);
+        fade.setToValue(1);
 
-    //     fade.setToValue(1);
+        ScaleTransition scale = new ScaleTransition(Duration.millis(500),node);
 
-    //     ScaleTransition scale =
-    //             new ScaleTransition(
-    //                     Duration.millis(250),
-    //                     node
-    //             );
+        scale.setFromX(0.985);
+        scale.setFromY(0.985);
+        scale.setToX(1);
+        scale.setToY(1);
 
-    //     scale.setFromX(0.985);
-    //     scale.setFromY(0.985);
+        ParallelTransition animation =new ParallelTransition(fade,scale);
 
-    //     scale.setToX(1);
-    //     scale.setToY(1);
+        animation.play();
+    }
 
-    //     ParallelTransition animation =
-    //             new ParallelTransition(
-    //                     fade,
-    //                     scale
-    //             );
-
-    //     animation.play();
-    // }
-
-
-
-
-
-
-    // =========================================================
     // CARD ANIMATION
-    // =========================================================
 
-    private void animateNode(
-            Node node
-    ) {
+    private void animateNode(Node node) {
 
-        ScaleTransition scale =
-                new ScaleTransition(
-                        Duration.millis(130),
-                        node
-                );
+        ScaleTransition scale = new ScaleTransition(Duration.millis(130),node);
 
         scale.setFromX(1);
         scale.setFromY(1);
-
         scale.setToX(1.02);
         scale.setToY(1.02);
-
         scale.setAutoReverse(true);
-
         scale.setCycleCount(2);
-
         scale.play();
     }
 }

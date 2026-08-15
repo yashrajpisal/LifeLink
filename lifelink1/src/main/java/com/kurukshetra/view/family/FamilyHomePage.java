@@ -44,6 +44,8 @@ public class FamilyHomePage {
         scrollPane.getStyleClass().add("main-scroll");
         bp.setCenter(scrollPane);
 
+        MedicalReports.playPageAnimation(scrollPane);
+
         return bp;
     }
 

@@ -1,8 +1,6 @@
 package com.kurukshetra;
-
 import com.kurukshetra.view.Welcome;
 import javafx.application.Application;
-import com.kurukshetra.view.driver.*;
 
 public class Main {
     public static void main(String[] args) {

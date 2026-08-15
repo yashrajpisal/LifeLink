@@ -2,7 +2,7 @@ package com.kurukshetra.view;
 
 import java.sql.Driver;
 
-import com.kurukshetra.view.driver.DriverDashboard;
+// import com.kurukshetra.view.driver.DriverDashboard;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -142,9 +142,6 @@ public class Welcome extends Application {
         ambulanceCard.setOnMouseClicked(e ->{
             // DriverDashboard driverDashboard = new DriverDashboard();
             // WelcomeStage.setScene(driverDashboard.getScene());
-                DriverDashboard welcome = new DriverDashboard();
-                welcome.start(WelcomeStage);
-            
         });
 
         StackPane hospitalCard = createRoleCard(SVG_HOSPITAL, "Hospital Staff", "View incoming emergencies, manage ER capacity, and review patient data.", PRIMARY_COLOR, ICON_BG_DEFAULT);

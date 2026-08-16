@@ -2,6 +2,8 @@ package com.kurukshetra.view;
 
 import java.sql.Driver;
 
+import com.kurukshetra.view.driver.DriverDashboard;
+
 // import com.kurukshetra.view.driver.DriverDashboard;
 
 import javafx.animation.FadeTransition;
@@ -138,21 +140,26 @@ public class Welcome extends Application {
         StackPane patientCard = createRoleCard(SVG_PATIENT, "Patient & Family", "Access medical records, track vitals, and communicate with healthcare providers.", PRIMARY_COLOR, ICON_BG_DEFAULT);
         
         // ambulance card
-        StackPane ambulanceCard = createRoleCard(SVG_AMBULANCE, "Ambulance Team", "Receive dispatch alerts, navigate routes, and transmit patient vitals en route.", ICON_COLOR_ERROR, ICON_BG_ERROR);
-        ambulanceCard.setOnMouseClicked(e ->{
-            // DriverDashboard driverDashboard = new DriverDashboard();
-            // WelcomeStage.setScene(driverDashboard.getScene());
+        StackPane ambulanceDriverCard = createRoleCard(SVG_AMBULANCE, "Ambulance Driver", "Receive dispatch alerts, navigate routes, and transmit patient vitals en route.", ICON_COLOR_ERROR, ICON_BG_ERROR);
+        
+        ambulanceDriverCard.setOnMouseClicked(e ->{
+            
         });
 
+        StackPane ambulanceNurceCard = createRoleCard(SVG_AMBULANCE, "Ambulance Nurce", "Receive dispatch alerts, navigate routes, and transmit patient vitals en route.", ICON_COLOR_ERROR, ICON_BG_ERROR);
+        
         StackPane hospitalCard = createRoleCard(SVG_HOSPITAL, "Hospital Staff", "View incoming emergencies, manage ER capacity, and review patient data.", PRIMARY_COLOR, ICON_BG_DEFAULT);
+
         StackPane policeCard = createRoleCard(SVG_POLICE, "Police Control Room", "Coordinate multi-agency emergency responses, monitor active incidents, and ensure scene security.", ICON_COLOR_POLICE, ICON_BG_POLICE);
 
         // Grid Positioning
-        grid.add(adminCard, 0, 0);
-        grid.add(patientCard, 1, 0);
-        grid.add(ambulanceCard, 2, 0);
-        grid.add(hospitalCard, 0, 1);
-        grid.add(policeCard, 1, 1, 2, 1);
+        grid.add(ambulanceDriverCard, 0, 0);
+        grid.add(ambulanceNurceCard, 1, 0);
+        grid.add(hospitalCard, 2, 0);
+        grid.add(policeCard, 0, 1);
+        grid.add(patientCard, 1, 1);
+        grid.add(adminCard, 2, 1);
+                
 
         // Footer
         Label footer = new Label("Secure Connection • End-to-End Encrypted • HIPAA Compliant");

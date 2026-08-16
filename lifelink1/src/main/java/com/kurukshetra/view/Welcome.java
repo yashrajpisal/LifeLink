@@ -5,6 +5,7 @@ import com.kurukshetra.view.driver.DriverLoginPage;
 import com.kurukshetra.view.family.FamilyLoginPage;
 import com.kurukshetra.view.hospital.HospitalLoginPage;
 import com.kurukshetra.view.nurse.NurseLoginPage;
+import com.kurukshetra.view.police.PoliceLoginPage;
 
 // import java.sql.Driver;
 
@@ -170,7 +171,11 @@ public class Welcome extends Application {
             WelcomeStage.setScene(sc);
         });
         StackPane policeCard = createRoleCard(SVG_POLICE, "Police Control Room", "Coordinate multi-agency emergency responses, monitor active incidents, and ensure scene security.", ICON_COLOR_POLICE, ICON_BG_POLICE);
-
+        policeCard.setOnMouseMoved(event ->{
+            PoliceLoginPage obj = new PoliceLoginPage();
+            Scene sc = new Scene(obj.getPoliceLoginPage());
+            WelcomeStage.setScene(sc);
+        });
         // Grid Positioning
         grid.add(ambulanceDriverCard, 0, 0);
         grid.add(ambulanceNurceCard, 1, 0);

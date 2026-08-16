@@ -171,7 +171,7 @@ public class Welcome extends Application {
             WelcomeStage.setScene(sc);
         });
         StackPane policeCard = createRoleCard(SVG_POLICE, "Police Control Room", "Coordinate multi-agency emergency responses, monitor active incidents, and ensure scene security.", ICON_COLOR_POLICE, ICON_BG_POLICE);
-        policeCard.setOnMouseMoved(event ->{
+        policeCard.setOnMouseClicked(event ->{
             PoliceLoginPage obj = new PoliceLoginPage();
             Scene sc = new Scene(obj.getPoliceLoginPage());
             WelcomeStage.setScene(sc);

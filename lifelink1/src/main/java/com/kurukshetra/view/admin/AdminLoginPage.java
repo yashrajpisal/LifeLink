@@ -42,11 +42,9 @@ public class AdminLoginPage {
     // IMAGES
     // =========================================================
 
-    private static final String DOCTOR_IMAGE_URL =
-            "assets\\Images\\hospitalLogin.jpg";
+    private static final String DOCTOR_IMAGE_URL = "assets\\Images\\hospitalLogin.jpeg";
 
-    private static final String LIFELINK_LOGO_IMAGE =
-            "assets\\Images\\LifeLinkLogo.png";
+    private static final String LIFELINK_LOGO_IMAGE = "assets\\Images\\LifeLinkLogo.png";
 
     // =========================================================
     // PAGE SIZE
@@ -1052,17 +1050,11 @@ public class AdminLoginPage {
 
     private ImageView createDoctorImage() {
 
-        ImageView imageView =
-                new ImageView();
+        ImageView imageView = new ImageView();
 
         try {
 
-            Image image =
-                    new Image(
-                            DOCTOR_IMAGE_URL,
-                            false
-                    );
-
+            Image image = new Image(DOCTOR_IMAGE_URL,false);
             imageView.setImage(image);
 
         } catch (Exception e) {

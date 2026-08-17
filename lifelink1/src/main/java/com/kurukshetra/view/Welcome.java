@@ -2,7 +2,7 @@ package com.kurukshetra.view;
 
 import com.kurukshetra.view.loginSignup.*;
 
-
+// welcome file
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;

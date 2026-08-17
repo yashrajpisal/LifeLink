@@ -2,6 +2,7 @@ package com.kurukshetra.view.loginSignup;
 
 import com.kurukshetra.controller.UserAuthController;
 import com.kurukshetra.controller.UserController;
+import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.driver.DriverDashboard;
 
 import javafx.geometry.Insets;
@@ -53,8 +54,8 @@ public class DriverLoginPage {
         // PAGE SIZE
         // =========================================================
 
-        private static final double PAGE_WIDTH = 1536;
-        private static final double PAGE_HEIGHT = 809;
+        private static final double PAGE_WIDTH = Welcome.WelcomeStage.getWidth();
+        private static final double PAGE_HEIGHT = Welcome.WelcomeStage.getHeight();
 
         // =========================================================
         // MAIN PAGE
@@ -412,7 +413,6 @@ public class DriverLoginPage {
                                 return;
                         }
 
-                        
                         boolean isSuccess = userAuthController.signIn(emailValue, passwordValue);
 
                         if (isSuccess) {
@@ -426,11 +426,11 @@ public class DriverLoginPage {
                                                 "Login successful.");
 
                                 DriverDashboard driverDashboard = new DriverDashboard();
-                                try{
-                                
+                                try {
+
                                         driverDashboard.start(AalLoginStartPoint.startPageStage);
 
-                                }catch(Exception e1){
+                                } catch (Exception e1) {
                                         e1.printStackTrace();
                                 }
                         }
@@ -594,36 +594,35 @@ public class DriverLoginPage {
 
                                 return;
                         }
-                         boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+                        boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
 
-                         if(isSuccess){
+                        if (isSuccess) {
 
-                                 System.out.println("API Hit Successfully (SignUp)");
+                                System.out.println("API Hit Successfully (SignUp)");
                                 UserController userController = new UserController();
                                 userController.passToDriverModel(nameValue, emailValue);
 
                                 System.out.println(
-                                        "========== SIGN UP ==========");
+                                                "========== SIGN UP ==========");
 
-                        System.out.println(
-                                        "Name: " + nameValue);
+                                System.out.println(
+                                                "Name: " + nameValue);
 
-                        System.out.println(
-                                        "Email: " + emailValue);
+                                System.out.println(
+                                                "Email: " + emailValue);
 
-                        System.out.println(
-                                        "Password: " + passwordValue);
+                                System.out.println(
+                                                "Password: " + passwordValue);
 
-                        System.out.println(
-                                        "Sign Up successful.");
+                                System.out.println(
+                                                "Sign Up successful.");
 
-                        System.out.println(
-                                        "=============================");
-               
+                                System.out.println(
+                                                "=============================");
 
-                         }
+                        }
 
-                         });
+                });
 
                 // =====================================================
                 // BACK TO LOGIN ACTION

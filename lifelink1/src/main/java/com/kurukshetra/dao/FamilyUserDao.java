@@ -12,6 +12,7 @@ public class FamilyUserDao {
     public void saveFamilyUser(FamilyUserModel familyUser){
         try{
 
+            System.out.println("Family Data Entry Successful");
             db.collection("family").document(familyUser.getEmail()).set(familyUser);
           
         }catch(Exception e){

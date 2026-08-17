@@ -1,7 +1,9 @@
 package com.kurukshetra.controller;
 
 import com.kurukshetra.dao.*;
+import com.kurukshetra.dao.driverDao.DriverUserDao;
 import com.kurukshetra.model.*;
+import com.kurukshetra.model.driverModel.DriverUserModel;
 
 public class UserController {
     
@@ -12,6 +14,7 @@ public class UserController {
 
         HospitalUserDao userDao = new HospitalUserDao();
         userDao.saveHospitalUser(user);
+        System.out.println("Passing hospital data to HospitalDao");
     }
 
     public void passToNurseModel(String name, String email) {

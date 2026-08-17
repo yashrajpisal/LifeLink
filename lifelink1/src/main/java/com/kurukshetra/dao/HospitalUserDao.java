@@ -11,9 +11,10 @@ public class HospitalUserDao {
     
     public void saveHospitalUser(HospitalUserModel hospitalUser){
         try{
-
-            db.collection("hospital").document(hospitalUser.getEmail()).set(hospitalUser);
           
+            System.out.println("Hospital Data Entry Successful");
+            db.collection("hospital").document(hospitalUser.getEmail()).set(hospitalUser);
+            
         }catch(Exception e){
             e.printStackTrace();
         }

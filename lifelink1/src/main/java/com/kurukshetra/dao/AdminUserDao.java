@@ -12,6 +12,7 @@ public class AdminUserDao {
     public void saveAdminUser(AdminUserModel adminUser){
         try{
 
+            System.out.println("Admin Data Entry Successful");
             db.collection("admin").document(adminUser.getEmail()).set(adminUser);
           
         }catch(Exception e){

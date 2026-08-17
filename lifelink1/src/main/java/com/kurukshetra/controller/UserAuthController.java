@@ -11,6 +11,7 @@ import com.kurukshetra.model.HospitalUserModel;
 
 public class UserAuthController {
 
+    Boolean flag;
     private String API_KEY = "AIzaSyD3U81TU3fOOQRhIvixahFfB0A_t2h3vLI";
     UserController userController = new UserController();
     
@@ -18,8 +19,8 @@ public class UserAuthController {
 
         JSONObject reqbody = new JSONObject()
                 .put("email", email)
-                .put("password", password)
-                .put("returnSecureToken", true);
+                .put("password", password);
+                // .put("returnSecureToken", true);
 
         try {
             HttpClient client = HttpClient.newHttpClient();
@@ -36,18 +37,18 @@ public class UserAuthController {
             System.out.println("Response: " + response);
 
             if (response.statusCode() == 200) {
-                return true;
+                flag = true;
 
             }else{
 
                 System.out.println("Error:"+ response.body());
-                return false;
+                flag = false;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return flag;
     }
 
      

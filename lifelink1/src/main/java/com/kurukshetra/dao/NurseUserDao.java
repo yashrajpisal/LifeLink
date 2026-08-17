@@ -12,6 +12,7 @@ public class NurseUserDao {
     public void saveNurseUser(NurseUserModel nurseUser){
         try{
 
+            System.out.println("Nurse Data Entry Successful");
             db.collection("nurse").document(nurseUser.getEmail()).set(nurseUser);
           
         }catch(Exception e){

@@ -10,7 +10,8 @@ public class PoliceUserDao {
     
     public void savePoliceUser(PoliceUserModel policeUser){
         try{
-
+          
+            System.out.println("Police Data Entry Successful");
             db.collection("police").document(policeUser.getEmail()).set(policeUser);
           
         }catch(Exception e){

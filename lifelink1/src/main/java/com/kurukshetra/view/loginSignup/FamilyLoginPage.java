@@ -1,6 +1,7 @@
 package com.kurukshetra.view.loginSignup;
 
 import com.kurukshetra.controller.UserAuthController;
+import com.kurukshetra.view.Welcome;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -51,8 +52,8 @@ public class FamilyLoginPage {
         // PAGE SIZE
         // =========================================================
 
-        private static final double PAGE_WIDTH = 1536;
-        private static final double PAGE_HEIGHT = 809;
+        private static final double PAGE_WIDTH = Welcome.WelcomeStage.getWidth();
+        private static final double PAGE_HEIGHT = Welcome.WelcomeStage.getHeight();
 
         // =========================================================
         // MAIN PAGE
@@ -416,7 +417,7 @@ public class FamilyLoginPage {
 
                                 System.out.println(
                                                 "Login successful.");
-                                                
+
                         }
 
                 });

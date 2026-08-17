@@ -17,7 +17,7 @@ public class FirebaseConfig {
     private static void getFirebaseConfig(){
         try{
 
-            FileInputStream serviceAccount = new FileInputStream("C:\\Users\\Asus\\Desktop\\JavaFx_Practical\\LifeLink\\lifelink1\\src\\main\\resources\\LifeLink_Firebase.json");
+            FileInputStream serviceAccount = new FileInputStream("C:\\Users\\Asus\\Desktop\\JavaFx_Practical\\LifeLink\\lifelink1\\src\\main\\resources\\lifelinkFirebase.json");
 
             FirebaseOptions options =  FirebaseOptions.builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -34,3 +34,4 @@ public class FirebaseConfig {
         return FirestoreClient.getFirestore();
     }
 }
+                                                                            

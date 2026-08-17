@@ -4,6 +4,8 @@ import java.security.AlgorithmConstraints;
 import com.kurukshetra.model.HospitalUserModel;
 import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.admin.AdminDashboard;
+import com.kurukshetra.view.demo.AdminEmergencyDispatch;
+import com.kurukshetra.view.demo.DriverEmergencyMonitor;
 import com.kurukshetra.view.driver.DriverDashboard;
 import com.kurukshetra.view.hospital.HospitalDashboard;
 import com.kurukshetra.view.loginSignup.AalLoginStartPoint;
@@ -14,6 +16,6 @@ import javafx.application.Application;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Shree Ganeshay Namhaa!!");
-        Application.launch(Welcome.class, args);
+        Application.launch(DriverEmergencyMonitor.class, args);
     }
 }

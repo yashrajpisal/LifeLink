@@ -2,6 +2,7 @@ package com.kurukshetra.view.loginSignup;
 
 import com.kurukshetra.controller.UserAuthController;
 import com.kurukshetra.controller.UserController;
+import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.hospital.HospitalDashboard;
 
 import javafx.geometry.Insets;
@@ -56,8 +57,8 @@ public class HospitalLoginPage {
         // PAGE SIZE
         // =========================================================
 
-        private static final double PAGE_WIDTH = 1536;
-        private static final double PAGE_HEIGHT = 809;
+        private static final double PAGE_WIDTH = Welcome.WelcomeStage.getWidth();
+        private static final double PAGE_HEIGHT = Welcome.WelcomeStage.getHeight();
 
         // =========================================================
         // MAIN PAGE
@@ -599,6 +600,7 @@ public class HospitalLoginPage {
 
                         if (isSuccess) {
                                 System.out.println("API Hit Successfully (SignUp)");
+                                
                                 UserController userController = new UserController();
                                 userController.passToHospitalModel(nameValue, emailValue);
 

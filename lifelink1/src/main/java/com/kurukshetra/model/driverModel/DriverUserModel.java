@@ -1,4 +1,4 @@
-package com.kurukshetra.model;
+package com.kurukshetra.model.driverModel;
 
 public class DriverUserModel {
     

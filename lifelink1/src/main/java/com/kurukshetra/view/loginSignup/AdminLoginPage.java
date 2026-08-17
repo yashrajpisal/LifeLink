@@ -2,6 +2,7 @@ package com.kurukshetra.view.loginSignup;
 
 import com.kurukshetra.controller.UserAuthController;
 import com.kurukshetra.controller.UserController;
+import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.admin.AdminDashboard;
 
 import javafx.geometry.Insets;
@@ -29,7 +30,7 @@ import javafx.scene.text.Text;
 public class AdminLoginPage {
 
 
-    private static final String TEAL = "#9C7DF0";
+   private static final String TEAL = "#9C7DF0";
     private static final String TEAL_DARK = "#654da7";
     private static final String TEAL_LIGHT = "#63D7DC";
     private static final String WHITE = "#FFFFFF";
@@ -52,8 +53,8 @@ public class AdminLoginPage {
     // PAGE SIZE
     // =========================================================
 
-    private static final double PAGE_WIDTH = 1536;
-    private static final double PAGE_HEIGHT = 809;
+    private static final double PAGE_WIDTH = Welcome.WelcomeStage.getWidth();
+    private static final double PAGE_HEIGHT = Welcome.WelcomeStage.getHeight();
 
     // =========================================================
     // MAIN PAGE

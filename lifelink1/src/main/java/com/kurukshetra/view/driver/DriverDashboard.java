@@ -1,6 +1,6 @@
 package com.kurukshetra.view.driver;
 
-import com.kurukshetra.view.Welcome;
+import com.kurukshetra.view.Welcome1;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -1656,7 +1656,7 @@ public class DriverDashboard extends Application {
 
                         try {
 
-                                Welcome welcome = new Welcome();
+                                Welcome1 welcome = new Welcome1();
 
                                 welcome.start(
                                                 driverStage);

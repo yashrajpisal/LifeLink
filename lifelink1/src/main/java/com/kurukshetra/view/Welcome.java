@@ -1,15 +1,7 @@
 package com.kurukshetra.view;
 
-import com.kurukshetra.view.admin.AdminLoginPage;
-import com.kurukshetra.view.driver.DriverLoginPage;
-import com.kurukshetra.view.family.FamilyLoginPage;
-import com.kurukshetra.view.hospital.HospitalLoginPage;
-import com.kurukshetra.view.nurse.NurseLoginPage;
-import com.kurukshetra.view.police.PoliceLoginPage;
+import com.kurukshetra.view.loginSignup.*;
 
-// import java.sql.Driver;
-
-// import com.kurukshetra.view.driver.DriverDashboard;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -32,6 +24,7 @@ import javafx.util.Duration;
 
 public class Welcome extends Application {
 
+    AalLoginStartPoint aalLoginStartPoint = new AalLoginStartPoint();
 
     // Color Palette matching theme specifications
     private static final String BG_SURFACE = "#faf8ff";
@@ -138,44 +131,68 @@ public class Welcome extends Application {
         // ADmin card
         StackPane adminCard = createRoleCard(SVG_ADMIN, "System Admin", "Manage users, oversee system integrity, and configure platform settings.", PRIMARY_COLOR, ICON_BG_DEFAULT);
         adminCard.setOnMouseClicked(e ->{
-            AdminLoginPage adm = new AdminLoginPage();
-            Scene sc = new Scene(adm.getAdminLoginPage());
+            AdminLoginPage adminLoginPage = new AdminLoginPage();
+            Scene sc = new Scene(adminLoginPage.getAdminLoginPage(),WelcomeStage.getWidth(), WelcomeStage.getHeight());
             WelcomeStage.setScene(sc);
+            WelcomeStage.setMaximized(true);
+
         });
 
         // Patient Card
         StackPane patientCard = createRoleCard(SVG_PATIENT, "Patient & Family", "Access medical records, track vitals, and communicate with healthcare providers.", PRIMARY_COLOR, ICON_BG_DEFAULT);
-        patientCard.setOnMouseClicked(event->{
-            FamilyLoginPage flg = new FamilyLoginPage();
-            Scene sc = new Scene(flg.getFamilyLoginPage());
+        patientCard.setOnMouseClicked(e ->{
+            FamilyLoginPage familyLoginPage = new FamilyLoginPage();
+            Scene sc = new Scene(familyLoginPage.getFamilyLoginPage(),WelcomeStage.getWidth(), WelcomeStage.getHeight());
             WelcomeStage.setScene(sc);
-        });
-        // ambulance card
-        StackPane ambulanceDriverCard = createRoleCard(SVG_AMBULANCE, "Ambulance Driver", "Receive dispatch alerts, navigate routes, and transmit patient vitals en route.", ICON_COLOR_ERROR, ICON_BG_ERROR);
-        ambulanceDriverCard.setOnMouseClicked(e ->{
-            DriverLoginPage dri = new DriverLoginPage();
-            Scene sc = new Scene(dri.getDriverLoginPage());
-            WelcomeStage.setScene(sc);
+            WelcomeStage.setMaximized(true);
         });
 
+        // ambulance card
+        StackPane ambulanceDriverCard = createRoleCard(SVG_AMBULANCE, "Ambulance Driver", "Receive dispatch alerts, navigate routes, and transmit patient vitals en route.", ICON_COLOR_ERROR, ICON_BG_ERROR); 
+        ambulanceDriverCard.setOnMouseClicked(e ->{
+
+            DriverLoginPage driverLoginPage = new DriverLoginPage();
+            Scene sc = new Scene(driverLoginPage.getDriverLoginPage(),WelcomeStage.getWidth(), WelcomeStage.getHeight());
+            WelcomeStage.setScene(sc);
+            WelcomeStage.setMaximized(true);
+        });
+
+        
+        // Nurse Card
         StackPane ambulanceNurceCard = createRoleCard(SVG_AMBULANCE, "Ambulance Nurce", "Receive dispatch alerts, navigate routes, and transmit patient vitals en route.", ICON_COLOR_ERROR, ICON_BG_ERROR);
-        ambulanceNurceCard.setOnMouseClicked(event ->{
-            NurseLoginPage nls = new NurseLoginPage();
-            Scene sc = new Scene(nls.getNurseLoginPage());
+        ambulanceNurceCard.setOnMouseClicked(e ->{
+
+            NurseLoginPage nurseLoginPage = new NurseLoginPage();
+            Scene sc = new Scene(nurseLoginPage.getNurseLoginPage(null),WelcomeStage.getWidth(), WelcomeStage.getHeight());
             WelcomeStage.setScene(sc);
+            WelcomeStage.setMaximized(true);
+
         });
+
+
+        // Hospital Card
         StackPane hospitalCard = createRoleCard(SVG_HOSPITAL, "Hospital Staff", "View incoming emergencies, manage ER capacity, and review patient data.", PRIMARY_COLOR, ICON_BG_DEFAULT);
-        hospitalCard.setOnMouseClicked(event ->{
-            HospitalLoginPage hpl = new HospitalLoginPage();
-            Scene sc = new Scene(hpl.getHospitalLoginPage());
+        hospitalCard.setOnMouseClicked(e ->{
+           
+            HospitalLoginPage hospitalLoginPage = new HospitalLoginPage();
+            Scene sc = new Scene(hospitalLoginPage.getHospitalLoginPage(),WelcomeStage.getWidth(), WelcomeStage.getHeight());
             WelcomeStage.setScene(sc);
+            WelcomeStage.setMaximized(true);
         });
+
+
+        // Police card
         StackPane policeCard = createRoleCard(SVG_POLICE, "Police Control Room", "Coordinate multi-agency emergency responses, monitor active incidents, and ensure scene security.", ICON_COLOR_POLICE, ICON_BG_POLICE);
-        policeCard.setOnMouseClicked(event ->{
-            PoliceLoginPage obj = new PoliceLoginPage();
-            Scene sc = new Scene(obj.getPoliceLoginPage());
+        policeCard.setOnMouseClicked(e ->{
+
+            PoliceLoginPage policeLoginPage = new PoliceLoginPage();
+            Scene sc = new Scene(policeLoginPage.getPoliceLoginPage(),WelcomeStage.getWidth(), WelcomeStage.getHeight());
             WelcomeStage.setScene(sc);
+            WelcomeStage.setMaximized(true);
         });
+
+
+
         // Grid Positioning
         grid.add(ambulanceDriverCard, 0, 0);
         grid.add(ambulanceNurceCard, 1, 0);
@@ -303,5 +320,7 @@ public class Welcome extends Application {
             delay += 100;
         }
     }
+
+    
 
 }

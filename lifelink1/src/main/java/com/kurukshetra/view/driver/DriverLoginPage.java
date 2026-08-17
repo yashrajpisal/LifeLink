@@ -41,7 +41,7 @@ public class DriverLoginPage {
     // IMAGES
     // =========================================================
 
-    private static final String DOCTOR_IMAGE_URL =
+    private static final String DOCTOR_IMAGE_URL =      
             "assets\\Images\\hospitalLogin.jpg";
 
     private static final String LIFELINK_LOGO_IMAGE =

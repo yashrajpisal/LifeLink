@@ -1,5 +1,9 @@
 package com.kurukshetra.view.loginSignup;
 
+import com.kurukshetra.controller.UserAuthController;
+import com.kurukshetra.controller.UserController;
+import com.kurukshetra.view.admin.AdminDashboard;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -54,6 +58,7 @@ public class AdminLoginPage {
     // =========================================================
     // MAIN PAGE
     // =========================================================
+UserAuthController userAuthController = new UserAuthController();
 
     public BorderPane getAdminLoginPage() {
 
@@ -425,13 +430,13 @@ public class AdminLoginPage {
 
         loginButton.setOnAction(e -> {
 
-            String usernameValue =
+            String emailValue =
                     username.getText().trim();
 
             String passwordValue =
                     password.getText();
 
-            if (usernameValue.isEmpty()
+            if (emailValue.isEmpty()
                     || passwordValue.isEmpty()) {
 
                 System.out.println(
@@ -441,17 +446,29 @@ public class AdminLoginPage {
                 return;
             }
 
+             boolean isSuccess = userAuthController.signIn(emailValue, passwordValue);
+
+                        if (isSuccess) {
+                              
             System.out.println(
                     "Admin: Admin Data"
             );
 
             System.out.println(
-                    "Username: " + usernameValue
+                    "Username: " + emailValue
             );
 
             System.out.println(
                     "Login successful."
             );
+
+            AdminDashboard adminDashboard = new AdminDashboard();
+            try{
+                adminDashboard.start(AalLoginStartPoint.startPageStage);
+            }catch(Exception e1){
+                e1.printStackTrace();
+            }
+        }
         });
 
         // =====================================================
@@ -630,6 +647,14 @@ public class AdminLoginPage {
                 return;
             }
 
+            boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+
+                         if(isSuccess){
+
+                                 System.out.println("API Hit Successfully (SignUp)");
+                                UserController userController = new UserController();
+                                userController.passToAdminModel(nameValue, emailValue);
+
             System.out.println(
                     "========== SIGN UP =========="
             );
@@ -653,6 +678,7 @@ public class AdminLoginPage {
             System.out.println(
                     "============================="
             );
+        }
         });
 
         // =====================================================

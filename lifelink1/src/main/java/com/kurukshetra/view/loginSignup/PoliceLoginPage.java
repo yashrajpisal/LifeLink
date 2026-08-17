@@ -1,5 +1,10 @@
 package com.kurukshetra.view.loginSignup;
 
+import com.kurukshetra.controller.UserAuthController;
+import com.kurukshetra.controller.UserController;
+import com.kurukshetra.view.police.PoliceDashboard;
+
+import io.opentelemetry.semconv.UserAgentAttributes;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -57,6 +62,8 @@ public class PoliceLoginPage {
     // =========================================================
     // MAIN PAGE
     // =========================================================
+
+    UserAuthController userAuthController = new UserAuthController();
 
     public BorderPane getPoliceLoginPage() {
 
@@ -444,6 +451,11 @@ public class PoliceLoginPage {
                 return;
             }
 
+             boolean isSuccess = userAuthController.signIn(usernameValue, passwordValue);
+
+                        if (isSuccess) {
+                              
+
             System.out.println(
                     "police: policeData"
             );
@@ -455,6 +467,14 @@ public class PoliceLoginPage {
             System.out.println(
                     "Login successful."
             );
+
+            PoliceDashboard policeDashboard =  new PoliceDashboard();
+            try{
+                policeDashboard.start(AalLoginStartPoint.startPageStage);
+            }catch(Exception e1){
+                e1.printStackTrace();
+            }
+        }
         });
 
         // =====================================================
@@ -632,6 +652,13 @@ public class PoliceLoginPage {
 
                 return;
             }
+boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+
+                         if(isSuccess){
+
+                                 System.out.println("API Hit Successfully (SignUp)");
+                                UserController userController = new UserController();
+                                userController.passToPoliceModel(nameValue, emailValue);
 
             System.out.println(
                     "========== SIGN UP =========="
@@ -656,6 +683,7 @@ public class PoliceLoginPage {
             System.out.println(
                     "============================="
             );
+        }
         });
 
         // =====================================================

@@ -1,6 +1,8 @@
 package com.kurukshetra.view.loginSignup;
 
 import com.kurukshetra.controller.UserAuthController;
+import com.kurukshetra.controller.UserController;
+import com.kurukshetra.view.hospital.HospitalDashboard;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,9 +25,12 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
 
 public class HospitalLoginPage {
-
+        
+        public Stage stage;
         // =========================================================
         // COLORS
         // =========================================================
@@ -57,6 +62,8 @@ public class HospitalLoginPage {
         // =========================================================
         // MAIN PAGE
         // =========================================================
+
+        UserAuthController userAuthController = new UserAuthController();
 
         public BorderPane getHospitalLoginPage() {
 
@@ -396,11 +403,11 @@ public class HospitalLoginPage {
 
                 loginButton.setOnAction(e -> {
 
-                        String usernameValue = username.getText().trim();
+                        String emailValue = username.getText().trim();
 
                         String passwordValue = password.getText();
 
-                        if (usernameValue.isEmpty()
+                        if (emailValue.isEmpty()
                                         || passwordValue.isEmpty()) {
 
                                 System.out.println(
@@ -409,14 +416,24 @@ public class HospitalLoginPage {
                                 return;
                         }
 
-                        System.out.println(
-                                        "Hospital: Hospital Data");
+                        UserAuthController userAuthController = new UserAuthController();
+                        boolean isSuccess = userAuthController.signIn(emailValue, passwordValue);
 
-                        System.out.println(
-                                        "Username: " + usernameValue);
+                        if (isSuccess){
+                        System.out.println("Hospital: Hospital Data");
 
-                        System.out.println(
-                                        "Login successful.");
+                        System.out.println("Username: " + emailValue);
+
+                        System.out.println("Login successful.");
+
+                        HospitalDashboard hospitalDashboard = new HospitalDashboard();
+                        try {
+                                hospitalDashboard.start(AalLoginStartPoint.startPageStage);
+                        } catch (Exception e1) {
+                                e1.printStackTrace();
+                        }            
+                }
+                       
                 });
 
                 // =====================================================
@@ -577,12 +594,15 @@ public class HospitalLoginPage {
                                 return;
                         }
 
-                        UserAuthController userAuthController = new UserAuthController();
+                   
                         boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
 
                         if (isSuccess) {
-                                System.out.println(
-                                                "========== SIGN UP ==========");
+                                System.out.println("API Hit Successfully (SignUp)");
+                                UserController userController = new UserController();
+                                userController.passToHospitalModel(nameValue, emailValue);
+
+                                System.out.println("========== SIGN UP ==========");
 
                                 System.out.println(
                                                 "Name: " + nameValue);

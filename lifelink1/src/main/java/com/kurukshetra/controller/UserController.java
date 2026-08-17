@@ -1,17 +1,56 @@
 package com.kurukshetra.controller;
 
-import com.kurukshetra.dao.UserDao;
-import com.kurukshetra.model.UserModel;
+import com.kurukshetra.dao.*;
+import com.kurukshetra.model.*;
 
 public class UserController {
     
-    UserModel userModel = new UserModel();
 
-    public void passToModel(String name, String email){
-        UserModel user = UserModel.getInstance();
+    public void passToHospitalModel(String name, String email) {
+        HospitalUserModel user = HospitalUserModel.getInstance();
         user.setHospitalUserData(name, email);
 
-        UserDao userDao = new UserDao();
+        HospitalUserDao userDao = new HospitalUserDao();
         userDao.saveHospitalUser(user);
+    }
+
+    public void passToNurseModel(String name, String email) {
+        NurseUserModel user = NurseUserModel.getInstance();
+        user.setNurseUserData(name, email);
+
+        NurseUserDao userDao = new NurseUserDao();
+        userDao.saveNurseUser(user);
+    }
+
+    public void passToDriverModel(String name, String email) {
+        DriverUserModel user = DriverUserModel.getInstance();
+        user.setDriverUserData(name, email);
+
+        DriverUserDao userDao = new DriverUserDao();
+        userDao.saveDriverUser(user);
+    }
+
+    public void passToFamilyModel(String name, String email) {
+        FamilyUserModel user = FamilyUserModel.getInstance();
+        user.setFamilyUserData(name, email);
+
+        FamilyUserDao userDao = new FamilyUserDao();
+        userDao.saveFamilyUser(user);
+    }
+
+     public void passToAdminModel(String name, String email) {
+        AdminUserModel user = AdminUserModel.getInstance();
+        user.setAdminUserData(name, email);
+
+        AdminUserDao userDao = new AdminUserDao();
+        userDao.saveAdminUser(user);
+    }
+
+     public void passToPoliceModel(String name, String email) {
+        PoliceUserModel user = PoliceUserModel.getInstance();
+        user.setPoliceUserData(name, email);
+
+        PoliceUserDao userDao = new PoliceUserDao();
+        userDao.savePoliceUser(user);
     }
 }

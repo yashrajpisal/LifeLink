@@ -1,6 +1,7 @@
 package com.kurukshetra;
 import java.security.AlgorithmConstraints;
 
+import com.kurukshetra.model.HospitalUserModel;
 import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.admin.AdminDashboard;
 import com.kurukshetra.view.driver.DriverDashboard;
@@ -13,6 +14,6 @@ import javafx.application.Application;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Shree Ganeshay Namhaa!!");
-        Application.launch(AalLoginStartPoint.class, args);
+        Application.launch(Welcome.class, args);
     }
 }

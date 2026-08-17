@@ -7,6 +7,8 @@ import java.net.http.HttpResponse;
 
 import org.json.JSONObject;
 
+import com.kurukshetra.model.HospitalUserModel;
+
 public class UserAuthController {
 
     private String API_KEY = "AIzaSyD3U81TU3fOOQRhIvixahFfB0A_t2h3vLI";
@@ -18,7 +20,6 @@ public class UserAuthController {
                 .put("email", email)
                 .put("password", password)
                 .put("returnSecureToken", true);
-               
 
         try {
             HttpClient client = HttpClient.newHttpClient();
@@ -35,9 +36,6 @@ public class UserAuthController {
             System.out.println("Response: " + response);
 
             if (response.statusCode() == 200) {
-
-                System.out.println("API Hit Successfully");
-                userController.passToModel(name, email);
                 return true;
 
             }else{
@@ -50,5 +48,40 @@ public class UserAuthController {
             e.printStackTrace();
         }
         return null;
+    }
+
+     
+    public Boolean signIn(String email, String pass){
+
+        JSONObject reqbody = new JSONObject()
+            .put("email",email)
+            .put("password", pass);
+
+        try{
+
+            HttpClient client = HttpClient.newHttpClient();
+
+            URI uri = URI.create("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key="+ API_KEY);
+
+            HttpRequest request = HttpRequest.newBuilder()
+            .uri(uri)
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(reqbody.toString()))
+            .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Response: "+ response);
+
+            if (response.statusCode() == 200) {
+                System.out.println("API Hit Successfully (SignIn)");
+                return true;
+            }else{
+                System.out.println(response.body());
+                return false;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }

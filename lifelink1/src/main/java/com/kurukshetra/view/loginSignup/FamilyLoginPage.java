@@ -1,5 +1,7 @@
 package com.kurukshetra.view.loginSignup;
 
+import com.kurukshetra.controller.UserAuthController;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -24,1178 +26,1049 @@ import javafx.scene.text.Text;
 
 public class FamilyLoginPage {
 
-    // =========================================================
-    // COLORS
-    // =========================================================
+        // =========================================================
+        // COLORS
+        // =========================================================
 
-    private static final String TEAL =  "#ca6721";
-    private static final String TEAL_DARK = "#782F16";
-    private static final String TEAL_LIGHT = "#63D7DC";
-    private static final String WHITE = "#FFFFFF";
-    private static final String BLACK = "#111111";
-    private static final String GRAY_BG = "#777775";
-    private static final String BORDER = "#D7DBDF";
-    private static final String PLACEHOLDER = "#A7A9AC";
+        private static final String TEAL = "#ca6721";
+        private static final String TEAL_DARK = "#782F16";
+        private static final String TEAL_LIGHT = "#63D7DC";
+        private static final String WHITE = "#FFFFFF";
+        private static final String BLACK = "#111111";
+        private static final String GRAY_BG = "#777775";
+        private static final String BORDER = "#D7DBDF";
+        private static final String PLACEHOLDER = "#A7A9AC";
 
-    // =========================================================
-    // IMAGES
-    // =========================================================
+        // =========================================================
+        // IMAGES
+        // =========================================================
 
-    private static final String DOCTOR_IMAGE_URL =
-            "assets\\Images\\familyLogin.jpg";
+        private static final String DOCTOR_IMAGE_URL = "assets\\Images\\familyLogin.jpg";
 
-    private static final String LIFELINK_LOGO_IMAGE =
-            "assets\\Images\\LifeLinkLogo.png";
+        private static final String LIFELINK_LOGO_IMAGE = "assets\\Images\\LifeLinkLogo.png";
 
-    // =========================================================
-    // PAGE SIZE
-    // =========================================================
+        // =========================================================
+        // PAGE SIZE
+        // =========================================================
 
-    private static final double PAGE_WIDTH = 1536;
-    private static final double PAGE_HEIGHT = 809;
+        private static final double PAGE_WIDTH = 1536;
+        private static final double PAGE_HEIGHT = 809;
 
-    // =========================================================
-    // MAIN PAGE
-    // =========================================================
+        // =========================================================
+        // MAIN PAGE
+        // =========================================================
 
-    public BorderPane getFamilyLoginPage() {
+        public BorderPane getFamilyLoginPage() {
 
-        BorderPane root = new BorderPane();
+                BorderPane root = new BorderPane();
 
-        root.setPrefSize(PAGE_WIDTH, PAGE_HEIGHT);
-        root.setMinSize(PAGE_WIDTH, PAGE_HEIGHT);
-        root.setMaxSize(PAGE_WIDTH, PAGE_HEIGHT);
+                root.setPrefSize(PAGE_WIDTH, PAGE_HEIGHT);
+                root.setMinSize(PAGE_WIDTH, PAGE_HEIGHT);
+                root.setMaxSize(PAGE_WIDTH, PAGE_HEIGHT);
 
-        root.setStyle(
-                "-fx-background-color: " + GRAY_BG + ";" +
-                "-fx-font-family: 'Segoe UI';"
-        );
+                root.setStyle(
+                                "-fx-background-color: " + GRAY_BG + ";" +
+                                                "-fx-font-family: 'Segoe UI';");
 
-        AnchorPane page = new AnchorPane();
+                AnchorPane page = new AnchorPane();
 
-        page.setPrefSize(PAGE_WIDTH, PAGE_HEIGHT);
-        page.setMinSize(PAGE_WIDTH, PAGE_HEIGHT);
-        page.setMaxSize(PAGE_WIDTH, PAGE_HEIGHT);
+                page.setPrefSize(PAGE_WIDTH, PAGE_HEIGHT);
+                page.setMinSize(PAGE_WIDTH, PAGE_HEIGHT);
+                page.setMaxSize(PAGE_WIDTH, PAGE_HEIGHT);
 
-        page.setStyle(
-                "-fx-background-color: " + GRAY_BG + ";"
-        );
+                page.setStyle(
+                                "-fx-background-color: " + GRAY_BG + ";");
 
-        // =====================================================
-        // DOCTOR IMAGE
-        // =====================================================
+                // =====================================================
+                // DOCTOR IMAGE
+                // =====================================================
 
-        ImageView doctorImage = createDoctorImage();
+                ImageView doctorImage = createDoctorImage();
 
-        updateImage(
-                doctorImage,
-                PAGE_WIDTH,
-                PAGE_HEIGHT
-        );
+                updateImage(
+                                doctorImage,
+                                PAGE_WIDTH,
+                                PAGE_HEIGHT);
 
-        AnchorPane.setLeftAnchor(
-                doctorImage,
-                PAGE_WIDTH * 0.44
-        );
+                AnchorPane.setLeftAnchor(
+                                doctorImage,
+                                PAGE_WIDTH * 0.44);
 
-        AnchorPane.setTopAnchor(
-                doctorImage,
-                0.0
-        );
+                AnchorPane.setTopAnchor(
+                                doctorImage,
+                                0.0);
 
-        page.getChildren().add(doctorImage);
+                page.getChildren().add(doctorImage);
 
-        // =====================================================
-        // IMAGE OVERLAY
-        // =====================================================
+                // =====================================================
+                // IMAGE OVERLAY
+                // =====================================================
 
-        Rectangle imageOverlay = new Rectangle();
+                Rectangle imageOverlay = new Rectangle();
 
-        imageOverlay.setWidth(PAGE_WIDTH * 0.56);
-        imageOverlay.setHeight(PAGE_HEIGHT);
+                imageOverlay.setWidth(PAGE_WIDTH * 0.56);
+                imageOverlay.setHeight(PAGE_HEIGHT);
 
-        imageOverlay.setFill(
-                Color.rgb(0, 0, 0, 0.50)
-        );
+                imageOverlay.setFill(
+                                Color.rgb(0, 0, 0, 0.50));
 
-        AnchorPane.setLeftAnchor(
-                imageOverlay,
-                PAGE_WIDTH * 0.44
-        );
+                AnchorPane.setLeftAnchor(
+                                imageOverlay,
+                                PAGE_WIDTH * 0.44);
 
-        AnchorPane.setTopAnchor(
-                imageOverlay,
-                0.0
-        );
+                AnchorPane.setTopAnchor(
+                                imageOverlay,
+                                0.0);
 
-        page.getChildren().add(imageOverlay);
+                page.getChildren().add(imageOverlay);
 
-        // =====================================================
-        // BLUE S-SHAPED BACKGROUND
-        // =====================================================
+                // =====================================================
+                // BLUE S-SHAPED BACKGROUND
+                // =====================================================
 
-        Path blueShape = createBlueBackground();
+                Path blueShape = createBlueBackground();
 
-        updateBlueShape(
-                blueShape,
-                PAGE_WIDTH,
-                PAGE_HEIGHT
-        );
+                updateBlueShape(
+                                blueShape,
+                                PAGE_WIDTH,
+                                PAGE_HEIGHT);
 
-        AnchorPane.setLeftAnchor(
-                blueShape,
-                0.0
-        );
+                AnchorPane.setLeftAnchor(
+                                blueShape,
+                                0.0);
 
-        AnchorPane.setTopAnchor(
-                blueShape,
-                0.0
-        );
+                AnchorPane.setTopAnchor(
+                                blueShape,
+                                0.0);
 
-        page.getChildren().add(blueShape);
+                page.getChildren().add(blueShape);
 
-        // =====================================================
+                // =====================================================
+                // LOGIN CARD
+                // =====================================================
+
+                VBox loginCard = createLoginCard();
+
+                AnchorPane.setLeftAnchor(
+                                loginCard,
+                                (double) 150);
+
+                AnchorPane.setTopAnchor(
+                                loginCard,
+                                (double) 120);
+
+                page.getChildren().add(loginCard);
+
+                // =====================================================
+                // LIFELINK LOGO
+                // =====================================================
+
+                HBox lifeLinkLogo = createLifeLinkLogo();
+
+                AnchorPane.setRightAnchor(
+                                lifeLinkLogo,
+                                30.0);
+
+                AnchorPane.setTopAnchor(
+                                lifeLinkLogo,
+                                28.0);
+
+                page.getChildren().add(lifeLinkLogo);
+
+                root.setCenter(page);
+
+                return root;
+        }
+
+        // =========================================================
         // LOGIN CARD
-        // =====================================================
+        // =========================================================
 
-        VBox loginCard = createLoginCard();
+        private VBox createLoginCard() {
 
-        AnchorPane.setLeftAnchor(
-                loginCard,
-                (double) 150
-        );
+                VBox card = new VBox();
 
-        AnchorPane.setTopAnchor(
-                loginCard,
-                (double)120
-        );
+                card.setPrefWidth(400);
+                card.setMinWidth(400);
+                card.setMaxWidth(400);
 
-        page.getChildren().add(loginCard);
+                setFixedHeight(card, 560);
 
-        // =====================================================
-        // LIFELINK LOGO
-        // =====================================================
+                card.setPadding(
+                                new Insets(
+                                                45,
+                                                42,
+                                                40,
+                                                42));
 
-        HBox lifeLinkLogo = createLifeLinkLogo();
+                card.setStyle(
+                                "-fx-background-color: " + WHITE + ";" +
+                                                "-fx-background-radius: 38;" +
+                                                "-fx-border-radius: 38;" +
+                                                "-fx-effect: dropshadow(" +
+                                                "gaussian," +
+                                                "rgba(0,0,0,0.13)," +
+                                                "22," +
+                                                "0.12," +
+                                                "0," +
+                                                "5" +
+                                                ");");
 
-        AnchorPane.setRightAnchor(
-                lifeLinkLogo,
-                30.0
-        );
+                // Only one Login UI implementation.
+                showLoginForm(card);
 
-        AnchorPane.setTopAnchor(
-                lifeLinkLogo,
-                28.0
-        );
+                return card;
+        }
 
-        page.getChildren().add(lifeLinkLogo);
+        // =========================================================
+        // LOGIN FORM
+        // =========================================================
 
-        // =====================================================
-        // ROOT
-        // =====================================================
+        private void showLoginForm(VBox card) {
 
-        root.setCenter(page);
+                card.getChildren().clear();
 
-        return root;
-    }
+                setFixedHeight(card, 560);
 
-    // =========================================================
-    // LOGIN CARD
-    // =========================================================
+                // =====================================================
+                // SIGN IN TITLE
+                // =====================================================
 
-    private VBox createLoginCard() {
+                Text signIn = new Text("SIGN IN");
 
-        VBox card = new VBox();
+                signIn.setStyle(
+                                "-fx-fill: " + BLACK + ";" +
+                                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 30px;" +
+                                                "-fx-font-weight: bold;");
 
-        card.setPrefWidth(400);
-        card.setMinWidth(400);
-        card.setMaxWidth(400);
+                HBox titleBox = new HBox();
 
-        setFixedHeight(card, 560);
+                titleBox.setAlignment(Pos.CENTER);
+                titleBox.setPrefHeight(48);
 
-        card.setPadding(
-                new Insets(
-                        45,
-                        42,
-                        40,
-                        42
-                )
-        );
+                titleBox.getChildren().add(signIn);
 
-        card.setStyle(
-                "-fx-background-color: " + WHITE + ";" +
-                "-fx-background-radius: 38;" +
-                "-fx-border-radius: 38;" +
-                "-fx-effect: dropshadow(" +
-                "gaussian," +
-                "rgba(0,0,0,0.13)," +
-                "22," +
-                "0.12," +
-                "0," +
-                "5" +
-                ");"
-        );
+                // =====================================================
+                // TITLE SPACE
+                // =====================================================
 
-        // Only one Login UI implementation.
-        showLoginForm(card);
+                Region titleSpace = createSpacer(25);
 
-        return card;
-    }
+                // =====================================================
+                // family DATA
+                // =====================================================
 
-    // =========================================================
-    // LOGIN FORM
-    // =========================================================
+                Text familyData = new Text("family");
 
-    private void showLoginForm(VBox card) {
+                familyData.setStyle(
+                                "-fx-fill: " + BLACK + ";" +
+                                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 24px;" +
+                                                "-fx-font-style: italic;" +
+                                                "-fx-font-weight: bold;");
 
-        card.getChildren().clear();
+                HBox familyBox = new HBox();
 
-        setFixedHeight(card, 560);
+                familyBox.setAlignment(Pos.CENTER);
+                setFixedHeight(familyBox, 50);
 
-        // =====================================================
-        // SIGN IN TITLE
-        // =====================================================
+                familyBox.setPadding(
+                                new Insets(
+                                                0,
+                                                19,
+                                                0,
+                                                19));
 
-        Text signIn = new Text("SIGN IN");
+                familyBox.setStyle(
+                                "-fx-background-color: " + WHITE + ";" +
+                                                "-fx-border-width: 2;" +
+                                                "-fx-border-radius: 10;" +
+                                                "-fx-background-radius: 10;");
 
-        signIn.setStyle(
-                "-fx-fill: " + BLACK + ";" +
-                "-fx-font-family: 'Segoe UI';" +
-                "-fx-font-size: 30px;" +
-                "-fx-font-weight: bold;"
-        );
+                familyBox.getChildren().add(familyData);
 
-        HBox titleBox = new HBox();
+                // =====================================================
+                // USERNAME
+                // =====================================================
 
-        titleBox.setAlignment(Pos.CENTER);
-        titleBox.setPrefHeight(48);
+                Region space1 = createSpacer(25);
 
-        titleBox.getChildren().add(signIn);
+                TextField username = createTextField("Useremail");
 
-        // =====================================================
-        // TITLE SPACE
-        // =====================================================
+                // =====================================================
+                // PASSWORD
+                // =====================================================
 
-        Region titleSpace = createSpacer(25);
+                Region space2 = createSpacer(25);
 
-        // =====================================================
-        // family DATA
-        // =====================================================
+                PasswordField password = createPasswordField("Password");
 
-        Text familyData = new Text("family");
+                // =====================================================
+                // ACTION SPACE
+                // =====================================================
 
-        familyData.setStyle(
-                "-fx-fill: " + BLACK + ";" +
-                "-fx-font-family: 'Segoe UI';" +
-                "-fx-font-size: 24px;" +
-                "-fx-font-style: italic;" +
-                "-fx-font-weight: bold;"
-        );
+                Region actionSpace = createSpacer(40);
 
-        HBox familyBox = new HBox();
+                // =====================================================
+                // ACTION ROW
+                // =====================================================
 
-        familyBox.setAlignment(Pos.CENTER);
-        setFixedHeight(familyBox, 50);
+                HBox actionRow = new HBox();
 
-        familyBox.setPadding(
-                new Insets(
-                        0,
-                        19,
-                        0,
-                        19
-                )
-        );
+                actionRow.setAlignment(Pos.CENTER_LEFT);
 
-        familyBox.setStyle(
-                "-fx-background-color: " + WHITE + ";" +
-                "-fx-border-width: 2;" +
-                "-fx-border-radius: 10;" +
-                "-fx-background-radius: 10;"
-        );
+                // =====================================================
+                // LOGIN BUTTON
+                // =====================================================
 
-        familyBox.getChildren().add(familyData);
+                Button loginButton = new Button("Login");
 
-        // =====================================================
-        // USERNAME
-        // =====================================================
+                setFixedSize(
+                                loginButton,
+                                113,
+                                50);
 
-        Region space1 = createSpacer(25);
+                setLoginButtonStyle(
+                                loginButton,
+                                TEAL);
 
-        TextField username = createTextField("Username");
+                // =====================================================
+                // BUTTON SPACE
+                // =====================================================
 
-        // =====================================================
-        // PASSWORD
-        // =====================================================
+                Region buttonSpace = new Region();
 
-        Region space2 = createSpacer(25);
+                HBox.setHgrow(
+                                buttonSpace,
+                                Priority.ALWAYS);
 
-        PasswordField password = createPasswordField("Password");
+                // =====================================================
+                // FORGOT PASSWORD
+                // =====================================================
 
-        // =====================================================
-        // ACTION SPACE
-        // =====================================================
+                Button forgot = new Button("Forgot Password?");
 
-        Region actionSpace = createSpacer(40);
+                setForgotButtonStyle(
+                                forgot,
+                                BLACK);
 
-        // =====================================================
-        // ACTION ROW
-        // =====================================================
+                actionRow.getChildren().addAll(
+                                loginButton,
+                                buttonSpace,
+                                forgot);
 
-        HBox actionRow = new HBox();
+                // =====================================================
+                // SIGN UP
+                // =====================================================
 
-        actionRow.setAlignment(Pos.CENTER_LEFT);
+                Region signUpSpace = createSpacer(35);
 
-        // =====================================================
-        // LOGIN BUTTON
-        // =====================================================
+                HBox signUpRow = new HBox();
 
-        Button loginButton = new Button("Login");
+                signUpRow.setAlignment(Pos.CENTER);
 
-        setFixedSize(
-                loginButton,
-                113,
-                50
-        );
+                Text accountText = new Text(
+                                "Don't have an account? ");
 
-        setLoginButtonStyle(
-                loginButton,
-                TEAL
-        );
+                accountText.setStyle(
+                                "-fx-fill: " + BLACK + ";" +
+                                                "-fx-font-size: 14px;" +
+                                                "-fx-font-family: 'Segoe UI';");
 
-        // =====================================================
-        // BUTTON SPACE
-        // =====================================================
+                Button signUp = new Button("Sign Up");
 
-        Region buttonSpace = new Region();
+                setSignUpButtonStyle(
+                                signUp,
+                                TEAL);
 
-        HBox.setHgrow(
-                buttonSpace,
-                Priority.ALWAYS
-        );
+                signUpRow.getChildren().addAll(
+                                accountText,
+                                signUp);
 
-        // =====================================================
-        // FORGOT PASSWORD
-        // =====================================================
+                // =====================================================
+                // LOGIN ACTION
+                // =====================================================
 
-        Button forgot = new Button("Forgot Password?");
+                loginButton.setOnAction(e -> {
 
-        setForgotButtonStyle(
-                forgot,
-                BLACK
-        );
+                        String emailValue = username.getText().trim();
 
-        actionRow.getChildren().addAll(
-                loginButton,
-                buttonSpace,
-                forgot
-        );
+                        String passwordValue = password.getText();
 
-        // =====================================================
-        // SIGN UP
-        // =====================================================
+                        if (emailValue.isEmpty()
+                                        || passwordValue.isEmpty()) {
 
-        Region signUpSpace = createSpacer(35);
+                                System.out.println(
+                                                "Please enter username and password.");
 
-        HBox signUpRow = new HBox();
+                                return;
+                        }
 
-        signUpRow.setAlignment(Pos.CENTER);
+                        UserAuthController userAuthController = new UserAuthController();
+                        boolean isSuccess = userAuthController.signIn(emailValue, passwordValue);
+                        if (isSuccess) {
+                                System.out.println(
+                                                "family: familyData");
 
-        Text accountText = new Text(
-                "Don't have an account? "
-        );
+                                System.out.println(
+                                                "Username: " + emailValue);
 
-        accountText.setStyle(
-                "-fx-fill: " + BLACK + ";" +
-                "-fx-font-size: 14px;" +
-                "-fx-font-family: 'Segoe UI';"
-        );
+                                System.out.println(
+                                                "Login successful.");
+                                                
+                        }
 
-        Button signUp = new Button("Sign Up");
+                });
 
-        setSignUpButtonStyle(
-                signUp,
-                TEAL
-        );
+                // =====================================================
+                // FORGOT PASSWORD ACTION
+                // =====================================================
 
-        signUpRow.getChildren().addAll(
-                accountText,
-                signUp
-        );
+                forgot.setOnAction(e -> System.out.println(
+                                "Forgot Password clicked."));
 
-        // =====================================================
-        // LOGIN ACTION
-        // =====================================================
+                // =====================================================
+                // SIGN UP ACTION
+                // =====================================================
 
-        loginButton.setOnAction(e -> {
+                signUp.setOnAction(e -> showSignUpForm(card));
 
-            String usernameValue =
-                    username.getText().trim();
+                // =====================================================
+                // ADD LOGIN CONTENT
+                // =====================================================
 
-            String passwordValue =
-                    password.getText();
+                card.getChildren().addAll(
+                                titleBox,
+                                titleSpace,
+                                familyBox,
+                                space1,
+                                username,
+                                space2,
+                                password,
+                                actionSpace,
+                                actionRow,
+                                signUpSpace,
+                                signUpRow);
+        }
 
-            if (usernameValue.isEmpty()
-                    || passwordValue.isEmpty()) {
+        // =========================================================
+        // SIGN UP FORM
+        // =========================================================
 
-                System.out.println(
-                        "Please enter username and password."
-                );
+        private void showSignUpForm(VBox card) {
 
-                return;
-            }
+                card.getChildren().clear();
 
-            System.out.println(
-                    "family: familyData"
-            );
+                setFixedHeight(card, 550);
 
-            System.out.println(
-                    "Username: " + usernameValue
-            );
+                // =====================================================
+                // TITLE
+                // =====================================================
 
-            System.out.println(
-                    "Login successful."
-            );
-        });
+                Text signUpTitle = new Text("SIGN UP");
 
-        // =====================================================
-        // FORGOT PASSWORD ACTION
-        // =====================================================
+                signUpTitle.setStyle(
+                                "-fx-fill: " + BLACK + ";" +
+                                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 30px;" +
+                                                "-fx-font-weight: bold;");
 
-        forgot.setOnAction(e ->
-                System.out.println(
-                        "Forgot Password clicked."
-                )
-        );
+                HBox titleBox = new HBox();
 
-        // =====================================================
-        // SIGN UP ACTION
-        // =====================================================
+                titleBox.setAlignment(Pos.CENTER);
+                titleBox.setPrefHeight(48);
 
-        signUp.setOnAction(e ->
-                showSignUpForm(card)
-        );
+                titleBox.getChildren().add(signUpTitle);
 
-        // =====================================================
-        // ADD LOGIN CONTENT
-        // =====================================================
+                // =====================================================
+                // TITLE SPACE
+                // =====================================================
 
-        card.getChildren().addAll(
-                titleBox,
-                titleSpace,
-                familyBox,
-                space1,
-                username,
-                space2,
-                password,
-                actionSpace,
-                actionRow,
-                signUpSpace,
-                signUpRow
-        );
-    }
+                Region titleSpace = createSpacer(25);
 
-    // =========================================================
-    // SIGN UP FORM
-    // =========================================================
+                // =====================================================
+                // NAME
+                // =====================================================
 
-    private void showSignUpForm(VBox card) {
+                TextField name = createTextField("Name");
 
-        card.getChildren().clear();
+                // =====================================================
+                // EMAIL
+                // =====================================================
 
-        setFixedHeight(card, 550);
+                Region space1 = createSpacer(18);
 
-        // =====================================================
-        // TITLE
-        // =====================================================
+                TextField email = createTextField("Email");
 
-        Text signUpTitle = new Text("SIGN UP");
+                // =====================================================
+                // PASSWORD
+                // =====================================================
 
-        signUpTitle.setStyle(
-                "-fx-fill: " + BLACK + ";" +
-                "-fx-font-family: 'Segoe UI';" +
-                "-fx-font-size: 30px;" +
-                "-fx-font-weight: bold;"
-        );
+                Region space2 = createSpacer(18);
 
-        HBox titleBox = new HBox();
+                PasswordField password = createPasswordField("Password");
 
-        titleBox.setAlignment(Pos.CENTER);
-        titleBox.setPrefHeight(48);
+                // =====================================================
+                // ACTION SPACE
+                // =====================================================
 
-        titleBox.getChildren().add(signUpTitle);
+                Region actionSpace = createSpacer(30);
 
-        // =====================================================
-        // TITLE SPACE
-        // =====================================================
+                // =====================================================
+                // SIGN UP BUTTON
+                // =====================================================
 
-        Region titleSpace = createSpacer(25);
+                Button signUpButton = new Button("Sign Up");
 
-        // =====================================================
-        // NAME
-        // =====================================================
+                setFixedSize(
+                                signUpButton,
+                                130,
+                                50);
 
-        TextField name = createTextField("Name");
+                setLoginButtonStyle(
+                                signUpButton,
+                                TEAL);
 
-        // =====================================================
-        // EMAIL
-        // =====================================================
+                HBox buttonBox = new HBox();
 
-        Region space1 = createSpacer(18);
+                buttonBox.setAlignment(Pos.CENTER);
+                buttonBox.getChildren().add(signUpButton);
 
-        TextField email = createTextField("Email");
+                // =====================================================
+                // LOGIN SPACE
+                // =====================================================
 
-        // =====================================================
-        // PASSWORD
-        // =====================================================
+                Region loginSpace = createSpacer(25);
 
-        Region space2 = createSpacer(18);
+                // =====================================================
+                // BACK TO LOGIN
+                // =====================================================
 
-        PasswordField password =
-                createPasswordField("Password");
+                Button backToLogin = new Button(
+                                "Already have an account? Login");
 
-        // =====================================================
-        // ACTION SPACE
-        // =====================================================
+                setForgotButtonStyle(
+                                backToLogin,
+                                BLACK);
 
-        Region actionSpace = createSpacer(30);
+                HBox loginBox = new HBox();
 
-        // =====================================================
-        // SIGN UP BUTTON
-        // =====================================================
+                loginBox.setAlignment(Pos.CENTER);
+                loginBox.getChildren().add(backToLogin);
 
-        Button signUpButton =
-                new Button("Sign Up");
+                // =====================================================
+                // SIGN UP ACTION
+                // =====================================================
 
-        setFixedSize(
-                signUpButton,
-                130,
-                50
-        );
+                signUpButton.setOnAction(e -> {
 
-        setLoginButtonStyle(
-                signUpButton,
-                TEAL
-        );
+                        String nameValue = name.getText().trim();
 
-        HBox buttonBox = new HBox();
+                        String emailValue = email.getText().trim();
 
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.getChildren().add(signUpButton);
+                        String passwordValue = password.getText();
 
-        // =====================================================
-        // LOGIN SPACE
-        // =====================================================
+                        if (nameValue.isEmpty()
+                                        || emailValue.isEmpty()
+                                        || passwordValue.isEmpty()) {
 
-        Region loginSpace = createSpacer(25);
+                                System.out.println(
+                                                "Please enter name, email and password.");
 
-        // =====================================================
-        // BACK TO LOGIN
-        // =====================================================
+                                return;
+                        }
 
-        Button backToLogin =
-                new Button(
-                        "Already have an account? Login"
-                );
+                        System.out.println(
+                                        "========== SIGN UP ==========");
 
-        setForgotButtonStyle(
-                backToLogin,
-                BLACK
-        );
+                        System.out.println(
+                                        "Name: " + nameValue);
 
-        HBox loginBox = new HBox();
+                        System.out.println(
+                                        "Email: " + emailValue);
 
-        loginBox.setAlignment(Pos.CENTER);
-        loginBox.getChildren().add(backToLogin);
+                        System.out.println(
+                                        "Password: " + passwordValue);
 
-        // =====================================================
-        // SIGN UP ACTION
-        // =====================================================
+                        System.out.println(
+                                        "Sign Up successful.");
 
-        signUpButton.setOnAction(e -> {
+                        System.out.println(
+                                        "=============================");
+                });
 
-            String nameValue =
-                    name.getText().trim();
+                // =====================================================
+                // BACK TO LOGIN ACTION
+                // =====================================================
 
-            String emailValue =
-                    email.getText().trim();
+                backToLogin.setOnAction(e -> showLoginForm(card));
 
-            String passwordValue =
-                    password.getText();
+                // =====================================================
+                // ADD SIGN UP CONTENT
+                // =====================================================
 
-            if (nameValue.isEmpty()
-                    || emailValue.isEmpty()
-                    || passwordValue.isEmpty()) {
+                card.getChildren().addAll(
+                                titleBox,
+                                titleSpace,
+                                name,
+                                space1,
+                                email,
+                                space2,
+                                password,
+                                actionSpace,
+                                buttonBox,
+                                loginSpace,
+                                loginBox);
+        }
 
-                System.out.println(
-                        "Please enter name, email and password."
-                );
+        // =========================================================
+        // TEXT FIELD
+        // =========================================================
 
-                return;
-            }
+        private TextField createTextField(String prompt) {
 
-            System.out.println(
-                    "========== SIGN UP =========="
-            );
+                TextField field = new TextField();
 
-            System.out.println(
-                    "Name: " + nameValue
-            );
+                field.setPromptText(prompt);
 
-            System.out.println(
-                    "Email: " + emailValue
-            );
+                setFixedHeight(field, 50);
 
-            System.out.println(
-                    "Password: " + passwordValue
-            );
+                field.setStyle(
+                                normalFieldStyle());
 
-            System.out.println(
-                    "Sign Up successful."
-            );
+                addFocusStyle(field);
 
-            System.out.println(
-                    "============================="
-            );
-        });
+                return field;
+        }
 
-        // =====================================================
-        // BACK TO LOGIN ACTION
-        // =====================================================
+        // =========================================================
+        // PASSWORD FIELD
+        // =========================================================
 
-        backToLogin.setOnAction(e ->
-                showLoginForm(card)
-        );
+        private PasswordField createPasswordField(
+                        String prompt) {
 
-        // =====================================================
-        // ADD SIGN UP CONTENT
-        // =====================================================
+                PasswordField field = new PasswordField();
 
-        card.getChildren().addAll(
-                titleBox,
-                titleSpace,
-                name,
-                space1,
-                email,
-                space2,
-                password,
-                actionSpace,
-                buttonBox,
-                loginSpace,
-                loginBox
-        );
-    }
+                field.setPromptText(prompt);
 
-    // =========================================================
-    // TEXT FIELD
-    // =========================================================
+                setFixedHeight(field, 50);
 
-    private TextField createTextField(String prompt) {
+                field.setStyle(
+                                normalFieldStyle());
 
-        TextField field = new TextField();
+                addFocusStyle(field);
 
-        field.setPromptText(prompt);
+                return field;
+        }
 
-        setFixedHeight(field, 50);
+        // =========================================================
+        // NORMAL FIELD STYLE
+        // =========================================================
 
-        field.setStyle(
-                normalFieldStyle()
-        );
+        private String normalFieldStyle() {
 
-        addFocusStyle(field);
+                return "-fx-background-color: " + WHITE + ";" +
+                                "-fx-border-color: " + BORDER + ";" +
+                                "-fx-border-width: 2;" +
+                                "-fx-border-radius: 10;" +
+                                "-fx-background-radius: 10;" +
+                                "-fx-font-family: 'Segoe UI';" +
+                                "-fx-font-size: 17px;" +
+                                "-fx-text-fill: " + BLACK + ";" +
+                                "-fx-prompt-text-fill: " + PLACEHOLDER + ";" +
+                                "-fx-padding: 0 19;";
+        }
 
-        return field;
-    }
+        // =========================================================
+        // FIELD FOCUS STYLE
+        // =========================================================
 
-    // =========================================================
-    // PASSWORD FIELD
-    // =========================================================
+        private void addFocusStyle(TextField field) {
 
-    private PasswordField createPasswordField(
-            String prompt) {
+                field.focusedProperty().addListener(
+                                (obs, oldValue, focused) -> {
 
-        PasswordField field =
-                new PasswordField();
+                                        if (focused) {
 
-        field.setPromptText(prompt);
+                                                field.setStyle(
+                                                                focusedFieldStyle());
 
-        setFixedHeight(field, 50);
+                                        } else {
 
-        field.setStyle(
-                normalFieldStyle()
-        );
+                                                field.setStyle(
+                                                                normalFieldStyle());
+                                        }
+                                });
+        }
 
-        addFocusStyle(field);
+        private String focusedFieldStyle() {
 
-        return field;
-    }
+                return "-fx-background-color: " + WHITE + ";" +
+                                "-fx-border-color: " + TEAL + ";" +
+                                "-fx-border-width: 2;" +
+                                "-fx-border-radius: 10;" +
+                                "-fx-background-radius: 10;" +
+                                "-fx-font-family: 'Segoe UI';" +
+                                "-fx-font-size: 17px;" +
+                                "-fx-text-fill: " + BLACK + ";" +
+                                "-fx-prompt-text-fill: " + PLACEHOLDER + ";" +
+                                "-fx-padding: 0 19;" +
+                                "-fx-effect: dropshadow(" +
+                                "gaussian," +
+                                "rgba(8,127,140,0.18)," +
+                                "8," +
+                                "0," +
+                                "0," +
+                                "0" +
+                                ");";
+        }
 
-    // =========================================================
-    // NORMAL FIELD STYLE
-    // =========================================================
+        // =========================================================
+        // LOGIN BUTTON STYLE
+        // =========================================================
 
-    private String normalFieldStyle() {
+        private void setLoginButtonStyle(
+                        Button button,
+                        String color) {
 
-        return
-                "-fx-background-color: " + WHITE + ";" +
-                "-fx-border-color: " + BORDER + ";" +
-                "-fx-border-width: 2;" +
-                "-fx-border-radius: 10;" +
-                "-fx-background-radius: 10;" +
-                "-fx-font-family: 'Segoe UI';" +
-                "-fx-font-size: 17px;" +
-                "-fx-text-fill: " + BLACK + ";" +
-                "-fx-prompt-text-fill: " + PLACEHOLDER + ";" +
-                "-fx-padding: 0 19;";
-    }
+                button.setStyle(
+                                loginButtonStyle(color));
 
-    // =========================================================
-    // FIELD FOCUS STYLE
-    // =========================================================
+                button.setOnMouseEntered(
+                                e -> button.setStyle(
+                                                loginButtonStyle(TEAL_DARK)));
 
-    private void addFocusStyle(TextField field) {
+                button.setOnMouseExited(
+                                e -> button.setStyle(
+                                                loginButtonStyle(color)));
+        }
 
-        field.focusedProperty().addListener(
-                (obs, oldValue, focused) -> {
+        private String loginButtonStyle(String color) {
 
-                    if (focused) {
+                return "-fx-background-color: " + color + ";" +
+                                "-fx-text-fill: white;" +
+                                "-fx-font-family: 'Segoe UI';" +
+                                "-fx-font-size: 15px;" +
+                                "-fx-font-weight: bold;" +
+                                "-fx-background-radius: 10;" +
+                                "-fx-border-radius: 10;" +
+                                "-fx-cursor: hand;";
+        }
 
-                        field.setStyle(
-                                focusedFieldStyle()
-                        );
+        // =========================================================
+        // SIGN UP BUTTON STYLE
+        // =========================================================
 
-                    } else {
+        private void setSignUpButtonStyle(
+                        Button button,
+                        String color) {
 
-                        field.setStyle(
-                                normalFieldStyle()
-                        );
-                    }
+                button.setStyle(
+                                linkButtonStyle(
+                                                color,
+                                                14));
+
+                button.setOnMouseEntered(
+                                e -> button.setStyle(
+                                                linkButtonStyle(
+                                                                TEAL_DARK,
+                                                                14)));
+
+                button.setOnMouseExited(
+                                e -> button.setStyle(
+                                                linkButtonStyle(
+                                                                color,
+                                                                14)));
+        }
+
+        // =========================================================
+        // FORGOT / BACK BUTTON STYLE
+        // =========================================================
+
+        private void setForgotButtonStyle(
+                        Button button,
+                        String color) {
+
+                button.setStyle(
+                                linkButtonStyle(
+                                                color,
+                                                15));
+
+                button.setOnMouseEntered(
+                                e -> button.setStyle(
+                                                linkButtonStyle(
+                                                                TEAL_DARK,
+                                                                15)));
+
+                button.setOnMouseExited(
+                                e -> button.setStyle(
+                                                linkButtonStyle(
+                                                                color,
+                                                                15)));
+        }
+
+        private String linkButtonStyle(
+                        String color,
+                        int fontSize) {
+
+                return "-fx-background-color: transparent;" +
+                                "-fx-text-fill: " + color + ";" +
+                                "-fx-font-family: 'Segoe UI';" +
+                                "-fx-font-size: " + fontSize + "px;" +
+                                "-fx-font-weight: bold;" +
+                                "-fx-cursor: hand;" +
+                                "-fx-padding: 5 0 5 5;";
+        }
+
+        // =========================================================
+        // SPACER
+        // =========================================================
+
+        private Region createSpacer(double height) {
+
+                Region spacer = new Region();
+
+                spacer.setPrefHeight(height);
+
+                return spacer;
+        }
+
+        // =========================================================
+        // FIXED SIZE
+        // =========================================================
+
+        private void setFixedSize(
+                        Region node,
+                        double width,
+                        double height) {
+
+                node.setPrefWidth(width);
+                node.setMinWidth(width);
+                node.setMaxWidth(width);
+
+                node.setPrefHeight(height);
+                node.setMinHeight(height);
+                node.setMaxHeight(height);
+        }
+
+        // =========================================================
+        // FIXED HEIGHT
+        // =========================================================
+
+        private void setFixedHeight(
+                        Region node,
+                        double height) {
+
+                node.setPrefHeight(height);
+                node.setMinHeight(height);
+                node.setMaxHeight(height);
+        }
+
+        // =========================================================
+        // BLUE BACKGROUND
+        // =========================================================
+
+        private Path createBlueBackground() {
+
+                Path blueShape = new Path();
+
+                blueShape.setFill(
+                                Color.web(TEAL));
+
+                blueShape.setStroke(
+                                Color.TRANSPARENT);
+
+                return blueShape;
+        }
+
+        // =========================================================
+        // UPDATE BLUE BACKGROUND
+        // =========================================================
+
+        private void updateBlueShape(
+                        Path shape,
+                        double width,
+                        double height) {
+
+                shape.getElements().clear();
+
+                double blueWidth = width * 0.53;
+                double curveAmount = 130;
+
+                shape.getElements().add(
+                                new MoveTo(
+                                                0,
+                                                0));
+
+                shape.getElements().add(
+                                new LineTo(
+                                                blueWidth,
+                                                0));
+
+                shape.getElements().add(
+                                new CubicCurveTo(
+                                                blueWidth + curveAmount,
+                                                height * 0.14,
+
+                                                blueWidth + curveAmount,
+                                                height * 0.32,
+
+                                                blueWidth,
+                                                height * 0.50));
+
+                shape.getElements().add(
+                                new CubicCurveTo(
+                                                blueWidth - curveAmount,
+                                                height * 0.68,
+
+                                                blueWidth - curveAmount,
+                                                height * 0.86,
+
+                                                blueWidth,
+                                                height));
+
+                shape.getElements().add(
+                                new LineTo(
+                                                0,
+                                                height));
+
+                shape.getElements().add(
+                                new ClosePath());
+        }
+
+        // =========================================================
+        // DOCTOR IMAGE
+        // =========================================================
+
+        private ImageView createDoctorImage() {
+
+                ImageView imageView = new ImageView();
+
+                try {
+
+                        Image image = new Image(
+                                        DOCTOR_IMAGE_URL,
+                                        false);
+
+                        imageView.setImage(image);
+
+                } catch (Exception e) {
+
+                        System.out.println(
+                                        "Could not load doctor image: "
+                                                        + e.getMessage());
                 }
-        );
-    }
 
-    private String focusedFieldStyle() {
+                imageView.setPreserveRatio(false);
+                imageView.setSmooth(true);
+                imageView.setCache(true);
 
-        return
-                "-fx-background-color: " + WHITE + ";" +
-                "-fx-border-color: " + TEAL + ";" +
-                "-fx-border-width: 2;" +
-                "-fx-border-radius: 10;" +
-                "-fx-background-radius: 10;" +
-                "-fx-font-family: 'Segoe UI';" +
-                "-fx-font-size: 17px;" +
-                "-fx-text-fill: " + BLACK + ";" +
-                "-fx-prompt-text-fill: " + PLACEHOLDER + ";" +
-                "-fx-padding: 0 19;" +
-                "-fx-effect: dropshadow(" +
-                "gaussian," +
-                "rgba(8,127,140,0.18)," +
-                "8," +
-                "0," +
-                "0," +
-                "0" +
-                ");";
-    }
-
-    // =========================================================
-    // LOGIN BUTTON STYLE
-    // =========================================================
-
-    private void setLoginButtonStyle(
-            Button button,
-            String color) {
-
-        button.setStyle(
-                loginButtonStyle(color)
-        );
-
-        button.setOnMouseEntered(
-                e -> button.setStyle(
-                        loginButtonStyle(TEAL_DARK)
-                )
-        );
-
-        button.setOnMouseExited(
-                e -> button.setStyle(
-                        loginButtonStyle(color)
-                )
-        );
-    }
-
-    private String loginButtonStyle(String color) {
-
-        return
-                "-fx-background-color: " + color + ";" +
-                "-fx-text-fill: white;" +
-                "-fx-font-family: 'Segoe UI';" +
-                "-fx-font-size: 15px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 10;" +
-                "-fx-border-radius: 10;" +
-                "-fx-cursor: hand;";
-    }
-
-    // =========================================================
-    // SIGN UP BUTTON STYLE
-    // =========================================================
-
-    private void setSignUpButtonStyle(
-            Button button,
-            String color) {
-
-        button.setStyle(
-                linkButtonStyle(
-                        color,
-                        14
-                )
-        );
-
-        button.setOnMouseEntered(
-                e -> button.setStyle(
-                        linkButtonStyle(
-                                TEAL_DARK,
-                                14
-                        )
-                )
-        );
-
-        button.setOnMouseExited(
-                e -> button.setStyle(
-                        linkButtonStyle(
-                                color,
-                                14
-                        )
-                )
-        );
-    }
-
-    // =========================================================
-    // FORGOT / BACK BUTTON STYLE
-    // =========================================================
-
-    private void setForgotButtonStyle(
-            Button button,
-            String color) {
-
-        button.setStyle(
-                linkButtonStyle(
-                        color,
-                        15
-                )
-        );
-
-        button.setOnMouseEntered(
-                e -> button.setStyle(
-                        linkButtonStyle(
-                                TEAL_DARK,
-                                15
-                        )
-                )
-        );
-
-        button.setOnMouseExited(
-                e -> button.setStyle(
-                        linkButtonStyle(
-                                color,
-                                15
-                        )
-                )
-        );
-    }
-
-    private String linkButtonStyle(
-            String color,
-            int fontSize) {
-
-        return
-                "-fx-background-color: transparent;" +
-                "-fx-text-fill: " + color + ";" +
-                "-fx-font-family: 'Segoe UI';" +
-                "-fx-font-size: " + fontSize + "px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-cursor: hand;" +
-                "-fx-padding: 5 0 5 5;";
-    }
-
-    // =========================================================
-    // SPACER
-    // =========================================================
-
-    private Region createSpacer(double height) {
-
-        Region spacer = new Region();
-
-        spacer.setPrefHeight(height);
-
-        return spacer;
-    }
-
-    // =========================================================
-    // FIXED SIZE
-    // =========================================================
-
-    private void setFixedSize(
-            Region node,
-            double width,
-            double height) {
-
-        node.setPrefWidth(width);
-        node.setMinWidth(width);
-        node.setMaxWidth(width);
-
-        node.setPrefHeight(height);
-        node.setMinHeight(height);
-        node.setMaxHeight(height);
-    }
-
-    // =========================================================
-    // FIXED HEIGHT
-    // =========================================================
-
-    private void setFixedHeight(
-            Region node,
-            double height) {
-
-        node.setPrefHeight(height);
-        node.setMinHeight(height);
-        node.setMaxHeight(height);
-    }
-
-    // =========================================================
-    // BLUE BACKGROUND
-    // =========================================================
-
-    private Path createBlueBackground() {
-
-        Path blueShape = new Path();
-
-        blueShape.setFill(
-                Color.web(TEAL)
-        );
-
-        blueShape.setStroke(
-                Color.TRANSPARENT
-        );
-
-        return blueShape;
-    }
-
-    // =========================================================
-    // UPDATE BLUE BACKGROUND
-    // =========================================================
-
-    private void updateBlueShape(
-            Path shape,
-            double width,
-            double height) {
-
-        shape.getElements().clear();
-
-        double blueWidth = width * 0.53;
-        double curveAmount = 130;
-
-        shape.getElements().add(
-                new MoveTo(
-                        0,
-                        0
-                )
-        );
-
-        shape.getElements().add(
-                new LineTo(
-                        blueWidth,
-                        0
-                )
-        );
-
-        shape.getElements().add(
-                new CubicCurveTo(
-                        blueWidth + curveAmount,
-                        height * 0.14,
-
-                        blueWidth + curveAmount,
-                        height * 0.32,
-
-                        blueWidth,
-                        height * 0.50
-                )
-        );
-
-        shape.getElements().add(
-                new CubicCurveTo(
-                        blueWidth - curveAmount,
-                        height * 0.68,
-
-                        blueWidth - curveAmount,
-                        height * 0.86,
-
-                        blueWidth,
-                        height
-                )
-        );
-
-        shape.getElements().add(
-                new LineTo(
-                        0,
-                        height
-                )
-        );
-
-        shape.getElements().add(
-                new ClosePath()
-        );
-    }
-
-    // =========================================================
-    // DOCTOR IMAGE
-    // =========================================================
-
-    private ImageView createDoctorImage() {
-
-        ImageView imageView =
-                new ImageView();
-
-        try {
-
-            Image image =
-                    new Image(
-                            DOCTOR_IMAGE_URL,
-                            false
-                    );
-
-            imageView.setImage(image);
-
-        } catch (Exception e) {
-
-            System.out.println(
-                    "Could not load doctor image: "
-                            + e.getMessage()
-            );
+                return imageView;
         }
 
-        imageView.setPreserveRatio(false);
-        imageView.setSmooth(true);
-        imageView.setCache(true);
+        // =========================================================
+        // IMAGE SIZE
+        // =========================================================
 
-        return imageView;
-    }
+        private void updateImage(
+                        ImageView imageView,
+                        double width,
+                        double height) {
 
-    // =========================================================
-    // IMAGE SIZE
-    // =========================================================
+                double imageWidth = width * 0.56;
 
-    private void updateImage(
-            ImageView imageView,
-            double width,
-            double height) {
+                imageView.setFitWidth(
+                                imageWidth);
 
-        double imageWidth =
-                width * 0.56;
+                imageView.setFitHeight(
+                                height);
 
-        imageView.setFitWidth(
-                imageWidth
-        );
-
-        imageView.setFitHeight(
-                height
-        );
-
-        imageView.setPreserveRatio(false);
-        imageView.setSmooth(true);
-    }
-
-    // =========================================================
-    // LIFELINK LOGO
-    // =========================================================
-
-    private HBox createLifeLinkLogo() {
-
-        HBox logo =
-                new HBox(9);
-
-        logo.setAlignment(
-                Pos.CENTER_RIGHT
-        );
-
-        // =====================================================
-        // LOGO IMAGE
-        // =====================================================
-
-        ImageView icon =
-                new ImageView();
-
-        try {
-
-            Image logoImage =
-                    new Image(
-                            LIFELINK_LOGO_IMAGE,
-                            false
-                    );
-
-            icon.setImage(logoImage);
-
-        } catch (Exception e) {
-
-            System.out.println(
-                    "Could not load LifeLink logo: "
-                            + e.getMessage()
-            );
+                imageView.setPreserveRatio(false);
+                imageView.setSmooth(true);
         }
 
-        icon.setFitWidth(55);
-        icon.setFitHeight(55);
+        // =========================================================
+        // LIFELINK LOGO
+        // =========================================================
 
-        icon.setPreserveRatio(true);
-        icon.setSmooth(true);
+        private HBox createLifeLinkLogo() {
 
-        // =====================================================
-        // LIFE
-        // =====================================================
+                HBox logo = new HBox(9);
 
-        Text life =
-                new Text("Life");
+                logo.setAlignment(
+                                Pos.CENTER_RIGHT);
 
-        life.setStyle(
-                "-fx-fill: white;" +
-                "-fx-font-family: 'Segoe UI';" +
-                "-fx-font-size: 33px;" +
-                "-fx-font-weight: bold;"
-        );
+                // =====================================================
+                // LOGO IMAGE
+                // =====================================================
 
-        // =====================================================
-        // LINK
-        // =====================================================
+                ImageView icon = new ImageView();
 
-        Text link =
-                new Text("Link");
+                try {
 
-        link.setStyle(
-                "-fx-fill: " + TEAL_LIGHT + ";" +
-                "-fx-font-family: 'Segoe UI';" +
-                "-fx-font-size: 33px;" +
-                "-fx-font-weight: bold;"
-        );
+                        Image logoImage = new Image(
+                                        LIFELINK_LOGO_IMAGE,
+                                        false);
 
-        // =====================================================
-        // TEXT
-        // =====================================================
+                        icon.setImage(logoImage);
 
-        HBox text =
-                new HBox(0);
+                } catch (Exception e) {
 
-        text.getChildren().addAll(
-                life,
-                link
-        );
+                        System.out.println(
+                                        "Could not load LifeLink logo: "
+                                                        + e.getMessage());
+                }
 
-        // =====================================================
-        // LOGO
-        // =====================================================
+                icon.setFitWidth(55);
+                icon.setFitHeight(55);
 
-        logo.getChildren().addAll(
-                icon,
-                text
-        );
+                icon.setPreserveRatio(true);
+                icon.setSmooth(true);
 
-        return logo;
-    }
+                // =====================================================
+                // LIFE
+                // =====================================================
+
+                Text life = new Text("Life");
+
+                life.setStyle(
+                                "-fx-fill: white;" +
+                                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 33px;" +
+                                                "-fx-font-weight: bold;");
+
+                // =====================================================
+                // LINK
+                // =====================================================
+
+                Text link = new Text("Link");
+
+                link.setStyle(
+                                "-fx-fill: " + TEAL_LIGHT + ";" +
+                                                "-fx-font-family: 'Segoe UI';" +
+                                                "-fx-font-size: 33px;" +
+                                                "-fx-font-weight: bold;");
+
+                // =====================================================
+                // TEXT
+                // =====================================================
+
+                HBox text = new HBox(0);
+
+                text.getChildren().addAll(
+                                life,
+                                link);
+
+                // =====================================================
+                // LOGO
+                // =====================================================
+
+                logo.getChildren().addAll(
+                                icon,
+                                text);
+
+                return logo;
+        }
 }

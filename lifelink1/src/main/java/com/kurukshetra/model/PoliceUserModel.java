@@ -1,23 +1,23 @@
 package com.kurukshetra.model;
 
-public class UserModel {
+public class PoliceUserModel {
     
-    private static UserModel instance;
+    private static PoliceUserModel instance;
     private String name;
     private String email;
 
-    public UserModel() {
+    public PoliceUserModel() {
 
     }
 
-    public static UserModel getInstance(){
+    public static PoliceUserModel getInstance(){
         if(instance == null){
-            instance = new UserModel();
+            instance = new PoliceUserModel();
         }
         return instance;
     }
 
-    public void setHospitalUserData(String name, String email){
+    public void setPoliceUserData(String name, String email){
         this.name = name;
         this.email = email;
     }

@@ -1,5 +1,9 @@
 package com.kurukshetra.view.loginSignup;
 
+import com.kurukshetra.controller.UserAuthController;
+import com.kurukshetra.controller.UserController;
+import com.kurukshetra.view.nurse.NurseDashboardPage;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -57,6 +61,7 @@ public class NurseLoginPage {
     // =========================================================
     // MAIN PAGE
     // =========================================================
+    UserAuthController userAuthController = new UserAuthController();
 
     public BorderPane getNurseLoginPage() {
 
@@ -428,13 +433,13 @@ public class NurseLoginPage {
 
         loginButton.setOnAction(e -> {
 
-            String usernameValue =
+            String emailValue =
                     username.getText().trim();
 
             String passwordValue =
                     password.getText();
 
-            if (usernameValue.isEmpty()
+            if (emailValue.isEmpty()
                     || passwordValue.isEmpty()) {
 
                 System.out.println(
@@ -443,18 +448,30 @@ public class NurseLoginPage {
 
                 return;
             }
+            boolean isSuccess = userAuthController.signIn(emailValue, passwordValue);
+            if(isSuccess){
 
             System.out.println(
                     "nurse: nurseData"
             );
 
             System.out.println(
-                    "Username: " + usernameValue
+                    "Username: " + emailValue
             );
 
             System.out.println(
                     "Login successful."
             );
+
+            NurseDashboardPage nurseDashboardPage = new NurseDashboardPage();
+
+            try{
+                nurseDashboardPage.start(AalLoginStartPoint.startPageStage);
+            }catch(Exception e1){
+                e1.printStackTrace();
+            }
+            }
+            
         });
 
         // =====================================================
@@ -633,6 +650,14 @@ public class NurseLoginPage {
                 return;
             }
 
+            boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+
+            if(isSuccess){
+
+                                 System.out.println("API Hit Successfully (SignUp)");
+                                UserController userController = new UserController();
+                                userController.passToNurseModel(nameValue, emailValue);
+
             System.out.println(
                     "========== SIGN UP =========="
             );
@@ -656,6 +681,7 @@ public class NurseLoginPage {
             System.out.println(
                     "============================="
             );
+        }
         });
 
         // =====================================================

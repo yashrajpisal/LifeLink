@@ -16,6 +16,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import com.kurukshetra.view.Welcome;
+
 
 public class HospitalDashboard extends Application {
 
@@ -1048,8 +1050,8 @@ public class HospitalDashboard extends Application {
         // =============================================================
         // SCENE
         // =============================================================
-
-        dashboardScene = new Scene(borderPane, dashboardStage.getWidth(), dashboardStage.getHeight());
+        
+        dashboardScene = new Scene(borderPane, Welcome.WelcomeStage.getWidth(), Welcome.WelcomeStage.getHeight());
 
         dashboardStage.setScene(dashboardScene);
         dashboardStage.setTitle("LifeLink Hospital Dashboard");

@@ -10,6 +10,7 @@ import com.kurukshetra.view.driver.DriverDashboard;
 import com.kurukshetra.view.hospital.HospitalDashboard;
 import com.kurukshetra.view.loginSignup.AalLoginStartPoint;
 import com.kurukshetra.view.police.PoliceDashboard;
+import com.kurukshetra.view.*;
 
 import javafx.application.Application;
 

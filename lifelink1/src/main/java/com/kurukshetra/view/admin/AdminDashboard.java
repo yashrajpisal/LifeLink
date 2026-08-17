@@ -15,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import com.kurukshetra.view.*;
 
 public class AdminDashboard extends Application {
 
@@ -937,7 +938,7 @@ public class AdminDashboard extends Application {
              */
         });
 
-        dashboardScene = new Scene(borderPane, dashboardStage.getWidth(),dashboardStage.getHeight());
+        dashboardScene = new Scene(borderPane, Welcome.WelcomeStage.getWidth(), Welcome.WelcomeStage.getHeight());
 
         dashboardStage.setScene(dashboardScene);
         dashboardStage.setTitle("LifeLink Admin Dashboard");

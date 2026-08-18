@@ -1,4 +1,892 @@
 
+// package com.kurukshetra.view.admin;
+
+// import javafx.geometry.Insets;
+// import javafx.geometry.Pos;
+// import javafx.scene.control.Button;
+// import javafx.scene.control.Label;
+// import javafx.scene.control.ScrollPane;
+// import javafx.scene.layout.HBox;
+// import javafx.scene.layout.Priority;
+// import javafx.scene.layout.Region;
+// import javafx.scene.layout.StackPane;
+// import javafx.scene.layout.VBox;
+
+// public class AdminAnalyticsAndReports {
+
+//     public static VBox getAnalyticsAndReports() {
+
+//         // =============================================================
+//         // MAIN CONTENT
+//         // =============================================================
+
+//         VBox mainContent = new VBox(24);
+//         mainContent.setPadding(new Insets(30));
+//         mainContent.setStyle("-fx-background-color: #faf8ff;");
+
+//         // =============================================================
+//         // PAGE HEADER
+//         // =============================================================
+
+//         HBox pageHeader = new HBox(20);
+//         pageHeader.setAlignment(Pos.CENTER_LEFT);
+//         pageHeader.setPadding(new Insets(0, 0, 10, 0));
+
+//         VBox headingBox = new VBox(5);
+
+//         Label pageTitle = new Label("Analytics & Reports");
+//         pageTitle.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Label pageDescription = new Label(
+//                 "Comprehensive performance overview for regional emergency response."
+//         );
+//         pageDescription.setStyle("-fx-font-size: 14px; -fx-text-fill: #434655;");
+
+//         headingBox.getChildren().addAll(
+//                 pageTitle,
+//                 pageDescription
+//         );
+
+//         Region headerSpacer = new Region();
+//         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
+
+//         HBox headerButtons = new HBox(10);
+//         headerButtons.setAlignment(Pos.CENTER_RIGHT);
+
+//         Button dateButton = new Button("📅  Last 30 Days");
+//         dateButton.setStyle("-fx-background-color: white; -fx-border-color: #737686; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-padding: 10px 16px; -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Button pdfButton = new Button("▣  PDF");
+//         pdfButton.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 10px; -fx-padding: 10px 18px; -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: white;");
+
+//         Button excelButton = new Button("▦  Excel");
+//         excelButton.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 10px; -fx-padding: 10px 18px; -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: white;");
+
+//         headerButtons.getChildren().addAll(
+//                 dateButton,
+//                 pdfButton,
+//                 excelButton
+//         );
+
+//         pageHeader.getChildren().addAll(
+//                 headingBox,
+//                 headerSpacer,
+//                 headerButtons
+//         );
+
+//         // =============================================================
+//         // SUMMARY CARDS
+//         // =============================================================
+
+//         HBox summaryCards = new HBox(20);
+//         summaryCards.setAlignment(Pos.CENTER);
+//         summaryCards.setFillHeight(true);
+
+//         // -------------------------------------------------------------
+//         // SUCCESS RATE
+//         // -------------------------------------------------------------
+
+//         VBox successCard = new VBox(12);
+//         successCard.setPadding(new Insets(22));
+//         successCard.setPrefHeight(150);
+//         successCard.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+
+//         HBox successTop = new HBox();
+//         successTop.setAlignment(Pos.CENTER_LEFT);
+
+//         Label successIcon = new Label("✓");
+//         successIcon.setAlignment(Pos.CENTER);
+//         successIcon.setPrefSize(40, 40);
+//         successIcon.setStyle("-fx-background-color: #dbe1ff; -fx-background-radius: 10px; -fx-text-fill: #004ac6; -fx-font-size: 22px; -fx-font-weight: bold;");
+
+//         Region successSpacer = new Region();
+//         HBox.setHgrow(successSpacer, Priority.ALWAYS);
+
+//         Label successChange = new Label("+2.4%");
+//         successChange.setStyle("-fx-background-color: #dcfce7; -fx-background-radius: 5px; -fx-padding: 5px 8px; -fx-text-fill: #15803d; -fx-font-size: 10px; -fx-font-weight: bold;");
+
+//         successTop.getChildren().addAll(
+//                 successIcon,
+//                 successSpacer,
+//                 successChange
+//         );
+
+//         Label successLabel = new Label("SUCCESS RATE");
+//         successLabel.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
+
+//         Label successValue = new Label("98.2%");
+//         successValue.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Label successDescription = new Label(
+//                 "Critical cases resolved successfully."
+//         );
+//         successDescription.setStyle("-fx-font-size: 12px; -fx-text-fill: #737686;");
+
+//         successCard.getChildren().addAll(
+//                 successTop,
+//                 successLabel,
+//                 successValue,
+//                 successDescription
+//         );
+
+//         HBox.setHgrow(successCard, Priority.ALWAYS);
+
+//         // -------------------------------------------------------------
+//         // AVG ETA
+//         // -------------------------------------------------------------
+
+//         VBox etaCard = new VBox(12);
+//         etaCard.setPadding(new Insets(22));
+//         etaCard.setPrefHeight(150);
+//         etaCard.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+
+//         HBox etaTop = new HBox();
+//         etaTop.setAlignment(Pos.CENTER_LEFT);
+
+//         Label etaIcon = new Label("⏱");
+//         etaIcon.setAlignment(Pos.CENTER);
+//         etaIcon.setPrefSize(40, 40);
+//         etaIcon.setStyle("-fx-background-color: #d3e4fe; -fx-background-radius: 10px; -fx-text-fill: #505f76; -fx-font-size: 20px;");
+
+//         Region etaSpacer = new Region();
+//         HBox.setHgrow(etaSpacer, Priority.ALWAYS);
+
+//         Label etaChange = new Label("-12s");
+//         etaChange.setStyle("-fx-background-color: #fee2e2; -fx-background-radius: 5px; -fx-padding: 5px 8px; -fx-text-fill: #ba1a1a; -fx-font-size: 10px; -fx-font-weight: bold;");
+
+//         etaTop.getChildren().addAll(
+//                 etaIcon,
+//                 etaSpacer,
+//                 etaChange
+//         );
+
+//         Label etaLabel = new Label("AVG. ETA");
+//         etaLabel.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
+
+//         Label etaValue = new Label("7m 42s");
+//         etaValue.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Label etaDescription = new Label(
+//                 "Time from dispatch to arrival."
+//         );
+//         etaDescription.setStyle("-fx-font-size: 12px; -fx-text-fill: #737686;");
+
+//         etaCard.getChildren().addAll(
+//                 etaTop,
+//                 etaLabel,
+//                 etaValue,
+//                 etaDescription
+//         );
+
+//         HBox.setHgrow(etaCard, Priority.ALWAYS);
+
+//         // =============================================================
+//         // HOSPITAL LOAD
+//         // =============================================================
+
+//         VBox hospitalLoadCard = new VBox(12);
+//         hospitalLoadCard.setPadding(new Insets(22));
+//         hospitalLoadCard.setPrefHeight(150);
+//         hospitalLoadCard.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+
+//         HBox hospitalLoadTitle = new HBox();
+
+//         VBox hospitalLoadHeading = new VBox(3);
+
+//         Label hospitalLoadLabel = new Label("HOSPITAL LOAD");
+//         hospitalLoadLabel.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
+
+//         Label hospitalLoadSubTitle = new Label("Current Capacity Status");
+//         hospitalLoadSubTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         hospitalLoadHeading.getChildren().addAll(
+//                 hospitalLoadLabel,
+//                 hospitalLoadSubTitle
+//         );
+
+//         Region hospitalLoadSpacer = new Region();
+//         HBox.setHgrow(hospitalLoadSpacer, Priority.ALWAYS);
+
+//         Label moreButton = new Label("⋮");
+//         moreButton.setStyle("-fx-font-size: 22px; -fx-text-fill: #737686;");
+
+//         hospitalLoadTitle.getChildren().addAll(
+//                 hospitalLoadHeading,
+//                 hospitalLoadSpacer,
+//                 moreButton
+//         );
+
+//         HBox bars = new HBox(12);
+//         bars.setAlignment(Pos.BOTTOM_CENTER);
+//         bars.setPrefHeight(70);
+
+//         Region bar1 = new Region();
+//         bar1.setPrefWidth(30);
+//         bar1.setPrefHeight(42);
+//         bar1.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
+
+//         Region bar2 = new Region();
+//         bar2.setPrefWidth(30);
+//         bar2.setPrefHeight(60);
+//         bar2.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
+
+//         Region bar3 = new Region();
+//         bar3.setPrefWidth(30);
+//         bar3.setPrefHeight(28);
+//         bar3.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
+
+//         Region bar4 = new Region();
+//         bar4.setPrefWidth(30);
+//         bar4.setPrefHeight(67);
+//         bar4.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
+
+//         Region bar5 = new Region();
+//         bar5.setPrefWidth(30);
+//         bar5.setPrefHeight(49);
+//         bar5.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
+
+//         Region bar6 = new Region();
+//         bar6.setPrefWidth(30);
+//         bar6.setPrefHeight(38);
+//         bar6.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
+
+//         Region bar7 = new Region();
+//         bar7.setPrefWidth(30);
+//         bar7.setPrefHeight(56);
+//         bar7.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
+
+//         Region bar8 = new Region();
+//         bar8.setPrefWidth(30);
+//         bar8.setPrefHeight(21);
+//         bar8.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
+
+//         bars.getChildren().addAll(
+//                 bar1,
+//                 bar2,
+//                 bar3,
+//                 bar4,
+//                 bar5,
+//                 bar6,
+//                 bar7,
+//                 bar8
+//         );
+
+//         HBox hospitalNames = new HBox();
+//         hospitalNames.setAlignment(Pos.CENTER);
+
+//         Label h01 = new Label("H-01");
+//         h01.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
+
+//         Label h02 = new Label("H-02");
+//         h02.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
+
+//         Label h03 = new Label("H-03");
+//         h03.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
+
+//         Label h04 = new Label("H-04");
+//         h04.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
+
+//         Label h05 = new Label("H-05");
+//         h05.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
+
+//         Label h06 = new Label("H-06");
+//         h06.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
+
+//         Label h07 = new Label("H-07");
+//         h07.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
+
+//         Label h08 = new Label("H-08");
+//         h08.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
+
+//         hospitalNames.getChildren().addAll(
+//                 h01,
+//                 h02,
+//                 h03,
+//                 h04,
+//                 h05,
+//                 h06,
+//                 h07,
+//                 h08
+//         );
+
+//         hospitalLoadCard.getChildren().addAll(
+//                 hospitalLoadTitle,
+//                 bars,
+//                 hospitalNames
+//         );
+
+//         HBox.setHgrow(hospitalLoadCard, Priority.ALWAYS);
+
+//         summaryCards.getChildren().addAll(
+//                 successCard,
+//                 etaCard,
+//                 hospitalLoadCard
+//         );
+
+//         // =============================================================
+//         // DAILY EMERGENCY VOLUME
+//         // =============================================================
+
+//         VBox emergencyVolume = new VBox(18);
+//         emergencyVolume.setPadding(new Insets(25));
+//         emergencyVolume.setPrefHeight(350);
+//         emergencyVolume.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+
+//         HBox emergencyVolumeHeader = new HBox();
+
+//         VBox emergencyVolumeTitleBox = new VBox(4);
+
+//         Label emergencyVolumeTitle = new Label("Daily Emergency Volume");
+//         emergencyVolumeTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Label emergencyVolumeDescription = new Label("Call volume trends over the last 30 days.");
+//         emergencyVolumeDescription.setStyle("-fx-font-size: 12px; -fx-text-fill: #737686;");
+
+//         emergencyVolumeTitleBox.getChildren().addAll(
+//                 emergencyVolumeTitle,
+//                 emergencyVolumeDescription
+//         );
+
+//         Region emergencyHeaderSpacer = new Region();
+//         HBox.setHgrow(emergencyHeaderSpacer, Priority.ALWAYS);
+
+//         HBox chartButtons = new HBox(5);
+//         chartButtons.setPadding(new Insets(4));
+//         chartButtons.setStyle("-fx-background-color: #f3f3fe; -fx-background-radius: 8px;");
+
+//         Button dailyButton = new Button("Daily");
+//         dailyButton.setStyle("-fx-background-color: white; -fx-background-radius: 6px; -fx-text-fill: #004ac6; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 6px 12px;");
+
+//         Button monthlyButton = new Button("Monthly");
+//         monthlyButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #737686; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 6px 12px;");
+
+//         chartButtons.getChildren().addAll(
+//                 dailyButton,
+//                 monthlyButton
+//         );
+
+//         emergencyVolumeHeader.getChildren().addAll(
+//                 emergencyVolumeTitleBox,
+//                 emergencyHeaderSpacer,
+//                 chartButtons
+//         );
+
+//         // -------------------------------------------------------------
+//         // SIMPLE LINE CHART AREA
+//         // -------------------------------------------------------------
+
+//         StackPane chartArea = new StackPane();
+//         chartArea.setPrefHeight(220);
+//         chartArea.setStyle("-fx-background-color: white; -fx-border-color: transparent transparent #c3c6d7 #c3c6d7; -fx-border-width: 0px 0px 1px 1px;");
+
+//         VBox chartLines = new VBox();
+//         chartLines.setSpacing(40);
+//         chartLines.setPadding(new Insets(20));
+
+//         Region line1 = new Region();
+//         line1.setPrefHeight(1);
+//         line1.setStyle("-fx-background-color: #e1e2ed;");
+
+//         Region line2 = new Region();
+//         line2.setPrefHeight(1);
+//         line2.setStyle("-fx-background-color: #e1e2ed;");
+
+//         Region line3 = new Region();
+//         line3.setPrefHeight(1);
+//         line3.setStyle("-fx-background-color: #e1e2ed;");
+
+//         Region line4 = new Region();
+//         line4.setPrefHeight(1);
+//         line4.setStyle("-fx-background-color: #e1e2ed;");
+
+//         chartLines.getChildren().addAll(
+//                 line1,
+//                 line2,
+//                 line3,
+//                 line4
+//         );
+
+//         chartArea.getChildren().add(chartLines);
+
+//         emergencyVolume.getChildren().addAll(
+//                 emergencyVolumeHeader,
+//                 chartArea
+//         );
+
+//         // =============================================================
+//         // RESPONSE TIME GOALS
+//         // =============================================================
+
+//         VBox responseGoals = new VBox(18);
+//         responseGoals.setPadding(new Insets(25));
+//         responseGoals.setPrefHeight(350);
+//         responseGoals.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+
+//         Label responseTitle = new Label("Response Time Goals");
+//         responseTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         // Under 5 mins
+
+//         HBox underFiveText = new HBox();
+
+//         Label underFive = new Label("Under 5 mins");
+//         underFive.setStyle("-fx-font-size: 12px; -fx-text-fill: #191b23;");
+
+//         Region underFiveSpacer = new Region();
+//         HBox.setHgrow(underFiveSpacer, Priority.ALWAYS);
+
+//         Label underFivePercent = new Label("42%");
+//         underFivePercent.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #004ac6;");
+
+//         underFiveText.getChildren().addAll(
+//                 underFive,
+//                 underFiveSpacer,
+//                 underFivePercent
+//         );
+
+//         StackPane underFiveBar = new StackPane();
+//         underFiveBar.setPrefHeight(8);
+//         underFiveBar.setMaxWidth(Double.MAX_VALUE);
+//         underFiveBar.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
+
+//         Region underFiveProgress = new Region();
+//         underFiveProgress.setPrefHeight(8);
+//         underFiveProgress.setPrefWidth(100);
+//         underFiveProgress.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 5px;");
+
+//         underFiveBar.getChildren().add(underFiveProgress);
+//         StackPane.setAlignment(underFiveProgress, Pos.CENTER_LEFT);
+
+//         VBox underFiveBox = new VBox(8);
+//         underFiveBox.getChildren().addAll(
+//                 underFiveText,
+//                 underFiveBar
+//         );
+
+//         // 5 - 10 mins
+
+//         HBox fiveTenText = new HBox();
+
+//         Label fiveTen = new Label("5 - 10 mins");
+//         fiveTen.setStyle("-fx-font-size: 12px; -fx-text-fill: #191b23;");
+
+//         Region fiveTenSpacer = new Region();
+//         HBox.setHgrow(fiveTenSpacer, Priority.ALWAYS);
+
+//         Label fiveTenPercent = new Label("48%");
+//         fiveTenPercent.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #004ac6;");
+
+//         fiveTenText.getChildren().addAll(
+//                 fiveTen,
+//                 fiveTenSpacer,
+//                 fiveTenPercent
+//         );
+
+//         StackPane fiveTenBar = new StackPane();
+//         fiveTenBar.setPrefHeight(8);
+//         fiveTenBar.setMaxWidth(Double.MAX_VALUE);
+//         fiveTenBar.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
+
+//         Region fiveTenProgress = new Region();
+//         fiveTenProgress.setPrefHeight(8);
+//         fiveTenProgress.setPrefWidth(115);
+//         fiveTenProgress.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 5px;");
+
+//         fiveTenBar.getChildren().add(fiveTenProgress);
+//         StackPane.setAlignment(fiveTenProgress, Pos.CENTER_LEFT);
+
+//         VBox fiveTenBox = new VBox(8);
+//         fiveTenBox.getChildren().addAll(
+//                 fiveTenText,
+//                 fiveTenBar
+//         );
+
+//         // Over 10 mins
+
+//         HBox overTenText = new HBox();
+
+//         Label overTen = new Label("Over 10 mins");
+//         overTen.setStyle("-fx-font-size: 12px; -fx-text-fill: #191b23;");
+
+//         Region overTenSpacer = new Region();
+//         HBox.setHgrow(overTenSpacer, Priority.ALWAYS);
+
+//         Label overTenPercent = new Label("10%");
+//         overTenPercent.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #ba1a1a;");
+
+//         overTenText.getChildren().addAll(
+//                 overTen,
+//                 overTenSpacer,
+//                 overTenPercent
+//         );
+
+//         StackPane overTenBar = new StackPane();
+//         overTenBar.setPrefHeight(8);
+//         overTenBar.setMaxWidth(Double.MAX_VALUE);
+//         overTenBar.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
+
+//         Region overTenProgress = new Region();
+//         overTenProgress.setPrefHeight(8);
+//         overTenProgress.setPrefWidth(25);
+//         overTenProgress.setStyle("-fx-background-color: #ba1a1a; -fx-background-radius: 5px;");
+
+//         overTenBar.getChildren().add(overTenProgress);
+//         StackPane.setAlignment(overTenProgress, Pos.CENTER_LEFT);
+
+//         VBox overTenBox = new VBox(8);
+//         overTenBox.getChildren().addAll(
+//                 overTenText,
+//                 overTenBar
+//         );
+
+//         // Optimization Tip
+
+//         VBox optimizationTip = new VBox(8);
+//         optimizationTip.setPadding(new Insets(15));
+//         optimizationTip.setStyle("-fx-background-color: #f3f3fe; -fx-background-radius: 10px;");
+
+//         Label optimizationTitle = new Label("💡  Optimization Tip");
+//         optimizationTitle.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #004ac6;");
+
+//         Label optimizationDescription = new Label(
+//                 "Congestion in Sector 4 is increasing Average ETA by 18% during peak hours."
+//         );
+//         optimizationDescription.setWrapText(true);
+//         optimizationDescription.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+
+//         optimizationTip.getChildren().addAll(
+//                 optimizationTitle,
+//                 optimizationDescription
+//         );
+
+//         responseGoals.getChildren().addAll(
+//                 responseTitle,
+//                 underFiveBox,
+//                 fiveTenBox,
+//                 overTenBox,
+//                 optimizationTip
+//         );
+
+//         // =============================================================
+//         // CHART + RESPONSE GOALS
+//         // =============================================================
+
+//         HBox middleSection = new HBox(24);
+
+//         emergencyVolume.setMaxWidth(Double.MAX_VALUE);
+//         responseGoals.setMaxWidth(Double.MAX_VALUE);
+
+//         HBox.setHgrow(emergencyVolume, Priority.ALWAYS);
+//         HBox.setHgrow(responseGoals, Priority.ALWAYS);
+
+//         middleSection.getChildren().addAll(
+//                 emergencyVolume,
+//                 responseGoals
+//         );
+
+//         // =============================================================
+//         // HOSPITAL PERFORMANCE MATRIX
+//         // =============================================================
+
+//         VBox hospitalPerformance = new VBox(0);
+//         hospitalPerformance.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-border-width: 1px;");
+//         hospitalPerformance.setMaxWidth(Double.MAX_VALUE);
+
+//         // -------------------------------------------------------------
+//         // HEADER
+//         // -------------------------------------------------------------
+
+//         HBox hospitalHeader = new HBox();
+//         hospitalHeader.setPadding(new Insets(18, 24, 18, 24));
+//         hospitalHeader.setAlignment(Pos.CENTER_LEFT);
+//         hospitalHeader.setStyle("-fx-background-color: white; -fx-border-color: transparent transparent #e1e2ed transparent; -fx-border-width: 0px 0px 1px 0px;");
+
+//         Label hospitalTitle = new Label("Hospital Performance Matrix");
+//         hospitalTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Region hospitalHeaderSpacer = new Region();
+//         HBox.setHgrow(hospitalHeaderSpacer, Priority.ALWAYS);
+
+//         Label viewAllHospitals = new Label("View All Hospitals  ›");
+//         viewAllHospitals.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #004ac6;");
+
+//         hospitalHeader.getChildren().addAll(
+//                 hospitalTitle,
+//                 hospitalHeaderSpacer,
+//                 viewAllHospitals
+//         );
+
+//         // -------------------------------------------------------------
+//         // TABLE HEADER
+//         // -------------------------------------------------------------
+
+//         HBox tableHeader = new HBox();
+//         tableHeader.setPadding(new Insets(12, 16, 12, 16));
+//         tableHeader.setAlignment(Pos.CENTER_LEFT);
+//         tableHeader.setStyle("-fx-background-color: #f1f5f9;");
+
+//         Label hName = new Label("HOSPITAL\nNAME");
+//         hName.setPrefWidth(115);
+//         hName.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
+
+//         Label hTier = new Label("TIER");
+//         hTier.setPrefWidth(110);
+//         hTier.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
+
+//         Label hEmergency = new Label("TOTAL\nEMERGENCIES");
+//         hEmergency.setPrefWidth(120);
+//         hEmergency.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
+
+//         Label hHandover = new Label("AVG.\nHANDOVER");
+//         hHandover.setPrefWidth(105);
+//         hHandover.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
+
+//         Label hPerformance = new Label("PERFORMANCE\nINDEX");
+//         hPerformance.setPrefWidth(125);
+//         hPerformance.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
+
+//         Label hStatus = new Label("STATUS");
+//         hStatus.setPrefWidth(90);
+//         hStatus.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
+
+//         tableHeader.getChildren().addAll(
+//                 hName,
+//                 hTier,
+//                 hEmergency,
+//                 hHandover,
+//                 hPerformance,
+//                 hStatus
+//         );
+
+//         // -------------------------------------------------------------
+//         // CITY GENERAL HOSPITAL
+//         // -------------------------------------------------------------
+
+//         HBox row1 = new HBox();
+//         row1.setPadding(new Insets(16, 16, 16, 16));
+//         row1.setAlignment(Pos.CENTER_LEFT);
+//         row1.setStyle("-fx-background-color: white; -fx-border-color: transparent transparent #e1e2ed transparent; -fx-border-width: 0px 0px 1px 0px;");
+
+//         Label cityGeneral = new Label("City General\nHospital");
+//         cityGeneral.setPrefWidth(115);
+//         cityGeneral.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Label cityTier = new Label("Tier 1 Trauma");
+//         cityTier.setPrefWidth(110);
+//         cityTier.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+
+//         Label cityEmergency = new Label("1,248");
+//         cityEmergency.setPrefWidth(120);
+//         cityEmergency.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+
+//         Label cityHandover = new Label("4m 12s");
+//         cityHandover.setPrefWidth(105);
+//         cityHandover.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+
+//         HBox cityPerformance = new HBox(8);
+//         cityPerformance.setPrefWidth(125);
+//         cityPerformance.setAlignment(Pos.CENTER_LEFT);
+
+//         StackPane cityProgress = new StackPane();
+//         cityProgress.setPrefWidth(65);
+//         cityProgress.setPrefHeight(5);
+//         cityProgress.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
+
+//         Region cityProgressBar = new Region();
+//         cityProgressBar.setPrefWidth(61);
+//         cityProgressBar.setPrefHeight(5);
+//         cityProgressBar.setStyle("-fx-background-color: #22c55e; -fx-background-radius: 5px;");
+
+//         cityProgress.getChildren().add(cityProgressBar);
+//         StackPane.setAlignment(cityProgressBar, Pos.CENTER_LEFT);
+
+//         Label cityPercentage = new Label("94%");
+//         cityPercentage.setStyle("-fx-font-size: 10px; -fx-text-fill: #434655;");
+
+//         cityPerformance.getChildren().addAll(
+//                 cityProgress,
+//                 cityPercentage
+//         );
+
+//         Label cityStatus = new Label("Excellent");
+//         cityStatus.setStyle("-fx-background-color: #dcfce7; -fx-text-fill: #15803d; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 8px; -fx-background-radius: 4px;");
+
+//         row1.getChildren().addAll(
+//                 cityGeneral,
+//                 cityTier,
+//                 cityEmergency,
+//                 cityHandover,
+//                 cityPerformance,
+//                 cityStatus
+//         );
+
+//         // -------------------------------------------------------------
+//         // ST. JUDE MEDICAL CENTER
+//         // -------------------------------------------------------------
+
+//         HBox row2 = new HBox();
+//         row2.setPadding(new Insets(16, 16, 16, 16));
+//         row2.setAlignment(Pos.CENTER_LEFT);
+//         row2.setStyle("-fx-background-color: white; -fx-border-color: transparent transparent #e1e2ed transparent; -fx-border-width: 0px 0px 1px 0px;");
+
+//         Label stJude = new Label("St. Jude\nMedical\nCenter");
+//         stJude.setPrefWidth(115);
+//         stJude.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Label stJudeTier = new Label("Specialized\nCardiac");
+//         stJudeTier.setPrefWidth(110);
+//         stJudeTier.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+
+//         Label stJudeEmergency = new Label("856");
+//         stJudeEmergency.setPrefWidth(120);
+//         stJudeEmergency.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+
+//         Label stJudeHandover = new Label("5m 45s");
+//         stJudeHandover.setPrefWidth(105);
+//         stJudeHandover.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+
+//         HBox stJudePerformance = new HBox(8);
+//         stJudePerformance.setPrefWidth(125);
+//         stJudePerformance.setAlignment(Pos.CENTER_LEFT);
+
+//         StackPane stJudeProgress = new StackPane();
+//         stJudeProgress.setPrefWidth(65);
+//         stJudeProgress.setPrefHeight(5);
+//         stJudeProgress.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
+
+//         Region stJudeProgressBar = new Region();
+//         stJudeProgressBar.setPrefWidth(51);
+//         stJudeProgressBar.setPrefHeight(5);
+//         stJudeProgressBar.setStyle("-fx-background-color: #eab308; -fx-background-radius: 5px;");
+
+//         stJudeProgress.getChildren().add(stJudeProgressBar);
+//         StackPane.setAlignment(stJudeProgressBar, Pos.CENTER_LEFT);
+
+//         Label stJudePercentage = new Label("78%");
+//         stJudePercentage.setStyle("-fx-font-size: 10px; -fx-text-fill: #434655;");
+
+//         stJudePerformance.getChildren().addAll(
+//                 stJudeProgress,
+//                 stJudePercentage
+//         );
+
+//         Label stJudeStatus = new Label("Average");
+//         stJudeStatus.setStyle("-fx-background-color: #fef3c7; -fx-text-fill: #a16207; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 8px; -fx-background-radius: 4px;");
+
+//         row2.getChildren().addAll(
+//                 stJude,
+//                 stJudeTier,
+//                 stJudeEmergency,
+//                 stJudeHandover,
+//                 stJudePerformance,
+//                 stJudeStatus
+//         );
+
+//         // -------------------------------------------------------------
+//         // NORTHSIDE COMMUNITY
+//         // -------------------------------------------------------------
+
+//         HBox row3 = new HBox();
+//         row3.setPadding(new Insets(16, 16, 16, 16));
+//         row3.setAlignment(Pos.CENTER_LEFT);
+//         row3.setStyle("-fx-background-color: white;");
+
+//         Label northside = new Label("Northside\nCommunity");
+//         northside.setPrefWidth(115);
+//         northside.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Label northsideTier = new Label("Tier 2\nGeneral");
+//         northsideTier.setPrefWidth(110);
+//         northsideTier.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+
+//         Label northsideEmergency = new Label("2,104");
+//         northsideEmergency.setPrefWidth(120);
+//         northsideEmergency.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+
+//         Label northsideHandover = new Label("3m 50s");
+//         northsideHandover.setPrefWidth(105);
+//         northsideHandover.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+
+//         HBox northsidePerformance = new HBox(8);
+//         northsidePerformance.setPrefWidth(125);
+//         northsidePerformance.setAlignment(Pos.CENTER_LEFT);
+
+//         StackPane northsideProgress = new StackPane();
+//         northsideProgress.setPrefWidth(65);
+//         northsideProgress.setPrefHeight(5);
+//         northsideProgress.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
+
+//         Region northsideProgressBar = new Region();
+//         northsideProgressBar.setPrefWidth(58);
+//         northsideProgressBar.setPrefHeight(5);
+//         northsideProgressBar.setStyle("-fx-background-color: #22c55e; -fx-background-radius: 5px;");
+
+//         northsideProgress.getChildren().add(northsideProgressBar);
+//         StackPane.setAlignment(northsideProgressBar, Pos.CENTER_LEFT);
+
+//         Label northsidePercentage = new Label("89%");
+//         northsidePercentage.setStyle("-fx-font-size: 10px; -fx-text-fill: #434655;");
+
+//         northsidePerformance.getChildren().addAll(
+//                 northsideProgress,
+//                 northsidePercentage
+//         );
+
+//         Label northsideStatus = new Label("Optimal");
+//         northsideStatus.setStyle("-fx-background-color: #dcfce7; -fx-text-fill: #15803d; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 8px; -fx-background-radius: 4px;");
+
+//         row3.getChildren().addAll(
+//                 northside,
+//                 northsideTier,
+//                 northsideEmergency,
+//                 northsideHandover,
+//                 northsidePerformance,
+//                 northsideStatus
+//         );
+
+//         hospitalPerformance.getChildren().addAll(
+//                 hospitalHeader,
+//                 tableHeader,
+//                 row1,
+//                 row2,
+//                 row3
+//         );
+
+//         // =============================================================
+//         // ADD ALL CONTENT TO MAIN CONTENT
+//         // =============================================================
+
+//         mainContent.getChildren().addAll(
+//                 pageHeader,
+//                 summaryCards,
+//                 middleSection,
+//                 hospitalPerformance
+//         );
+
+//         // =============================================================
+//         // SCROLL PANE
+//         // =============================================================
+
+//         ScrollPane scrollPane = new ScrollPane(mainContent);
+//         scrollPane.setFitToWidth(true);
+//         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+//         scrollPane.setStyle("-fx-background-color: transparent;" + "-fx-background: transparent;");
+
+//         VBox finalContent = new VBox(scrollPane);
+//         finalContent.setStyle("-fx-background-color: #f8f8ff;");
+
+//         VBox.setVgrow(scrollPane, Priority.ALWAYS);
+
+//         return finalContent;
+//     }
+// }
+
+
+
+
+
+
+
 package com.kurukshetra.view.admin;
 
 import javafx.geometry.Insets;
@@ -14,20 +902,66 @@ import javafx.scene.layout.VBox;
 
 public class AdminAnalyticsAndReports {
 
-    public static VBox getAnalyticsAndReports() {
+    // Design Tokens - LifeLink Pastel Purple Theme
+    private static final String BG_PAGE = "#FAF7FB";
+    private static final String BG_SURFACE = "#FFFFFF";
+    private static final String BORDER_COLOR = "#E9E2EF";
+    private static final String BORDER_DIVIDER = "#F0E7F5";
 
-        // =============================================================
-        // MAIN CONTENT
-        // =============================================================
+    private static final String TEXT_PRIMARY = "#0F172A";
+    private static final String TEXT_SECONDARY = "#5F5A70";
+    private static final String TEXT_MUTED = "#8B8798";
+
+    private static final String PURPLE_PRIMARY = "#9C7DF0";
+    private static final String PURPLE_DARK = "#8B68E5";
+    private static final String PURPLE_BUTTON = "#C084FC";
+    private static final String PURPLE_LIGHT = "#F3E8FF";
+    private static final String PURPLE_VARIANT = "#E9D5FF";
+
+    private static final String SUCCESS_TEXT = "#15803D";
+    private static final String SUCCESS_BG = "#DCFCE7";
+    private static final String WARNING_TEXT = "#A16207";
+    private static final String WARNING_BG = "#FEF3C7";
+    private static final String DANGER_TEXT = "#E66A7A";
+    private static final String DANGER_BG = "#FDE7EB";
+
+    private static final String CARD_SHADOW = "-fx-effect: dropshadow(gaussian, rgba(156, 125, 240, 0.08), 16, 0.1, 0, 4);";
+    private static final String FONT_STACK = "-fx-font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;";
+
+    private static final String BASE_CARD_STYLE = FONT_STACK +
+            "-fx-background-color: " + BG_SURFACE + ";" +
+            "-fx-background-radius: 16px;" +
+            "-fx-border-color: " + BORDER_COLOR + ";" +
+            "-fx-border-radius: 16px;" +
+            "-fx-border-width: 1px;" +
+            CARD_SHADOW;
+
+    private static final String PRIMARY_BUTTON_STYLE = FONT_STACK +
+            "-fx-background-color: " + PURPLE_BUTTON + ";" +
+            "-fx-text-fill: #FFFFFF;" +
+            "-fx-font-size: 12px;" +
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 10px;" +
+            "-fx-effect: dropshadow(gaussian, rgba(192, 132, 252, 0.35), 10, 0.2, 0, 3);" +
+            "-fx-cursor: hand;";
+
+    private static final String SECONDARY_BUTTON_STYLE = FONT_STACK +
+            "-fx-background-color: " + BG_SURFACE + ";" +
+            "-fx-text-fill: " + TEXT_PRIMARY + ";" +
+            "-fx-font-size: 12px;" +
+            "-fx-font-weight: bold;" +
+            "-fx-border-color: " + BORDER_COLOR + ";" +
+            "-fx-border-radius: 10px;" +
+            "-fx-background-radius: 10px;" +
+            "-fx-cursor: hand;";
+
+    public static VBox getAnalyticsAndReports() {
 
         VBox mainContent = new VBox(24);
         mainContent.setPadding(new Insets(30));
-        mainContent.setStyle("-fx-background-color: #faf8ff;");
+        mainContent.setStyle("-fx-background-color: " + BG_PAGE + ";");
 
-        // =============================================================
         // PAGE HEADER
-        // =============================================================
-
         HBox pageHeader = new HBox(20);
         pageHeader.setAlignment(Pos.CENTER_LEFT);
         pageHeader.setPadding(new Insets(0, 0, 10, 0));
@@ -35,17 +969,14 @@ public class AdminAnalyticsAndReports {
         VBox headingBox = new VBox(5);
 
         Label pageTitle = new Label("Analytics & Reports");
-        pageTitle.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        pageTitle.setStyle(FONT_STACK + "-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         Label pageDescription = new Label(
                 "Comprehensive performance overview for regional emergency response."
         );
-        pageDescription.setStyle("-fx-font-size: 14px; -fx-text-fill: #434655;");
+        pageDescription.setStyle(FONT_STACK + "-fx-font-size: 14px; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
-        headingBox.getChildren().addAll(
-                pageTitle,
-                pageDescription
-        );
+        headingBox.getChildren().addAll(pageTitle, pageDescription);
 
         Region headerSpacer = new Region();
         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
@@ -54,19 +985,15 @@ public class AdminAnalyticsAndReports {
         headerButtons.setAlignment(Pos.CENTER_RIGHT);
 
         Button dateButton = new Button("📅  Last 30 Days");
-        dateButton.setStyle("-fx-background-color: white; -fx-border-color: #737686; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-padding: 10px 16px; -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        dateButton.setStyle(SECONDARY_BUTTON_STYLE + "-fx-padding: 10px 16px;");
 
         Button pdfButton = new Button("▣  PDF");
-        pdfButton.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 10px; -fx-padding: 10px 18px; -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: white;");
+        pdfButton.setStyle(PRIMARY_BUTTON_STYLE + "-fx-padding: 10px 18px;");
 
         Button excelButton = new Button("▦  Excel");
-        excelButton.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 10px; -fx-padding: 10px 18px; -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: white;");
+        excelButton.setStyle(PRIMARY_BUTTON_STYLE + "-fx-padding: 10px 18px;");
 
-        headerButtons.getChildren().addAll(
-                dateButton,
-                pdfButton,
-                excelButton
-        );
+        headerButtons.getChildren().addAll(dateButton, pdfButton, excelButton);
 
         pageHeader.getChildren().addAll(
                 headingBox,
@@ -74,788 +1001,408 @@ public class AdminAnalyticsAndReports {
                 headerButtons
         );
 
-        // =============================================================
         // SUMMARY CARDS
-        // =============================================================
-
         HBox summaryCards = new HBox(20);
         summaryCards.setAlignment(Pos.CENTER);
         summaryCards.setFillHeight(true);
 
-        // -------------------------------------------------------------
         // SUCCESS RATE
-        // -------------------------------------------------------------
-
         VBox successCard = new VBox(12);
         successCard.setPadding(new Insets(22));
         successCard.setPrefHeight(150);
-        successCard.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+        successCard.setStyle(BASE_CARD_STYLE);
 
         HBox successTop = new HBox();
         successTop.setAlignment(Pos.CENTER_LEFT);
 
         Label successIcon = new Label("✓");
         successIcon.setAlignment(Pos.CENTER);
-        successIcon.setPrefSize(40, 40);
-        successIcon.setStyle("-fx-background-color: #dbe1ff; -fx-background-radius: 10px; -fx-text-fill: #004ac6; -fx-font-size: 22px; -fx-font-weight: bold;");
+        successIcon.setPrefSize(38, 38);
+        successIcon.setStyle(FONT_STACK + "-fx-background-color: " + PURPLE_LIGHT + "; -fx-background-radius: 10px; -fx-text-fill: " + PURPLE_DARK + "; -fx-font-size: 20px; -fx-font-weight: bold;");
 
         Region successSpacer = new Region();
         HBox.setHgrow(successSpacer, Priority.ALWAYS);
 
         Label successChange = new Label("+2.4%");
-        successChange.setStyle("-fx-background-color: #dcfce7; -fx-background-radius: 5px; -fx-padding: 5px 8px; -fx-text-fill: #15803d; -fx-font-size: 10px; -fx-font-weight: bold;");
+        successChange.setStyle(FONT_STACK + "-fx-background-color: " + SUCCESS_BG + "; -fx-background-radius: 6px; -fx-padding: 4px 8px; -fx-text-fill: " + SUCCESS_TEXT + "; -fx-font-size: 10px; -fx-font-weight: bold;");
 
-        successTop.getChildren().addAll(
-                successIcon,
-                successSpacer,
-                successChange
-        );
+        successTop.getChildren().addAll(successIcon, successSpacer, successChange);
 
         Label successLabel = new Label("SUCCESS RATE");
-        successLabel.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
+        successLabel.setStyle(FONT_STACK + "-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
         Label successValue = new Label("98.2%");
-        successValue.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        successValue.setStyle(FONT_STACK + "-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
-        Label successDescription = new Label(
-                "Critical cases resolved successfully."
-        );
-        successDescription.setStyle("-fx-font-size: 12px; -fx-text-fill: #737686;");
+        Label successDescription = new Label("Critical cases resolved successfully.");
+        successDescription.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_MUTED + ";");
 
-        successCard.getChildren().addAll(
-                successTop,
-                successLabel,
-                successValue,
-                successDescription
-        );
-
+        successCard.getChildren().addAll(successTop, successLabel, successValue, successDescription);
         HBox.setHgrow(successCard, Priority.ALWAYS);
 
-        // -------------------------------------------------------------
         // AVG ETA
-        // -------------------------------------------------------------
-
         VBox etaCard = new VBox(12);
         etaCard.setPadding(new Insets(22));
         etaCard.setPrefHeight(150);
-        etaCard.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+        etaCard.setStyle(BASE_CARD_STYLE);
 
         HBox etaTop = new HBox();
         etaTop.setAlignment(Pos.CENTER_LEFT);
 
         Label etaIcon = new Label("⏱");
         etaIcon.setAlignment(Pos.CENTER);
-        etaIcon.setPrefSize(40, 40);
-        etaIcon.setStyle("-fx-background-color: #d3e4fe; -fx-background-radius: 10px; -fx-text-fill: #505f76; -fx-font-size: 20px;");
+        etaIcon.setPrefSize(38, 38);
+        etaIcon.setStyle(FONT_STACK + "-fx-background-color: " + PURPLE_LIGHT + "; -fx-background-radius: 10px; -fx-text-fill: " + PURPLE_DARK + "; -fx-font-size: 18px;");
 
         Region etaSpacer = new Region();
         HBox.setHgrow(etaSpacer, Priority.ALWAYS);
 
         Label etaChange = new Label("-12s");
-        etaChange.setStyle("-fx-background-color: #fee2e2; -fx-background-radius: 5px; -fx-padding: 5px 8px; -fx-text-fill: #ba1a1a; -fx-font-size: 10px; -fx-font-weight: bold;");
+        etaChange.setStyle(FONT_STACK + "-fx-background-color: " + DANGER_BG + "; -fx-background-radius: 6px; -fx-padding: 4px 8px; -fx-text-fill: " + DANGER_TEXT + "; -fx-font-size: 10px; -fx-font-weight: bold;");
 
-        etaTop.getChildren().addAll(
-                etaIcon,
-                etaSpacer,
-                etaChange
-        );
+        etaTop.getChildren().addAll(etaIcon, etaSpacer, etaChange);
 
         Label etaLabel = new Label("AVG. ETA");
-        etaLabel.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
+        etaLabel.setStyle(FONT_STACK + "-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
         Label etaValue = new Label("7m 42s");
-        etaValue.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        etaValue.setStyle(FONT_STACK + "-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
-        Label etaDescription = new Label(
-                "Time from dispatch to arrival."
-        );
-        etaDescription.setStyle("-fx-font-size: 12px; -fx-text-fill: #737686;");
+        Label etaDescription = new Label("Time from dispatch to arrival.");
+        etaDescription.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_MUTED + ";");
 
-        etaCard.getChildren().addAll(
-                etaTop,
-                etaLabel,
-                etaValue,
-                etaDescription
-        );
-
+        etaCard.getChildren().addAll(etaTop, etaLabel, etaValue, etaDescription);
         HBox.setHgrow(etaCard, Priority.ALWAYS);
 
-        // =============================================================
         // HOSPITAL LOAD
-        // =============================================================
-
         VBox hospitalLoadCard = new VBox(12);
         hospitalLoadCard.setPadding(new Insets(22));
         hospitalLoadCard.setPrefHeight(150);
-        hospitalLoadCard.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+        hospitalLoadCard.setStyle(BASE_CARD_STYLE);
 
         HBox hospitalLoadTitle = new HBox();
-
         VBox hospitalLoadHeading = new VBox(3);
 
         Label hospitalLoadLabel = new Label("HOSPITAL LOAD");
-        hospitalLoadLabel.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
+        hospitalLoadLabel.setStyle(FONT_STACK + "-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
         Label hospitalLoadSubTitle = new Label("Current Capacity Status");
-        hospitalLoadSubTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        hospitalLoadSubTitle.setStyle(FONT_STACK + "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
-        hospitalLoadHeading.getChildren().addAll(
-                hospitalLoadLabel,
-                hospitalLoadSubTitle
-        );
+        hospitalLoadHeading.getChildren().addAll(hospitalLoadLabel, hospitalLoadSubTitle);
 
         Region hospitalLoadSpacer = new Region();
         HBox.setHgrow(hospitalLoadSpacer, Priority.ALWAYS);
 
         Label moreButton = new Label("⋮");
-        moreButton.setStyle("-fx-font-size: 22px; -fx-text-fill: #737686;");
+        moreButton.setStyle(FONT_STACK + "-fx-font-size: 20px; -fx-text-fill: " + PURPLE_DARK + "; -fx-cursor: hand;");
 
-        hospitalLoadTitle.getChildren().addAll(
-                hospitalLoadHeading,
-                hospitalLoadSpacer,
-                moreButton
-        );
+        hospitalLoadTitle.getChildren().addAll(hospitalLoadHeading, hospitalLoadSpacer, moreButton);
 
         HBox bars = new HBox(12);
         bars.setAlignment(Pos.BOTTOM_CENTER);
         bars.setPrefHeight(70);
 
-        Region bar1 = new Region();
-        bar1.setPrefWidth(30);
-        bar1.setPrefHeight(42);
-        bar1.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
+        String barStyle = "-fx-background-color: " + PURPLE_PRIMARY + "; -fx-background-radius: 6px 6px 0px 0px;";
+        String barAltStyle = "-fx-background-color: " + PURPLE_DARK + "; -fx-background-radius: 6px 6px 0px 0px;";
 
-        Region bar2 = new Region();
-        bar2.setPrefWidth(30);
-        bar2.setPrefHeight(60);
-        bar2.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
+        Region bar1 = new Region(); bar1.setPrefWidth(30); bar1.setPrefHeight(42); bar1.setStyle(barStyle);
+        Region bar2 = new Region(); bar2.setPrefWidth(30); bar2.setPrefHeight(60); bar2.setStyle(barAltStyle);
+        Region bar3 = new Region(); bar3.setPrefWidth(30); bar3.setPrefHeight(28); bar3.setStyle(barStyle);
+        Region bar4 = new Region(); bar4.setPrefWidth(30); bar4.setPrefHeight(67); bar4.setStyle(barAltStyle);
+        Region bar5 = new Region(); bar5.setPrefWidth(30); bar5.setPrefHeight(49); bar5.setStyle(barStyle);
+        Region bar6 = new Region(); bar6.setPrefWidth(30); bar6.setPrefHeight(38); bar6.setStyle(barStyle);
+        Region bar7 = new Region(); bar7.setPrefWidth(30); bar7.setPrefHeight(56); bar7.setStyle(barAltStyle);
+        Region bar8 = new Region(); bar8.setPrefWidth(30); bar8.setPrefHeight(21); bar8.setStyle(barStyle);
 
-        Region bar3 = new Region();
-        bar3.setPrefWidth(30);
-        bar3.setPrefHeight(28);
-        bar3.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
+        bars.getChildren().addAll(bar1, bar2, bar3, bar4, bar5, bar6, bar7, bar8);
 
-        Region bar4 = new Region();
-        bar4.setPrefWidth(30);
-        bar4.setPrefHeight(67);
-        bar4.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
-
-        Region bar5 = new Region();
-        bar5.setPrefWidth(30);
-        bar5.setPrefHeight(49);
-        bar5.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
-
-        Region bar6 = new Region();
-        bar6.setPrefWidth(30);
-        bar6.setPrefHeight(38);
-        bar6.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
-
-        Region bar7 = new Region();
-        bar7.setPrefWidth(30);
-        bar7.setPrefHeight(56);
-        bar7.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
-
-        Region bar8 = new Region();
-        bar8.setPrefWidth(30);
-        bar8.setPrefHeight(21);
-        bar8.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
-
-        bars.getChildren().addAll(
-                bar1,
-                bar2,
-                bar3,
-                bar4,
-                bar5,
-                bar6,
-                bar7,
-                bar8
-        );
-
-        HBox hospitalNames = new HBox();
+        HBox hospitalNames = new HBox(12);
         hospitalNames.setAlignment(Pos.CENTER);
 
-        Label h01 = new Label("H-01");
-        h01.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
+        String[] hospLabels = {"H-01", "H-02", "H-03", "H-04", "H-05", "H-06", "H-07", "H-08"};
+        for (String name : hospLabels) {
+            Label hLabel = new Label(name);
+            hLabel.setPrefWidth(30);
+            hLabel.setAlignment(Pos.CENTER);
+            hLabel.setStyle(FONT_STACK + "-fx-font-size: 9px; -fx-text-fill: " + TEXT_MUTED + ";");
+            hospitalNames.getChildren().add(hLabel);
+        }
 
-        Label h02 = new Label("H-02");
-        h02.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
-
-        Label h03 = new Label("H-03");
-        h03.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
-
-        Label h04 = new Label("H-04");
-        h04.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
-
-        Label h05 = new Label("H-05");
-        h05.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
-
-        Label h06 = new Label("H-06");
-        h06.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
-
-        Label h07 = new Label("H-07");
-        h07.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
-
-        Label h08 = new Label("H-08");
-        h08.setStyle("-fx-font-size: 9px; -fx-text-fill: #737686;");
-
-        hospitalNames.getChildren().addAll(
-                h01,
-                h02,
-                h03,
-                h04,
-                h05,
-                h06,
-                h07,
-                h08
-        );
-
-        hospitalLoadCard.getChildren().addAll(
-                hospitalLoadTitle,
-                bars,
-                hospitalNames
-        );
-
+        hospitalLoadCard.getChildren().addAll(hospitalLoadTitle, bars, hospitalNames);
         HBox.setHgrow(hospitalLoadCard, Priority.ALWAYS);
 
-        summaryCards.getChildren().addAll(
-                successCard,
-                etaCard,
-                hospitalLoadCard
-        );
+        summaryCards.getChildren().addAll(successCard, etaCard, hospitalLoadCard);
 
-        // =============================================================
+        // MIDDLE SECTION: DAILY VOLUME & RESPONSE GOALS
+        HBox middleSection = new HBox(24);
+
         // DAILY EMERGENCY VOLUME
-        // =============================================================
-
         VBox emergencyVolume = new VBox(18);
         emergencyVolume.setPadding(new Insets(25));
         emergencyVolume.setPrefHeight(350);
-        emergencyVolume.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+        emergencyVolume.setStyle(BASE_CARD_STYLE);
 
         HBox emergencyVolumeHeader = new HBox();
-
         VBox emergencyVolumeTitleBox = new VBox(4);
 
         Label emergencyVolumeTitle = new Label("Daily Emergency Volume");
-        emergencyVolumeTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        emergencyVolumeTitle.setStyle(FONT_STACK + "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         Label emergencyVolumeDescription = new Label("Call volume trends over the last 30 days.");
-        emergencyVolumeDescription.setStyle("-fx-font-size: 12px; -fx-text-fill: #737686;");
+        emergencyVolumeDescription.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_MUTED + ";");
 
-        emergencyVolumeTitleBox.getChildren().addAll(
-                emergencyVolumeTitle,
-                emergencyVolumeDescription
-        );
+        emergencyVolumeTitleBox.getChildren().addAll(emergencyVolumeTitle, emergencyVolumeDescription);
 
         Region emergencyHeaderSpacer = new Region();
         HBox.setHgrow(emergencyHeaderSpacer, Priority.ALWAYS);
 
-        HBox chartButtons = new HBox(5);
+        HBox chartButtons = new HBox(4);
         chartButtons.setPadding(new Insets(4));
-        chartButtons.setStyle("-fx-background-color: #f3f3fe; -fx-background-radius: 8px;");
+        chartButtons.setStyle("-fx-background-color: " + PURPLE_LIGHT + "; -fx-background-radius: 10px;");
 
         Button dailyButton = new Button("Daily");
-        dailyButton.setStyle("-fx-background-color: white; -fx-background-radius: 6px; -fx-text-fill: #004ac6; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 6px 12px;");
+        dailyButton.setStyle(FONT_STACK + "-fx-background-color: " + BG_SURFACE + "; -fx-background-radius: 8px; -fx-text-fill: " + PURPLE_DARK + "; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 6px 12px; -fx-cursor: hand;");
 
         Button monthlyButton = new Button("Monthly");
-        monthlyButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #737686; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 6px 12px;");
+        monthlyButton.setStyle(FONT_STACK + "-fx-background-color: transparent; -fx-text-fill: " + TEXT_SECONDARY + "; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 6px 12px; -fx-cursor: hand;");
 
-        chartButtons.getChildren().addAll(
-                dailyButton,
-                monthlyButton
-        );
+        chartButtons.getChildren().addAll(dailyButton, monthlyButton);
 
-        emergencyVolumeHeader.getChildren().addAll(
-                emergencyVolumeTitleBox,
-                emergencyHeaderSpacer,
-                chartButtons
-        );
-
-        // -------------------------------------------------------------
-        // SIMPLE LINE CHART AREA
-        // -------------------------------------------------------------
+        emergencyVolumeHeader.getChildren().addAll(emergencyVolumeTitleBox, emergencyHeaderSpacer, chartButtons);
 
         StackPane chartArea = new StackPane();
         chartArea.setPrefHeight(220);
-        chartArea.setStyle("-fx-background-color: white; -fx-border-color: transparent transparent #c3c6d7 #c3c6d7; -fx-border-width: 0px 0px 1px 1px;");
+        chartArea.setStyle("-fx-background-color: transparent; -fx-border-color: transparent transparent " + BORDER_COLOR + " " + BORDER_COLOR + "; -fx-border-width: 0px 0px 1px 1px;");
 
-        VBox chartLines = new VBox();
-        chartLines.setSpacing(40);
+        VBox chartLines = new VBox(40);
         chartLines.setPadding(new Insets(20));
 
-        Region line1 = new Region();
-        line1.setPrefHeight(1);
-        line1.setStyle("-fx-background-color: #e1e2ed;");
-
-        Region line2 = new Region();
-        line2.setPrefHeight(1);
-        line2.setStyle("-fx-background-color: #e1e2ed;");
-
-        Region line3 = new Region();
-        line3.setPrefHeight(1);
-        line3.setStyle("-fx-background-color: #e1e2ed;");
-
-        Region line4 = new Region();
-        line4.setPrefHeight(1);
-        line4.setStyle("-fx-background-color: #e1e2ed;");
-
-        chartLines.getChildren().addAll(
-                line1,
-                line2,
-                line3,
-                line4
-        );
+        for (int i = 0; i < 4; i++) {
+            Region line = new Region();
+            line.setPrefHeight(1);
+            line.setStyle("-fx-background-color: " + BORDER_DIVIDER + ";");
+            chartLines.getChildren().add(line);
+        }
 
         chartArea.getChildren().add(chartLines);
+        emergencyVolume.getChildren().addAll(emergencyVolumeHeader, chartArea);
 
-        emergencyVolume.getChildren().addAll(
-                emergencyVolumeHeader,
-                chartArea
-        );
-
-        // =============================================================
         // RESPONSE TIME GOALS
-        // =============================================================
-
-        VBox responseGoals = new VBox(18);
+        VBox responseGoals = new VBox(16);
         responseGoals.setPadding(new Insets(25));
         responseGoals.setPrefHeight(350);
-        responseGoals.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+        responseGoals.setStyle(BASE_CARD_STYLE);
 
         Label responseTitle = new Label("Response Time Goals");
-        responseTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        responseTitle.setStyle(FONT_STACK + "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         // Under 5 mins
-
         HBox underFiveText = new HBox();
-
         Label underFive = new Label("Under 5 mins");
-        underFive.setStyle("-fx-font-size: 12px; -fx-text-fill: #191b23;");
-
+        underFive.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_PRIMARY + ";");
         Region underFiveSpacer = new Region();
         HBox.setHgrow(underFiveSpacer, Priority.ALWAYS);
-
         Label underFivePercent = new Label("42%");
-        underFivePercent.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #004ac6;");
-
-        underFiveText.getChildren().addAll(
-                underFive,
-                underFiveSpacer,
-                underFivePercent
-        );
+        underFivePercent.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-font-weight: bold; -fx-fill: " + PURPLE_DARK + "; -fx-text-fill: " + PURPLE_DARK + ";");
+        underFiveText.getChildren().addAll(underFive, underFiveSpacer, underFivePercent);
 
         StackPane underFiveBar = new StackPane();
         underFiveBar.setPrefHeight(8);
         underFiveBar.setMaxWidth(Double.MAX_VALUE);
-        underFiveBar.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
-
+        underFiveBar.setStyle("-fx-background-color: " + PURPLE_LIGHT + "; -fx-background-radius: 5px;");
         Region underFiveProgress = new Region();
         underFiveProgress.setPrefHeight(8);
         underFiveProgress.setPrefWidth(100);
-        underFiveProgress.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 5px;");
-
+        underFiveProgress.setStyle("-fx-background-color: " + PURPLE_BUTTON + "; -fx-background-radius: 5px;");
         underFiveBar.getChildren().add(underFiveProgress);
         StackPane.setAlignment(underFiveProgress, Pos.CENTER_LEFT);
 
-        VBox underFiveBox = new VBox(8);
-        underFiveBox.getChildren().addAll(
-                underFiveText,
-                underFiveBar
-        );
+        VBox underFiveBox = new VBox(6, underFiveText, underFiveBar);
 
         // 5 - 10 mins
-
         HBox fiveTenText = new HBox();
-
         Label fiveTen = new Label("5 - 10 mins");
-        fiveTen.setStyle("-fx-font-size: 12px; -fx-text-fill: #191b23;");
-
+        fiveTen.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_PRIMARY + ";");
         Region fiveTenSpacer = new Region();
         HBox.setHgrow(fiveTenSpacer, Priority.ALWAYS);
-
         Label fiveTenPercent = new Label("48%");
-        fiveTenPercent.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #004ac6;");
-
-        fiveTenText.getChildren().addAll(
-                fiveTen,
-                fiveTenSpacer,
-                fiveTenPercent
-        );
+        fiveTenPercent.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-font-weight: bold; -fx-fill: " + PURPLE_DARK + "; -fx-text-fill: " + PURPLE_DARK + ";");
+        fiveTenText.getChildren().addAll(fiveTen, fiveTenSpacer, fiveTenPercent);
 
         StackPane fiveTenBar = new StackPane();
         fiveTenBar.setPrefHeight(8);
         fiveTenBar.setMaxWidth(Double.MAX_VALUE);
-        fiveTenBar.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
-
+        fiveTenBar.setStyle("-fx-background-color: " + PURPLE_LIGHT + "; -fx-background-radius: 5px;");
         Region fiveTenProgress = new Region();
         fiveTenProgress.setPrefHeight(8);
         fiveTenProgress.setPrefWidth(115);
-        fiveTenProgress.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 5px;");
-
+        fiveTenProgress.setStyle("-fx-background-color: " + PURPLE_PRIMARY + "; -fx-background-radius: 5px;");
         fiveTenBar.getChildren().add(fiveTenProgress);
         StackPane.setAlignment(fiveTenProgress, Pos.CENTER_LEFT);
 
-        VBox fiveTenBox = new VBox(8);
-        fiveTenBox.getChildren().addAll(
-                fiveTenText,
-                fiveTenBar
-        );
+        VBox fiveTenBox = new VBox(6, fiveTenText, fiveTenBar);
 
         // Over 10 mins
-
         HBox overTenText = new HBox();
-
         Label overTen = new Label("Over 10 mins");
-        overTen.setStyle("-fx-font-size: 12px; -fx-text-fill: #191b23;");
-
+        overTen.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_PRIMARY + ";");
         Region overTenSpacer = new Region();
         HBox.setHgrow(overTenSpacer, Priority.ALWAYS);
-
         Label overTenPercent = new Label("10%");
-        overTenPercent.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #ba1a1a;");
-
-        overTenText.getChildren().addAll(
-                overTen,
-                overTenSpacer,
-                overTenPercent
-        );
+        overTenPercent.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-font-weight: bold; -fx-fill: " + DANGER_TEXT + "; -fx-text-fill: " + DANGER_TEXT + ";");
+        overTenText.getChildren().addAll(overTen, overTenSpacer, overTenPercent);
 
         StackPane overTenBar = new StackPane();
         overTenBar.setPrefHeight(8);
         overTenBar.setMaxWidth(Double.MAX_VALUE);
-        overTenBar.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
-
+        overTenBar.setStyle("-fx-background-color: " + DANGER_BG + "; -fx-background-radius: 5px;");
         Region overTenProgress = new Region();
         overTenProgress.setPrefHeight(8);
         overTenProgress.setPrefWidth(25);
-        overTenProgress.setStyle("-fx-background-color: #ba1a1a; -fx-background-radius: 5px;");
-
+        overTenProgress.setStyle("-fx-background-color: " + DANGER_TEXT + "; -fx-background-radius: 5px;");
         overTenBar.getChildren().add(overTenProgress);
         StackPane.setAlignment(overTenProgress, Pos.CENTER_LEFT);
 
-        VBox overTenBox = new VBox(8);
-        overTenBox.getChildren().addAll(
-                overTenText,
-                overTenBar
-        );
+        VBox overTenBox = new VBox(6, overTenText, overTenBar);
 
         // Optimization Tip
-
-        VBox optimizationTip = new VBox(8);
-        optimizationTip.setPadding(new Insets(15));
-        optimizationTip.setStyle("-fx-background-color: #f3f3fe; -fx-background-radius: 10px;");
+        VBox optimizationTip = new VBox(6);
+        optimizationTip.setPadding(new Insets(14));
+        optimizationTip.setStyle("-fx-background-color: " + PURPLE_LIGHT + "; -fx-background-radius: 12px;");
 
         Label optimizationTitle = new Label("💡  Optimization Tip");
-        optimizationTitle.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #004ac6;");
+        optimizationTitle.setStyle(FONT_STACK + "-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: " + PURPLE_DARK + ";");
 
-        Label optimizationDescription = new Label(
-                "Congestion in Sector 4 is increasing Average ETA by 18% during peak hours."
-        );
+        Label optimizationDescription = new Label("Congestion in Sector 4 is increasing Average ETA by 18% during peak hours.");
         optimizationDescription.setWrapText(true);
-        optimizationDescription.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+        optimizationDescription.setStyle(FONT_STACK + "-fx-font-size: 11px; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
-        optimizationTip.getChildren().addAll(
-                optimizationTitle,
-                optimizationDescription
-        );
+        optimizationTip.getChildren().addAll(optimizationTitle, optimizationDescription);
 
-        responseGoals.getChildren().addAll(
-                responseTitle,
-                underFiveBox,
-                fiveTenBox,
-                overTenBox,
-                optimizationTip
-        );
-
-        // =============================================================
-        // CHART + RESPONSE GOALS
-        // =============================================================
-
-        HBox middleSection = new HBox(24);
-
-        emergencyVolume.setMaxWidth(Double.MAX_VALUE);
-        responseGoals.setMaxWidth(Double.MAX_VALUE);
+        responseGoals.getChildren().addAll(responseTitle, underFiveBox, fiveTenBox, overTenBox, optimizationTip);
 
         HBox.setHgrow(emergencyVolume, Priority.ALWAYS);
         HBox.setHgrow(responseGoals, Priority.ALWAYS);
 
-        middleSection.getChildren().addAll(
-                emergencyVolume,
-                responseGoals
-        );
+        middleSection.getChildren().addAll(emergencyVolume, responseGoals);
 
-        // =============================================================
         // HOSPITAL PERFORMANCE MATRIX
-        // =============================================================
-
-        VBox hospitalPerformance = new VBox(0);
-        hospitalPerformance.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-border-width: 1px;");
-        hospitalPerformance.setMaxWidth(Double.MAX_VALUE);
-
-        // -------------------------------------------------------------
-        // HEADER
-        // -------------------------------------------------------------
+        VBox hospitalPerformance = new VBox();
+        hospitalPerformance.setStyle(BASE_CARD_STYLE);
 
         HBox hospitalHeader = new HBox();
-        hospitalHeader.setPadding(new Insets(18, 24, 18, 24));
+        hospitalHeader.setPadding(new Insets(18, 20, 18, 20));
         hospitalHeader.setAlignment(Pos.CENTER_LEFT);
-        hospitalHeader.setStyle("-fx-background-color: white; -fx-border-color: transparent transparent #e1e2ed transparent; -fx-border-width: 0px 0px 1px 0px;");
+        hospitalHeader.setStyle("-fx-border-color: " + BORDER_DIVIDER + "; -fx-border-width: 0px 0px 1px 0px;");
 
         Label hospitalTitle = new Label("Hospital Performance Matrix");
-        hospitalTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        hospitalTitle.setStyle(FONT_STACK + "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         Region hospitalHeaderSpacer = new Region();
         HBox.setHgrow(hospitalHeaderSpacer, Priority.ALWAYS);
 
         Label viewAllHospitals = new Label("View All Hospitals  ›");
-        viewAllHospitals.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #004ac6;");
+        viewAllHospitals.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: " + PURPLE_DARK + "; -fx-cursor: hand;");
 
-        hospitalHeader.getChildren().addAll(
-                hospitalTitle,
-                hospitalHeaderSpacer,
-                viewAllHospitals
-        );
-
-        // -------------------------------------------------------------
-        // TABLE HEADER
-        // -------------------------------------------------------------
+        hospitalHeader.getChildren().addAll(hospitalTitle, hospitalHeaderSpacer, viewAllHospitals);
 
         HBox tableHeader = new HBox();
-        tableHeader.setPadding(new Insets(12, 16, 12, 16));
+        tableHeader.setPadding(new Insets(12, 20, 12, 20));
         tableHeader.setAlignment(Pos.CENTER_LEFT);
-        tableHeader.setStyle("-fx-background-color: #f1f5f9;");
+        tableHeader.setStyle("-fx-background-color: " + PURPLE_LIGHT + ";");
 
-        Label hName = new Label("HOSPITAL\nNAME");
-        hName.setPrefWidth(115);
-        hName.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
+        Label hName = new Label("HOSPITAL\nNAME"); hName.setPrefWidth(140); hName.setStyle(FONT_STACK + "-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: " + PURPLE_DARK + ";");
+        Label hTier = new Label("TIER"); hTier.setPrefWidth(120); hTier.setStyle(FONT_STACK + "-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: " + PURPLE_DARK + ";");
+        Label hEmergency = new Label("TOTAL\nEMERGENCIES"); hEmergency.setPrefWidth(130); hEmergency.setStyle(FONT_STACK + "-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: " + PURPLE_DARK + ";");
+        Label hHandover = new Label("AVG.\nHANDOVER"); hHandover.setPrefWidth(110); hHandover.setStyle(FONT_STACK + "-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: " + PURPLE_DARK + ";");
+        Label hPerformance = new Label("PERFORMANCE\nINDEX"); hPerformance.setPrefWidth(130); hPerformance.setStyle(FONT_STACK + "-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: " + PURPLE_DARK + ";");
+        Label hStatus = new Label("STATUS"); hStatus.setPrefWidth(90); hStatus.setStyle(FONT_STACK + "-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: " + PURPLE_DARK + ";");
 
-        Label hTier = new Label("TIER");
-        hTier.setPrefWidth(110);
-        hTier.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
+        tableHeader.getChildren().addAll(hName, hTier, hEmergency, hHandover, hPerformance, hStatus);
 
-        Label hEmergency = new Label("TOTAL\nEMERGENCIES");
-        hEmergency.setPrefWidth(120);
-        hEmergency.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
+        String rowBorder = "-fx-border-color: " + BORDER_DIVIDER + "; -fx-border-width: 0px 0px 1px 0px;";
 
-        Label hHandover = new Label("AVG.\nHANDOVER");
-        hHandover.setPrefWidth(105);
-        hHandover.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
-
-        Label hPerformance = new Label("PERFORMANCE\nINDEX");
-        hPerformance.setPrefWidth(125);
-        hPerformance.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
-
-        Label hStatus = new Label("STATUS");
-        hStatus.setPrefWidth(90);
-        hStatus.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #434655;");
-
-        tableHeader.getChildren().addAll(
-                hName,
-                hTier,
-                hEmergency,
-                hHandover,
-                hPerformance,
-                hStatus
-        );
-
-        // -------------------------------------------------------------
-        // CITY GENERAL HOSPITAL
-        // -------------------------------------------------------------
-
+        // ROW 1
         HBox row1 = new HBox();
-        row1.setPadding(new Insets(16, 16, 16, 16));
+        row1.setPadding(new Insets(16, 20, 16, 20));
         row1.setAlignment(Pos.CENTER_LEFT);
-        row1.setStyle("-fx-background-color: white; -fx-border-color: transparent transparent #e1e2ed transparent; -fx-border-width: 0px 0px 1px 0px;");
+        row1.setStyle(rowBorder);
 
-        Label cityGeneral = new Label("City General\nHospital");
-        cityGeneral.setPrefWidth(115);
-        cityGeneral.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
-
-        Label cityTier = new Label("Tier 1 Trauma");
-        cityTier.setPrefWidth(110);
-        cityTier.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
-
-        Label cityEmergency = new Label("1,248");
-        cityEmergency.setPrefWidth(120);
-        cityEmergency.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
-
-        Label cityHandover = new Label("4m 12s");
-        cityHandover.setPrefWidth(105);
-        cityHandover.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+        Label cityGeneral = new Label("City General\nHospital"); cityGeneral.setPrefWidth(140); cityGeneral.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
+        Label cityTier = new Label("Tier 1 Trauma"); cityTier.setPrefWidth(120); cityTier.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_SECONDARY + ";");
+        Label cityEmergency = new Label("1,248"); cityEmergency.setPrefWidth(130); cityEmergency.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_PRIMARY + ";");
+        Label cityHandover = new Label("4m 12s"); cityHandover.setPrefWidth(110); cityHandover.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
         HBox cityPerformance = new HBox(8);
-        cityPerformance.setPrefWidth(125);
+        cityPerformance.setPrefWidth(130);
         cityPerformance.setAlignment(Pos.CENTER_LEFT);
-
-        StackPane cityProgress = new StackPane();
-        cityProgress.setPrefWidth(65);
-        cityProgress.setPrefHeight(5);
-        cityProgress.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
-
-        Region cityProgressBar = new Region();
-        cityProgressBar.setPrefWidth(61);
-        cityProgressBar.setPrefHeight(5);
-        cityProgressBar.setStyle("-fx-background-color: #22c55e; -fx-background-radius: 5px;");
-
+        StackPane cityProgress = new StackPane(); cityProgress.setPrefWidth(65); cityProgress.setPrefHeight(5); cityProgress.setStyle("-fx-background-color: " + PURPLE_LIGHT + "; -fx-background-radius: 5px;");
+        Region cityProgressBar = new Region(); cityProgressBar.setPrefWidth(61); cityProgressBar.setPrefHeight(5); cityProgressBar.setStyle("-fx-background-color: " + SUCCESS_TEXT + "; -fx-background-radius: 5px;");
         cityProgress.getChildren().add(cityProgressBar);
         StackPane.setAlignment(cityProgressBar, Pos.CENTER_LEFT);
-
-        Label cityPercentage = new Label("94%");
-        cityPercentage.setStyle("-fx-font-size: 10px; -fx-text-fill: #434655;");
-
-        cityPerformance.getChildren().addAll(
-                cityProgress,
-                cityPercentage
-        );
+        Label cityPercentage = new Label("94%"); cityPercentage.setStyle(FONT_STACK + "-fx-font-size: 10px; -fx-text-fill: " + TEXT_MUTED + ";");
+        cityPerformance.getChildren().addAll(cityProgress, cityPercentage);
 
         Label cityStatus = new Label("Excellent");
-        cityStatus.setStyle("-fx-background-color: #dcfce7; -fx-text-fill: #15803d; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 8px; -fx-background-radius: 4px;");
+        cityStatus.setStyle(FONT_STACK + "-fx-background-color: " + SUCCESS_BG + "; -fx-text-fill: " + SUCCESS_TEXT + "; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 8px; -fx-background-radius: 6px;");
 
-        row1.getChildren().addAll(
-                cityGeneral,
-                cityTier,
-                cityEmergency,
-                cityHandover,
-                cityPerformance,
-                cityStatus
-        );
+        row1.getChildren().addAll(cityGeneral, cityTier, cityEmergency, cityHandover, cityPerformance, cityStatus);
 
-        // -------------------------------------------------------------
-        // ST. JUDE MEDICAL CENTER
-        // -------------------------------------------------------------
-
+        // ROW 2
         HBox row2 = new HBox();
-        row2.setPadding(new Insets(16, 16, 16, 16));
+        row2.setPadding(new Insets(16, 20, 16, 20));
         row2.setAlignment(Pos.CENTER_LEFT);
-        row2.setStyle("-fx-background-color: white; -fx-border-color: transparent transparent #e1e2ed transparent; -fx-border-width: 0px 0px 1px 0px;");
+        row2.setStyle(rowBorder);
 
-        Label stJude = new Label("St. Jude\nMedical\nCenter");
-        stJude.setPrefWidth(115);
-        stJude.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
-
-        Label stJudeTier = new Label("Specialized\nCardiac");
-        stJudeTier.setPrefWidth(110);
-        stJudeTier.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
-
-        Label stJudeEmergency = new Label("856");
-        stJudeEmergency.setPrefWidth(120);
-        stJudeEmergency.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
-
-        Label stJudeHandover = new Label("5m 45s");
-        stJudeHandover.setPrefWidth(105);
-        stJudeHandover.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+        Label stJude = new Label("St. Jude\nMedical Center"); stJude.setPrefWidth(140); stJude.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
+        Label stJudeTier = new Label("Specialized Cardiac"); stJudeTier.setPrefWidth(120); stJudeTier.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_SECONDARY + ";");
+        Label stJudeEmergency = new Label("856"); stJudeEmergency.setPrefWidth(130); stJudeEmergency.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_PRIMARY + ";");
+        Label stJudeHandover = new Label("5m 45s"); stJudeHandover.setPrefWidth(110); stJudeHandover.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
         HBox stJudePerformance = new HBox(8);
-        stJudePerformance.setPrefWidth(125);
+        stJudePerformance.setPrefWidth(130);
         stJudePerformance.setAlignment(Pos.CENTER_LEFT);
-
-        StackPane stJudeProgress = new StackPane();
-        stJudeProgress.setPrefWidth(65);
-        stJudeProgress.setPrefHeight(5);
-        stJudeProgress.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
-
-        Region stJudeProgressBar = new Region();
-        stJudeProgressBar.setPrefWidth(51);
-        stJudeProgressBar.setPrefHeight(5);
-        stJudeProgressBar.setStyle("-fx-background-color: #eab308; -fx-background-radius: 5px;");
-
+        StackPane stJudeProgress = new StackPane(); stJudeProgress.setPrefWidth(65); stJudeProgress.setPrefHeight(5); stJudeProgress.setStyle("-fx-background-color: " + PURPLE_LIGHT + "; -fx-background-radius: 5px;");
+        Region stJudeProgressBar = new Region(); stJudeProgressBar.setPrefWidth(51); stJudeProgressBar.setPrefHeight(5); stJudeProgressBar.setStyle("-fx-background-color: " + WARNING_TEXT + "; -fx-background-radius: 5px;");
         stJudeProgress.getChildren().add(stJudeProgressBar);
         StackPane.setAlignment(stJudeProgressBar, Pos.CENTER_LEFT);
-
-        Label stJudePercentage = new Label("78%");
-        stJudePercentage.setStyle("-fx-font-size: 10px; -fx-text-fill: #434655;");
-
-        stJudePerformance.getChildren().addAll(
-                stJudeProgress,
-                stJudePercentage
-        );
+        Label stJudePercentage = new Label("78%"); stJudePercentage.setStyle(FONT_STACK + "-fx-font-size: 10px; -fx-text-fill: " + TEXT_MUTED + ";");
+        stJudePerformance.getChildren().addAll(stJudeProgress, stJudePercentage);
 
         Label stJudeStatus = new Label("Average");
-        stJudeStatus.setStyle("-fx-background-color: #fef3c7; -fx-text-fill: #a16207; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 8px; -fx-background-radius: 4px;");
+        stJudeStatus.setStyle(FONT_STACK + "-fx-background-color: " + WARNING_BG + "; -fx-text-fill: " + WARNING_TEXT + "; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 8px; -fx-background-radius: 6px;");
 
-        row2.getChildren().addAll(
-                stJude,
-                stJudeTier,
-                stJudeEmergency,
-                stJudeHandover,
-                stJudePerformance,
-                stJudeStatus
-        );
+        row2.getChildren().addAll(stJude, stJudeTier, stJudeEmergency, stJudeHandover, stJudePerformance, stJudeStatus);
 
-        // -------------------------------------------------------------
-        // NORTHSIDE COMMUNITY
-        // -------------------------------------------------------------
-
+        // ROW 3
         HBox row3 = new HBox();
-        row3.setPadding(new Insets(16, 16, 16, 16));
+        row3.setPadding(new Insets(16, 20, 16, 20));
         row3.setAlignment(Pos.CENTER_LEFT);
-        row3.setStyle("-fx-background-color: white;");
 
-        Label northside = new Label("Northside\nCommunity");
-        northside.setPrefWidth(115);
-        northside.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
-
-        Label northsideTier = new Label("Tier 2\nGeneral");
-        northsideTier.setPrefWidth(110);
-        northsideTier.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
-
-        Label northsideEmergency = new Label("2,104");
-        northsideEmergency.setPrefWidth(120);
-        northsideEmergency.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
-
-        Label northsideHandover = new Label("3m 50s");
-        northsideHandover.setPrefWidth(105);
-        northsideHandover.setStyle("-fx-font-size: 11px; -fx-text-fill: #434655;");
+        Label northside = new Label("Northside\nCommunity"); northside.setPrefWidth(140); northside.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
+        Label northsideTier = new Label("Tier 2 General"); northsideTier.setPrefWidth(120); northsideTier.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_SECONDARY + ";");
+        Label northsideEmergency = new Label("2,104"); northsideEmergency.setPrefWidth(130); northsideEmergency.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_PRIMARY + ";");
+        Label northsideHandover = new Label("3m 50s"); northsideHandover.setPrefWidth(110); northsideHandover.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
         HBox northsidePerformance = new HBox(8);
-        northsidePerformance.setPrefWidth(125);
+        northsidePerformance.setPrefWidth(130);
         northsidePerformance.setAlignment(Pos.CENTER_LEFT);
-
-        StackPane northsideProgress = new StackPane();
-        northsideProgress.setPrefWidth(65);
-        northsideProgress.setPrefHeight(5);
-        northsideProgress.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 5px;");
-
-        Region northsideProgressBar = new Region();
-        northsideProgressBar.setPrefWidth(58);
-        northsideProgressBar.setPrefHeight(5);
-        northsideProgressBar.setStyle("-fx-background-color: #22c55e; -fx-background-radius: 5px;");
-
+        StackPane northsideProgress = new StackPane(); northsideProgress.setPrefWidth(65); northsideProgress.setPrefHeight(5); northsideProgress.setStyle("-fx-background-color: " + PURPLE_LIGHT + "; -fx-background-radius: 5px;");
+        Region northsideProgressBar = new Region(); northsideProgressBar.setPrefWidth(58); northsideProgressBar.setPrefHeight(5); northsideProgressBar.setStyle("-fx-background-color: " + SUCCESS_TEXT + "; -fx-background-radius: 5px;");
         northsideProgress.getChildren().add(northsideProgressBar);
         StackPane.setAlignment(northsideProgressBar, Pos.CENTER_LEFT);
-
-        Label northsidePercentage = new Label("89%");
-        northsidePercentage.setStyle("-fx-font-size: 10px; -fx-text-fill: #434655;");
-
-        northsidePerformance.getChildren().addAll(
-                northsideProgress,
-                northsidePercentage
-        );
+        Label northsidePercentage = new Label("89%"); northsidePercentage.setStyle(FONT_STACK + "-fx-font-size: 10px; -fx-text-fill: " + TEXT_MUTED + ";");
+        northsidePerformance.getChildren().addAll(northsideProgress, northsidePercentage);
 
         Label northsideStatus = new Label("Optimal");
-        northsideStatus.setStyle("-fx-background-color: #dcfce7; -fx-text-fill: #15803d; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 8px; -fx-background-radius: 4px;");
+        northsideStatus.setStyle(FONT_STACK + "-fx-background-color: " + SUCCESS_BG + "; -fx-text-fill: " + SUCCESS_TEXT + "; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 8px; -fx-background-radius: 6px;");
 
-        row3.getChildren().addAll(
-                northside,
-                northsideTier,
-                northsideEmergency,
-                northsideHandover,
-                northsidePerformance,
-                northsideStatus
-        );
+        row3.getChildren().addAll(northside, northsideTier, northsideEmergency, northsideHandover, northsidePerformance, northsideStatus);
 
-        hospitalPerformance.getChildren().addAll(
-                hospitalHeader,
-                tableHeader,
-                row1,
-                row2,
-                row3
-        );
+        hospitalPerformance.getChildren().addAll(hospitalHeader, tableHeader, row1, row2, row3);
 
-        // =============================================================
-        // ADD ALL CONTENT TO MAIN CONTENT
-        // =============================================================
-
+        // ASSEMBLY
         mainContent.getChildren().addAll(
                 pageHeader,
                 summaryCards,
@@ -863,18 +1410,13 @@ public class AdminAnalyticsAndReports {
                 hospitalPerformance
         );
 
-        // =============================================================
-        // SCROLL PANE
-        // =============================================================
-
         ScrollPane scrollPane = new ScrollPane(mainContent);
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setStyle("-fx-background-color: transparent;" + "-fx-background: transparent;");
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
 
         VBox finalContent = new VBox(scrollPane);
-        finalContent.setStyle("-fx-background-color: #f8f8ff;");
-
+        finalContent.setStyle("-fx-background-color: " + BG_PAGE + ";");
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
 
         return finalContent;
@@ -897,15 +1439,7 @@ public class AdminAnalyticsAndReports {
 
 
 
-
-
-
-
-
-
-
-
-
+//// Top vala working code ahe last vala i dont know ky ake kahi mahit nahi
 
 
 

@@ -1,4 +1,4 @@
-package com.kurukshetra.dao;
+package com.kurukshetra.dao.hospital;
 
 import com.kurukshetra.config.FirebaseConfig;
 import com.kurukshetra.model.HospitalUserModel;

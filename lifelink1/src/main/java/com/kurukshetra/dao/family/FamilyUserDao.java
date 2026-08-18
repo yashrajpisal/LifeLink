@@ -1,4 +1,4 @@
-package com.kurukshetra.dao;
+package com.kurukshetra.dao.family;
 
 import com.kurukshetra.config.FirebaseConfig;
 import com.kurukshetra.model.FamilyUserModel;

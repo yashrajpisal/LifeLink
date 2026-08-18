@@ -1,7 +1,12 @@
 package com.kurukshetra.controller;
 
 import com.kurukshetra.dao.*;
+import com.kurukshetra.dao.adminDao.AdminUserDao;
 import com.kurukshetra.dao.driverDao.DriverUserDao;
+import com.kurukshetra.dao.family.FamilyUserDao;
+import com.kurukshetra.dao.hospital.HospitalUserDao;
+import com.kurukshetra.dao.nurse.NurseUserDao;
+import com.kurukshetra.dao.police.PoliceUserDao;
 import com.kurukshetra.model.*;
 import com.kurukshetra.model.driverModel.DriverUserModel;
 

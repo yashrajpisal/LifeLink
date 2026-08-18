@@ -1,3 +1,760 @@
+// package com.kurukshetra.view.hospital;
+
+// import javafx.geometry.Insets;
+// import javafx.geometry.Pos;
+// import javafx.scene.control.Button;
+// import javafx.scene.control.ComboBox;
+// import javafx.scene.control.ScrollPane;
+// import javafx.scene.control.TextField;
+// import javafx.scene.layout.HBox;
+// import javafx.scene.layout.Priority;
+// import javafx.scene.layout.Region;
+// import javafx.scene.layout.StackPane;
+// import javafx.scene.layout.VBox;
+// import javafx.scene.paint.Color;
+// import javafx.scene.shape.Circle;
+// import javafx.scene.text.Text;
+
+// public class HospitalEmergencyRequests {
+
+//     public VBox getEmergencyRequests() {
+
+//         VBox mainContent = new VBox(20);
+//         mainContent.setPadding(new Insets(25));
+//         mainContent.setStyle("-fx-background-color: #faf8ff;");
+
+//         // =========================
+//         // PAGE HEADER
+//         // =========================
+
+//         Text heading = new Text("Active Emergency Requests");
+//         heading.setStyle("-fx-font-size: 28px;" + "-fx-font-weight: bold;" + "-fx-fill: #191b23;");
+
+//         Text subHeading = new Text("Real-time status monitoring for all incoming emergency cases.");
+//         subHeading.setStyle("-fx-font-size: 14px;" + "-fx-fill: #737686;");
+
+//         VBox headingBox = new VBox(5);
+//         headingBox.getChildren().addAll(
+//                 heading,
+//                 subHeading
+//         );
+
+//         Button manualEntryButton = new Button("+   Manual Entry");
+//         manualEntryButton.setPrefWidth(135);
+//         manualEntryButton.setPrefHeight(42);
+//         manualEntryButton.setStyle("-fx-background-color: #004ac6;" + "-fx-text-fill: white;" + "-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 9px;");
+
+//         Region headerSpacer = new Region();
+//         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
+
+//         HBox header = new HBox(
+//                 headingBox,
+//                 headerSpacer,
+//                 manualEntryButton
+//         );
+
+//         header.setAlignment(Pos.CENTER_LEFT);
+
+//         // =========================
+//         // FILTER SECTION
+//         // =========================
+
+//         Text filterTitle = new Text("FILTER SEVERITY:");
+//         filterTitle.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
+
+//         Button allButton = new Button("All Requests");
+//         allButton.setPrefHeight(32);
+//         allButton.setStyle("-fx-background-color: #004ac6;" + "-fx-text-fill: white;" + "-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 18px;" + "-fx-padding: 5px 14px;");
+
+//         Button criticalButton = new Button("Critical   4");
+//         criticalButton.setPrefHeight(32);
+//         criticalButton.setStyle("-fx-background-color: #ffffff;" + "-fx-text-fill: #ba1a1a;" + "-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-border-color: #c3c6d7;" + "-fx-border-radius: 18px;" + "-fx-background-radius: 18px;" + "-fx-padding: 5px 14px;");
+
+//         Button moderateButton = new Button("Moderate   8");
+//         moderateButton.setPrefHeight(32);
+//         moderateButton.setStyle("-fx-background-color: #ffffff;" + "-fx-text-fill: #943700;" + "-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-border-color: #c3c6d7;" + "-fx-border-radius: 18px;" + "-fx-background-radius: 18px;" + "-fx-padding: 5px 14px;");
+
+//         Button minorButton = new Button("Minor");
+//         minorButton.setPrefHeight(32);
+//         minorButton.setStyle("-fx-background-color: #ffffff;" + "-fx-text-fill: #505f76;" + "-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-border-color: #c3c6d7;" + "-fx-border-radius: 18px;" + "-fx-background-radius: 18px;" + "-fx-padding: 5px 14px;");
+
+//         HBox filterRow = new HBox(
+//                 10,
+//                 filterTitle,
+//                 allButton,
+//                 criticalButton,
+//                 moderateButton,
+//                 minorButton
+//         );
+
+//         filterRow.setAlignment(Pos.CENTER_LEFT);
+
+//         // =========================
+//         // SUMMARY CARDS
+//         // =========================
+
+//         HBox summaryRow = new HBox(15);
+//         summaryRow.setAlignment(Pos.CENTER);
+
+//         // Critical Cases
+//         VBox criticalBox = new VBox(5);
+//         criticalBox.setPadding(new Insets(15));
+//         criticalBox.setPrefHeight(105);
+//         criticalBox.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 12px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 12px;");
+
+//         Text criticalTitle = new Text("CRITICAL CASES");
+//         criticalTitle.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
+
+//         Text criticalValue = new Text("04");
+//         criticalValue.setStyle("-fx-font-size: 28px;" + "-fx-font-weight: bold;" + "-fx-fill: #ba1a1a;");
+
+//         Text criticalInfo = new Text("Requires immediate attention");
+//         criticalInfo.setStyle("-fx-font-size: 10px;" + "-fx-fill: #ba1a1a;");
+
+//         criticalBox.getChildren().addAll(
+//                 criticalTitle,
+//                 criticalValue,
+//                 criticalInfo
+//         );
+
+//         // Active Ambulances
+//         VBox ambulanceBox = new VBox(5);
+//         ambulanceBox.setPadding(new Insets(15));
+//         ambulanceBox.setPrefHeight(105);
+//         ambulanceBox.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 12px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 12px;");
+
+//         Text ambulanceTitle = new Text("ACTIVE AMBULANCES");
+//         ambulanceTitle.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
+
+//         Text ambulanceValue = new Text("12");
+//         ambulanceValue.setStyle("-fx-font-size: 28px;" + "-fx-font-weight: bold;" + "-fx-fill: #004ac6;");
+
+//         Text ambulanceInfo = new Text("Currently deployed");
+//         ambulanceInfo.setStyle("-fx-font-size: 10px;" + "-fx-fill: #004ac6;");
+
+//         ambulanceBox.getChildren().addAll(
+//                 ambulanceTitle,
+//                 ambulanceValue,
+//                 ambulanceInfo
+//         );
+
+//         // Response Time
+//         VBox responseBox = new VBox(5);
+//         responseBox.setPadding(new Insets(15));
+//         responseBox.setPrefHeight(105);
+//         responseBox.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 12px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 12px;");
+
+//         Text responseTitle = new Text("AVG. RESPONSE TIME");
+//         responseTitle.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
+
+//         Text responseValue = new Text("4.2m");
+//         responseValue.setStyle("-fx-font-size: 28px;" + "-fx-font-weight: bold;" + "-fx-fill: #943700;");
+
+//         Text responseInfo = new Text("Average emergency response");
+//         responseInfo.setStyle("-fx-font-size: 10px;" + "-fx-fill: #943700;");
+
+//         responseBox.getChildren().addAll(
+//                 responseTitle,
+//                 responseValue,
+//                 responseInfo
+//         );
+
+//         // Available ER Beds
+//         VBox bedsBox = new VBox(5);
+//         bedsBox.setPadding(new Insets(15));
+//         bedsBox.setPrefHeight(105);
+//         bedsBox.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 12px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 12px;");
+
+//         Text bedsTitle = new Text("AVAILABLE ER BEDS");
+//         bedsTitle.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
+
+//         Text bedsValue = new Text("06");
+//         bedsValue.setStyle("-fx-font-size: 28px;" + "-fx-font-weight: bold;" + "-fx-fill: #505f76;");
+
+//         Text bedsInfo = new Text("Emergency beds available");
+//         bedsInfo.setStyle("-fx-font-size: 10px;" + "-fx-fill: #505f76;");
+
+//         bedsBox.getChildren().addAll(
+//                 bedsTitle,
+//                 bedsValue,
+//                 bedsInfo
+//         );
+
+//         HBox.setHgrow(criticalBox, Priority.ALWAYS);
+//         HBox.setHgrow(ambulanceBox, Priority.ALWAYS);
+//         HBox.setHgrow(responseBox, Priority.ALWAYS);
+//         HBox.setHgrow(bedsBox, Priority.ALWAYS);
+
+//         summaryRow.getChildren().addAll(
+//                 criticalBox,
+//                 ambulanceBox,
+//                 responseBox,
+//                 bedsBox
+//         );
+
+//         // =========================
+//         // SEARCH / FILTER
+//         // =========================
+
+//         HBox searchFilterBox = new HBox(12);
+//         searchFilterBox.setPadding(new Insets(15));
+//         searchFilterBox.setAlignment(Pos.CENTER_LEFT);
+//         searchFilterBox.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 12px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 12px;");
+
+//         TextField searchField = new TextField();
+//         searchField.setPromptText("Search emergency ID, patient or emergency type...");
+//         searchField.setPrefHeight(40);
+//         searchField.setPrefWidth(430);
+//         searchField.setStyle("-fx-background-color: #ffffff;" + "-fx-border-color: #c3c6d7;" + "-fx-border-radius: 9px;" + "-fx-background-radius: 9px;" + "-fx-font-size: 13px;");
+
+//         ComboBox<String> severityCombo = new ComboBox<>();
+//         severityCombo.getItems().addAll(
+//                 "All Severity",
+//                 "High",
+//                 "Medium",
+//                 "Low"
+//         );
+//         severityCombo.setValue("All Severity");
+//         severityCombo.setPrefHeight(40);
+//         severityCombo.setPrefWidth(160);
+
+//         ComboBox<String> ambulanceStatusCombo = new ComboBox<>();
+//         ambulanceStatusCombo.getItems().addAll(
+//                 "All Ambulance Status",
+//                 "En route",
+//                 "Arrived",
+//                 "At Bay"
+//         );
+//         ambulanceStatusCombo.setValue("All Ambulance Status");
+//         ambulanceStatusCombo.setPrefHeight(40);
+//         ambulanceStatusCombo.setPrefWidth(190);
+
+//         searchFilterBox.getChildren().addAll(
+//                 searchField,
+//                 severityCombo,
+//                 ambulanceStatusCombo
+//         );
+
+//         // =========================
+//         // EMERGENCY REQUEST CARD
+//         // =========================
+
+//         VBox requestCard = new VBox();
+//         requestCard.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 15px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 15px;");
+
+//         Text requestTitle = new Text("Emergency Request Queue");
+//         requestTitle.setStyle("-fx-font-size: 19px;" + "-fx-font-weight: bold;" + "-fx-fill: #111827;");
+
+//         Text requestInfo = new Text("Incoming ambulance and patient emergency requests");
+
+//         requestInfo.setStyle("-fx-font-size: 11px;" + "-fx-fill: #737686;");
+
+//         VBox requestTitleBox = new VBox(4);
+//         requestTitleBox.getChildren().addAll(
+//                 requestTitle,
+//                 requestInfo
+//         );
+
+//         Button filterButton = new Button("☷");
+//         filterButton.setPrefSize(38, 35);
+//         filterButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #374151;" + "-fx-font-size: 16px;");
+
+//         Button moreButton = new Button("⋮");
+//         moreButton.setPrefSize(38, 35);
+//         moreButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #374151;" + "-fx-font-size: 18px;");
+
+//         HBox requestActions = new HBox(3);
+//         requestActions.setAlignment(Pos.CENTER_RIGHT);
+//         requestActions.getChildren().addAll(
+//                 filterButton,
+//                 moreButton
+//         );
+
+//         Region requestHeaderSpacer = new Region();
+//         HBox.setHgrow(requestHeaderSpacer, Priority.ALWAYS);
+
+//         HBox requestHeader = new HBox(
+//                 requestTitleBox,
+//                 requestHeaderSpacer,
+//                 requestActions
+//         );
+
+//         requestHeader.setPadding(new Insets(16));
+//         requestHeader.setAlignment(Pos.CENTER_LEFT);
+
+//         // =========================
+//         // TABLE HEADER
+//         // =========================
+
+//         HBox tableHeader = new HBox(10);
+//         tableHeader.setPadding(new Insets(12, 15, 12, 15));
+//         tableHeader.setAlignment(Pos.CENTER_LEFT);
+//         tableHeader.setStyle("-fx-background-color: #e9e9f5;");
+
+//         Text emergencyIdHeader = new Text("EMERGENCY ID");
+//         emergencyIdHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
+//         HBox emergencyIdHeaderBox = new HBox(emergencyIdHeader);
+//         emergencyIdHeaderBox.setPrefWidth(100);
+
+//         Text patientHeader = new Text("PATIENT");
+//         patientHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
+//         HBox patientHeaderBox = new HBox(patientHeader);
+//         patientHeaderBox.setPrefWidth(145);
+
+//         Text typeHeader = new Text("EMERGENCY TYPE");
+//         typeHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
+//         HBox typeHeaderBox = new HBox(typeHeader);
+//         typeHeaderBox.setPrefWidth(145);
+
+//         Text severityHeader = new Text("SEVERITY");
+//         severityHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
+//         HBox severityHeaderBox = new HBox(severityHeader);
+//         severityHeaderBox.setPrefWidth(90);
+
+//         Text etaHeader = new Text("ETA");
+//         etaHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
+//         HBox etaHeaderBox = new HBox(etaHeader);
+//         etaHeaderBox.setPrefWidth(75);
+//         etaHeaderBox.setAlignment(Pos.CENTER);
+
+//         Text departmentHeader = new Text("RECOMMENDED DEPT.");
+//         departmentHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
+//         HBox departmentHeaderBox = new HBox(departmentHeader);
+//         departmentHeaderBox.setPrefWidth(155);
+
+//         Text ambulanceStatusHeader = new Text("AMBULANCE");
+//         ambulanceStatusHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
+//         HBox ambulanceStatusHeaderBox = new HBox(ambulanceStatusHeader);
+//         ambulanceStatusHeaderBox.setPrefWidth(115);
+
+//         Text actionHeader = new Text("ACTION");
+//         actionHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
+//         HBox actionHeaderBox = new HBox(actionHeader);
+//         actionHeaderBox.setPrefWidth(180);
+//         actionHeaderBox.setAlignment(Pos.CENTER_RIGHT);
+
+//         tableHeader.getChildren().addAll(
+//                 emergencyIdHeaderBox,
+//                 patientHeaderBox,
+//                 typeHeaderBox,
+//                 severityHeaderBox,
+//                 etaHeaderBox,
+//                 departmentHeaderBox,
+//                 ambulanceStatusHeaderBox,
+//                 actionHeaderBox
+//         );
+
+//         // =========================
+//         // ROW 1
+//         // =========================
+
+//         HBox row1 = new HBox(10);
+//         row1.setPadding(new Insets(14, 15, 14, 15));
+//         row1.setAlignment(Pos.CENTER_LEFT);
+//         row1.setStyle("-fx-border-color: transparent transparent #e5e7eb transparent;" + "-fx-border-width: 0px 0px 1px 0px;");
+
+//         Text id1 = new Text("#ER-8842");
+//         id1.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
+//         HBox idBox1 = new HBox(id1);
+//         idBox1.setPrefWidth(100);
+
+//         Text patient1 = new Text("James Harrison");
+//         patient1.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
+//         HBox patientBox1 = new HBox(patient1);
+//         patientBox1.setPrefWidth(145);
+
+//         Text type1 = new Text("♥  Cardiac Arrest");
+//         type1.setStyle("-fx-font-size: 12px;" + "-fx-fill: #ba1a1a;");
+//         HBox typeBox1 = new HBox(type1);
+//         typeBox1.setPrefWidth(145);
+
+//         Text severity1 = new Text("HIGH");
+//         severity1.setStyle("-fx-background-color: #ffdad6;" + "-fx-text-fill: #ba1a1a;" + "-fx-font-size: 9px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 12px;" + "-fx-padding: 5px 10px;");
+//         HBox severityBox1 = new HBox(severity1);
+//         severityBox1.setPrefWidth(90);
+//         severityBox1.setAlignment(Pos.CENTER_LEFT);
+
+//         Text eta1 = new Text("2 min");
+//         eta1.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #ba1a1a;");
+//         HBox etaBox1 = new HBox(eta1);
+//         etaBox1.setPrefWidth(75);
+//         etaBox1.setAlignment(Pos.CENTER);
+
+//         Text dept1 = new Text("Cardiology (ER-A)");
+//         dept1.setStyle("-fx-font-size: 11px;" + "-fx-fill: #374151;");
+//         HBox deptBox1 = new HBox(dept1);
+//         deptBox1.setPrefWidth(155);
+
+//         Text ambulance1 = new Text("●  En route");
+//         ambulance1.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #004ac6;");
+//         HBox ambulanceBox1 = new HBox(ambulance1);
+//         ambulanceBox1.setPrefWidth(115);
+
+//         Button accept1 = new Button("Accept");
+//         accept1.setPrefWidth(65);
+//         accept1.setStyle("-fx-background-color: #10b981;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
+
+//         Button reject1 = new Button("Reject");
+//         reject1.setPrefWidth(65);
+//         reject1.setStyle("-fx-background-color: #64748b;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
+
+//         Button view1 = new Button("◉");
+//         view1.setPrefWidth(35);
+//         view1.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #004ac6;" + "-fx-font-size: 14px;");
+
+//         HBox actions1 = new HBox(5, accept1, reject1, view1);
+//         actions1.setPrefWidth(180);
+//         actions1.setAlignment(Pos.CENTER_RIGHT);
+
+//         row1.getChildren().addAll(
+//                 idBox1,
+//                 patientBox1,
+//                 typeBox1,
+//                 severityBox1,
+//                 etaBox1,
+//                 deptBox1,
+//                 ambulanceBox1,
+//                 actions1
+//         );
+
+//         // =========================
+//         // ROW 2
+//         // =========================
+
+//         HBox row2 = new HBox(10);
+//         row2.setPadding(new Insets(14, 15, 14, 15));
+//         row2.setAlignment(Pos.CENTER_LEFT);
+//         row2.setStyle("-fx-border-color: transparent transparent #e5e7eb transparent;" + "-fx-border-width: 0px 0px 1px 0px;");
+
+//         Text id2 = new Text("#ER-8843");
+//         id2.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
+//         HBox idBox2 = new HBox(id2);
+//         idBox2.setPrefWidth(100);
+
+//         Text patient2 = new Text("Maria Rodriguez");
+//         patient2.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
+//         HBox patientBox2 = new HBox(patient2);
+//         patientBox2.setPrefWidth(145);
+
+//         Text type2 = new Text("◉  Respiratory Distress");
+//         type2.setStyle("-fx-font-size: 12px;" + "-fx-fill: #943700;");
+//         HBox typeBox2 = new HBox(type2);
+//         typeBox2.setPrefWidth(145);
+
+//         Text severity2 = new Text("MEDIUM");
+//         severity2.setStyle("-fx-background-color: #ffdbcd;" + "-fx-text-fill: #943700;" + "-fx-font-size: 9px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 12px;" + "-fx-padding: 5px 8px;");
+//         HBox severityBox2 = new HBox(severity2);
+//         severityBox2.setPrefWidth(90);
+//         severityBox2.setAlignment(Pos.CENTER_LEFT);
+
+//         Text eta2 = new Text("5 min");
+//         eta2.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
+//         HBox etaBox2 = new HBox(eta2);
+//         etaBox2.setPrefWidth(75);
+//         etaBox2.setAlignment(Pos.CENTER);
+
+//         Text dept2 = new Text("Pulmonology (ER-B)");
+//         dept2.setStyle("-fx-font-size: 11px;" + "-fx-fill: #374151;");
+//         HBox deptBox2 = new HBox(dept2);
+//         deptBox2.setPrefWidth(155);
+
+//         Text ambulance2 = new Text("●  En route");
+//         ambulance2.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #004ac6;");
+//         HBox ambulanceBox2 = new HBox(ambulance2);
+//         ambulanceBox2.setPrefWidth(115);
+
+//         Button accept2 = new Button("Accept");
+//         accept2.setPrefWidth(65);
+//         accept2.setStyle("-fx-background-color: #10b981;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
+
+//         Button reject2 = new Button("Reject");
+//         reject2.setPrefWidth(65);
+//         reject2.setStyle("-fx-background-color: #64748b;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
+
+//         Button view2 = new Button("◉");
+//         view2.setPrefWidth(35);
+//         view2.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #004ac6;" + "-fx-font-size: 14px;");
+
+//         HBox actions2 = new HBox(5, accept2, reject2, view2);
+//         actions2.setPrefWidth(180);
+//         actions2.setAlignment(Pos.CENTER_RIGHT);
+
+//         row2.getChildren().addAll(
+//                 idBox2,
+//                 patientBox2,
+//                 typeBox2,
+//                 severityBox2,
+//                 etaBox2,
+//                 deptBox2,
+//                 ambulanceBox2,
+//                 actions2
+//         );
+
+//         // =========================
+//         // ROW 3
+//         // =========================
+
+//         HBox row3 = new HBox(10);
+//         row3.setPadding(new Insets(14, 15, 14, 15));
+//         row3.setAlignment(Pos.CENTER_LEFT);
+//         row3.setStyle("-fx-border-color: transparent transparent #e5e7eb transparent;" + "-fx-border-width: 0px 0px 1px 0px;");
+
+//         Text id3 = new Text("#ER-8844");
+//         id3.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
+//         HBox idBox3 = new HBox(id3);
+//         idBox3.setPrefWidth(100);
+
+//         Text patient3 = new Text("Robert Fletcher");
+//         patient3.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
+//         HBox patientBox3 = new HBox(patient3);
+//         patientBox3.setPrefWidth(145);
+
+//         Text type3 = new Text("⚠  Multi-Trauma");
+//         type3.setStyle("-fx-font-size: 12px;" + "-fx-fill: #ba1a1a;");
+//         HBox typeBox3 = new HBox(type3);
+//         typeBox3.setPrefWidth(145);
+
+//         Text severity3 = new Text("HIGH");
+//         severity3.setStyle("-fx-background-color: #ffdad6;" + "-fx-text-fill: #ba1a1a;" + "-fx-font-size: 9px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 12px;" + "-fx-padding: 5px 10px;");
+//         HBox severityBox3 = new HBox(severity3);
+//         severityBox3.setPrefWidth(90);
+//         severityBox3.setAlignment(Pos.CENTER_LEFT);
+
+//         Text eta3 = new Text("Arrived");
+//         eta3.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #16a34a;");
+//         HBox etaBox3 = new HBox(eta3);
+//         etaBox3.setPrefWidth(75);
+//         etaBox3.setAlignment(Pos.CENTER);
+
+//         Text dept3 = new Text("Trauma Unit (ER-A)");
+//         dept3.setStyle("-fx-font-size: 11px;" + "-fx-fill: #374151;");
+//         HBox deptBox3 = new HBox(dept3);
+//         deptBox3.setPrefWidth(155);
+
+//         Text ambulance3 = new Text("●  At Bay 4");
+//         ambulance3.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
+//         HBox ambulanceBox3 = new HBox(ambulance3);
+//         ambulanceBox3.setPrefWidth(115);
+
+//         Button accept3 = new Button("Accept");
+//         accept3.setPrefWidth(65);
+//         accept3.setStyle("-fx-background-color: #10b981;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
+
+//         Button reject3 = new Button("Reject");
+//         reject3.setPrefWidth(65);
+//         reject3.setStyle("-fx-background-color: #64748b;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
+
+//         Button view3 = new Button("◉");
+//         view3.setPrefWidth(35);
+//         view3.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #004ac6;" + "-fx-font-size: 14px;");
+
+//         HBox actions3 = new HBox(5, accept3, reject3, view3);
+//         actions3.setPrefWidth(180);
+//         actions3.setAlignment(Pos.CENTER_RIGHT);
+
+//         row3.getChildren().addAll(
+//                 idBox3,
+//                 patientBox3,
+//                 typeBox3,
+//                 severityBox3,
+//                 etaBox3,
+//                 deptBox3,
+//                 ambulanceBox3,
+//                 actions3
+//         );
+
+//         // =========================
+//         // ROW 4
+//         // =========================
+
+//         HBox row4 = new HBox(10);
+//         row4.setPadding(new Insets(14, 15, 14, 15));
+//         row4.setAlignment(Pos.CENTER_LEFT);
+//         row4.setStyle("-fx-border-color: transparent transparent #e5e7eb transparent;" + "-fx-border-width: 0px 0px 1px 0px;");
+
+//         Text id4 = new Text("#ER-8845");
+//         id4.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
+//         HBox idBox4 = new HBox(id4);
+//         idBox4.setPrefWidth(100);
+
+//         Text patient4 = new Text("Sarah Jenkins");
+//         patient4.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
+//         HBox patientBox4 = new HBox(patient4);
+//         patientBox4.setPrefWidth(145);
+
+//         Text type4 = new Text("●  Minor Laceration");
+//         type4.setStyle("-fx-font-size: 12px;" + "-fx-fill: #505f76;");
+//         HBox typeBox4 = new HBox(type4);
+//         typeBox4.setPrefWidth(145);
+
+//         Text severity4 = new Text("LOW");
+//         severity4.setStyle("-fx-background-color: #d3e4fe;" + "-fx-text-fill: #505f76;" + "-fx-font-size: 9px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 12px;" + "-fx-padding: 5px 10px;");
+//         HBox severityBox4 = new HBox(severity4);
+//         severityBox4.setPrefWidth(90);
+//         severityBox4.setAlignment(Pos.CENTER_LEFT);
+
+//         Text eta4 = new Text("12 min");
+//         eta4.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
+//         HBox etaBox4 = new HBox(eta4);
+//         etaBox4.setPrefWidth(75);
+//         etaBox4.setAlignment(Pos.CENTER);
+
+//         Text dept4 = new Text("Urgent Care (ER-C)");
+//         dept4.setStyle("-fx-font-size: 11px;" + "-fx-fill: #374151;");
+//         HBox deptBox4 = new HBox(dept4);
+//         deptBox4.setPrefWidth(155);
+
+//         Text ambulance4 = new Text("●  En route");
+//         ambulance4.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #004ac6;");
+//         HBox ambulanceBox4 = new HBox(ambulance4);
+//         ambulanceBox4.setPrefWidth(115);
+
+//         Button accept4 = new Button("Accept");
+//         accept4.setPrefWidth(65);
+//         accept4.setStyle("-fx-background-color: #10b981;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
+
+//         Button reject4 = new Button("Reject");
+//         reject4.setPrefWidth(65);
+//         reject4.setStyle("-fx-background-color: #64748b;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
+
+//         Button view4 = new Button("◉");
+//         view4.setPrefWidth(35);
+//         view4.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #004ac6;" + "-fx-font-size: 14px;");
+
+//         HBox actions4 = new HBox(5, accept4, reject4, view4);
+//         actions4.setPrefWidth(180);
+//         actions4.setAlignment(Pos.CENTER_RIGHT);
+
+//         row4.getChildren().addAll(
+//                 idBox4,
+//                 patientBox4,
+//                 typeBox4,
+//                 severityBox4,
+//                 etaBox4,
+//                 deptBox4,
+//                 ambulanceBox4,
+//                 actions4
+//         );
+
+//         // =========================
+//         // REQUEST CARD
+//         // =========================
+
+//         requestCard.getChildren().addAll(
+//                 requestHeader,
+//                 tableHeader,
+//                 row1,
+//                 row2,
+//                 row3,
+//                 row4
+//         );
+
+//         // =========================
+//         // PAGINATION
+//         // =========================
+
+//         Text showingText = new Text("Showing 4 of 24 active requests");
+//         showingText.setStyle("-fx-font-size: 12px;" + "-fx-fill: #737686;");
+
+//         Region paginationSpacer = new Region();
+//         HBox.setHgrow(paginationSpacer, Priority.ALWAYS);
+
+//         Button previousButton = new Button("‹");
+//         previousButton.setPrefSize(38, 35);
+//         previousButton.setStyle("-fx-background-color: #ffffff;" + "-fx-border-color: #c3c6d7;" + "-fx-background-radius: 8px;" + "-fx-border-radius: 8px;" + "-fx-font-size: 17px;");
+
+//         Button pageOne = new Button("1");
+//         pageOne.setPrefSize(38, 35);
+//         pageOne.setStyle("-fx-background-color: #004ac6;" + "-fx-text-fill: white;" + "-fx-font-weight: bold;" + "-fx-background-radius: 8px;");
+
+//         Button pageTwo = new Button("2");
+//         pageTwo.setPrefSize(38, 35);
+//         pageTwo.setStyle("-fx-background-color: #ffffff;" + "-fx-border-color: #c3c6d7;" + "-fx-background-radius: 8px;" + "-fx-border-radius: 8px;");
+
+//         Button nextButton = new Button("›");
+//         nextButton.setPrefSize(38, 35);
+//         nextButton.setStyle("-fx-background-color: #ffffff;" + "-fx-border-color: #c3c6d7;" + "-fx-background-radius: 8px;" + "-fx-border-radius: 8px;" + "-fx-font-size: 17px;");
+
+//         HBox pagination = new HBox(8);
+//         pagination.setAlignment(Pos.CENTER_LEFT);
+//         pagination.getChildren().addAll(
+//                 showingText,
+//                 paginationSpacer,
+//                 previousButton,
+//                 pageOne,
+//                 pageTwo,
+//                 nextButton
+//         );
+
+//         // =========================
+//         // SYSTEM NOTICE
+//         // =========================
+
+//         VBox noticeBox = new VBox(4);
+//         noticeBox.setPadding(new Insets(14));
+//         noticeBox.setStyle("-fx-background-color: #eff6ff;" + "-fx-border-color: #bfdbfe;" + "-fx-border-radius: 12px;" + "-fx-background-radius: 12px;");
+
+//         Text noticeTitle = new Text("●  System Notice");
+//         noticeTitle.setStyle("-fx-font-size: 13px;" + "-fx-font-weight: bold;" + "-fx-fill: #004ac6;");
+
+//         Text noticeText = new Text("All available ambulances in the Northern District are currently deployed. Redirecting new Minor calls to St. Jude’s.");
+//         noticeText.setStyle("-fx-font-size: 11px;" + "-fx-fill: #54647a;");
+//         noticeText.setWrappingWidth(900);
+
+//         noticeBox.getChildren().addAll(
+//                 noticeTitle,
+//                 noticeText
+//         );
+
+//         Button routingButton = new Button("View Routing Map");
+//         routingButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #004ac6;" + "-fx-font-size: 11px;" + "-fx-font-weight: bold;");
+
+//         Region noticeSpacer = new Region();
+//         HBox.setHgrow(noticeSpacer, Priority.ALWAYS);
+
+//         HBox notice = new HBox(
+//                 noticeBox,
+//                 noticeSpacer,
+//                 routingButton
+//         );
+
+//         notice.setAlignment(Pos.CENTER_LEFT);
+//         notice.setPadding(new Insets(5));
+
+//         // =========================
+//         // MAIN CONTENT
+//         // =========================
+
+//         mainContent.getChildren().addAll(
+//                 header,
+//                 filterRow,
+//                 summaryRow,
+//                 searchFilterBox,
+//                 requestCard,
+//                 pagination,
+//                 notice
+//         );
+
+//         // =========================
+//         // SCROLL PANE
+//         // =========================
+
+//         ScrollPane scrollPane = new ScrollPane(mainContent);
+//         scrollPane.setFitToWidth(true);
+//         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+//         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+//         scrollPane.setStyle("-fx-background-color: transparent;" + "-fx-background: transparent;");
+
+//         VBox finalContent = new VBox(scrollPane);
+//         finalContent.setStyle("-fx-background-color: #faf8ff;");
+
+//         VBox.setVgrow(scrollPane, Priority.ALWAYS);
+
+//         return finalContent;
+//     }
+// }
+
+
 package com.kurukshetra.view.hospital;
 
 import javafx.geometry.Insets;
@@ -9,747 +766,349 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 public class HospitalEmergencyRequests {
+
+    private static final String PRIMARY_TEAL    = "#087F8C";
+    private static final String TEAL_DARK       = "#056D79";
+    private static final String TEAL_VERY_LIGHT = "#EAF8F9";
+    private static final String TEAL_LIGHT      = "#DDF3F5";
+    private static final String TEAL_SOFT       = "#CDECEF";
+    private static final String TEAL_PALE       = "#F2FBFB";
+
+    private static final String PAGE_BG         = "#F7FBFC";
+    private static final String SURFACE         = "#FFFFFF";
+    private static final String BORDER_COLOR    = "#DCECEF";
+
+    private static final String TEXT_PRIMARY    = "#17252A";
+    private static final String TEXT_SECONDARY  = "#52646A";
+    private static final String TEXT_MUTED      = "#829196";
+
+    private static final String STATUS_SUCCESS_BG   = "#E2F6EC";
+    private static final String STATUS_SUCCESS_TEXT = "#22A06B";
+    private static final String STATUS_WARN_BG      = "#FFF4D6";
+    private static final String STATUS_WARN_TEXT    = "#E8A317";
+    private static final String STATUS_DANGER_BG    = "#FCE9EC";
+    private static final String STATUS_DANGER_TEXT  = "#D96C7A";
+
+    private static final String CARD_STYLE =
+        "-fx-background-color: " + SURFACE + ";" +
+        "-fx-border-color: " + BORDER_COLOR + ";" +
+        "-fx-border-radius: 14px;" +
+        "-fx-background-radius: 14px;" +
+        "-fx-effect: dropshadow(gaussian, rgba(8, 127, 140, 0.06), 16, 0.12, 0, 4);";
 
     public VBox getEmergencyRequests() {
 
         VBox mainContent = new VBox(20);
         mainContent.setPadding(new Insets(25));
-        mainContent.setStyle("-fx-background-color: #faf8ff;");
+        mainContent.setStyle("-fx-background-color: " + PAGE_BG + ";");
 
-        // =========================
-        // PAGE HEADER
-        // =========================
-
+        // Page Header
         Text heading = new Text("Active Emergency Requests");
-        heading.setStyle("-fx-font-size: 28px;" + "-fx-font-weight: bold;" + "-fx-fill: #191b23;");
+        heading.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
 
         Text subHeading = new Text("Real-time status monitoring for all incoming emergency cases.");
-        subHeading.setStyle("-fx-font-size: 14px;" + "-fx-fill: #737686;");
+        subHeading.setStyle("-fx-font-size: 13px; -fx-fill: " + TEXT_SECONDARY + ";");
 
-        VBox headingBox = new VBox(5);
-        headingBox.getChildren().addAll(
-                heading,
-                subHeading
-        );
+        VBox headingBox = new VBox(4, heading, subHeading);
 
         Button manualEntryButton = new Button("+   Manual Entry");
         manualEntryButton.setPrefWidth(135);
-        manualEntryButton.setPrefHeight(42);
-        manualEntryButton.setStyle("-fx-background-color: #004ac6;" + "-fx-text-fill: white;" + "-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 9px;");
+        manualEntryButton.setPrefHeight(40);
+        manualEntryButton.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 9px; -fx-cursor: hand;");
+        manualEntryButton.setOnMouseEntered(e -> manualEntryButton.setStyle("-fx-background-color: " + TEAL_DARK + "; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 9px; -fx-cursor: hand;"));
+        manualEntryButton.setOnMouseExited(e -> manualEntryButton.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 9px; -fx-cursor: hand;"));
 
         Region headerSpacer = new Region();
         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
 
-        HBox header = new HBox(
-                headingBox,
-                headerSpacer,
-                manualEntryButton
-        );
-
+        HBox header = new HBox(headingBox, headerSpacer, manualEntryButton);
         header.setAlignment(Pos.CENTER_LEFT);
 
-        // =========================
-        // FILTER SECTION
-        // =========================
-
+        // Filter Section
         Text filterTitle = new Text("FILTER SEVERITY:");
-        filterTitle.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
+        filterTitle.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + TEXT_MUTED + ";");
 
         Button allButton = new Button("All Requests");
         allButton.setPrefHeight(32);
-        allButton.setStyle("-fx-background-color: #004ac6;" + "-fx-text-fill: white;" + "-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 18px;" + "-fx-padding: 5px 14px;");
+        allButton.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 18px; -fx-padding: 5px 14px; -fx-cursor: hand;");
 
         Button criticalButton = new Button("Critical   4");
         criticalButton.setPrefHeight(32);
-        criticalButton.setStyle("-fx-background-color: #ffffff;" + "-fx-text-fill: #ba1a1a;" + "-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-border-color: #c3c6d7;" + "-fx-border-radius: 18px;" + "-fx-background-radius: 18px;" + "-fx-padding: 5px 14px;");
+        criticalButton.setStyle("-fx-background-color: " + SURFACE + "; -fx-text-fill: " + STATUS_DANGER_TEXT + "; -fx-font-size: 11px; -fx-font-weight: bold; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 18px; -fx-background-radius: 18px; -fx-padding: 5px 14px; -fx-cursor: hand;");
 
         Button moderateButton = new Button("Moderate   8");
         moderateButton.setPrefHeight(32);
-        moderateButton.setStyle("-fx-background-color: #ffffff;" + "-fx-text-fill: #943700;" + "-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-border-color: #c3c6d7;" + "-fx-border-radius: 18px;" + "-fx-background-radius: 18px;" + "-fx-padding: 5px 14px;");
+        moderateButton.setStyle("-fx-background-color: " + SURFACE + "; -fx-text-fill: " + STATUS_WARN_TEXT + "; -fx-font-size: 11px; -fx-font-weight: bold; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 18px; -fx-background-radius: 18px; -fx-padding: 5px 14px; -fx-cursor: hand;");
 
         Button minorButton = new Button("Minor");
         minorButton.setPrefHeight(32);
-        minorButton.setStyle("-fx-background-color: #ffffff;" + "-fx-text-fill: #505f76;" + "-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-border-color: #c3c6d7;" + "-fx-border-radius: 18px;" + "-fx-background-radius: 18px;" + "-fx-padding: 5px 14px;");
+        minorButton.setStyle("-fx-background-color: " + SURFACE + "; -fx-text-fill: " + TEXT_SECONDARY + "; -fx-font-size: 11px; -fx-font-weight: bold; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 18px; -fx-background-radius: 18px; -fx-padding: 5px 14px; -fx-cursor: hand;");
 
-        HBox filterRow = new HBox(
-                10,
-                filterTitle,
-                allButton,
-                criticalButton,
-                moderateButton,
-                minorButton
-        );
-
+        HBox filterRow = new HBox(10, filterTitle, allButton, criticalButton, moderateButton, minorButton);
         filterRow.setAlignment(Pos.CENTER_LEFT);
 
-        // =========================
-        // SUMMARY CARDS
-        // =========================
-
-        HBox summaryRow = new HBox(15);
+        // Summary Cards
+        HBox summaryRow = new HBox(14);
         summaryRow.setAlignment(Pos.CENTER);
 
-        // Critical Cases
-        VBox criticalBox = new VBox(5);
-        criticalBox.setPadding(new Insets(15));
-        criticalBox.setPrefHeight(105);
-        criticalBox.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 12px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 12px;");
-
-        Text criticalTitle = new Text("CRITICAL CASES");
-        criticalTitle.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
-
-        Text criticalValue = new Text("04");
-        criticalValue.setStyle("-fx-font-size: 28px;" + "-fx-font-weight: bold;" + "-fx-fill: #ba1a1a;");
-
-        Text criticalInfo = new Text("Requires immediate attention");
-        criticalInfo.setStyle("-fx-font-size: 10px;" + "-fx-fill: #ba1a1a;");
-
-        criticalBox.getChildren().addAll(
-                criticalTitle,
-                criticalValue,
-                criticalInfo
-        );
-
-        // Active Ambulances
-        VBox ambulanceBox = new VBox(5);
-        ambulanceBox.setPadding(new Insets(15));
-        ambulanceBox.setPrefHeight(105);
-        ambulanceBox.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 12px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 12px;");
-
-        Text ambulanceTitle = new Text("ACTIVE AMBULANCES");
-        ambulanceTitle.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
-
-        Text ambulanceValue = new Text("12");
-        ambulanceValue.setStyle("-fx-font-size: 28px;" + "-fx-font-weight: bold;" + "-fx-fill: #004ac6;");
-
-        Text ambulanceInfo = new Text("Currently deployed");
-        ambulanceInfo.setStyle("-fx-font-size: 10px;" + "-fx-fill: #004ac6;");
-
-        ambulanceBox.getChildren().addAll(
-                ambulanceTitle,
-                ambulanceValue,
-                ambulanceInfo
-        );
-
-        // Response Time
-        VBox responseBox = new VBox(5);
-        responseBox.setPadding(new Insets(15));
-        responseBox.setPrefHeight(105);
-        responseBox.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 12px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 12px;");
-
-        Text responseTitle = new Text("AVG. RESPONSE TIME");
-        responseTitle.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
-
-        Text responseValue = new Text("4.2m");
-        responseValue.setStyle("-fx-font-size: 28px;" + "-fx-font-weight: bold;" + "-fx-fill: #943700;");
-
-        Text responseInfo = new Text("Average emergency response");
-        responseInfo.setStyle("-fx-font-size: 10px;" + "-fx-fill: #943700;");
-
-        responseBox.getChildren().addAll(
-                responseTitle,
-                responseValue,
-                responseInfo
-        );
-
-        // Available ER Beds
-        VBox bedsBox = new VBox(5);
-        bedsBox.setPadding(new Insets(15));
-        bedsBox.setPrefHeight(105);
-        bedsBox.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 12px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 12px;");
-
-        Text bedsTitle = new Text("AVAILABLE ER BEDS");
-        bedsTitle.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
-
-        Text bedsValue = new Text("06");
-        bedsValue.setStyle("-fx-font-size: 28px;" + "-fx-font-weight: bold;" + "-fx-fill: #505f76;");
-
-        Text bedsInfo = new Text("Emergency beds available");
-        bedsInfo.setStyle("-fx-font-size: 10px;" + "-fx-fill: #505f76;");
-
-        bedsBox.getChildren().addAll(
-                bedsTitle,
-                bedsValue,
-                bedsInfo
-        );
+        VBox criticalBox = createSummaryCard("CRITICAL CASES", "04", STATUS_DANGER_TEXT, "Requires immediate attention", STATUS_DANGER_TEXT);
+        VBox ambulanceBox = createSummaryCard("ACTIVE AMBULANCES", "12", PRIMARY_TEAL, "Currently deployed", PRIMARY_TEAL);
+        VBox responseBox = createSummaryCard("AVG. RESPONSE TIME", "4.2m", STATUS_WARN_TEXT, "Average emergency response", TEXT_SECONDARY);
+        VBox bedsBox = createSummaryCard("AVAILABLE ER BEDS", "06", TEAL_DARK, "Emergency beds available", TEXT_SECONDARY);
 
         HBox.setHgrow(criticalBox, Priority.ALWAYS);
         HBox.setHgrow(ambulanceBox, Priority.ALWAYS);
         HBox.setHgrow(responseBox, Priority.ALWAYS);
         HBox.setHgrow(bedsBox, Priority.ALWAYS);
 
-        summaryRow.getChildren().addAll(
-                criticalBox,
-                ambulanceBox,
-                responseBox,
-                bedsBox
-        );
+        summaryRow.getChildren().addAll(criticalBox, ambulanceBox, responseBox, bedsBox);
 
-        // =========================
-        // SEARCH / FILTER
-        // =========================
-
+        // Search & Filters
         HBox searchFilterBox = new HBox(12);
-        searchFilterBox.setPadding(new Insets(15));
+        searchFilterBox.setPadding(new Insets(14, 16, 14, 16));
         searchFilterBox.setAlignment(Pos.CENTER_LEFT);
-        searchFilterBox.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 12px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 12px;");
+        searchFilterBox.setStyle(CARD_STYLE);
 
         TextField searchField = new TextField();
         searchField.setPromptText("Search emergency ID, patient or emergency type...");
-        searchField.setPrefHeight(40);
+        searchField.setPrefHeight(38);
         searchField.setPrefWidth(430);
-        searchField.setStyle("-fx-background-color: #ffffff;" + "-fx-border-color: #c3c6d7;" + "-fx-border-radius: 9px;" + "-fx-background-radius: 9px;" + "-fx-font-size: 13px;");
+        searchField.setStyle(
+            "-fx-background-color: " + SURFACE + ";" +
+            "-fx-border-color: " + BORDER_COLOR + ";" +
+            "-fx-border-radius: 8px;" +
+            "-fx-background-radius: 8px;" +
+            "-fx-font-size: 13px;" +
+            "-fx-text-fill: " + TEXT_PRIMARY + ";" +
+            "-fx-prompt-text-fill: " + TEXT_MUTED + ";"
+        );
 
         ComboBox<String> severityCombo = new ComboBox<>();
-        severityCombo.getItems().addAll(
-                "All Severity",
-                "High",
-                "Medium",
-                "Low"
-        );
+        severityCombo.getItems().addAll("All Severity", "High", "Medium", "Low");
         severityCombo.setValue("All Severity");
-        severityCombo.setPrefHeight(40);
+        severityCombo.setPrefHeight(38);
         severityCombo.setPrefWidth(160);
+        severityCombo.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12px;");
 
         ComboBox<String> ambulanceStatusCombo = new ComboBox<>();
-        ambulanceStatusCombo.getItems().addAll(
-                "All Ambulance Status",
-                "En route",
-                "Arrived",
-                "At Bay"
-        );
+        ambulanceStatusCombo.getItems().addAll("All Ambulance Status", "En route", "Arrived", "At Bay");
         ambulanceStatusCombo.setValue("All Ambulance Status");
-        ambulanceStatusCombo.setPrefHeight(40);
+        ambulanceStatusCombo.setPrefHeight(38);
         ambulanceStatusCombo.setPrefWidth(190);
+        ambulanceStatusCombo.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12px;");
 
-        searchFilterBox.getChildren().addAll(
-                searchField,
-                severityCombo,
-                ambulanceStatusCombo
-        );
+        searchFilterBox.getChildren().addAll(searchField, severityCombo, ambulanceStatusCombo);
 
-        // =========================
-        // EMERGENCY REQUEST CARD
-        // =========================
-
+        // Emergency Request Card
         VBox requestCard = new VBox();
-        requestCard.setStyle("-fx-background-color: #ffffff;" + "-fx-background-radius: 15px;" + "-fx-border-color: #e5e7eb;" + "-fx-border-radius: 15px;");
+        requestCard.setStyle(CARD_STYLE);
 
         Text requestTitle = new Text("Emergency Request Queue");
-        requestTitle.setStyle("-fx-font-size: 19px;" + "-fx-font-weight: bold;" + "-fx-fill: #111827;");
+        requestTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
 
         Text requestInfo = new Text("Incoming ambulance and patient emergency requests");
+        requestInfo.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_MUTED + ";");
 
-        requestInfo.setStyle("-fx-font-size: 11px;" + "-fx-fill: #737686;");
+        VBox requestTitleBox = new VBox(3, requestTitle, requestInfo);
 
-        VBox requestTitleBox = new VBox(4);
-        requestTitleBox.getChildren().addAll(
-                requestTitle,
-                requestInfo
-        );
-
-        Button filterButton = new Button("☷");
-        filterButton.setPrefSize(38, 35);
-        filterButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #374151;" + "-fx-font-size: 16px;");
+        Button filterBtn = new Button("☷");
+        filterBtn.setPrefSize(36, 34);
+        filterBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: " + TEXT_SECONDARY + "; -fx-font-size: 15px; -fx-cursor: hand;");
 
         Button moreButton = new Button("⋮");
-        moreButton.setPrefSize(38, 35);
-        moreButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #374151;" + "-fx-font-size: 18px;");
+        moreButton.setPrefSize(36, 34);
+        moreButton.setStyle("-fx-background-color: transparent; -fx-text-fill: " + TEXT_SECONDARY + "; -fx-font-size: 17px; -fx-cursor: hand;");
 
-        HBox requestActions = new HBox(3);
+        HBox requestActions = new HBox(3, filterBtn, moreButton);
         requestActions.setAlignment(Pos.CENTER_RIGHT);
-        requestActions.getChildren().addAll(
-                filterButton,
-                moreButton
-        );
 
         Region requestHeaderSpacer = new Region();
         HBox.setHgrow(requestHeaderSpacer, Priority.ALWAYS);
 
-        HBox requestHeader = new HBox(
-                requestTitleBox,
-                requestHeaderSpacer,
-                requestActions
-        );
-
+        HBox requestHeader = new HBox(requestTitleBox, requestHeaderSpacer, requestActions);
         requestHeader.setPadding(new Insets(16));
         requestHeader.setAlignment(Pos.CENTER_LEFT);
 
-        // =========================
-        // TABLE HEADER
-        // =========================
-
+        // Table Header
         HBox tableHeader = new HBox(10);
-        tableHeader.setPadding(new Insets(12, 15, 12, 15));
+        tableHeader.setPadding(new Insets(12, 16, 12, 16));
         tableHeader.setAlignment(Pos.CENTER_LEFT);
-        tableHeader.setStyle("-fx-background-color: #e9e9f5;");
-
-        Text emergencyIdHeader = new Text("EMERGENCY ID");
-        emergencyIdHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
-        HBox emergencyIdHeaderBox = new HBox(emergencyIdHeader);
-        emergencyIdHeaderBox.setPrefWidth(100);
-
-        Text patientHeader = new Text("PATIENT");
-        patientHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
-        HBox patientHeaderBox = new HBox(patientHeader);
-        patientHeaderBox.setPrefWidth(145);
-
-        Text typeHeader = new Text("EMERGENCY TYPE");
-        typeHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
-        HBox typeHeaderBox = new HBox(typeHeader);
-        typeHeaderBox.setPrefWidth(145);
-
-        Text severityHeader = new Text("SEVERITY");
-        severityHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
-        HBox severityHeaderBox = new HBox(severityHeader);
-        severityHeaderBox.setPrefWidth(90);
-
-        Text etaHeader = new Text("ETA");
-        etaHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
-        HBox etaHeaderBox = new HBox(etaHeader);
-        etaHeaderBox.setPrefWidth(75);
-        etaHeaderBox.setAlignment(Pos.CENTER);
-
-        Text departmentHeader = new Text("RECOMMENDED DEPT.");
-        departmentHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
-        HBox departmentHeaderBox = new HBox(departmentHeader);
-        departmentHeaderBox.setPrefWidth(155);
-
-        Text ambulanceStatusHeader = new Text("AMBULANCE");
-        ambulanceStatusHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
-        HBox ambulanceStatusHeaderBox = new HBox(ambulanceStatusHeader);
-        ambulanceStatusHeaderBox.setPrefWidth(115);
-
-        Text actionHeader = new Text("ACTION");
-        actionHeader.setStyle("-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-fill: #6b7280;");
-        HBox actionHeaderBox = new HBox(actionHeader);
-        actionHeaderBox.setPrefWidth(180);
-        actionHeaderBox.setAlignment(Pos.CENTER_RIGHT);
+        tableHeader.setStyle("-fx-background-color: " + TEAL_VERY_LIGHT + ";");
 
         tableHeader.getChildren().addAll(
-                emergencyIdHeaderBox,
-                patientHeaderBox,
-                typeHeaderBox,
-                severityHeaderBox,
-                etaHeaderBox,
-                departmentHeaderBox,
-                ambulanceStatusHeaderBox,
-                actionHeaderBox
+            createHeaderBox("EMERGENCY ID", 100, Pos.CENTER_LEFT),
+            createHeaderBox("PATIENT", 145, Pos.CENTER_LEFT),
+            createHeaderBox("EMERGENCY TYPE", 145, Pos.CENTER_LEFT),
+            createHeaderBox("SEVERITY", 90, Pos.CENTER_LEFT),
+            createHeaderBox("ETA", 75, Pos.CENTER),
+            createHeaderBox("RECOMMENDED DEPT.", 155, Pos.CENTER_LEFT),
+            createHeaderBox("AMBULANCE", 115, Pos.CENTER_LEFT),
+            createHeaderBox("ACTION", 180, Pos.CENTER_RIGHT)
         );
 
-        // =========================
-        // ROW 1
-        // =========================
+        HBox row1 = createEmergencyRow("#ER-8842", "James Harrison", "♥  Cardiac Arrest", STATUS_DANGER_TEXT, "HIGH", STATUS_DANGER_BG, STATUS_DANGER_TEXT, "2 min", STATUS_DANGER_TEXT, "Cardiology (ER-A)", "●  En route", PRIMARY_TEAL, true);
+        HBox row2 = createEmergencyRow("#ER-8843", "Maria Rodriguez", "◉  Respiratory Distress", STATUS_WARN_TEXT, "MEDIUM", STATUS_WARN_BG, STATUS_WARN_TEXT, "5 min", TEXT_PRIMARY, "Pulmonology (ER-B)", "●  En route", PRIMARY_TEAL, false);
+        HBox row3 = createEmergencyRow("#ER-8844", "Robert Fletcher", "⚠  Multi-Trauma", STATUS_DANGER_TEXT, "HIGH", STATUS_DANGER_BG, STATUS_DANGER_TEXT, "Arrived", STATUS_SUCCESS_TEXT, "Trauma Unit (ER-A)", "●  At Bay 4", TEXT_MUTED, true);
+        HBox row4 = createEmergencyRow("#ER-8845", "Sarah Jenkins", "●  Minor Laceration", TEXT_SECONDARY, "LOW", TEAL_VERY_LIGHT, TEAL_DARK, "12 min", TEXT_PRIMARY, "Urgent Care (ER-C)", "●  En route", PRIMARY_TEAL, false);
 
-        HBox row1 = new HBox(10);
-        row1.setPadding(new Insets(14, 15, 14, 15));
-        row1.setAlignment(Pos.CENTER_LEFT);
-        row1.setStyle("-fx-border-color: transparent transparent #e5e7eb transparent;" + "-fx-border-width: 0px 0px 1px 0px;");
+        requestCard.getChildren().addAll(requestHeader, tableHeader, row1, row2, row3, row4);
 
-        Text id1 = new Text("#ER-8842");
-        id1.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
-        HBox idBox1 = new HBox(id1);
-        idBox1.setPrefWidth(100);
-
-        Text patient1 = new Text("James Harrison");
-        patient1.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
-        HBox patientBox1 = new HBox(patient1);
-        patientBox1.setPrefWidth(145);
-
-        Text type1 = new Text("♥  Cardiac Arrest");
-        type1.setStyle("-fx-font-size: 12px;" + "-fx-fill: #ba1a1a;");
-        HBox typeBox1 = new HBox(type1);
-        typeBox1.setPrefWidth(145);
-
-        Text severity1 = new Text("HIGH");
-        severity1.setStyle("-fx-background-color: #ffdad6;" + "-fx-text-fill: #ba1a1a;" + "-fx-font-size: 9px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 12px;" + "-fx-padding: 5px 10px;");
-        HBox severityBox1 = new HBox(severity1);
-        severityBox1.setPrefWidth(90);
-        severityBox1.setAlignment(Pos.CENTER_LEFT);
-
-        Text eta1 = new Text("2 min");
-        eta1.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #ba1a1a;");
-        HBox etaBox1 = new HBox(eta1);
-        etaBox1.setPrefWidth(75);
-        etaBox1.setAlignment(Pos.CENTER);
-
-        Text dept1 = new Text("Cardiology (ER-A)");
-        dept1.setStyle("-fx-font-size: 11px;" + "-fx-fill: #374151;");
-        HBox deptBox1 = new HBox(dept1);
-        deptBox1.setPrefWidth(155);
-
-        Text ambulance1 = new Text("●  En route");
-        ambulance1.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #004ac6;");
-        HBox ambulanceBox1 = new HBox(ambulance1);
-        ambulanceBox1.setPrefWidth(115);
-
-        Button accept1 = new Button("Accept");
-        accept1.setPrefWidth(65);
-        accept1.setStyle("-fx-background-color: #10b981;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
-
-        Button reject1 = new Button("Reject");
-        reject1.setPrefWidth(65);
-        reject1.setStyle("-fx-background-color: #64748b;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
-
-        Button view1 = new Button("◉");
-        view1.setPrefWidth(35);
-        view1.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #004ac6;" + "-fx-font-size: 14px;");
-
-        HBox actions1 = new HBox(5, accept1, reject1, view1);
-        actions1.setPrefWidth(180);
-        actions1.setAlignment(Pos.CENTER_RIGHT);
-
-        row1.getChildren().addAll(
-                idBox1,
-                patientBox1,
-                typeBox1,
-                severityBox1,
-                etaBox1,
-                deptBox1,
-                ambulanceBox1,
-                actions1
-        );
-
-        // =========================
-        // ROW 2
-        // =========================
-
-        HBox row2 = new HBox(10);
-        row2.setPadding(new Insets(14, 15, 14, 15));
-        row2.setAlignment(Pos.CENTER_LEFT);
-        row2.setStyle("-fx-border-color: transparent transparent #e5e7eb transparent;" + "-fx-border-width: 0px 0px 1px 0px;");
-
-        Text id2 = new Text("#ER-8843");
-        id2.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
-        HBox idBox2 = new HBox(id2);
-        idBox2.setPrefWidth(100);
-
-        Text patient2 = new Text("Maria Rodriguez");
-        patient2.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
-        HBox patientBox2 = new HBox(patient2);
-        patientBox2.setPrefWidth(145);
-
-        Text type2 = new Text("◉  Respiratory Distress");
-        type2.setStyle("-fx-font-size: 12px;" + "-fx-fill: #943700;");
-        HBox typeBox2 = new HBox(type2);
-        typeBox2.setPrefWidth(145);
-
-        Text severity2 = new Text("MEDIUM");
-        severity2.setStyle("-fx-background-color: #ffdbcd;" + "-fx-text-fill: #943700;" + "-fx-font-size: 9px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 12px;" + "-fx-padding: 5px 8px;");
-        HBox severityBox2 = new HBox(severity2);
-        severityBox2.setPrefWidth(90);
-        severityBox2.setAlignment(Pos.CENTER_LEFT);
-
-        Text eta2 = new Text("5 min");
-        eta2.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
-        HBox etaBox2 = new HBox(eta2);
-        etaBox2.setPrefWidth(75);
-        etaBox2.setAlignment(Pos.CENTER);
-
-        Text dept2 = new Text("Pulmonology (ER-B)");
-        dept2.setStyle("-fx-font-size: 11px;" + "-fx-fill: #374151;");
-        HBox deptBox2 = new HBox(dept2);
-        deptBox2.setPrefWidth(155);
-
-        Text ambulance2 = new Text("●  En route");
-        ambulance2.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #004ac6;");
-        HBox ambulanceBox2 = new HBox(ambulance2);
-        ambulanceBox2.setPrefWidth(115);
-
-        Button accept2 = new Button("Accept");
-        accept2.setPrefWidth(65);
-        accept2.setStyle("-fx-background-color: #10b981;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
-
-        Button reject2 = new Button("Reject");
-        reject2.setPrefWidth(65);
-        reject2.setStyle("-fx-background-color: #64748b;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
-
-        Button view2 = new Button("◉");
-        view2.setPrefWidth(35);
-        view2.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #004ac6;" + "-fx-font-size: 14px;");
-
-        HBox actions2 = new HBox(5, accept2, reject2, view2);
-        actions2.setPrefWidth(180);
-        actions2.setAlignment(Pos.CENTER_RIGHT);
-
-        row2.getChildren().addAll(
-                idBox2,
-                patientBox2,
-                typeBox2,
-                severityBox2,
-                etaBox2,
-                deptBox2,
-                ambulanceBox2,
-                actions2
-        );
-
-        // =========================
-        // ROW 3
-        // =========================
-
-        HBox row3 = new HBox(10);
-        row3.setPadding(new Insets(14, 15, 14, 15));
-        row3.setAlignment(Pos.CENTER_LEFT);
-        row3.setStyle("-fx-border-color: transparent transparent #e5e7eb transparent;" + "-fx-border-width: 0px 0px 1px 0px;");
-
-        Text id3 = new Text("#ER-8844");
-        id3.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
-        HBox idBox3 = new HBox(id3);
-        idBox3.setPrefWidth(100);
-
-        Text patient3 = new Text("Robert Fletcher");
-        patient3.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
-        HBox patientBox3 = new HBox(patient3);
-        patientBox3.setPrefWidth(145);
-
-        Text type3 = new Text("⚠  Multi-Trauma");
-        type3.setStyle("-fx-font-size: 12px;" + "-fx-fill: #ba1a1a;");
-        HBox typeBox3 = new HBox(type3);
-        typeBox3.setPrefWidth(145);
-
-        Text severity3 = new Text("HIGH");
-        severity3.setStyle("-fx-background-color: #ffdad6;" + "-fx-text-fill: #ba1a1a;" + "-fx-font-size: 9px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 12px;" + "-fx-padding: 5px 10px;");
-        HBox severityBox3 = new HBox(severity3);
-        severityBox3.setPrefWidth(90);
-        severityBox3.setAlignment(Pos.CENTER_LEFT);
-
-        Text eta3 = new Text("Arrived");
-        eta3.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #16a34a;");
-        HBox etaBox3 = new HBox(eta3);
-        etaBox3.setPrefWidth(75);
-        etaBox3.setAlignment(Pos.CENTER);
-
-        Text dept3 = new Text("Trauma Unit (ER-A)");
-        dept3.setStyle("-fx-font-size: 11px;" + "-fx-fill: #374151;");
-        HBox deptBox3 = new HBox(dept3);
-        deptBox3.setPrefWidth(155);
-
-        Text ambulance3 = new Text("●  At Bay 4");
-        ambulance3.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #737686;");
-        HBox ambulanceBox3 = new HBox(ambulance3);
-        ambulanceBox3.setPrefWidth(115);
-
-        Button accept3 = new Button("Accept");
-        accept3.setPrefWidth(65);
-        accept3.setStyle("-fx-background-color: #10b981;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
-
-        Button reject3 = new Button("Reject");
-        reject3.setPrefWidth(65);
-        reject3.setStyle("-fx-background-color: #64748b;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
-
-        Button view3 = new Button("◉");
-        view3.setPrefWidth(35);
-        view3.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #004ac6;" + "-fx-font-size: 14px;");
-
-        HBox actions3 = new HBox(5, accept3, reject3, view3);
-        actions3.setPrefWidth(180);
-        actions3.setAlignment(Pos.CENTER_RIGHT);
-
-        row3.getChildren().addAll(
-                idBox3,
-                patientBox3,
-                typeBox3,
-                severityBox3,
-                etaBox3,
-                deptBox3,
-                ambulanceBox3,
-                actions3
-        );
-
-        // =========================
-        // ROW 4
-        // =========================
-
-        HBox row4 = new HBox(10);
-        row4.setPadding(new Insets(14, 15, 14, 15));
-        row4.setAlignment(Pos.CENTER_LEFT);
-        row4.setStyle("-fx-border-color: transparent transparent #e5e7eb transparent;" + "-fx-border-width: 0px 0px 1px 0px;");
-
-        Text id4 = new Text("#ER-8845");
-        id4.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
-        HBox idBox4 = new HBox(id4);
-        idBox4.setPrefWidth(100);
-
-        Text patient4 = new Text("Sarah Jenkins");
-        patient4.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
-        HBox patientBox4 = new HBox(patient4);
-        patientBox4.setPrefWidth(145);
-
-        Text type4 = new Text("●  Minor Laceration");
-        type4.setStyle("-fx-font-size: 12px;" + "-fx-fill: #505f76;");
-        HBox typeBox4 = new HBox(type4);
-        typeBox4.setPrefWidth(145);
-
-        Text severity4 = new Text("LOW");
-        severity4.setStyle("-fx-background-color: #d3e4fe;" + "-fx-text-fill: #505f76;" + "-fx-font-size: 9px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 12px;" + "-fx-padding: 5px 10px;");
-        HBox severityBox4 = new HBox(severity4);
-        severityBox4.setPrefWidth(90);
-        severityBox4.setAlignment(Pos.CENTER_LEFT);
-
-        Text eta4 = new Text("12 min");
-        eta4.setStyle("-fx-font-size: 12px;" + "-fx-font-weight: bold;" + "-fx-fill: #374151;");
-        HBox etaBox4 = new HBox(eta4);
-        etaBox4.setPrefWidth(75);
-        etaBox4.setAlignment(Pos.CENTER);
-
-        Text dept4 = new Text("Urgent Care (ER-C)");
-        dept4.setStyle("-fx-font-size: 11px;" + "-fx-fill: #374151;");
-        HBox deptBox4 = new HBox(dept4);
-        deptBox4.setPrefWidth(155);
-
-        Text ambulance4 = new Text("●  En route");
-        ambulance4.setStyle("-fx-font-size: 11px;" + "-fx-font-weight: bold;" + "-fx-fill: #004ac6;");
-        HBox ambulanceBox4 = new HBox(ambulance4);
-        ambulanceBox4.setPrefWidth(115);
-
-        Button accept4 = new Button("Accept");
-        accept4.setPrefWidth(65);
-        accept4.setStyle("-fx-background-color: #10b981;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
-
-        Button reject4 = new Button("Reject");
-        reject4.setPrefWidth(65);
-        reject4.setStyle("-fx-background-color: #64748b;" + "-fx-text-fill: white;" + "-fx-font-size: 10px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 7px;");
-
-        Button view4 = new Button("◉");
-        view4.setPrefWidth(35);
-        view4.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #004ac6;" + "-fx-font-size: 14px;");
-
-        HBox actions4 = new HBox(5, accept4, reject4, view4);
-        actions4.setPrefWidth(180);
-        actions4.setAlignment(Pos.CENTER_RIGHT);
-
-        row4.getChildren().addAll(
-                idBox4,
-                patientBox4,
-                typeBox4,
-                severityBox4,
-                etaBox4,
-                deptBox4,
-                ambulanceBox4,
-                actions4
-        );
-
-        // =========================
-        // REQUEST CARD
-        // =========================
-
-        requestCard.getChildren().addAll(
-                requestHeader,
-                tableHeader,
-                row1,
-                row2,
-                row3,
-                row4
-        );
-
-        // =========================
-        // PAGINATION
-        // =========================
-
+        // Pagination
         Text showingText = new Text("Showing 4 of 24 active requests");
-        showingText.setStyle("-fx-font-size: 12px;" + "-fx-fill: #737686;");
+        showingText.setStyle("-fx-font-size: 12px; -fx-fill: " + TEXT_MUTED + ";");
 
         Region paginationSpacer = new Region();
         HBox.setHgrow(paginationSpacer, Priority.ALWAYS);
 
         Button previousButton = new Button("‹");
-        previousButton.setPrefSize(38, 35);
-        previousButton.setStyle("-fx-background-color: #ffffff;" + "-fx-border-color: #c3c6d7;" + "-fx-background-radius: 8px;" + "-fx-border-radius: 8px;" + "-fx-font-size: 17px;");
+        previousButton.setPrefSize(36, 34);
+        previousButton.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-font-size: 16px; -fx-cursor: hand;");
 
         Button pageOne = new Button("1");
-        pageOne.setPrefSize(38, 35);
-        pageOne.setStyle("-fx-background-color: #004ac6;" + "-fx-text-fill: white;" + "-fx-font-weight: bold;" + "-fx-background-radius: 8px;");
+        pageOne.setPrefSize(36, 34);
+        pageOne.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-cursor: hand;");
 
         Button pageTwo = new Button("2");
-        pageTwo.setPrefSize(38, 35);
-        pageTwo.setStyle("-fx-background-color: #ffffff;" + "-fx-border-color: #c3c6d7;" + "-fx-background-radius: 8px;" + "-fx-border-radius: 8px;");
+        pageTwo.setPrefSize(36, 34);
+        pageTwo.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-cursor: hand;");
 
         Button nextButton = new Button("›");
-        nextButton.setPrefSize(38, 35);
-        nextButton.setStyle("-fx-background-color: #ffffff;" + "-fx-border-color: #c3c6d7;" + "-fx-background-radius: 8px;" + "-fx-border-radius: 8px;" + "-fx-font-size: 17px;");
+        nextButton.setPrefSize(36, 34);
+        nextButton.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-font-size: 16px; -fx-cursor: hand;");
 
-        HBox pagination = new HBox(8);
+        HBox pagination = new HBox(8, showingText, paginationSpacer, previousButton, pageOne, pageTwo, nextButton);
         pagination.setAlignment(Pos.CENTER_LEFT);
-        pagination.getChildren().addAll(
-                showingText,
-                paginationSpacer,
-                previousButton,
-                pageOne,
-                pageTwo,
-                nextButton
-        );
 
-        // =========================
-        // SYSTEM NOTICE
-        // =========================
-
-        VBox noticeBox = new VBox(4);
-        noticeBox.setPadding(new Insets(14));
-        noticeBox.setStyle("-fx-background-color: #eff6ff;" + "-fx-border-color: #bfdbfe;" + "-fx-border-radius: 12px;" + "-fx-background-radius: 12px;");
+        // System Notice
+        VBox noticeBox = new VBox(3);
+        noticeBox.setPadding(new Insets(12, 16, 12, 16));
+        noticeBox.setStyle("-fx-background-color: " + TEAL_VERY_LIGHT + "; -fx-border-color: " + TEAL_SOFT + "; -fx-border-radius: 10px; -fx-background-radius: 10px;");
 
         Text noticeTitle = new Text("●  System Notice");
-        noticeTitle.setStyle("-fx-font-size: 13px;" + "-fx-font-weight: bold;" + "-fx-fill: #004ac6;");
+        noticeTitle.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-fill: " + TEAL_DARK + ";");
 
         Text noticeText = new Text("All available ambulances in the Northern District are currently deployed. Redirecting new Minor calls to St. Jude’s.");
-        noticeText.setStyle("-fx-font-size: 11px;" + "-fx-fill: #54647a;");
+        noticeText.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_SECONDARY + ";");
         noticeText.setWrappingWidth(900);
 
-        noticeBox.getChildren().addAll(
-                noticeTitle,
-                noticeText
-        );
+        noticeBox.getChildren().addAll(noticeTitle, noticeText);
 
         Button routingButton = new Button("View Routing Map");
-        routingButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #004ac6;" + "-fx-font-size: 11px;" + "-fx-font-weight: bold;");
+        routingButton.setStyle("-fx-background-color: transparent; -fx-text-fill: " + PRIMARY_TEAL + "; -fx-font-size: 11px; -fx-font-weight: bold; -fx-cursor: hand;");
 
         Region noticeSpacer = new Region();
         HBox.setHgrow(noticeSpacer, Priority.ALWAYS);
 
-        HBox notice = new HBox(
-                noticeBox,
-                noticeSpacer,
-                routingButton
-        );
-
+        HBox notice = new HBox(noticeBox, noticeSpacer, routingButton);
         notice.setAlignment(Pos.CENTER_LEFT);
-        notice.setPadding(new Insets(5));
+        notice.setPadding(new Insets(4));
 
-        // =========================
-        // MAIN CONTENT
-        // =========================
-
-        mainContent.getChildren().addAll(
-                header,
-                filterRow,
-                summaryRow,
-                searchFilterBox,
-                requestCard,
-                pagination,
-                notice
-        );
-
-        // =========================
-        // SCROLL PANE
-        // =========================
+        mainContent.getChildren().addAll(header, filterRow, summaryRow, searchFilterBox, requestCard, pagination, notice);
 
         ScrollPane scrollPane = new ScrollPane(mainContent);
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setStyle("-fx-background-color: transparent;" + "-fx-background: transparent;");
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
 
         VBox finalContent = new VBox(scrollPane);
-        finalContent.setStyle("-fx-background-color: #faf8ff;");
-
+        finalContent.setStyle("-fx-background-color: " + PAGE_BG + ";");
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
 
         return finalContent;
+    }
+
+    private VBox createSummaryCard(String title, String val, String valColor, String info, String infoColor) {
+        VBox box = new VBox(4);
+        box.setPadding(new Insets(15));
+        box.setPrefHeight(105);
+        box.setStyle(CARD_STYLE);
+
+        Text t = new Text(title);
+        t.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + TEXT_MUTED + ";");
+
+        Text v = new Text(val);
+        v.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-fill: " + valColor + ";");
+
+        Text i = new Text(info);
+        i.setStyle("-fx-font-size: 10px; -fx-fill: " + infoColor + ";");
+
+        box.getChildren().addAll(t, v, i);
+        return box;
+    }
+
+    private HBox createHeaderBox(String text, double width, Pos pos) {
+        Text t = new Text(text);
+        t.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + TEAL_DARK + ";");
+        HBox box = new HBox(t);
+        box.setPrefWidth(width);
+        box.setAlignment(pos);
+        return box;
+    }
+
+    private HBox createEmergencyRow(String id, String patient, String type, String typeColor, String severity, String sevBg, String sevColor, String eta, String etaColor, String dept, String amb, String ambColor, boolean alternate) {
+        HBox row = new HBox(10);
+        row.setPadding(new Insets(13, 16, 13, 16));
+        row.setAlignment(Pos.CENTER_LEFT);
+        row.setStyle("-fx-background-color: " + (alternate ? SURFACE : "#F8FCFC") + "; -fx-border-color: transparent transparent " + BORDER_COLOR + " transparent; -fx-border-width: 0px 0px 1px 0px;");
+
+        Text idText = new Text(id);
+        idText.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEAL + ";");
+        HBox idBox = new HBox(idText);
+        idBox.setPrefWidth(100);
+
+        Text patientText = new Text(patient);
+        patientText.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        HBox patientBox = new HBox(patientText);
+        patientBox.setPrefWidth(145);
+
+        Text typeText = new Text(type);
+        typeText.setStyle("-fx-font-size: 12px; -fx-fill: " + typeColor + ";");
+        HBox typeBox = new HBox(typeText);
+        typeBox.setPrefWidth(145);
+
+        Text sevText = new Text(severity);
+        sevText.setStyle("-fx-background-color: " + sevBg + "; -fx-text-fill: " + sevColor + "; -fx-font-size: 9px; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-padding: 4px 8px;");
+        HBox sevBox = new HBox(sevText);
+        sevBox.setPrefWidth(90);
+        sevBox.setAlignment(Pos.CENTER_LEFT);
+
+        Text etaText = new Text(eta);
+        etaText.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-fill: " + etaColor + ";");
+        HBox etaBox = new HBox(etaText);
+        etaBox.setPrefWidth(75);
+        etaBox.setAlignment(Pos.CENTER);
+
+        Text deptText = new Text(dept);
+        deptText.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_PRIMARY + ";");
+        HBox deptBox = new HBox(deptText);
+        deptBox.setPrefWidth(155);
+
+        Text ambText = new Text(amb);
+        ambText.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + ambColor + ";");
+        HBox ambBox = new HBox(ambText);
+        ambBox.setPrefWidth(115);
+
+        Button accept = new Button("Accept");
+        accept.setPrefWidth(60);
+        accept.setStyle("-fx-background-color: " + STATUS_SUCCESS_BG + "; -fx-text-fill: " + STATUS_SUCCESS_TEXT + "; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-cursor: hand;");
+
+        Button reject = new Button("Reject");
+        reject.setPrefWidth(60);
+        reject.setStyle("-fx-background-color: " + STATUS_DANGER_BG + "; -fx-text-fill: " + STATUS_DANGER_TEXT + "; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-cursor: hand;");
+
+        Button view = new Button("◉");
+        view.setPrefWidth(32);
+        view.setStyle("-fx-background-color: transparent; -fx-text-fill: " + PRIMARY_TEAL + "; -fx-font-size: 14px; -fx-cursor: hand;");
+
+        HBox actions = new HBox(4, accept, reject, view);
+        actions.setPrefWidth(180);
+        actions.setAlignment(Pos.CENTER_RIGHT);
+
+        row.getChildren().addAll(idBox, patientBox, typeBox, sevBox, etaBox, deptBox, ambBox, actions);
+        return row;
     }
 }

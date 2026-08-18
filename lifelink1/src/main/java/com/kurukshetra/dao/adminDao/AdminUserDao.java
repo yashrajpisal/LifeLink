@@ -1,4 +1,4 @@
-package com.kurukshetra.dao;
+package com.kurukshetra.dao.adminDao;
 
 import com.kurukshetra.config.FirebaseConfig;
 import com.kurukshetra.model.AdminUserModel;

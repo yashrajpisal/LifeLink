@@ -1,4 +1,4 @@
-package com.kurukshetra.dao;
+package com.kurukshetra.dao.police;
 
 import com.kurukshetra.config.FirebaseConfig;
 import com.kurukshetra.model.PoliceUserModel;

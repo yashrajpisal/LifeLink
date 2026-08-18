@@ -1,6 +1,398 @@
 
-package com.kurukshetra.view.admin;
+// package com.kurukshetra.view.admin;
 
+
+// import javafx.geometry.Insets;
+// import javafx.geometry.Pos;
+// import javafx.scene.control.Button;
+// import javafx.scene.control.Label;
+// import javafx.scene.control.ScrollPane;
+// import javafx.scene.layout.HBox;
+// import javafx.scene.layout.Priority;
+// import javafx.scene.layout.Region;
+// import javafx.scene.layout.VBox;
+// import javafx.scene.paint.Color;
+// import javafx.scene.shape.Circle;
+
+// public class AdminEmergencyMonitoring {
+
+//     public VBox getEmergencyMonitoring() {
+
+//         VBox mainBox = new VBox(20);
+//         mainBox.setPadding(new Insets(25));
+//         mainBox.setStyle("-fx-background-color: #faf8ff;");
+
+//         // ---------------------------------------------------------
+//         // PAGE HEADER
+//         // ---------------------------------------------------------
+
+//         HBox header = new HBox(15);
+//         header.setAlignment(Pos.CENTER_LEFT);
+
+//         VBox titleBox = new VBox(5);
+
+//         Label title = new Label("Emergency Operations Center");
+//         title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Label subtitle = new Label("Real-time monitoring and coordination across regional networks.");
+//         subtitle.setStyle("-fx-font-size: 14px; -fx-text-fill: #434655;");
+
+//         titleBox.getChildren().addAll(title, subtitle);
+
+//         Region headerSpacer = new Region();
+//         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
+
+//         Button dispatchButton = new Button("  Dispatch Unit");
+//         dispatchButton.setStyle("-fx-background-color: #004ac6; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12px 22px; -fx-background-radius: 10px; -fx-cursor: hand;");
+
+//         header.getChildren().addAll(titleBox, headerSpacer, dispatchButton);
+
+//         // ---------------------------------------------------------
+//         // CRITICAL EMERGENCY BANNER
+//         // ---------------------------------------------------------
+
+//         HBox criticalBanner = new HBox(12);
+//         criticalBanner.setAlignment(Pos.CENTER_LEFT);
+//         criticalBanner.setPadding(new Insets(12, 18, 12, 18));
+//         criticalBanner.setStyle("-fx-background-color: #ffdad6; -fx-background-radius: 10px; -fx-border-color: #ba1a1a; -fx-border-radius: 10px;");
+
+//         Label emergencyIcon = new Label("⚠");
+//         emergencyIcon.setStyle("-fx-font-size: 22px; -fx-text-fill: #ba1a1a;");
+
+//         VBox criticalText = new VBox(3);
+
+//         Label criticalTitle = new Label("3 CRITICAL EMERGENCIES");
+//         criticalTitle.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #93000a;");
+
+//         Label criticalSub = new Label("Immediate attention required across regional emergency networks.");
+//         criticalSub.setStyle("-fx-font-size: 12px; -fx-text-fill: #93000a;");
+
+//         criticalText.getChildren().addAll(criticalTitle, criticalSub);
+//         criticalBanner.getChildren().addAll(emergencyIcon, criticalText);
+
+//         // ---------------------------------------------------------
+//         // LIVE MAP
+//         // ---------------------------------------------------------
+
+//         VBox mapBox = new VBox();
+
+//         HBox mapHeader = new HBox();
+//         mapHeader.setPadding(new Insets(15));
+//         mapHeader.setAlignment(Pos.CENTER_LEFT);
+//         mapHeader.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-width: 1px 1px 0px 1px; -fx-background-radius: 12px 12px 0px 0px;");
+
+//         Label mapTitle = new Label("●  LIVE EMERGENCY MAP");
+//         mapTitle.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #ba1a1a;");
+
+//         mapHeader.getChildren().add(mapTitle);
+
+//         VBox mapArea = new VBox();
+//         mapArea.setPrefHeight(350);
+//         mapArea.setAlignment(Pos.CENTER);
+//         mapArea.setStyle("-fx-background-color: #e7e7f3; -fx-border-color: #c3c6d7; -fx-background-radius: 0px 0px 12px 12px;");
+
+//         Label mapLabel = new Label("LIVE MAP");
+//         mapLabel.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #737686;");
+
+//         Label mapInfo = new Label("Emergency locations and active ambulances");
+//         mapInfo.setStyle("-fx-font-size: 13px; -fx-text-fill: #434655;");
+
+//         HBox markers = new HBox(30);
+//         markers.setAlignment(Pos.CENTER);
+
+//         VBox criticalMarker = createMapMarker("Critical Incident", "#ba1a1a");
+//         VBox ambulanceMarker = createMapMarker("Active Ambulance", "#004ac6");
+
+//         markers.getChildren().addAll(criticalMarker, ambulanceMarker);
+
+//         mapArea.getChildren().addAll(mapLabel, mapInfo, markers);
+
+//         mapBox.getChildren().addAll(mapHeader, mapArea);
+
+//         // ---------------------------------------------------------
+//         // ACTIVE EMERGENCIES
+//         // ---------------------------------------------------------
+
+//         VBox emergencyBox = new VBox();
+
+//         HBox emergencyHeader = new HBox();
+//         emergencyHeader.setPadding(new Insets(15));
+//         emergencyHeader.setAlignment(Pos.CENTER_LEFT);
+//         emergencyHeader.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-background-radius: 12px 12px 0px 0px;");
+
+//         Label activeTitle = new Label("☷  Active Emergencies");
+//         activeTitle.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Region emergencySpacer = new Region();
+//         HBox.setHgrow(emergencySpacer, Priority.ALWAYS);
+
+//         Button viewAll = new Button("VIEW ALL");
+//         viewAll.setStyle("-fx-background-color: transparent; -fx-text-fill: #004ac6; -fx-font-size: 11px; -fx-font-weight: bold; -fx-cursor: hand;");
+
+//         emergencyHeader.getChildren().addAll(activeTitle, emergencySpacer, viewAll);
+
+//         VBox emergencyList = new VBox(1);
+//         emergencyList.setStyle("-fx-background-color: #c3c6d7;");
+
+//         emergencyList.getChildren().addAll(
+//                 createEmergencyRow("#EMG-4921", "Johnathan Reed", "CRITICAL", "UNIT-A42 (Advanced)", "3 MIN", "In Route", true),
+//                 createEmergencyRow("#EMG-4922", "Sarah Jenkins", "MODERATE", "UNIT-B09 (Basic)", "8 MIN", "Dispatched", false),
+//                 createEmergencyRow("#EMG-4925", "Michael Chen", "MINOR", "UNIT-C11 (Basic)", "14 MIN", "Queued", false)
+//         );
+
+//         emergencyBox.getChildren().addAll(emergencyHeader, emergencyList);
+
+//         // ---------------------------------------------------------
+//         // INCIDENT TIMELINE
+//         // ---------------------------------------------------------
+
+//         VBox timelineBox = new VBox();
+
+//         HBox timelineHeader = new HBox();
+//         timelineHeader.setPadding(new Insets(15));
+//         timelineHeader.setAlignment(Pos.CENTER_LEFT);
+//         timelineHeader.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-background-radius: 12px 12px 0px 0px;");
+
+//         Label timelineTitle = new Label("◷  Incident Timeline");
+//         timelineTitle.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         timelineHeader.getChildren().add(timelineTitle);
+
+//         VBox timelineContent = new VBox(20);
+//         timelineContent.setPadding(new Insets(20));
+//         timelineContent.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-background-radius: 0px 0px 12px 12px;");
+
+//         timelineContent.getChildren().addAll(
+//                 createTimelineItem("14:02 PM", "Cardiac Arrest Reported", "Caller ID: +1-555-0123. Location: 124th Ave Mall Entrance.", true),
+//                 createTimelineItem("14:04 PM", "Unit A42 Dispatched", "Paramedics Thompson and Garcia assigned.", false),
+//                 createTimelineItem("13:45 PM", "Traffic Accident Cleared", "Case #EMG-4810 marked as completed. Patient stabilized.", false),
+//                 createTimelineItem("13:30 PM", "New Hospital Bed Available", "St. Mary Medical Center: 2 ICU beds cleared.", false),
+//                 createTimelineItem("13:20 PM", "System Update", "Shift change completed for Region 4 Dispatchers.", false)
+//         );
+
+//         Button reportButton = new Button("↓  Generate Log Report");
+//         reportButton.setMaxWidth(Double.MAX_VALUE);
+//         reportButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #004ac6; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 12px; -fx-cursor: hand;");
+
+//         timelineBox.getChildren().addAll(timelineHeader, timelineContent, reportButton);
+
+//         // ---------------------------------------------------------
+//         // QUICK ACTIONS
+//         // ---------------------------------------------------------
+
+//         VBox actionsBox = new VBox(12);
+//         actionsBox.setPadding(new Insets(18));
+//         actionsBox.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+
+//         Label actionTitle = new Label("Quick Actions");
+//         actionTitle.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Button routeButton = new Button("🚑  Route Closest Unit");
+//         routeButton.setMaxWidth(Double.MAX_VALUE);
+//         routeButton.setStyle("-fx-background-color: #004ac6; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 12px; -fx-background-radius: 8px;");
+
+//         Button alertButton = new Button("⚠  Send Emergency Alert");
+//         alertButton.setMaxWidth(Double.MAX_VALUE);
+//         alertButton.setStyle("-fx-background-color: #ffdad6; -fx-text-fill: #93000a; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 12px; -fx-background-radius: 8px;");
+
+//         Button ambulanceButton = new Button("🚑  View Ambulances");
+//         ambulanceButton.setMaxWidth(Double.MAX_VALUE);
+//         ambulanceButton.setStyle("-fx-background-color: #dbe1ff; -fx-text-fill: #003ea8; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 12px; -fx-background-radius: 8px;");
+
+//         actionsBox.getChildren().addAll(actionTitle, routeButton, alertButton, ambulanceButton);
+
+//         // ---------------------------------------------------------
+//         // RIGHT SIDE
+//         // ---------------------------------------------------------
+
+//         VBox rightSide = new VBox(20, timelineBox, actionsBox);
+//         rightSide.setPrefWidth(350);
+
+//         // ---------------------------------------------------------
+//         // LEFT SIDE
+//         // ---------------------------------------------------------
+
+//         VBox leftSide = new VBox(20, mapBox, emergencyBox);
+//         HBox.setHgrow(leftSide, Priority.ALWAYS);
+
+//         // ---------------------------------------------------------
+//         // CONTENT AREA
+//         // ---------------------------------------------------------
+
+//         HBox content = new HBox(20, leftSide, rightSide);
+//         HBox.setHgrow(leftSide, Priority.ALWAYS);
+
+//         // ---------------------------------------------------------
+//         // CRITICAL ALERT
+//         // ---------------------------------------------------------
+
+//         VBox criticalAlert = new VBox(8);
+//         criticalAlert.setPadding(new Insets(16));
+//         criticalAlert.setStyle("-fx-background-color: #ba1a1a; -fx-background-radius: 12px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0, 0, 4);");
+
+//         Label alertTitle = new Label("⚠  Critical: Unassigned Incident");
+//         alertTitle.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: white;");
+
+//         Label alertText = new Label("Multi-vehicle collision reported. No units available in Sector 3.");
+//         alertText.setWrapText(true);
+//         alertText.setStyle("-fx-font-size: 12px; -fx-text-fill: white;");
+
+//         HBox alertButtons = new HBox(10);
+
+//         Button routeClosest = new Button("Route Closest Unit");
+//         routeClosest.setStyle("-fx-background-color: white; -fx-text-fill: #ba1a1a; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 8px 12px; -fx-background-radius: 6px;");
+
+//         Button dismiss = new Button("Dismiss");
+//         dismiss.setStyle("-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 6px; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 8px 12px;");
+
+//         alertButtons.getChildren().addAll(routeClosest, dismiss);
+
+//         criticalAlert.getChildren().addAll(alertTitle, alertText, alertButtons);
+
+//         // ---------------------------------------------------------
+//         // ADD EVERYTHING
+//         // ---------------------------------------------------------
+
+//         mainBox.getChildren().addAll(
+//                 header,
+//                 criticalBanner,
+//                 content,
+//                 criticalAlert
+//         );
+
+//         ScrollPane scrollPane = new ScrollPane(mainBox);
+//         scrollPane.setFitToWidth(true);
+//         scrollPane.setStyle("-fx-background-color: #faf8ff; -fx-border-color: transparent;");
+
+//         VBox page = new VBox(scrollPane);
+//         VBox.setVgrow(scrollPane, Priority.ALWAYS);
+//         page.setStyle("-fx-background-color: #faf8ff;");
+
+//         return page;
+//     }
+
+//     // =============================================================
+//     // MAP MARKER
+//     // =============================================================
+
+//     private VBox createMapMarker(String text, String color) {
+
+//         Circle circle = new Circle(7);
+//         circle.setFill(Color.web(color));
+
+//         Label label = new Label(text);
+//         label.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         HBox row = new HBox(8, circle, label);
+//         row.setAlignment(Pos.CENTER);
+
+//         VBox box = new VBox(row);
+//         box.setPadding(new Insets(10));
+//         box.setStyle("-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 8px;");
+
+//         return box;
+//     }
+
+//     // =============================================================
+//     // EMERGENCY ROW
+//     // =============================================================
+
+//     private HBox createEmergencyRow(
+//             String id,
+//             String patient,
+//             String severity,
+//             String ambulance,
+//             String eta,
+//             String status,
+//             boolean critical) {
+
+//         HBox row = new HBox(15);
+//         row.setPadding(new Insets(14));
+//         row.setAlignment(Pos.CENTER_LEFT);
+//         row.setStyle("-fx-background-color: white;");
+
+//         VBox patientBox = new VBox(3);
+
+//         Label idLabel = new Label(id);
+//         idLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #004ac6; -fx-font-weight: bold;");
+
+//         Label patientLabel = new Label(patient);
+//         patientLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         patientBox.getChildren().addAll(idLabel, patientLabel);
+
+//         Region spacer = new Region();
+//         HBox.setHgrow(spacer, Priority.ALWAYS);
+
+//         Label severityLabel = new Label(severity);
+//         severityLabel.setStyle(critical
+//                 ? "-fx-background-color: #ba1a1a; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 5px 8px; -fx-background-radius: 5px;"
+//                 : "-fx-background-color: #515659; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 5px 8px; -fx-background-radius: 5px;");
+
+//         Label ambulanceLabel = new Label(ambulance);
+//         ambulanceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #434655;");
+
+//         Label etaLabel = new Label(eta);
+//         etaLabel.setStyle(critical
+//                 ? "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ba1a1a;"
+//                 : "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Label statusLabel = new Label(status);
+//         statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #434655;");
+
+//         row.getChildren().addAll(
+//                 patientBox,
+//                 spacer,
+//                 severityLabel,
+//                 ambulanceLabel,
+//                 etaLabel,
+//                 statusLabel
+//         );
+
+//         return row;
+//     }
+
+//     // =============================================================
+//     // TIMELINE ITEM
+//     // =============================================================
+
+//     private VBox createTimelineItem(
+//             String time,
+//             String title,
+//             String description,
+//             boolean critical) {
+
+//         VBox item = new VBox(5);
+//         item.setPadding(new Insets(0, 0, 12, 15));
+//         item.setStyle("-fx-border-color: #b4c5ff; -fx-border-width: 0px 0px 0px 2px;");
+
+//         Label timeLabel = new Label(time);
+//         timeLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #737686;");
+
+//         Label titleLabel = new Label(title);
+//         titleLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+
+//         Label descriptionLabel = new Label(description);
+//         descriptionLabel.setWrapText(true);
+//         descriptionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #434655;");
+
+//         Label priorityLabel = new Label(critical ? "911 CALL   •   PRIORITY 1" : "SYSTEM EVENT");
+//         priorityLabel.setStyle(critical
+//                 ? "-fx-background-color: #ffdad6; -fx-text-fill: #93000a; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 7px; -fx-background-radius: 5px;"
+//                 : "-fx-background-color: #d3e4fe; -fx-text-fill: #38485d; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 7px; -fx-background-radius: 5px;");
+
+//         item.getChildren().addAll(
+//                 timeLabel,
+//                 titleLabel,
+//                 descriptionLabel,
+//                 priorityLabel
+//         );
+
+//         return item;
+//     }
+// }
+
+package com.kurukshetra.view.admin;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,124 +408,141 @@ import javafx.scene.shape.Circle;
 
 public class AdminEmergencyMonitoring {
 
+    // Design Tokens - LifeLink Pastel Purple Theme
+    private static final String BG_PAGE = "#FAF7FB";
+    private static final String BG_SURFACE = "#FFFFFF";
+    private static final String BORDER_COLOR = "#E9E2EF";
+    private static final String BORDER_DIVIDER = "#F0E7F5";
+
+    private static final String TEXT_PRIMARY = "#0F172A";
+    private static final String TEXT_SECONDARY = "#5F5A70";
+    private static final String TEXT_MUTED = "#8B8798";
+
+    private static final String PURPLE_PRIMARY = "#9C7DF0";
+    private static final String PURPLE_DARK = "#8B68E5";
+    private static final String PURPLE_BUTTON = "#C084FC";
+    private static final String PURPLE_LIGHT = "#F3E8FF";
+
+    private static final String WARNING_TEXT = "#A16207";
+    private static final String WARNING_BG = "#FEF3C7";
+    private static final String DANGER_TEXT = "#E66A7A";
+    private static final String DANGER_BG = "#FDE7EB";
+    private static final String DANGER_BORDER = "#FCCED5";
+
+    private static final String CARD_SHADOW = "-fx-effect: dropshadow(gaussian, rgba(156, 125, 240, 0.08), 16, 0.1, 0, 4);";
+    private static final String FONT_STACK = "-fx-font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;";
+
+    private static final String BASE_CARD_STYLE = FONT_STACK +
+            "-fx-background-color: " + BG_SURFACE + ";" +
+            "-fx-background-radius: 16px;" +
+            "-fx-border-color: " + BORDER_COLOR + ";" +
+            "-fx-border-radius: 16px;" +
+            "-fx-border-width: 1px;" +
+            CARD_SHADOW;
+
     public VBox getEmergencyMonitoring() {
 
         VBox mainBox = new VBox(20);
         mainBox.setPadding(new Insets(25));
-        mainBox.setStyle("-fx-background-color: #faf8ff;");
+        mainBox.setStyle("-fx-background-color: " + BG_PAGE + ";");
 
-        // ---------------------------------------------------------
         // PAGE HEADER
-        // ---------------------------------------------------------
-
         HBox header = new HBox(15);
         header.setAlignment(Pos.CENTER_LEFT);
 
         VBox titleBox = new VBox(5);
-
         Label title = new Label("Emergency Operations Center");
-        title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        title.setStyle(FONT_STACK + "-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         Label subtitle = new Label("Real-time monitoring and coordination across regional networks.");
-        subtitle.setStyle("-fx-font-size: 14px; -fx-text-fill: #434655;");
+        subtitle.setStyle(FONT_STACK + "-fx-font-size: 14px; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
         titleBox.getChildren().addAll(title, subtitle);
 
         Region headerSpacer = new Region();
         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
 
-        Button dispatchButton = new Button("  Dispatch Unit");
-        dispatchButton.setStyle("-fx-background-color: #004ac6; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12px 22px; -fx-background-radius: 10px; -fx-cursor: hand;");
+        Button dispatchButton = new Button("＋  Dispatch Unit");
+        dispatchButton.setStyle(FONT_STACK + "-fx-background-color: " + PURPLE_BUTTON + "; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 11px 22px; -fx-background-radius: 10px; -fx-effect: dropshadow(gaussian, rgba(192, 132, 252, 0.35), 10, 0.2, 0, 3); -fx-cursor: hand;");
 
         header.getChildren().addAll(titleBox, headerSpacer, dispatchButton);
 
-        // ---------------------------------------------------------
         // CRITICAL EMERGENCY BANNER
-        // ---------------------------------------------------------
-
         HBox criticalBanner = new HBox(12);
         criticalBanner.setAlignment(Pos.CENTER_LEFT);
-        criticalBanner.setPadding(new Insets(12, 18, 12, 18));
-        criticalBanner.setStyle("-fx-background-color: #ffdad6; -fx-background-radius: 10px; -fx-border-color: #ba1a1a; -fx-border-radius: 10px;");
+        criticalBanner.setPadding(new Insets(14, 18, 14, 18));
+        criticalBanner.setStyle(FONT_STACK + "-fx-background-color: " + DANGER_BG + "; -fx-background-radius: 14px; -fx-border-color: " + DANGER_BORDER + "; -fx-border-radius: 14px;");
 
         Label emergencyIcon = new Label("⚠");
-        emergencyIcon.setStyle("-fx-font-size: 22px; -fx-text-fill: #ba1a1a;");
+        emergencyIcon.setStyle(FONT_STACK + "-fx-font-size: 22px; -fx-text-fill: " + DANGER_TEXT + ";");
 
         VBox criticalText = new VBox(3);
-
         Label criticalTitle = new Label("3 CRITICAL EMERGENCIES");
-        criticalTitle.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #93000a;");
+        criticalTitle.setStyle(FONT_STACK + "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: " + DANGER_TEXT + ";");
 
         Label criticalSub = new Label("Immediate attention required across regional emergency networks.");
-        criticalSub.setStyle("-fx-font-size: 12px; -fx-text-fill: #93000a;");
+        criticalSub.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + DANGER_TEXT + ";");
 
         criticalText.getChildren().addAll(criticalTitle, criticalSub);
         criticalBanner.getChildren().addAll(emergencyIcon, criticalText);
 
-        // ---------------------------------------------------------
         // LIVE MAP
-        // ---------------------------------------------------------
-
         VBox mapBox = new VBox();
+        mapBox.setStyle(BASE_CARD_STYLE);
 
         HBox mapHeader = new HBox();
-        mapHeader.setPadding(new Insets(15));
+        mapHeader.setPadding(new Insets(16, 18, 16, 18));
         mapHeader.setAlignment(Pos.CENTER_LEFT);
-        mapHeader.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-width: 1px 1px 0px 1px; -fx-background-radius: 12px 12px 0px 0px;");
+        mapHeader.setStyle("-fx-border-color: " + BORDER_DIVIDER + "; -fx-border-width: 0px 0px 1px 0px;");
 
         Label mapTitle = new Label("●  LIVE EMERGENCY MAP");
-        mapTitle.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #ba1a1a;");
+        mapTitle.setStyle(FONT_STACK + "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: " + DANGER_TEXT + ";");
 
         mapHeader.getChildren().add(mapTitle);
 
-        VBox mapArea = new VBox();
+        VBox mapArea = new VBox(10);
         mapArea.setPrefHeight(350);
         mapArea.setAlignment(Pos.CENTER);
-        mapArea.setStyle("-fx-background-color: #e7e7f3; -fx-border-color: #c3c6d7; -fx-background-radius: 0px 0px 12px 12px;");
+        mapArea.setStyle("-fx-background-color: #F1ECF9; -fx-background-radius: 0px 0px 16px 16px;");
 
         Label mapLabel = new Label("LIVE MAP");
-        mapLabel.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #737686;");
+        mapLabel.setStyle(FONT_STACK + "-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: " + PURPLE_DARK + ";");
 
         Label mapInfo = new Label("Emergency locations and active ambulances");
-        mapInfo.setStyle("-fx-font-size: 13px; -fx-text-fill: #434655;");
+        mapInfo.setStyle(FONT_STACK + "-fx-font-size: 13px; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
-        HBox markers = new HBox(30);
+        HBox markers = new HBox(20);
         markers.setAlignment(Pos.CENTER);
 
-        VBox criticalMarker = createMapMarker("Critical Incident", "#ba1a1a");
-        VBox ambulanceMarker = createMapMarker("Active Ambulance", "#004ac6");
+        VBox criticalMarker = createMapMarker("Critical Incident", DANGER_TEXT);
+        VBox ambulanceMarker = createMapMarker("Active Ambulance", PURPLE_PRIMARY);
 
         markers.getChildren().addAll(criticalMarker, ambulanceMarker);
-
         mapArea.getChildren().addAll(mapLabel, mapInfo, markers);
 
         mapBox.getChildren().addAll(mapHeader, mapArea);
 
-        // ---------------------------------------------------------
         // ACTIVE EMERGENCIES
-        // ---------------------------------------------------------
-
         VBox emergencyBox = new VBox();
+        emergencyBox.setStyle(BASE_CARD_STYLE);
 
         HBox emergencyHeader = new HBox();
-        emergencyHeader.setPadding(new Insets(15));
+        emergencyHeader.setPadding(new Insets(16, 18, 16, 18));
         emergencyHeader.setAlignment(Pos.CENTER_LEFT);
-        emergencyHeader.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-background-radius: 12px 12px 0px 0px;");
+        emergencyHeader.setStyle("-fx-border-color: " + BORDER_DIVIDER + "; -fx-border-width: 0px 0px 1px 0px;");
 
         Label activeTitle = new Label("☷  Active Emergencies");
-        activeTitle.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        activeTitle.setStyle(FONT_STACK + "-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         Region emergencySpacer = new Region();
         HBox.setHgrow(emergencySpacer, Priority.ALWAYS);
 
         Button viewAll = new Button("VIEW ALL");
-        viewAll.setStyle("-fx-background-color: transparent; -fx-text-fill: #004ac6; -fx-font-size: 11px; -fx-font-weight: bold; -fx-cursor: hand;");
+        viewAll.setStyle(FONT_STACK + "-fx-background-color: transparent; -fx-text-fill: " + PURPLE_DARK + "; -fx-font-size: 11px; -fx-font-weight: bold; -fx-cursor: hand;");
 
         emergencyHeader.getChildren().addAll(activeTitle, emergencySpacer, viewAll);
 
-        VBox emergencyList = new VBox(1);
-        emergencyList.setStyle("-fx-background-color: #c3c6d7;");
-
+        VBox emergencyList = new VBox();
         emergencyList.getChildren().addAll(
                 createEmergencyRow("#EMG-4921", "Johnathan Reed", "CRITICAL", "UNIT-A42 (Advanced)", "3 MIN", "In Route", true),
                 createEmergencyRow("#EMG-4922", "Sarah Jenkins", "MODERATE", "UNIT-B09 (Basic)", "8 MIN", "Dispatched", false),
@@ -142,25 +551,22 @@ public class AdminEmergencyMonitoring {
 
         emergencyBox.getChildren().addAll(emergencyHeader, emergencyList);
 
-        // ---------------------------------------------------------
-        // INCIDENT TIMELINE
-        // ---------------------------------------------------------
-
+        // TIMELINE
         VBox timelineBox = new VBox();
+        timelineBox.setStyle(BASE_CARD_STYLE);
 
         HBox timelineHeader = new HBox();
-        timelineHeader.setPadding(new Insets(15));
+        timelineHeader.setPadding(new Insets(16, 18, 16, 18));
         timelineHeader.setAlignment(Pos.CENTER_LEFT);
-        timelineHeader.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-background-radius: 12px 12px 0px 0px;");
+        timelineHeader.setStyle("-fx-border-color: " + BORDER_DIVIDER + "; -fx-border-width: 0px 0px 1px 0px;");
 
         Label timelineTitle = new Label("◷  Incident Timeline");
-        timelineTitle.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        timelineTitle.setStyle(FONT_STACK + "-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         timelineHeader.getChildren().add(timelineTitle);
 
-        VBox timelineContent = new VBox(20);
-        timelineContent.setPadding(new Insets(20));
-        timelineContent.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-background-radius: 0px 0px 12px 12px;");
+        VBox timelineContent = new VBox(16);
+        timelineContent.setPadding(new Insets(18));
 
         timelineContent.getChildren().addAll(
                 createTimelineItem("14:02 PM", "Cardiac Arrest Reported", "Caller ID: +1-555-0123. Location: 124th Ave Mall Entrance.", true),
@@ -172,86 +578,61 @@ public class AdminEmergencyMonitoring {
 
         Button reportButton = new Button("↓  Generate Log Report");
         reportButton.setMaxWidth(Double.MAX_VALUE);
-        reportButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #004ac6; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 12px; -fx-cursor: hand;");
+        reportButton.setStyle(FONT_STACK + "-fx-background-color: transparent; -fx-text-fill: " + PURPLE_DARK + "; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 12px; -fx-cursor: hand;");
 
         timelineBox.getChildren().addAll(timelineHeader, timelineContent, reportButton);
 
-        // ---------------------------------------------------------
         // QUICK ACTIONS
-        // ---------------------------------------------------------
-
         VBox actionsBox = new VBox(12);
-        actionsBox.setPadding(new Insets(18));
-        actionsBox.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+        actionsBox.setPadding(new Insets(20));
+        actionsBox.setStyle(BASE_CARD_STYLE);
 
         Label actionTitle = new Label("Quick Actions");
-        actionTitle.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        actionTitle.setStyle(FONT_STACK + "-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         Button routeButton = new Button("🚑  Route Closest Unit");
         routeButton.setMaxWidth(Double.MAX_VALUE);
-        routeButton.setStyle("-fx-background-color: #004ac6; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 12px; -fx-background-radius: 8px;");
+        routeButton.setStyle(FONT_STACK + "-fx-background-color: " + PURPLE_BUTTON + "; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 12px; -fx-background-radius: 10px; -fx-cursor: hand;");
 
         Button alertButton = new Button("⚠  Send Emergency Alert");
         alertButton.setMaxWidth(Double.MAX_VALUE);
-        alertButton.setStyle("-fx-background-color: #ffdad6; -fx-text-fill: #93000a; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 12px; -fx-background-radius: 8px;");
+        alertButton.setStyle(FONT_STACK + "-fx-background-color: " + DANGER_BG + "; -fx-text-fill: " + DANGER_TEXT + "; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 12px; -fx-background-radius: 10px; -fx-cursor: hand;");
 
         Button ambulanceButton = new Button("🚑  View Ambulances");
         ambulanceButton.setMaxWidth(Double.MAX_VALUE);
-        ambulanceButton.setStyle("-fx-background-color: #dbe1ff; -fx-text-fill: #003ea8; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 12px; -fx-background-radius: 8px;");
+        ambulanceButton.setStyle(FONT_STACK + "-fx-background-color: " + PURPLE_LIGHT + "; -fx-text-fill: " + PURPLE_DARK + "; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 12px; -fx-background-radius: 10px; -fx-cursor: hand;");
 
         actionsBox.getChildren().addAll(actionTitle, routeButton, alertButton, ambulanceButton);
-
-        // ---------------------------------------------------------
-        // RIGHT SIDE
-        // ---------------------------------------------------------
 
         VBox rightSide = new VBox(20, timelineBox, actionsBox);
         rightSide.setPrefWidth(350);
 
-        // ---------------------------------------------------------
-        // LEFT SIDE
-        // ---------------------------------------------------------
-
         VBox leftSide = new VBox(20, mapBox, emergencyBox);
         HBox.setHgrow(leftSide, Priority.ALWAYS);
 
-        // ---------------------------------------------------------
-        // CONTENT AREA
-        // ---------------------------------------------------------
-
         HBox content = new HBox(20, leftSide, rightSide);
-        HBox.setHgrow(leftSide, Priority.ALWAYS);
 
-        // ---------------------------------------------------------
         // CRITICAL ALERT
-        // ---------------------------------------------------------
-
         VBox criticalAlert = new VBox(8);
         criticalAlert.setPadding(new Insets(16));
-        criticalAlert.setStyle("-fx-background-color: #ba1a1a; -fx-background-radius: 12px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0, 0, 4);");
+        criticalAlert.setStyle(FONT_STACK + "-fx-background-color: " + DANGER_TEXT + "; -fx-background-radius: 14px; -fx-effect: dropshadow(gaussian, rgba(230, 106, 122, 0.35), 14, 0.1, 0, 4);");
 
         Label alertTitle = new Label("⚠  Critical: Unassigned Incident");
-        alertTitle.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: white;");
+        alertTitle.setStyle(FONT_STACK + "-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: white;");
 
         Label alertText = new Label("Multi-vehicle collision reported. No units available in Sector 3.");
         alertText.setWrapText(true);
-        alertText.setStyle("-fx-font-size: 12px; -fx-text-fill: white;");
+        alertText.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: white;");
 
         HBox alertButtons = new HBox(10);
-
         Button routeClosest = new Button("Route Closest Unit");
-        routeClosest.setStyle("-fx-background-color: white; -fx-text-fill: #ba1a1a; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 8px 12px; -fx-background-radius: 6px;");
+        routeClosest.setStyle(FONT_STACK + "-fx-background-color: white; -fx-text-fill: " + DANGER_TEXT + "; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 8px 14px; -fx-background-radius: 8px; -fx-cursor: hand;");
 
         Button dismiss = new Button("Dismiss");
-        dismiss.setStyle("-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 6px; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 8px 12px;");
+        dismiss.setStyle(FONT_STACK + "-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 8px; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 8px 14px; -fx-cursor: hand;");
 
         alertButtons.getChildren().addAll(routeClosest, dismiss);
-
         criticalAlert.getChildren().addAll(alertTitle, alertText, alertButtons);
-
-        // ---------------------------------------------------------
-        // ADD EVERYTHING
-        // ---------------------------------------------------------
 
         mainBox.getChildren().addAll(
                 header,
@@ -262,40 +643,32 @@ public class AdminEmergencyMonitoring {
 
         ScrollPane scrollPane = new ScrollPane(mainBox);
         scrollPane.setFitToWidth(true);
-        scrollPane.setStyle("-fx-background-color: #faf8ff; -fx-border-color: transparent;");
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
 
         VBox page = new VBox(scrollPane);
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
-        page.setStyle("-fx-background-color: #faf8ff;");
+        page.setStyle("-fx-background-color: " + BG_PAGE + ";");
 
         return page;
     }
 
-    // =============================================================
-    // MAP MARKER
-    // =============================================================
-
     private VBox createMapMarker(String text, String color) {
-
-        Circle circle = new Circle(7);
+        Circle circle = new Circle(6);
         circle.setFill(Color.web(color));
 
         Label label = new Label(text);
-        label.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        label.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         HBox row = new HBox(8, circle, label);
         row.setAlignment(Pos.CENTER);
 
         VBox box = new VBox(row);
-        box.setPadding(new Insets(10));
-        box.setStyle("-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 8px;");
+        box.setPadding(new Insets(8, 12, 8, 12));
+        box.setStyle("-fx-background-color: rgba(255,255,255,0.92); -fx-background-radius: 10px; -fx-effect: dropshadow(gaussian, rgba(156, 125, 240, 0.15), 6, 0.1, 0, 2);");
 
         return box;
     }
-
-    // =============================================================
-    // EMERGENCY ROW
-    // =============================================================
 
     private HBox createEmergencyRow(
             String id,
@@ -307,17 +680,16 @@ public class AdminEmergencyMonitoring {
             boolean critical) {
 
         HBox row = new HBox(15);
-        row.setPadding(new Insets(14));
+        row.setPadding(new Insets(14, 18, 14, 18));
         row.setAlignment(Pos.CENTER_LEFT);
-        row.setStyle("-fx-background-color: white;");
+        row.setStyle("-fx-border-color: " + BORDER_DIVIDER + "; -fx-border-width: 0px 0px 1px 0px;");
 
         VBox patientBox = new VBox(3);
-
         Label idLabel = new Label(id);
-        idLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #004ac6; -fx-font-weight: bold;");
+        idLabel.setStyle(FONT_STACK + "-fx-font-size: 11px; -fx-text-fill: " + PURPLE_DARK + "; -fx-font-weight: bold;");
 
         Label patientLabel = new Label(patient);
-        patientLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        patientLabel.setStyle(FONT_STACK + "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         patientBox.getChildren().addAll(idLabel, patientLabel);
 
@@ -326,19 +698,19 @@ public class AdminEmergencyMonitoring {
 
         Label severityLabel = new Label(severity);
         severityLabel.setStyle(critical
-                ? "-fx-background-color: #ba1a1a; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 5px 8px; -fx-background-radius: 5px;"
-                : "-fx-background-color: #515659; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 5px 8px; -fx-background-radius: 5px;");
+                ? FONT_STACK + "-fx-background-color: " + DANGER_BG + "; -fx-text-fill: " + DANGER_TEXT + "; -fx-font-size: 9px; -fx-font-weight: bold; -fx-padding: 4px 8px; -fx-background-radius: 6px;"
+                : FONT_STACK + "-fx-background-color: " + WARNING_BG + "; -fx-text-fill: " + WARNING_TEXT + "; -fx-font-size: 9px; -fx-font-weight: bold; -fx-padding: 4px 8px; -fx-background-radius: 6px;");
 
         Label ambulanceLabel = new Label(ambulance);
-        ambulanceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #434655;");
+        ambulanceLabel.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
         Label etaLabel = new Label(eta);
         etaLabel.setStyle(critical
-                ? "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ba1a1a;"
-                : "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+                ? FONT_STACK + "-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: " + DANGER_TEXT + ";"
+                : FONT_STACK + "-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         Label statusLabel = new Label(status);
-        statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #434655;");
+        statusLabel.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_MUTED + ";");
 
         row.getChildren().addAll(
                 patientBox,
@@ -352,34 +724,30 @@ public class AdminEmergencyMonitoring {
         return row;
     }
 
-    // =============================================================
-    // TIMELINE ITEM
-    // =============================================================
-
     private VBox createTimelineItem(
             String time,
             String title,
             String description,
             boolean critical) {
 
-        VBox item = new VBox(5);
-        item.setPadding(new Insets(0, 0, 12, 15));
-        item.setStyle("-fx-border-color: #b4c5ff; -fx-border-width: 0px 0px 0px 2px;");
+        VBox item = new VBox(4);
+        item.setPadding(new Insets(0, 0, 10, 14));
+        item.setStyle("-fx-border-color: " + PURPLE_LIGHT + "; -fx-border-width: 0px 0px 0px 2px;");
 
         Label timeLabel = new Label(time);
-        timeLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #737686;");
+        timeLabel.setStyle(FONT_STACK + "-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_MUTED + ";");
 
         Label titleLabel = new Label(title);
-        titleLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
+        titleLabel.setStyle(FONT_STACK + "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
 
         Label descriptionLabel = new Label(description);
         descriptionLabel.setWrapText(true);
-        descriptionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #434655;");
+        descriptionLabel.setStyle(FONT_STACK + "-fx-font-size: 11px; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
         Label priorityLabel = new Label(critical ? "911 CALL   •   PRIORITY 1" : "SYSTEM EVENT");
         priorityLabel.setStyle(critical
-                ? "-fx-background-color: #ffdad6; -fx-text-fill: #93000a; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 7px; -fx-background-radius: 5px;"
-                : "-fx-background-color: #d3e4fe; -fx-text-fill: #38485d; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 4px 7px; -fx-background-radius: 5px;");
+                ? FONT_STACK + "-fx-background-color: " + DANGER_BG + "; -fx-text-fill: " + DANGER_TEXT + "; -fx-font-size: 9px; -fx-font-weight: bold; -fx-padding: 3px 6px; -fx-background-radius: 5px;"
+                : FONT_STACK + "-fx-background-color: " + PURPLE_LIGHT + "; -fx-text-fill: " + PURPLE_DARK + "; -fx-font-size: 9px; -fx-font-weight: bold; -fx-padding: 3px 6px; -fx-background-radius: 5px;");
 
         item.getChildren().addAll(
                 timeLabel,

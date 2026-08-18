@@ -21,6 +21,18 @@
             <version>3.18.0</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- JavaFX Dependencies -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>25-ea+5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>25-ea+5</version>
+        </dependency>
     </dependencies>
 
 </project>

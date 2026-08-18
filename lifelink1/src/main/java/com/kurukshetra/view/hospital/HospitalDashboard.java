@@ -1051,7 +1051,7 @@ public class HospitalDashboard extends Application {
         // SCENE
         // =============================================================
         
-        dashboardScene = new Scene(borderPane, Welcome.WelcomeStage.getWidth(), Welcome.WelcomeStage.getHeight());
+        dashboardScene = new Scene(borderPane);
 
         dashboardStage.setScene(dashboardScene);
         dashboardStage.setTitle("LifeLink Hospital Dashboard");

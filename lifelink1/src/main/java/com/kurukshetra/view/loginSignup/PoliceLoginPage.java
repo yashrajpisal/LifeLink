@@ -471,7 +471,7 @@ public class PoliceLoginPage {
 
             PoliceDashboard policeDashboard =  new PoliceDashboard();
             try{
-                policeDashboard.start(AalLoginStartPoint.startPageStage);
+                policeDashboard.start(Welcome.WelcomeStage);
             }catch(Exception e1){
                 e1.printStackTrace();
             }

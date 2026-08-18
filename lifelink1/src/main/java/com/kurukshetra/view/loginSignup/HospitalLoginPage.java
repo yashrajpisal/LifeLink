@@ -429,7 +429,7 @@ public class HospitalLoginPage {
 
                         HospitalDashboard hospitalDashboard = new HospitalDashboard();
                         try {
-                                hospitalDashboard.start(AalLoginStartPoint.startPageStage);
+                                hospitalDashboard.start(Welcome.WelcomeStage);
                         } catch (Exception e1) {
                                 e1.printStackTrace();
                         }            

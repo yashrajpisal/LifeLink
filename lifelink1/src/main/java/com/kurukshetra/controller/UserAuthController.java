@@ -19,8 +19,8 @@ public class UserAuthController {
 
         JSONObject reqbody = new JSONObject()
                 .put("email", email)
-                .put("password", password);
-                // .put("returnSecureToken", true);
+                .put("password", password)
+                .put("returnSecureToken", true);
 
         try {
             HttpClient client = HttpClient.newHttpClient();

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>LifeLink Map</title>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+
+        html,
+        body,
+        #map {
+
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        body {
+
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+
+        }
+
+        .leaflet-control-attribution {
+
+            font-size: 8px;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div id="map"></div>
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+<script>
+
+    // --------------------------------------------------
+    // SAMPLE LOCATIONS
+    // --------------------------------------------------
+
+    const patientLocation = [
+        47.6062,
+        -122.3321
+    ];
+
+    const emergencyRoom = [
+        47.6128,
+        -122.3352
+    ];
+
+    // --------------------------------------------------
+    // CREATE MAP
+    // --------------------------------------------------
+
+    const map =
+        L.map("map", {
+
+            zoomControl: true,
+            attributionControl: true
+
+        }).setView(
+            patientLocation,
+            15
+        );
+
+    // --------------------------------------------------
+    // OPEN STREET MAP
+    // --------------------------------------------------
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+
+            maxZoom: 19,
+
+            attribution:
+                "&copy; OpenStreetMap contributors"
+
+        }
+    ).addTo(map);
+
+    // --------------------------------------------------
+    // PATIENT ICON
+    // --------------------------------------------------
+
+    const patientIcon =
+        L.divIcon({
+
+            className: "",
+
+            html:
+                '<div style="' +
+                'width:14px;' +
+                'height:14px;' +
+                'border-radius:50%;' +
+                'background:#26A6D5;' +
+                'border:3px solid white;' +
+                'box-shadow:0 1px 5px #555;' +
+                '"></div>',
+
+            iconSize: [
+                20,
+                20
+            ],
+
+            iconAnchor: [
+                10,
+                10
+            ]
+
+        });
+
+    // --------------------------------------------------
+    // ER ICON
+    // --------------------------------------------------
+
+    const erIcon =
+        L.divIcon({
+
+            className: "",
+
+            html:
+                '<div style="' +
+                'width:18px;' +
+                'height:18px;' +
+                'border-radius:50%;' +
+                'background:#E83D45;' +
+                'border:3px solid white;' +
+                'box-shadow:0 1px 5px #555;' +
+                'color:white;' +
+                'text-align:center;' +
+                'line-height:18px;' +
+                'font-weight:bold;' +
+                '">+</div>',
+
+            iconSize: [
+                24,
+                24
+            ],
+
+            iconAnchor: [
+                12,
+                12
+            ]
+
+        });
+
+    // --------------------------------------------------
+    // PATIENT MARKER
+    // --------------------------------------------------
+
+    L.marker(
+        patientLocation,
+        {
+            icon: patientIcon
+        }
+    )
+    .addTo(map)
+    .bindPopup(
+        "<b>You are here</b><br>" +
+        "124 Maple Street, Seattle, WA"
+    );
+
+    // --------------------------------------------------
+    // ER MARKER
+    // --------------------------------------------------
+
+    L.marker(
+        emergencyRoom,
+        {
+            icon: erIcon
+        }
+    )
+    .addTo(map)
+    .bindPopup(
+        "<b>Seattle Emergency Center</b><br>" +
+        "Approx. 0.4 mi<br>" +
+        "About 2 min walk"
+    );
+
+    // --------------------------------------------------
+    // ROUTE
+    // --------------------------------------------------
+
+    const route =
+        L.polyline(
+
+            [
+                patientLocation,
+                emergencyRoom
+            ],
+
+            {
+
+                color: "#37A7C8",
+                weight: 3,
+                opacity: 0.8,
+                dashArray: "5,6"
+
+            }
+
+        ).addTo(map);
+
+    // --------------------------------------------------
+    // DIRECTIONS FUNCTION
+    // --------------------------------------------------
+
+    function showRoute() {
+
+        map.fitBounds(
+            route.getBounds(),
+            {
+                padding: [
+                    25,
+                    25
+                ]
+            }
+        );
+
+        route.setStyle({
+
+            weight: 5,
+            opacity: 1
+
+        });
+
+        setTimeout(
+            function () {
+
+                route.setStyle({
+
+                    weight: 3,
+                    opacity: 0.8
+
+                });
+
+            },
+            2000
+        );
+    }
+
+</script>
+
+</body>
+
+</html>

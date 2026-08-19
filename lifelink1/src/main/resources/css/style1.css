@@ -1,0 +1,657 @@
+/* =====================================================================
+   LifeLink - single shared stylesheet
+   Loaded once on the app's Scene in Start.java, so it stays applied
+   across every page even though pages are swapped via setRoot().
+   ===================================================================== */
+
+/* ===================== GENERAL ===================== */
+.root-pane {
+    -fx-background-color: #eef1f8;
+}
+
+.main-scroll {
+    -fx-background-color: transparent;
+}
+
+.main-content {
+    -fx-background-color: transparent;
+}
+
+.icon-label,
+.top-icon {
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+}
+
+.page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+/* ===================== SIDEBAR (shared by every page) ===================== */
+.sidebar {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e5ec;
+    -fx-border-width: 0 1 0 0;
+}
+
+.logo-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #4b5563;
+    -fx-font-size: 13px;
+    -fx-padding: 10 12 10 12;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: #f3f4f6;
+}
+
+.nav-button-active {
+    -fx-background-color: #e8edff;
+    -fx-text-fill: #3454d1;
+    -fx-font-weight: bold;
+}
+
+.emergency-btn {
+    -fx-background-color: #e5484d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 12;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.emergency-btn:hover {
+    -fx-background-color: #cf3238;
+}
+
+/* ===================== TOP BAR / HEADER ===================== */
+.avatar-label {
+    -fx-font-size: 22px;
+    -fx-background-color: #e8edff;
+    -fx-background-radius: 100;
+    -fx-padding: 4 8 4 8;
+}
+
+.profile-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.profile-role {
+    -fx-font-size: 11px;
+    -fx-text-fill: #6b7280;
+}
+
+.greeting-text {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-fill: #1f2937;
+}
+
+.sub-greeting-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6b7280;
+}
+
+/* ===================== CARDS (generic) ===================== */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 14;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);
+}
+
+.card-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.card-title-large {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.card-desc {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7280;
+}
+
+.link-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #3454d1;
+    -fx-cursor: hand;
+}
+
+.add-icon {
+    -fx-font-size: 16px;
+    -fx-text-fill: #3454d1;
+    -fx-cursor: hand;
+}
+
+/* ===================== EMERGENCY CARD (dashboard) ===================== */
+.emergency-card {
+    -fx-background-color: linear-gradient(to right, #fff1f1, #ffffff);
+    -fx-border-color: #fbd5d5;
+}
+
+.emergency-tag {
+    -fx-text-fill: #e5484d;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.primary-red-btn {
+    -fx-background-color: #e5484d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 16 10 16;
+    -fx-cursor: hand;
+}
+
+.primary-red-btn:hover {
+    -fx-background-color: #cf3238;
+}
+
+.primary-dark-btn {
+    -fx-background-color: #1f2937;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 16 10 16;
+    -fx-cursor: hand;
+}
+
+.primary-dark-btn:hover {
+    -fx-background-color: #374151;
+}
+
+/* ===================== STATUS PILLS / TAGS ===================== */
+.status-pill {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10 4 10;
+    -fx-background-radius: 20;
+}
+
+.status-healthy {
+    -fx-background-color: #d7f5df;
+    -fx-text-fill: #1a8a3e;
+}
+
+.status-monitoring {
+    -fx-background-color: #fdecd0;
+    -fx-text-fill: #b1710a;
+}
+
+.tag-green {
+    -fx-background-color: #d7f5df;
+    -fx-text-fill: #1a8a3e;
+}
+
+.tag-orange {
+    -fx-background-color: #fdecd0;
+    -fx-text-fill: #b1710a;
+}
+
+.member-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.member-relation {
+    -fx-font-size: 11px;
+    -fx-text-fill: #6b7280;
+}
+
+/* ===================== QUICK ACTION CARDS (dashboard) ===================== */
+.quick-action-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 14;
+    -fx-padding: 18;
+    -fx-cursor: hand;
+}
+
+.quick-action-card:hover {
+    -fx-background-color: #f9fafb;
+}
+
+.quick-action-icon {
+    -fx-font-size: 22px;
+}
+
+.quick-action-text {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #374151;
+}
+
+/* ===================== NEARBY CARE (dashboard) ===================== */
+.mini-map-preview {
+    -fx-background-color: #e8edff;
+    -fx-background-radius: 10;
+    -fx-font-size: 26px;
+    -fx-padding: 30;
+}
+
+.small-icon {
+    -fx-font-size: 14px;
+}
+
+/* ===================== CHAT ASSISTANT (dashboard preview card) ===================== */
+.chat-icon {
+    -fx-font-size: 20px;
+}
+
+.chat-bubble {
+    -fx-background-color: #f3f4f6;
+    -fx-background-radius: 10;
+    -fx-padding: 12;
+    -fx-font-size: 12px;
+    -fx-text-fill: #374151;
+}
+
+.chip-btn {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #374151;
+    -fx-font-size: 11px;
+    -fx-background-radius: 20;
+    -fx-padding: 6 12 6 12;
+    -fx-cursor: hand;
+}
+
+.chip-btn:hover {
+    -fx-background-color: #e5e7eb;
+}
+
+/* ===================== FIND CARE - SEARCH / FILTERS ===================== */
+.search-field {
+    -fx-background-color: #f9fafb;
+    -fx-background-radius: 8;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 8;
+    -fx-padding: 8;
+    -fx-font-size: 13px;
+}
+
+.location-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #3454d1;
+}
+
+.filter-btn {
+    -fx-background-color: white;
+    -fx-text-fill: #4b5563;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-font-size: 12px;
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+}
+
+.filter-btn-active {
+    -fx-background-color: #1f2937;
+    -fx-text-fill: white;
+    -fx-border-color: #1f2937;
+}
+
+.results-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7280;
+}
+
+/* ===================== HOSPITAL CARDS (find care) ===================== */
+.hospital-card {
+    -fx-cursor: hand;
+}
+
+.rating-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #b1710a;
+    -fx-font-weight: bold;
+}
+
+.specialty-tag {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #374151;
+    -fx-font-size: 11px;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10 4 10;
+}
+
+/* ===================== MAP ===================== */
+.map-container {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 14;
+}
+
+/* =====================================================================
+   FIRST-AID ASSISTANT PAGE
+   ===================================================================== */
+
+.assistant-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 14;
+}
+
+.assistant-header {
+    -fx-border-color: #eef0f5;
+    -fx-border-width: 0 0 1 0;
+}
+
+.assistant-avatar {
+    -fx-font-size: 20px;
+    -fx-background-color: #e8ecff;
+    -fx-background-radius: 20;
+    -fx-padding: 6 10 6 10;
+}
+
+.assistant-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.assistant-status {
+    -fx-font-size: 11px;
+    -fx-text-fill: #22c55e;
+}
+
+.menu-icon {
+    -fx-font-size: 16px;
+    -fx-text-fill: #9ca3af;
+    -fx-cursor: hand;
+}
+
+.chat-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.disclaimer-box {
+    -fx-background-color: #eef1fd;
+    -fx-background-radius: 10;
+}
+
+.disclaimer-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #4b5efc;
+}
+
+.time-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #9ca3af;
+}
+
+.user-bubble {
+    -fx-background-color: #2f6fed;
+    -fx-background-radius: 14 14 2 14;
+}
+
+.user-message-text {
+    -fx-fill: white;
+    -fx-font-size: 13px;
+}
+
+.bot-icon {
+    -fx-font-size: 16px;
+    -fx-background-color: #e8ecff;
+    -fx-background-radius: 15;
+    -fx-padding: 6;
+}
+
+.assistant-bubble {
+    -fx-background-color: #f4f6fb;
+    -fx-background-radius: 2 14 14 14;
+}
+
+.assistant-message-text {
+    -fx-fill: #374151;
+    -fx-font-size: 13px;
+}
+
+.first-aid-card {
+    -fx-background-color: #fff7f5;
+    -fx-background-radius: 12;
+    -fx-border-color: #ffe1d9;
+    -fx-border-radius: 12;
+}
+
+.first-aid-icon {
+    -fx-font-size: 18px;
+    -fx-background-color: #ffe1d9;
+    -fx-background-radius: 15;
+    -fx-padding: 6;
+}
+
+.first-aid-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.first-aid-subtitle {
+    -fx-font-size: 11px;
+    -fx-text-fill: #9ca3af;
+}
+
+.step-number {
+    -fx-background-color: #ff8a65;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-min-width: 20;
+    -fx-min-height: 20;
+    -fx-alignment: center;
+}
+
+.step-bold-text {
+    -fx-fill: #1f2937;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.step-text {
+    -fx-fill: #4b5563;
+    -fx-font-size: 12px;
+}
+
+.suggestion-chip {
+    -fx-background-color: #f4f6fb;
+    -fx-text-fill: #4b5563;
+    -fx-font-size: 12px;
+    -fx-background-radius: 20;
+    -fx-padding: 6 14 6 14;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+}
+
+.suggestion-chip:hover {
+    -fx-background-color: #e8ecff;
+}
+
+.input-bar {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #eef0f5;
+    -fx-border-width: 1 0 0 0;
+}
+
+.input-icon {
+    -fx-font-size: 15px;
+    -fx-text-fill: #9ca3af;
+    -fx-cursor: hand;
+}
+
+.chat-input-field {
+    -fx-background-color: #f4f6fb;
+    -fx-background-radius: 20;
+    -fx-padding: 8 14 8 14;
+    -fx-font-size: 13px;
+}
+
+.send-button {
+    -fx-background-color: #2f6fed;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 20;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+    -fx-max-width: 36;
+    -fx-max-height: 36;
+    -fx-cursor: hand;
+}
+
+.send-button:hover {
+    -fx-background-color: #1e5fd8;
+}
+
+/* =====================================================================
+   SETTINGS PAGE
+   ===================================================================== */
+
+.muted-text {
+    -fx-fill: #6b7280;
+    -fx-font-size: 12px;
+}
+
+.subtitle-highlight-blue {
+    -fx-fill: #3454d1;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.subtitle-highlight-orange {
+    -fx-fill: #b1710a;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.subtitle-highlight-teal {
+    -fx-fill: #00566f;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.card-icon {
+    -fx-font-size: 16px;
+}
+
+.settings-card-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.field-label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6b7280;
+}
+
+.settings-field {
+    -fx-background-color: #f9fafb;
+    -fx-background-radius: 8;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 8;
+    -fx-padding: 8;
+    -fx-font-size: 12px;
+}
+
+.settings-row-title {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.settings-row-desc {
+    -fx-font-size: 11px;
+    -fx-text-fill: #9ca3af;
+}
+
+.update-profile-btn {
+    -fx-background-color: #dbeeff;
+    -fx-text-fill: #1d6fb8;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+
+.update-profile-btn:hover {
+    -fx-background-color: #c3e2fc;
+}
+
+.change-password-link {
+    -fx-font-size: 11px;
+    -fx-text-fill: #3454d1;
+    -fx-cursor: hand;
+}
+
+.theme-btn {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #4b5563;
+    -fx-font-size: 11px;
+    -fx-background-radius: 8;
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+}
+
+.theme-btn-active {
+    -fx-background-color: white;
+    -fx-text-fill: #1f2937;
+    -fx-font-weight: bold;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 8;
+}
+
+.settings-combo {
+    -fx-background-color: #f9fafb;
+    -fx-background-radius: 8;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 8;
+    -fx-font-size: 12px;
+}
+
+.discard-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: #4b5563;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 18 10 18;
+    -fx-cursor: hand;
+}
+
+.discard-btn:hover {
+    -fx-background-color: #f3f4f6;
+}

@@ -158,8 +158,8 @@ public class Welcome extends Application {
         });
 
         
-        // Nurse Card
-        StackPane ambulanceNurceCard = createRoleCard(SVG_AMBULANCE, "Ambulance Nurce", "Receive dispatch alerts, navigate routes, and transmit patient vitals en route.", ICON_COLOR_ERROR, ICON_BG_ERROR);
+        // Nurse CarFnurced
+        StackPane ambulanceNurceCard = createRoleCard(SVG_AMBULANCE, "Ambulance Nurse", "Receive dispatch alerts, navigate routes, and transmit patient vitals en route.", ICON_COLOR_ERROR, ICON_BG_ERROR);
         ambulanceNurceCard.setOnMouseClicked(e ->{
 
             NurseLoginPage nurseLoginPage = new NurseLoginPage();

@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ClosePath;
@@ -29,10 +30,14 @@ import javafx.scene.text.Text;
 
 public class AdminLoginPage {
 
+    // =========================================================
+    // COLORS
+    // =========================================================
 
-   private static final String TEAL = "#9C7DF0";
+    private static final String TEAL = "#9C7DF0";
     private static final String TEAL_DARK = "#654da7";
     private static final String TEAL_LIGHT = "#63D7DC";
+
     private static final String WHITE = "#FFFFFF";
     private static final String BLACK = "#111111";
     private static final String GRAY_BG = "#777775";
@@ -53,32 +58,65 @@ public class AdminLoginPage {
     // PAGE SIZE
     // =========================================================
 
-    private static final double PAGE_WIDTH = Welcome.WelcomeStage.getWidth();
-    private static final double PAGE_HEIGHT = Welcome.WelcomeStage.getHeight();
+    private static final double PAGE_WIDTH =
+            Welcome.WelcomeStage.getWidth();
+
+    private static final double PAGE_HEIGHT =
+            Welcome.WelcomeStage.getHeight();
+
+    // =========================================================
+    // CONTROLLER
+    // =========================================================
+
+    UserAuthController userAuthController =
+            new UserAuthController();
 
     // =========================================================
     // MAIN PAGE
     // =========================================================
-UserAuthController userAuthController = new UserAuthController();
 
     public BorderPane getAdminLoginPage() {
 
-        BorderPane root = new BorderPane();
+        BorderPane root =
+                new BorderPane();
 
-        root.setPrefSize(PAGE_WIDTH, PAGE_HEIGHT);
-        root.setMinSize(PAGE_WIDTH, PAGE_HEIGHT);
-        root.setMaxSize(PAGE_WIDTH, PAGE_HEIGHT);
+        root.setPrefSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        root.setMinSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        root.setMaxSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
 
         root.setStyle(
                 "-fx-background-color: " + GRAY_BG + ";" +
                 "-fx-font-family: 'Segoe UI';"
         );
 
-        AnchorPane page = new AnchorPane();
+        AnchorPane page =
+                new AnchorPane();
 
-        page.setPrefSize(PAGE_WIDTH, PAGE_HEIGHT);
-        page.setMinSize(PAGE_WIDTH, PAGE_HEIGHT);
-        page.setMaxSize(PAGE_WIDTH, PAGE_HEIGHT);
+        page.setPrefSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        page.setMinSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        page.setMaxSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
 
         page.setStyle(
                 "-fx-background-color: " + GRAY_BG + ";"
@@ -88,7 +126,8 @@ UserAuthController userAuthController = new UserAuthController();
         // DOCTOR IMAGE
         // =====================================================
 
-        ImageView doctorImage = createDoctorImage();
+        ImageView doctorImage =
+                createDoctorImage();
 
         updateImage(
                 doctorImage,
@@ -106,19 +145,32 @@ UserAuthController userAuthController = new UserAuthController();
                 0.0
         );
 
-        page.getChildren().add(doctorImage);
+        page.getChildren().add(
+                doctorImage
+        );
 
         // =====================================================
         // IMAGE OVERLAY
         // =====================================================
 
-        Rectangle imageOverlay = new Rectangle();
+        Rectangle imageOverlay =
+                new Rectangle();
 
-        imageOverlay.setWidth(PAGE_WIDTH * 0.56);
-        imageOverlay.setHeight(PAGE_HEIGHT);
+        imageOverlay.setWidth(
+                PAGE_WIDTH * 0.56
+        );
+
+        imageOverlay.setHeight(
+                PAGE_HEIGHT
+        );
 
         imageOverlay.setFill(
-                Color.rgb(0, 0, 0, 0.50)
+                Color.rgb(
+                        0,
+                        0,
+                        0,
+                        0.50
+                )
         );
 
         AnchorPane.setLeftAnchor(
@@ -131,13 +183,16 @@ UserAuthController userAuthController = new UserAuthController();
                 0.0
         );
 
-        page.getChildren().add(imageOverlay);
+        page.getChildren().add(
+                imageOverlay
+        );
 
         // =====================================================
-        // BLUE S-SHAPED BACKGROUND
+        // PURPLE S-SHAPED BACKGROUND
         // =====================================================
 
-        Path blueShape = createBlueBackground();
+        Path blueShape =
+                createBlueBackground();
 
         updateBlueShape(
                 blueShape,
@@ -155,31 +210,58 @@ UserAuthController userAuthController = new UserAuthController();
                 0.0
         );
 
-        page.getChildren().add(blueShape);
+        page.getChildren().add(
+                blueShape
+        );
+
+        // =====================================================
+        // BACK BUTTON
+        // =====================================================
+
+        Button backButton =
+                createBackButton();
+
+        AnchorPane.setLeftAnchor(
+                backButton,
+                35.0
+        );
+
+        AnchorPane.setTopAnchor(
+                backButton,
+                30.0
+        );
+
+        page.getChildren().add(
+                backButton
+        );
 
         // =====================================================
         // LOGIN CARD
         // =====================================================
 
-        VBox loginCard = createLoginCard();
+        VBox loginCard =
+                createLoginCard();
 
         AnchorPane.setLeftAnchor(
                 loginCard,
-                (double) 150
+                150.0
         );
 
         AnchorPane.setTopAnchor(
                 loginCard,
-                (double)120
+                120.0
         );
 
-        page.getChildren().add(loginCard);
+        page.getChildren().add(
+                loginCard
+        );
 
         // =====================================================
         // LIFELINK LOGO
         // =====================================================
 
-        HBox lifeLinkLogo = createLifeLinkLogo();
+        HBox lifeLinkLogo =
+                createLifeLinkLogo();
 
         AnchorPane.setRightAnchor(
                 lifeLinkLogo,
@@ -191,7 +273,9 @@ UserAuthController userAuthController = new UserAuthController();
                 28.0
         );
 
-        page.getChildren().add(lifeLinkLogo);
+        page.getChildren().add(
+                lifeLinkLogo
+        );
 
         // =====================================================
         // ROOT
@@ -203,18 +287,121 @@ UserAuthController userAuthController = new UserAuthController();
     }
 
     // =========================================================
+    // BACK BUTTON
+    // =========================================================
+
+    private Button createBackButton() {
+
+        Button backButton =
+                new Button(
+                        "←  Back"
+                );
+
+        setFixedSize(
+                backButton,
+                100,
+                42
+        );
+
+        backButton.setStyle(
+                backButtonNormalStyle()
+        );
+
+        // =====================================================
+        // HOVER
+        // =====================================================
+
+        backButton.setOnMouseEntered(
+                e -> backButton.setStyle(
+                        backButtonHoverStyle()
+                )
+        );
+
+        backButton.setOnMouseExited(
+                e -> backButton.setStyle(
+                        backButtonNormalStyle()
+                )
+        );
+
+        // =====================================================
+        // BACK ACTION
+        // =====================================================
+
+        backButton.setOnAction(e -> {
+
+            try {
+
+                Welcome welcome =
+                        new Welcome();
+
+                welcome.start(
+                        Welcome.WelcomeStage
+                );
+
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+            }
+        });
+
+        return backButton;
+    }
+
+    // =========================================================
+    // BACK BUTTON NORMAL STYLE
+    // =========================================================
+
+    private String backButtonNormalStyle() {
+
+        return
+                "-fx-background-color: rgba(255,255,255,0.15);" +
+                "-fx-text-fill: white;" +
+                "-fx-font-family: 'Segoe UI';" +
+                "-fx-font-size: 15px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-background-radius: 10;" +
+                "-fx-border-color: rgba(255,255,255,0.55);" +
+                "-fx-border-width: 1;" +
+                "-fx-border-radius: 10;" +
+                "-fx-cursor: hand;";
+    }
+
+    // =========================================================
+    // BACK BUTTON HOVER STYLE
+    // =========================================================
+
+    private String backButtonHoverStyle() {
+
+        return
+                "-fx-background-color: white;" +
+                "-fx-text-fill: " + TEAL_DARK + ";" +
+                "-fx-font-family: 'Segoe UI';" +
+                "-fx-font-size: 15px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-background-radius: 10;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 1;" +
+                "-fx-border-radius: 10;" +
+                "-fx-cursor: hand;";
+    }
+
+    // =========================================================
     // LOGIN CARD
     // =========================================================
 
     private VBox createLoginCard() {
 
-        VBox card = new VBox();
+        VBox card =
+                new VBox();
 
         card.setPrefWidth(400);
         card.setMinWidth(400);
         card.setMaxWidth(400);
 
-        setFixedHeight(card, 560);
+        setFixedHeight(
+                card,
+                560
+        );
 
         card.setPadding(
                 new Insets(
@@ -239,7 +426,6 @@ UserAuthController userAuthController = new UserAuthController();
                 ");"
         );
 
-        // Only one Login UI implementation.
         showLoginForm(card);
 
         return card;
@@ -253,13 +439,19 @@ UserAuthController userAuthController = new UserAuthController();
 
         card.getChildren().clear();
 
-        setFixedHeight(card, 560);
+        setFixedHeight(
+                card,
+                560
+        );
 
         // =====================================================
         // SIGN IN TITLE
         // =====================================================
 
-        Text signIn = new Text("SIGN IN");
+        Text signIn =
+                new Text(
+                        "SIGN IN"
+                );
 
         signIn.setStyle(
                 "-fx-fill: " + BLACK + ";" +
@@ -268,24 +460,38 @@ UserAuthController userAuthController = new UserAuthController();
                 "-fx-font-weight: bold;"
         );
 
-        HBox titleBox = new HBox();
+        HBox titleBox =
+                new HBox();
 
-        titleBox.setAlignment(Pos.CENTER);
-        titleBox.setPrefHeight(48);
+        titleBox.setAlignment(
+                Pos.CENTER
+        );
 
-        titleBox.getChildren().add(signIn);
+        titleBox.setPrefHeight(
+                48
+        );
+
+        titleBox.getChildren().add(
+                signIn
+        );
 
         // =====================================================
         // TITLE SPACE
         // =====================================================
 
-        Region titleSpace = createSpacer(25);
+        Region titleSpace =
+                createSpacer(
+                        25
+                );
 
         // =====================================================
-        // admin DATA
+        // ADMIN DATA
         // =====================================================
 
-        Text adminData = new Text("System Admin");
+        Text adminData =
+                new Text(
+                        "System Admin"
+                );
 
         adminData.setStyle(
                 "-fx-fill: " + BLACK + ";" +
@@ -295,10 +501,17 @@ UserAuthController userAuthController = new UserAuthController();
                 "-fx-font-weight: bold;"
         );
 
-        HBox adminBox = new HBox();
+        HBox adminBox =
+                new HBox();
 
-        adminBox.setAlignment(Pos.CENTER);
-        setFixedHeight(adminBox, 50);
+        adminBox.setAlignment(
+                Pos.CENTER
+        );
+
+        setFixedHeight(
+                adminBox,
+                50
+        );
 
         adminBox.setPadding(
                 new Insets(
@@ -311,48 +524,72 @@ UserAuthController userAuthController = new UserAuthController();
 
         adminBox.setStyle(
                 "-fx-background-color: " + WHITE + ";" +
+                // "-fx-border-color: " + BORDER + ";" +
                 "-fx-border-width: 2;" +
                 "-fx-border-radius: 10;" +
                 "-fx-background-radius: 10;"
         );
 
-        adminBox.getChildren().add(adminData);
+        adminBox.getChildren().add(
+                adminData
+        );
 
         // =====================================================
         // USERNAME
         // =====================================================
 
-        Region space1 = createSpacer(25);
+        Region space1 =
+                createSpacer(
+                        25
+                );
 
-        TextField username = createTextField("Username");
+        TextField username =
+                createTextField(
+                        "Username"
+                );
 
         // =====================================================
         // PASSWORD
         // =====================================================
 
-        Region space2 = createSpacer(25);
+        Region space2 =
+                createSpacer(
+                        25
+                );
 
-        PasswordField password = createPasswordField("Password");
+        StackPane passwordBox =
+                createPasswordField(
+                        "Password"
+                );
 
         // =====================================================
         // ACTION SPACE
         // =====================================================
 
-        Region actionSpace = createSpacer(40);
+        Region actionSpace =
+                createSpacer(
+                        40
+                );
 
         // =====================================================
         // ACTION ROW
         // =====================================================
 
-        HBox actionRow = new HBox();
+        HBox actionRow =
+                new HBox();
 
-        actionRow.setAlignment(Pos.CENTER_LEFT);
+        actionRow.setAlignment(
+                Pos.CENTER_LEFT
+        );
 
         // =====================================================
         // LOGIN BUTTON
         // =====================================================
 
-        Button loginButton = new Button("Login");
+        Button loginButton =
+                new Button(
+                        "Login"
+                );
 
         setFixedSize(
                 loginButton,
@@ -369,7 +606,8 @@ UserAuthController userAuthController = new UserAuthController();
         // BUTTON SPACE
         // =====================================================
 
-        Region buttonSpace = new Region();
+        Region buttonSpace =
+                new Region();
 
         HBox.setHgrow(
                 buttonSpace,
@@ -380,7 +618,10 @@ UserAuthController userAuthController = new UserAuthController();
         // FORGOT PASSWORD
         // =====================================================
 
-        Button forgot = new Button("Forgot Password?");
+        Button forgot =
+                new Button(
+                        "Forgot Password?"
+                );
 
         setForgotButtonStyle(
                 forgot,
@@ -397,15 +638,22 @@ UserAuthController userAuthController = new UserAuthController();
         // SIGN UP
         // =====================================================
 
-        Region signUpSpace = createSpacer(35);
+        Region signUpSpace =
+                createSpacer(
+                        35
+                );
 
-        HBox signUpRow = new HBox();
+        HBox signUpRow =
+                new HBox();
 
-        signUpRow.setAlignment(Pos.CENTER);
-
-        Text accountText = new Text(
-                "Don't have an account? "
+        signUpRow.setAlignment(
+                Pos.CENTER
         );
+
+        Text accountText =
+                new Text(
+                        "Don't have an account? "
+                );
 
         accountText.setStyle(
                 "-fx-fill: " + BLACK + ";" +
@@ -413,7 +661,10 @@ UserAuthController userAuthController = new UserAuthController();
                 "-fx-font-family: 'Segoe UI';"
         );
 
-        Button signUp = new Button("Sign Up");
+        Button signUp =
+                new Button(
+                        "Sign Up"
+                );
 
         setSignUpButtonStyle(
                 signUp,
@@ -435,7 +686,9 @@ UserAuthController userAuthController = new UserAuthController();
                     username.getText().trim();
 
             String passwordValue =
-                    password.getText();
+                    getPasswordValue(
+                            passwordBox
+                    );
 
             if (emailValue.isEmpty()
                     || passwordValue.isEmpty()) {
@@ -447,37 +700,65 @@ UserAuthController userAuthController = new UserAuthController();
                 return;
             }
 
-             boolean isSuccess = userAuthController.signIn(emailValue, passwordValue);
+            try {
 
-                        if (isSuccess) {
-                              
-            System.out.println(
-                    "Admin: Admin Data"
-            );
+                boolean isSuccess =
+                        userAuthController.signIn(
+                                emailValue,
+                                passwordValue
+                        );
 
-            System.out.println(
-                    "Username: " + emailValue
-            );
+                if (isSuccess) {
 
-            System.out.println(
-                    "Login successful."
-            );
+                    System.out.println(
+                            "Admin: Admin Data"
+                    );
 
-            AdminDashboard adminDashboard = new AdminDashboard();
-            try{
-                adminDashboard.start(Welcome.WelcomeStage);
-            }catch(Exception e1){
-                e1.printStackTrace();
+                    System.out.println(
+                            "Username: " + emailValue
+                    );
+
+                    System.out.println(
+                            "Login successful."
+                    );
+
+                    AdminDashboard adminDashboard =
+                            new AdminDashboard();
+
+                    try {
+
+                        adminDashboard.start(
+                                Welcome.WelcomeStage
+                        );
+
+                    } catch (Exception ex) {
+
+                        ex.printStackTrace();
+                    }
+
+                } else {
+
+                    System.out.println(
+                            "Invalid username or password."
+                    );
+                }
+
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+
+                System.out.println(
+                        "Login failed. Please try again."
+                );
             }
-        }
         });
 
         // =====================================================
         // FORGOT PASSWORD ACTION
         // =====================================================
 
-        forgot.setOnAction(e ->
-                System.out.println(
+        forgot.setOnAction(
+                e -> System.out.println(
                         "Forgot Password clicked."
                 )
         );
@@ -486,8 +767,8 @@ UserAuthController userAuthController = new UserAuthController();
         // SIGN UP ACTION
         // =====================================================
 
-        signUp.setOnAction(e ->
-                showSignUpForm(card)
+        signUp.setOnAction(
+                e -> showSignUpForm(card)
         );
 
         // =====================================================
@@ -501,7 +782,7 @@ UserAuthController userAuthController = new UserAuthController();
                 space1,
                 username,
                 space2,
-                password,
+                passwordBox,
                 actionSpace,
                 actionRow,
                 signUpSpace,
@@ -517,13 +798,19 @@ UserAuthController userAuthController = new UserAuthController();
 
         card.getChildren().clear();
 
-        setFixedHeight(card, 550);
+        setFixedHeight(
+                card,
+                550
+        );
 
         // =====================================================
         // TITLE
         // =====================================================
 
-        Text signUpTitle = new Text("SIGN UP");
+        Text signUpTitle =
+                new Text(
+                        "SIGN UP"
+                );
 
         signUpTitle.setStyle(
                 "-fx-fill: " + BLACK + ";" +
@@ -532,54 +819,84 @@ UserAuthController userAuthController = new UserAuthController();
                 "-fx-font-weight: bold;"
         );
 
-        HBox titleBox = new HBox();
+        HBox titleBox =
+                new HBox();
 
-        titleBox.setAlignment(Pos.CENTER);
-        titleBox.setPrefHeight(48);
+        titleBox.setAlignment(
+                Pos.CENTER
+        );
 
-        titleBox.getChildren().add(signUpTitle);
+        titleBox.setPrefHeight(
+                48
+        );
+
+        titleBox.getChildren().add(
+                signUpTitle
+        );
 
         // =====================================================
         // TITLE SPACE
         // =====================================================
 
-        Region titleSpace = createSpacer(25);
+        Region titleSpace =
+                createSpacer(
+                        25
+                );
 
         // =====================================================
         // NAME
         // =====================================================
 
-        TextField name = createTextField("Name");
+        TextField name =
+                createTextField(
+                        "Name"
+                );
 
         // =====================================================
         // EMAIL
         // =====================================================
 
-        Region space1 = createSpacer(18);
+        Region space1 =
+                createSpacer(
+                        18
+                );
 
-        TextField email = createTextField("Email");
+        TextField email =
+                createTextField(
+                        "Email"
+                );
 
         // =====================================================
         // PASSWORD
         // =====================================================
 
-        Region space2 = createSpacer(18);
+        Region space2 =
+                createSpacer(
+                        18
+                );
 
-        PasswordField password =
-                createPasswordField("Password");
+        StackPane passwordBox =
+                createPasswordField(
+                        "Password"
+                );
 
         // =====================================================
         // ACTION SPACE
         // =====================================================
 
-        Region actionSpace = createSpacer(30);
+        Region actionSpace =
+                createSpacer(
+                        30
+                );
 
         // =====================================================
         // SIGN UP BUTTON
         // =====================================================
 
         Button signUpButton =
-                new Button("Sign Up");
+                new Button(
+                        "Sign Up"
+                );
 
         setFixedSize(
                 signUpButton,
@@ -592,16 +909,25 @@ UserAuthController userAuthController = new UserAuthController();
                 TEAL
         );
 
-        HBox buttonBox = new HBox();
+        HBox buttonBox =
+                new HBox();
 
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.getChildren().add(signUpButton);
+        buttonBox.setAlignment(
+                Pos.CENTER
+        );
+
+        buttonBox.getChildren().add(
+                signUpButton
+        );
 
         // =====================================================
         // LOGIN SPACE
         // =====================================================
 
-        Region loginSpace = createSpacer(25);
+        Region loginSpace =
+                createSpacer(
+                        25
+                );
 
         // =====================================================
         // BACK TO LOGIN
@@ -617,10 +943,16 @@ UserAuthController userAuthController = new UserAuthController();
                 BLACK
         );
 
-        HBox loginBox = new HBox();
+        HBox loginBox =
+                new HBox();
 
-        loginBox.setAlignment(Pos.CENTER);
-        loginBox.getChildren().add(backToLogin);
+        loginBox.setAlignment(
+                Pos.CENTER
+        );
+
+        loginBox.getChildren().add(
+                backToLogin
+        );
 
         // =====================================================
         // SIGN UP ACTION
@@ -635,7 +967,9 @@ UserAuthController userAuthController = new UserAuthController();
                     email.getText().trim();
 
             String passwordValue =
-                    password.getText();
+                    getPasswordValue(
+                            passwordBox
+                    );
 
             if (nameValue.isEmpty()
                     || emailValue.isEmpty()
@@ -648,46 +982,76 @@ UserAuthController userAuthController = new UserAuthController();
                 return;
             }
 
-            boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+            try {
 
-                         if(isSuccess){
+                boolean isSuccess =
+                        userAuthController.signUp(
+                                nameValue,
+                                emailValue,
+                                passwordValue
+                        );
 
-                                 System.out.println("API Hit Successfully (SignUp)");
-                                UserController userController = new UserController();
-                                userController.passToAdminModel(nameValue, emailValue);
+                if (isSuccess) {
 
-            System.out.println(
-                    "========== SIGN UP =========="
-            );
+                    System.out.println(
+                            "API Hit Successfully (SignUp)"
+                    );
 
-            System.out.println(
-                    "Name: " + nameValue
-            );
+                    UserController userController =
+                            new UserController();
 
-            System.out.println(
-                    "Email: " + emailValue
-            );
+                    userController.passToAdminModel(
+                            nameValue,
+                            emailValue
+                    );
 
-            System.out.println(
-                    "Password: " + passwordValue
-            );
+                    System.out.println(
+                            "========== SIGN UP =========="
+                    );
 
-            System.out.println(
-                    "Sign Up successful."
-            );
+                    System.out.println(
+                            "Name: " + nameValue
+                    );
 
-            System.out.println(
-                    "============================="
-            );
-        }
+                    System.out.println(
+                            "Email: " + emailValue
+                    );
+
+                    System.out.println(
+                            "Password: " + passwordValue
+                    );
+
+                    System.out.println(
+                            "Sign Up successful."
+                    );
+
+                    System.out.println(
+                            "============================="
+                    );
+
+                } else {
+
+                    System.out.println(
+                            "Sign up failed. Please try again."
+                    );
+                }
+
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+
+                System.out.println(
+                        "Unable to create account."
+                );
+            }
         });
 
         // =====================================================
         // BACK TO LOGIN ACTION
         // =====================================================
 
-        backToLogin.setOnAction(e ->
-                showLoginForm(card)
+        backToLogin.setOnAction(
+                e -> showLoginForm(card)
         );
 
         // =====================================================
@@ -701,7 +1065,7 @@ UserAuthController userAuthController = new UserAuthController();
                 space1,
                 email,
                 space2,
-                password,
+                passwordBox,
                 actionSpace,
                 buttonBox,
                 loginSpace,
@@ -710,54 +1074,331 @@ UserAuthController userAuthController = new UserAuthController();
     }
 
     // =========================================================
+    // PASSWORD FIELD WITH VISIBILITY TOGGLE
+    // IDENTICAL TO HOSPITAL LOGIN PAGE
+    // =========================================================
+
+    private StackPane createPasswordField(
+            String prompt) {
+
+        StackPane container =
+                new StackPane();
+
+        setFixedHeight(
+                container,
+                50
+        );
+
+        // =====================================================
+        // PASSWORD FIELD
+        // =====================================================
+
+        PasswordField passwordField =
+                new PasswordField();
+
+        passwordField.setPromptText(
+                prompt
+        );
+
+        setFixedHeight(
+                passwordField,
+                50
+        );
+
+        passwordField.setStyle(
+                normalFieldStyle()
+        );
+
+        addFocusStyle(
+                passwordField
+        );
+
+        // =====================================================
+        // VISIBLE PASSWORD FIELD
+        // =====================================================
+
+        TextField visiblePassword =
+                new TextField();
+
+        visiblePassword.setPromptText(
+                prompt
+        );
+
+        setFixedHeight(
+                visiblePassword,
+                50
+        );
+
+        visiblePassword.setStyle(
+                normalFieldStyle()
+        );
+
+        addFocusStyle(
+                visiblePassword
+        );
+
+        visiblePassword.setVisible(
+                false
+        );
+
+        visiblePassword.setManaged(
+                false
+        );
+
+        // =====================================================
+        // EYE BUTTON
+        // =====================================================
+
+        Button eyeButton =
+                new Button(
+                        "👁"
+                );
+
+        eyeButton.setFocusTraversable(
+                false
+        );
+
+        eyeButton.setStyle(
+                eyeButtonStyle(
+                        PLACEHOLDER
+                )
+        );
+
+        StackPane.setAlignment(
+                eyeButton,
+                Pos.CENTER_RIGHT
+        );
+
+        StackPane.setMargin(
+                eyeButton,
+                new Insets(
+                        0,
+                        8,
+                        0,
+                        0
+                )
+        );
+
+        // =====================================================
+        // EYE HOVER
+        // =====================================================
+
+        eyeButton.setOnMouseEntered(
+                e -> eyeButton.setStyle(
+                        eyeButtonStyle(
+                                TEAL
+                        )
+                )
+        );
+
+        eyeButton.setOnMouseExited(
+                e -> {
+
+                    String color =
+                            visiblePassword.isVisible()
+                                    ? TEAL
+                                    : PLACEHOLDER;
+
+                    eyeButton.setStyle(
+                            eyeButtonStyle(
+                                    color
+                            )
+                    );
+                }
+        );
+
+        // =====================================================
+        // SHOW / HIDE PASSWORD
+        // =====================================================
+
+        eyeButton.setOnAction(e -> {
+
+            if (passwordField.isVisible()) {
+
+                // ---------------------------------------------
+                // SHOW PASSWORD
+                // ---------------------------------------------
+
+                visiblePassword.setText(
+                        passwordField.getText()
+                );
+
+                passwordField.setVisible(
+                        false
+                );
+
+                passwordField.setManaged(
+                        false
+                );
+
+                visiblePassword.setVisible(
+                        true
+                );
+
+                visiblePassword.setManaged(
+                        true
+                );
+
+                eyeButton.setText(
+                        "🙈"
+                );
+
+                eyeButton.setStyle(
+                        eyeButtonStyle(
+                                TEAL
+                        )
+                );
+
+                visiblePassword.requestFocus();
+
+                visiblePassword.positionCaret(
+                        visiblePassword.getText().length()
+                );
+
+            } else {
+
+                // ---------------------------------------------
+                // HIDE PASSWORD
+                // ---------------------------------------------
+
+                passwordField.setText(
+                        visiblePassword.getText()
+                );
+
+                visiblePassword.setVisible(
+                        false
+                );
+
+                visiblePassword.setManaged(
+                        false
+                );
+
+                passwordField.setVisible(
+                        true
+                );
+
+                passwordField.setManaged(
+                        true
+                );
+
+                eyeButton.setText(
+                        "👁"
+                );
+
+                eyeButton.setStyle(
+                        eyeButtonStyle(
+                                PLACEHOLDER
+                        )
+                );
+
+                passwordField.requestFocus();
+
+                passwordField.positionCaret(
+                        passwordField.getText().length()
+                );
+            }
+        });
+
+        // =====================================================
+        // ADD TO STACK
+        // =====================================================
+
+        container.getChildren().addAll(
+                passwordField,
+                visiblePassword,
+                eyeButton
+        );
+
+        return container;
+    }
+
+    // =========================================================
+    // EYE BUTTON STYLE
+    // IDENTICAL TO HOSPITAL LOGIN PAGE
+    // =========================================================
+
+    private String eyeButtonStyle(
+            String color) {
+
+        return
+                "-fx-background-color: transparent;" +
+                "-fx-text-fill: " + color + ";" +
+                "-fx-font-size: 18px;" +
+                "-fx-cursor: hand;" +
+                "-fx-padding: 5 8 5 8;";
+    }
+
+    // =========================================================
+    // GET PASSWORD VALUE
+    // =========================================================
+
+    private String getPasswordValue(
+            StackPane passwordBox) {
+
+        for (javafx.scene.Node node :
+                passwordBox.getChildren()) {
+
+            if (node instanceof PasswordField) {
+
+                PasswordField passwordField =
+                        (PasswordField) node;
+
+                if (passwordField.isVisible()) {
+
+                    return passwordField.getText();
+                }
+            }
+
+            if (node instanceof TextField) {
+
+                TextField textField =
+                        (TextField) node;
+
+                if (textField.isVisible()) {
+
+                    return textField.getText();
+                }
+            }
+        }
+
+        return "";
+    }
+
+    // =========================================================
     // TEXT FIELD
     // =========================================================
 
-    private TextField createTextField(String prompt) {
-
-        TextField field = new TextField();
-
-        field.setPromptText(prompt);
-
-        setFixedHeight(field, 50);
-
-        field.setStyle(
-                normalFieldStyle()
-        );
-
-        addFocusStyle(field);
-
-        return field;
-    }
-
-    // =========================================================
-    // PASSWORD FIELD
-    // =========================================================
-
-    private PasswordField createPasswordField(
+    private TextField createTextField(
             String prompt) {
 
-        PasswordField field =
-                new PasswordField();
+        TextField field =
+                new TextField();
 
-        field.setPromptText(prompt);
-
-        setFixedHeight(field, 50);
-
-        field.setStyle(
-                normalFieldStyle()
+        field.setPromptText(
+                prompt
         );
 
-        addFocusStyle(field);
+        setFixedHeight(
+                field,
+                50
+        );
+
+        field.setStyle(
+                normalTextFieldStyle()
+        );
+
+        addFocusStyle(
+                field
+        );
 
         return field;
     }
 
     // =========================================================
-    // NORMAL FIELD STYLE
+    // NORMAL TEXT FIELD STYLE
     // =========================================================
 
-    private String normalFieldStyle() {
+    private String normalTextFieldStyle() {
 
         return
                 "-fx-background-color: " + WHITE + ";" +
@@ -773,10 +1414,31 @@ UserAuthController userAuthController = new UserAuthController();
     }
 
     // =========================================================
+    // NORMAL PASSWORD FIELD STYLE
+    // IDENTICAL TO HOSPITAL LOGIN PAGE
+    // =========================================================
+
+    private String normalFieldStyle() {
+
+        return
+                "-fx-background-color: " + WHITE + ";" +
+                "-fx-border-color: " + BORDER + ";" +
+                "-fx-border-width: 2;" +
+                "-fx-border-radius: 10;" +
+                "-fx-background-radius: 10;" +
+                "-fx-font-family: 'Segoe UI';" +
+                "-fx-font-size: 17px;" +
+                "-fx-text-fill: " + BLACK + ";" +
+                "-fx-prompt-text-fill: " + PLACEHOLDER + ";" +
+                "-fx-padding: 0 40 0 19;";
+    }
+
+    // =========================================================
     // FIELD FOCUS STYLE
     // =========================================================
 
-    private void addFocusStyle(TextField field) {
+    private void addFocusStyle(
+            TextField field) {
 
         field.focusedProperty().addListener(
                 (obs, oldValue, focused) -> {
@@ -789,13 +1451,36 @@ UserAuthController userAuthController = new UserAuthController();
 
                     } else {
 
-                        field.setStyle(
-                                normalFieldStyle()
-                        );
+                        if (field instanceof PasswordField) {
+
+                            field.setStyle(
+                                    normalFieldStyle()
+                            );
+
+                        } else if (
+                                field.getPromptText()
+                                        .equals("Password")
+                        ) {
+
+                            field.setStyle(
+                                    normalFieldStyle()
+                            );
+
+                        } else {
+
+                            field.setStyle(
+                                    normalTextFieldStyle()
+                            );
+                        }
                     }
                 }
         );
     }
+
+    // =========================================================
+    // FOCUSED FIELD STYLE
+    // IDENTICAL TO HOSPITAL LOGIN PAGE
+    // =========================================================
 
     private String focusedFieldStyle() {
 
@@ -809,10 +1494,10 @@ UserAuthController userAuthController = new UserAuthController();
                 "-fx-font-size: 17px;" +
                 "-fx-text-fill: " + BLACK + ";" +
                 "-fx-prompt-text-fill: " + PLACEHOLDER + ";" +
-                "-fx-padding: 0 19;" +
+                "-fx-padding: 0 40 0 19;" +
                 "-fx-effect: dropshadow(" +
                 "gaussian," +
-                "rgba(8,127,140,0.18)," +
+                "rgba(156,125,240,0.18)," +
                 "8," +
                 "0," +
                 "0," +
@@ -829,23 +1514,30 @@ UserAuthController userAuthController = new UserAuthController();
             String color) {
 
         button.setStyle(
-                loginButtonStyle(color)
+                loginButtonStyle(
+                        color
+                )
         );
 
         button.setOnMouseEntered(
                 e -> button.setStyle(
-                        loginButtonStyle(TEAL_DARK)
+                        loginButtonStyle(
+                                TEAL_DARK
+                        )
                 )
         );
 
         button.setOnMouseExited(
                 e -> button.setStyle(
-                        loginButtonStyle(color)
+                        loginButtonStyle(
+                                color
+                        )
                 )
         );
     }
 
-    private String loginButtonStyle(String color) {
+    private String loginButtonStyle(
+            String color) {
 
         return
                 "-fx-background-color: " + color + ";" +
@@ -893,7 +1585,7 @@ UserAuthController userAuthController = new UserAuthController();
     }
 
     // =========================================================
-    // FORGOT / BACK BUTTON STYLE
+    // FORGOT BUTTON STYLE
     // =========================================================
 
     private void setForgotButtonStyle(
@@ -944,11 +1636,15 @@ UserAuthController userAuthController = new UserAuthController();
     // SPACER
     // =========================================================
 
-    private Region createSpacer(double height) {
+    private Region createSpacer(
+            double height) {
 
-        Region spacer = new Region();
+        Region spacer =
+                new Region();
 
-        spacer.setPrefHeight(height);
+        spacer.setPrefHeight(
+                height
+        );
 
         return spacer;
     }
@@ -962,13 +1658,29 @@ UserAuthController userAuthController = new UserAuthController();
             double width,
             double height) {
 
-        node.setPrefWidth(width);
-        node.setMinWidth(width);
-        node.setMaxWidth(width);
+        node.setPrefWidth(
+                width
+        );
 
-        node.setPrefHeight(height);
-        node.setMinHeight(height);
-        node.setMaxHeight(height);
+        node.setMinWidth(
+                width
+        );
+
+        node.setMaxWidth(
+                width
+        );
+
+        node.setPrefHeight(
+                height
+        );
+
+        node.setMinHeight(
+                height
+        );
+
+        node.setMaxHeight(
+                height
+        );
     }
 
     // =========================================================
@@ -979,21 +1691,32 @@ UserAuthController userAuthController = new UserAuthController();
             Region node,
             double height) {
 
-        node.setPrefHeight(height);
-        node.setMinHeight(height);
-        node.setMaxHeight(height);
+        node.setPrefHeight(
+                height
+        );
+
+        node.setMinHeight(
+                height
+        );
+
+        node.setMaxHeight(
+                height
+        );
     }
 
     // =========================================================
-    // BLUE BACKGROUND
+    // PURPLE BACKGROUND
     // =========================================================
 
     private Path createBlueBackground() {
 
-        Path blueShape = new Path();
+        Path blueShape =
+                new Path();
 
         blueShape.setFill(
-                Color.web(TEAL)
+                Color.web(
+                        TEAL
+                )
         );
 
         blueShape.setStroke(
@@ -1004,7 +1727,7 @@ UserAuthController userAuthController = new UserAuthController();
     }
 
     // =========================================================
-    // UPDATE BLUE BACKGROUND
+    // UPDATE PURPLE BACKGROUND
     // =========================================================
 
     private void updateBlueShape(
@@ -1014,8 +1737,11 @@ UserAuthController userAuthController = new UserAuthController();
 
         shape.getElements().clear();
 
-        double blueWidth = width * 0.53;
-        double curveAmount = 130;
+        double blueWidth =
+                width * 0.53;
+
+        double curveAmount =
+                130;
 
         shape.getElements().add(
                 new MoveTo(
@@ -1086,7 +1812,9 @@ UserAuthController userAuthController = new UserAuthController();
                             false
                     );
 
-            imageView.setImage(image);
+            imageView.setImage(
+                    image
+            );
 
         } catch (Exception e) {
 
@@ -1096,9 +1824,17 @@ UserAuthController userAuthController = new UserAuthController();
             );
         }
 
-        imageView.setPreserveRatio(false);
-        imageView.setSmooth(true);
-        imageView.setCache(true);
+        imageView.setPreserveRatio(
+                false
+        );
+
+        imageView.setSmooth(
+                true
+        );
+
+        imageView.setCache(
+                true
+        );
 
         return imageView;
     }
@@ -1123,8 +1859,13 @@ UserAuthController userAuthController = new UserAuthController();
                 height
         );
 
-        imageView.setPreserveRatio(false);
-        imageView.setSmooth(true);
+        imageView.setPreserveRatio(
+                false
+        );
+
+        imageView.setSmooth(
+                true
+        );
     }
 
     // =========================================================
@@ -1134,7 +1875,9 @@ UserAuthController userAuthController = new UserAuthController();
     private HBox createLifeLinkLogo() {
 
         HBox logo =
-                new HBox(9);
+                new HBox(
+                        9
+                );
 
         logo.setAlignment(
                 Pos.CENTER_RIGHT
@@ -1155,7 +1898,9 @@ UserAuthController userAuthController = new UserAuthController();
                             false
                     );
 
-            icon.setImage(logoImage);
+            icon.setImage(
+                    logoImage
+            );
 
         } catch (Exception e) {
 
@@ -1165,18 +1910,30 @@ UserAuthController userAuthController = new UserAuthController();
             );
         }
 
-        icon.setFitWidth(55);
-        icon.setFitHeight(55);
+        icon.setFitWidth(
+                55
+        );
 
-        icon.setPreserveRatio(true);
-        icon.setSmooth(true);
+        icon.setFitHeight(
+                55
+        );
+
+        icon.setPreserveRatio(
+                true
+        );
+
+        icon.setSmooth(
+                true
+        );
 
         // =====================================================
         // LIFE
         // =====================================================
 
         Text life =
-                new Text("Life");
+                new Text(
+                        "Life"
+                );
 
         life.setStyle(
                 "-fx-fill: white;" +
@@ -1190,7 +1947,9 @@ UserAuthController userAuthController = new UserAuthController();
         // =====================================================
 
         Text link =
-                new Text("Link");
+                new Text(
+                        "Link"
+                );
 
         link.setStyle(
                 "-fx-fill: " + TEAL_LIGHT + ";" +
@@ -1204,7 +1963,9 @@ UserAuthController userAuthController = new UserAuthController();
         // =====================================================
 
         HBox text =
-                new HBox(0);
+                new HBox(
+                        0
+                );
 
         text.getChildren().addAll(
                 life,

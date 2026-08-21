@@ -380,7 +380,7 @@ public class FamilyHomePage extends Application {
     public void start(Stage stage) {
         mainStage = stage;
         BorderPane bp = setBorderPane(stage);
-        Scene scene = new Scene(bp, 1280, 800);
+        Scene scene = new Scene(bp, stage.getWidth(), stage.getHeight());
         stage.setTitle("LifeLink - Family Care");
         stage.setScene(scene);
         stage.setMaximized(true);
@@ -895,7 +895,4 @@ public class FamilyHomePage extends Application {
         }
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 }

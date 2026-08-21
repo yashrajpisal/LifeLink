@@ -5,10 +5,11 @@ import com.kurukshetra.controller.UserController;
 import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.police.PoliceDashboard;
 
-import io.opentelemetry.semconv.UserAgentAttributes;
+import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -18,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ClosePath;
@@ -27,6 +29,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class PoliceLoginPage {
 
@@ -34,7 +37,7 @@ public class PoliceLoginPage {
     // COLORS
     // =========================================================
 
-    private static final String TEAL =  "#e67593";
+    private static final String TEAL = "#e67593";
     private static final String TEAL_DARK = "#FF1493";
     private static final String TEAL_LIGHT = "#63D7DC";
     private static final String WHITE = "#FFFFFF";
@@ -47,7 +50,7 @@ public class PoliceLoginPage {
     // IMAGES
     // =========================================================
 
-    private static final String DOCTOR_IMAGE_URL =
+    private static final String POLICE_IMAGE_URL =
             "assets\\Images\\policeLogin.jpg";
 
     private static final String LIFELINK_LOGO_IMAGE =
@@ -57,73 +60,123 @@ public class PoliceLoginPage {
     // PAGE SIZE
     // =========================================================
 
-    private static final double PAGE_WIDTH = Welcome.WelcomeStage.getWidth();
-    private static final double PAGE_HEIGHT = Welcome.WelcomeStage.getHeight();
+    private static final double PAGE_WIDTH =
+            Welcome.WelcomeStage.getWidth();
+
+    private static final double PAGE_HEIGHT =
+            Welcome.WelcomeStage.getHeight();
+
+    // =========================================================
+    // AUTH CONTROLLER
+    // =========================================================
+
+    UserAuthController userAuthController =
+            new UserAuthController();
 
     // =========================================================
     // MAIN PAGE
     // =========================================================
 
-    UserAuthController userAuthController = new UserAuthController();
-
     public BorderPane getPoliceLoginPage() {
 
-        BorderPane root = new BorderPane();
+        BorderPane root =
+                new BorderPane();
 
-        root.setPrefSize(PAGE_WIDTH, PAGE_HEIGHT);
-        root.setMinSize(PAGE_WIDTH, PAGE_HEIGHT);
-        root.setMaxSize(PAGE_WIDTH, PAGE_HEIGHT);
+        root.setPrefSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        root.setMinSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        root.setMaxSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
 
         root.setStyle(
                 "-fx-background-color: " + GRAY_BG + ";" +
-                "-fx-font-police: 'Segoe UI';"
+                "-fx-font-family: 'Segoe UI';"
         );
 
-        AnchorPane page = new AnchorPane();
+        // =====================================================
+        // MAIN PAGE
+        // =====================================================
 
-        page.setPrefSize(PAGE_WIDTH, PAGE_HEIGHT);
-        page.setMinSize(PAGE_WIDTH, PAGE_HEIGHT);
-        page.setMaxSize(PAGE_WIDTH, PAGE_HEIGHT);
+        AnchorPane page =
+                new AnchorPane();
+
+        page.setPrefSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        page.setMinSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        page.setMaxSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
 
         page.setStyle(
                 "-fx-background-color: " + GRAY_BG + ";"
         );
 
         // =====================================================
-        // DOCTOR IMAGE
+        // POLICE IMAGE
         // =====================================================
 
-        ImageView doctorImage = createDoctorImage();
+        ImageView policeImage =
+                createPoliceImage();
 
         updateImage(
-                doctorImage,
+                policeImage,
                 PAGE_WIDTH,
                 PAGE_HEIGHT
         );
 
         AnchorPane.setLeftAnchor(
-                doctorImage,
+                policeImage,
                 PAGE_WIDTH * 0.44
         );
 
         AnchorPane.setTopAnchor(
-                doctorImage,
+                policeImage,
                 0.0
         );
 
-        page.getChildren().add(doctorImage);
+        page.getChildren().add(
+                policeImage
+        );
 
         // =====================================================
         // IMAGE OVERLAY
         // =====================================================
 
-        Rectangle imageOverlay = new Rectangle();
+        Rectangle imageOverlay =
+                new Rectangle();
 
-        imageOverlay.setWidth(PAGE_WIDTH * 0.56);
-        imageOverlay.setHeight(PAGE_HEIGHT);
+        imageOverlay.setWidth(
+                PAGE_WIDTH * 0.56
+        );
+
+        imageOverlay.setHeight(
+                PAGE_HEIGHT
+        );
 
         imageOverlay.setFill(
-                Color.rgb(0, 0, 0, 0.50)
+                Color.rgb(
+                        0,
+                        0,
+                        0,
+                        0.50
+                )
         );
 
         AnchorPane.setLeftAnchor(
@@ -136,13 +189,16 @@ public class PoliceLoginPage {
                 0.0
         );
 
-        page.getChildren().add(imageOverlay);
+        page.getChildren().add(
+                imageOverlay
+        );
 
         // =====================================================
-        // BLUE S-SHAPED BACKGROUND
+        // TEAL S-SHAPED BACKGROUND
         // =====================================================
 
-        Path blueShape = createBlueBackground();
+        Path blueShape =
+                createBlueBackground();
 
         updateBlueShape(
                 blueShape,
@@ -160,31 +216,127 @@ public class PoliceLoginPage {
                 0.0
         );
 
-        page.getChildren().add(blueShape);
+        page.getChildren().add(
+                blueShape
+        );
+
+        // =====================================================
+        // BACK BUTTON
+        // OUTSIDE LOGIN CARD
+        // =====================================================
+
+        Button backButton =
+                new Button("←  Back");
+
+        setFixedSize(
+                backButton,
+                100,
+                42
+        );
+
+        backButton.setStyle(
+                "-fx-background-color: transparent;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-family: 'Segoe UI';" +
+                "-fx-font-size: 15px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-background-radius: 10;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 1.5;" +
+                "-fx-border-radius: 10;" +
+                "-fx-cursor: hand;"
+        );
+
+        backButton.setOnMouseEntered(
+                e -> backButton.setStyle(
+                        "-fx-background-color: white;" +
+                        "-fx-text-fill: " + TEAL_DARK + ";" +
+                        "-fx-font-family: 'Segoe UI';" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-border-color: white;" +
+                        "-fx-border-width: 1.5;" +
+                        "-fx-border-radius: 10;" +
+                        "-fx-cursor: hand;"
+                )
+        );
+
+        backButton.setOnMouseExited(
+                e -> backButton.setStyle(
+                        "-fx-background-color: transparent;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-family: 'Segoe UI';" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-border-color: white;" +
+                        "-fx-border-width: 1.5;" +
+                        "-fx-border-radius: 10;" +
+                        "-fx-cursor: hand;"
+                )
+        );
+
+        backButton.setOnAction(
+                e -> {
+
+                    Welcome welcome =
+                            new Welcome();
+
+                    try {
+
+                        welcome.start(
+                                Welcome.WelcomeStage
+                        );
+
+                    } catch (Exception ex) {
+
+                        ex.printStackTrace();
+                    }
+                }
+        );
+
+        AnchorPane.setLeftAnchor(
+                backButton,
+                35.0
+        );
+
+        AnchorPane.setTopAnchor(
+                backButton,
+                30.0
+        );
+
+        page.getChildren().add(
+                backButton
+        );
 
         // =====================================================
         // LOGIN CARD
         // =====================================================
 
-        VBox loginCard = createLoginCard();
+        VBox loginCard =
+                createLoginCard(page);
 
         AnchorPane.setLeftAnchor(
                 loginCard,
-                (double) 150
+                150.0
         );
 
         AnchorPane.setTopAnchor(
                 loginCard,
-                (double)120
+                120.0
         );
 
-        page.getChildren().add(loginCard);
+        page.getChildren().add(
+                loginCard
+        );
 
         // =====================================================
         // LIFELINK LOGO
         // =====================================================
 
-        HBox lifeLinkLogo = createLifeLinkLogo();
+        HBox lifeLinkLogo =
+                createLifeLinkLogo();
 
         AnchorPane.setRightAnchor(
                 lifeLinkLogo,
@@ -196,13 +348,17 @@ public class PoliceLoginPage {
                 28.0
         );
 
-        page.getChildren().add(lifeLinkLogo);
+        page.getChildren().add(
+                lifeLinkLogo
+        );
 
         // =====================================================
         // ROOT
         // =====================================================
 
-        root.setCenter(page);
+        root.setCenter(
+                page
+        );
 
         return root;
     }
@@ -211,15 +367,28 @@ public class PoliceLoginPage {
     // LOGIN CARD
     // =========================================================
 
-    private VBox createLoginCard() {
+    private VBox createLoginCard(
+            AnchorPane parentPane) {
 
-        VBox card = new VBox();
+        VBox card =
+                new VBox();
 
-        card.setPrefWidth(400);
-        card.setMinWidth(400);
-        card.setMaxWidth(400);
+        card.setPrefWidth(
+                400
+        );
 
-        setFixedHeight(card, 560);
+        card.setMinWidth(
+                400
+        );
+
+        card.setMaxWidth(
+                400
+        );
+
+        setFixedHeight(
+                card,
+                560
+        );
 
         card.setPadding(
                 new Insets(
@@ -244,8 +413,10 @@ public class PoliceLoginPage {
                 ");"
         );
 
-        // Only one Login UI implementation.
-        showLoginForm(card);
+        showLoginForm(
+                card,
+                parentPane
+        );
 
         return card;
     }
@@ -254,56 +425,86 @@ public class PoliceLoginPage {
     // LOGIN FORM
     // =========================================================
 
-    private void showLoginForm(VBox card) {
+    private void showLoginForm(
+            VBox card,
+            AnchorPane parentPane) {
 
         card.getChildren().clear();
 
-        setFixedHeight(card, 560);
+        setFixedHeight(
+                card,
+                560
+        );
 
         // =====================================================
         // SIGN IN TITLE
+        // BACK BUTTON IS OUTSIDE CARD
         // =====================================================
 
-        Text signIn = new Text("SIGN IN");
+        Text signIn =
+                new Text("SIGN IN");
 
         signIn.setStyle(
                 "-fx-fill: " + BLACK + ";" +
-                "-fx-font-police: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 30px;" +
                 "-fx-font-weight: bold;"
         );
 
-        HBox titleBox = new HBox();
+        // =====================================================
+        // TITLE BOX
+        // =====================================================
 
-        titleBox.setAlignment(Pos.CENTER);
-        titleBox.setPrefHeight(48);
+        HBox titleBox =
+                new HBox();
 
-        titleBox.getChildren().add(signIn);
+        titleBox.setAlignment(
+                Pos.CENTER
+        );
+
+        titleBox.setPrefHeight(
+                48
+        );
+
+        titleBox.getChildren().add(
+                signIn
+        );
 
         // =====================================================
         // TITLE SPACE
         // =====================================================
 
-        Region titleSpace = createSpacer(25);
+        Region titleSpace =
+                createSpacer(
+                        25
+                );
 
         // =====================================================
-        // police DATA
+        // POLICE DATA
         // =====================================================
 
-        Text policeData = new Text("police");
+        Text policeData =
+                new Text("police");
 
         policeData.setStyle(
                 "-fx-fill: " + BLACK + ";" +
-                "-fx-font-police: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 24px;" +
                 "-fx-font-style: italic;" +
                 "-fx-font-weight: bold;"
         );
 
-        HBox policeBox = new HBox();
+        HBox policeBox =
+                new HBox();
 
-        policeBox.setAlignment(Pos.CENTER);
-        setFixedHeight(policeBox, 50);
+        policeBox.setAlignment(
+                Pos.CENTER
+        );
+
+        setFixedHeight(
+                policeBox,
+                50
+        );
 
         policeBox.setPadding(
                 new Insets(
@@ -321,43 +522,75 @@ public class PoliceLoginPage {
                 "-fx-background-radius: 10;"
         );
 
-        policeBox.getChildren().add(policeData);
+        policeBox.getChildren().add(
+                policeData
+        );
 
         // =====================================================
         // USERNAME
         // =====================================================
 
-        Region space1 = createSpacer(25);
+        Region space1 =
+                createSpacer(
+                        25
+                );
 
-        TextField username = createTextField("Username");
+        TextField username =
+                createTextField(
+                        "Username"
+                );
 
         // =====================================================
         // PASSWORD
         // =====================================================
 
-        Region space2 = createSpacer(25);
+        Region space2 =
+                createSpacer(
+                        25
+                );
 
-        PasswordField password = createPasswordField("Password");
+        PasswordField password =
+                createPasswordField(
+                        "Password"
+                );
+
+        // =====================================================
+        // PASSWORD VISIBILITY
+        // =====================================================
+
+        StackPane passwordContainer =
+                createPasswordVisibilityBox(
+                        password
+                );
 
         // =====================================================
         // ACTION SPACE
         // =====================================================
 
-        Region actionSpace = createSpacer(40);
+        Region actionSpace =
+                createSpacer(
+                        40
+                );
 
         // =====================================================
         // ACTION ROW
         // =====================================================
 
-        HBox actionRow = new HBox();
+        HBox actionRow =
+                new HBox();
 
-        actionRow.setAlignment(Pos.CENTER_LEFT);
+        actionRow.setAlignment(
+                Pos.CENTER_LEFT
+        );
 
         // =====================================================
         // LOGIN BUTTON
         // =====================================================
 
-        Button loginButton = new Button("Login");
+        Button loginButton =
+                new Button(
+                        "Login"
+                );
 
         setFixedSize(
                 loginButton,
@@ -374,7 +607,8 @@ public class PoliceLoginPage {
         // BUTTON SPACE
         // =====================================================
 
-        Region buttonSpace = new Region();
+        Region buttonSpace =
+                new Region();
 
         HBox.setHgrow(
                 buttonSpace,
@@ -385,7 +619,10 @@ public class PoliceLoginPage {
         // FORGOT PASSWORD
         // =====================================================
 
-        Button forgot = new Button("Forgot Password?");
+        Button forgot =
+                new Button(
+                        "Forgot Password?"
+                );
 
         setForgotButtonStyle(
                 forgot,
@@ -402,23 +639,33 @@ public class PoliceLoginPage {
         // SIGN UP
         // =====================================================
 
-        Region signUpSpace = createSpacer(35);
+        Region signUpSpace =
+                createSpacer(
+                        35
+                );
 
-        HBox signUpRow = new HBox();
+        HBox signUpRow =
+                new HBox();
 
-        signUpRow.setAlignment(Pos.CENTER);
-
-        Text accountText = new Text(
-                "Don't have an account? "
+        signUpRow.setAlignment(
+                Pos.CENTER
         );
+
+        Text accountText =
+                new Text(
+                        "Don't have an account? "
+                );
 
         accountText.setStyle(
                 "-fx-fill: " + BLACK + ";" +
                 "-fx-font-size: 14px;" +
-                "-fx-font-police: 'Segoe UI';"
+                "-fx-font-family: 'Segoe UI';"
         );
 
-        Button signUp = new Button("Sign Up");
+        Button signUp =
+                new Button(
+                        "Sign Up"
+                );
 
         setSignUpButtonStyle(
                 signUp,
@@ -434,70 +681,93 @@ public class PoliceLoginPage {
         // LOGIN ACTION
         // =====================================================
 
-        loginButton.setOnAction(e -> {
+        loginButton.setOnAction(
+                e -> {
 
-            String usernameValue =
-                    username.getText().trim();
+                    String usernameValue =
+                            username.getText().trim();
 
-            String passwordValue =
-                    password.getText();
+                    String passwordValue =
+                            password.getText();
 
-            if (usernameValue.isEmpty()
-                    || passwordValue.isEmpty()) {
+                    if (usernameValue.isEmpty()
+                            || passwordValue.isEmpty()) {
 
-                System.out.println(
-                        "Please enter username and password."
-                );
+                        System.out.println(
+                                "Please enter username and password."
+                        );
 
-                return;
-            }
+                        return;
+                    }
 
-             boolean isSuccess = userAuthController.signIn(usernameValue, passwordValue);
+                    boolean isSuccess =
+                            userAuthController.signIn(
+                                    usernameValue,
+                                    passwordValue
+                            );
 
-                        if (isSuccess) {
-                              
+                    if (isSuccess) {
 
-            System.out.println(
-                    "police: policeData"
-            );
+                        System.out.println(
+                                "Police login successful."
+                        );
 
-            System.out.println(
-                    "Username: " + usernameValue
-            );
+                        System.out.println(
+                                "Username: "
+                                        + usernameValue
+                        );
 
-            System.out.println(
-                    "Login successful."
-            );
+                        // =================================================
+                        // SUCCESS STACKPANE
+                        // =================================================
 
-            PoliceDashboard policeDashboard =  new PoliceDashboard();
-            try{
-                policeDashboard.start(Welcome.WelcomeStage);
-            }catch(Exception e1){
-                e1.printStackTrace();
-            }
-        }
-        });
+                        showSuccessPopup(
+                                parentPane,
+                                () -> {
+
+                                    PoliceDashboard
+                                            policeDashboard =
+                                            new PoliceDashboard();
+
+                                    try {
+
+                                        policeDashboard.start(
+                                                Welcome.WelcomeStage
+                                        );
+
+                                    } catch (Exception ex) {
+
+                                        ex.printStackTrace();
+                                    }
+                                }
+                        );
+                    }
+                }
+        );
 
         // =====================================================
-        // FORGOT PASSWORD ACTION
+        // FORGOT PASSWORD
         // =====================================================
 
-        forgot.setOnAction(e ->
-                System.out.println(
+        forgot.setOnAction(
+                e -> System.out.println(
                         "Forgot Password clicked."
                 )
         );
 
         // =====================================================
-        // SIGN UP ACTION
+        // SIGN UP
         // =====================================================
 
-        signUp.setOnAction(e ->
-                showSignUpForm(card)
+        signUp.setOnAction(
+                e -> showSignUpForm(
+                        card,
+                        parentPane
+                )
         );
 
         // =====================================================
-        // ADD LOGIN CONTENT
+        // ADD CONTENT
         // =====================================================
 
         card.getChildren().addAll(
@@ -507,7 +777,7 @@ public class PoliceLoginPage {
                 space1,
                 username,
                 space2,
-                password,
+                passwordContainer,
                 actionSpace,
                 actionRow,
                 signUpSpace,
@@ -516,76 +786,293 @@ public class PoliceLoginPage {
     }
 
     // =========================================================
+    // PASSWORD VISIBILITY BOX
+    // =========================================================
+
+    private StackPane createPasswordVisibilityBox(
+            PasswordField password) {
+
+        StackPane container =
+                new StackPane();
+
+        setFixedHeight(
+                container,
+                50
+        );
+
+        // =====================================================
+        // VISIBLE PASSWORD FIELD
+        // =====================================================
+
+        TextField visiblePassword =
+                new TextField();
+
+        visiblePassword.setPromptText(
+                "Password"
+        );
+
+        setFixedHeight(
+                visiblePassword,
+                50
+        );
+
+        visiblePassword.setStyle(
+                normalFieldStyle()
+        );
+
+        addFocusStyle(
+                visiblePassword
+        );
+
+        visiblePassword.setVisible(false);
+        visiblePassword.setManaged(false);
+
+        // =====================================================
+        // EYE BUTTON
+        // =====================================================
+
+        Button eyeButton =
+                new Button("👁");
+
+        eyeButton.setFocusTraversable(
+                false
+        );
+
+        eyeButton.setStyle(
+                eyeButtonStyle(
+                        PLACEHOLDER
+                )
+        );
+
+        StackPane.setAlignment(
+                eyeButton,
+                Pos.CENTER_RIGHT
+        );
+
+        StackPane.setMargin(
+                eyeButton,
+                new Insets(
+                        0,
+                        8,
+                        0,
+                        0
+                )
+        );
+
+        // =====================================================
+        // EYE HOVER
+        // =====================================================
+
+        eyeButton.setOnMouseEntered(
+                e -> eyeButton.setStyle(
+                        eyeButtonStyle(TEAL)
+                )
+        );
+
+        eyeButton.setOnMouseExited(
+                e -> {
+
+                    String color =
+                            password.isVisible()
+                                    ? TEAL
+                                    : PLACEHOLDER;
+
+                    eyeButton.setStyle(
+                            eyeButtonStyle(color)
+                    );
+                }
+        );
+
+        // =====================================================
+        // SHOW / HIDE
+        // =====================================================
+
+        eyeButton.setOnAction(e -> {
+
+            if (password.isVisible()) {
+
+                visiblePassword.setText(
+                        password.getText()
+                );
+
+                password.setVisible(false);
+                password.setManaged(false);
+
+                visiblePassword.setVisible(true);
+                visiblePassword.setManaged(true);
+
+                eyeButton.setText("🙈");
+
+                eyeButton.setStyle(
+                        eyeButtonStyle(TEAL)
+                );
+
+                visiblePassword.requestFocus();
+
+            } else {
+
+                password.setText(
+                        visiblePassword.getText()
+                );
+
+                visiblePassword.setVisible(false);
+                visiblePassword.setManaged(false);
+
+                password.setVisible(true);
+                password.setManaged(true);
+
+                eyeButton.setText("👁");
+
+                eyeButton.setStyle(
+                        eyeButtonStyle(PLACEHOLDER)
+                );
+
+                password.requestFocus();
+            }
+        });
+
+        container.getChildren().addAll(
+                password,
+                visiblePassword,
+                eyeButton
+        );
+
+        return container;
+    }
+
+    // =========================================================
+    // EYE BUTTON STYLE
+    // =========================================================
+
+    private String eyeButtonStyle(
+            String color) {
+
+        return
+                "-fx-background-color: transparent;" +
+                "-fx-text-fill: " + color + ";" +
+                "-fx-font-size: 18px;" +
+                "-fx-cursor: hand;" +
+                "-fx-padding: 5 8 5 8;";
+    }
+
+    // =========================================================
     // SIGN UP FORM
     // =========================================================
 
-    private void showSignUpForm(VBox card) {
+    private void showSignUpForm(
+            VBox card,
+            AnchorPane parentPane) {
 
         card.getChildren().clear();
 
-        setFixedHeight(card, 550);
+        setFixedHeight(
+                card,
+                550
+        );
 
         // =====================================================
         // TITLE
         // =====================================================
 
-        Text signUpTitle = new Text("SIGN UP");
+        Text signUpTitle =
+                new Text(
+                        "SIGN UP"
+                );
 
         signUpTitle.setStyle(
                 "-fx-fill: " + BLACK + ";" +
-                "-fx-font-police: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 30px;" +
                 "-fx-font-weight: bold;"
         );
 
-        HBox titleBox = new HBox();
+        HBox titleBox =
+                new HBox();
 
-        titleBox.setAlignment(Pos.CENTER);
-        titleBox.setPrefHeight(48);
+        titleBox.setAlignment(
+                Pos.CENTER
+        );
 
-        titleBox.getChildren().add(signUpTitle);
+        titleBox.setPrefHeight(
+                48
+        );
+
+        titleBox.getChildren().add(
+                signUpTitle
+        );
 
         // =====================================================
         // TITLE SPACE
         // =====================================================
 
-        Region titleSpace = createSpacer(25);
+        Region titleSpace =
+                createSpacer(
+                        25
+                );
 
         // =====================================================
         // NAME
         // =====================================================
 
-        TextField name = createTextField("Name");
+        TextField name =
+                createTextField(
+                        "Name"
+                );
 
         // =====================================================
         // EMAIL
         // =====================================================
 
-        Region space1 = createSpacer(18);
+        Region space1 =
+                createSpacer(
+                        18
+                );
 
-        TextField email = createTextField("Email");
+        TextField email =
+                createTextField(
+                        "Email"
+                );
 
         // =====================================================
         // PASSWORD
         // =====================================================
 
-        Region space2 = createSpacer(18);
+        Region space2 =
+                createSpacer(
+                        18
+                );
 
         PasswordField password =
-                createPasswordField("Password");
+                createPasswordField(
+                        "Password"
+                );
+
+        // =====================================================
+        // SIGN UP PASSWORD VISIBILITY
+        // =====================================================
+
+        StackPane passwordContainer =
+                createPasswordVisibilityBox(
+                        password
+                );
 
         // =====================================================
         // ACTION SPACE
         // =====================================================
 
-        Region actionSpace = createSpacer(30);
+        Region actionSpace =
+                createSpacer(
+                        30
+                );
 
         // =====================================================
         // SIGN UP BUTTON
         // =====================================================
 
         Button signUpButton =
-                new Button("Sign Up");
+                new Button(
+                        "Sign Up"
+                );
 
         setFixedSize(
                 signUpButton,
@@ -598,16 +1085,25 @@ public class PoliceLoginPage {
                 TEAL
         );
 
-        HBox buttonBox = new HBox();
+        HBox buttonBox =
+                new HBox();
 
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.getChildren().add(signUpButton);
+        buttonBox.setAlignment(
+                Pos.CENTER
+        );
+
+        buttonBox.getChildren().add(
+                signUpButton
+        );
 
         // =====================================================
         // LOGIN SPACE
         // =====================================================
 
-        Region loginSpace = createSpacer(25);
+        Region loginSpace =
+                createSpacer(
+                        25
+                );
 
         // =====================================================
         // BACK TO LOGIN
@@ -623,80 +1119,108 @@ public class PoliceLoginPage {
                 BLACK
         );
 
-        HBox loginBox = new HBox();
+        HBox loginBox =
+                new HBox();
 
-        loginBox.setAlignment(Pos.CENTER);
-        loginBox.getChildren().add(backToLogin);
+        loginBox.setAlignment(
+                Pos.CENTER
+        );
+
+        loginBox.getChildren().add(
+                backToLogin
+        );
 
         // =====================================================
         // SIGN UP ACTION
         // =====================================================
 
-        signUpButton.setOnAction(e -> {
+        signUpButton.setOnAction(
+                e -> {
 
-            String nameValue =
-                    name.getText().trim();
+                    String nameValue =
+                            name.getText().trim();
 
-            String emailValue =
-                    email.getText().trim();
+                    String emailValue =
+                            email.getText().trim();
 
-            String passwordValue =
-                    password.getText();
+                    String passwordValue =
+                            password.getText();
 
-            if (nameValue.isEmpty()
-                    || emailValue.isEmpty()
-                    || passwordValue.isEmpty()) {
+                    if (nameValue.isEmpty()
+                            || emailValue.isEmpty()
+                            || passwordValue.isEmpty()) {
 
-                System.out.println(
-                        "Please enter name, email and password."
-                );
+                        System.out.println(
+                                "Please enter name, email and password."
+                        );
 
-                return;
-            }
-boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+                        return;
+                    }
 
-                         if(isSuccess){
+                    boolean isSuccess =
+                            userAuthController.signUp(
+                                    nameValue,
+                                    emailValue,
+                                    passwordValue
+                            );
 
-                                 System.out.println("API Hit Successfully (SignUp)");
-                                UserController userController = new UserController();
-                                userController.passToPoliceModel(nameValue, emailValue);
+                    if (isSuccess) {
 
-            System.out.println(
-                    "========== SIGN UP =========="
-            );
+                        System.out.println(
+                                "API Hit Successfully (SignUp)"
+                        );
 
-            System.out.println(
-                    "Name: " + nameValue
-            );
+                        UserController userController =
+                                new UserController();
 
-            System.out.println(
-                    "Email: " + emailValue
-            );
+                        userController.passToPoliceModel(
+                                nameValue,
+                                emailValue
+                        );
 
-            System.out.println(
-                    "Password: " + passwordValue
-            );
+                        System.out.println(
+                                "========== SIGN UP =========="
+                        );
 
-            System.out.println(
-                    "Sign Up successful."
-            );
+                        System.out.println(
+                                "Name: "
+                                        + nameValue
+                        );
 
-            System.out.println(
-                    "============================="
-            );
-        }
-        });
+                        System.out.println(
+                                "Email: "
+                                        + emailValue
+                        );
+
+                        System.out.println(
+                                "Password: "
+                                        + passwordValue
+                        );
+
+                        System.out.println(
+                                "Sign Up successful."
+                        );
+
+                        System.out.println(
+                                "============================="
+                        );
+                    }
+                }
+        );
 
         // =====================================================
         // BACK TO LOGIN ACTION
         // =====================================================
 
-        backToLogin.setOnAction(e ->
-                showLoginForm(card)
+        backToLogin.setOnAction(
+                e -> showLoginForm(
+                        card,
+                        parentPane
+                )
         );
 
         // =====================================================
-        // ADD SIGN UP CONTENT
+        // ADD SIGNUP CONTENT
         // =====================================================
 
         card.getChildren().addAll(
@@ -706,7 +1230,7 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
                 space1,
                 email,
                 space2,
-                password,
+                passwordContainer,
                 actionSpace,
                 buttonBox,
                 loginSpace,
@@ -715,22 +1239,198 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
     }
 
     // =========================================================
+    // SUCCESS POPUP STACKPANE
+    // =========================================================
+
+    private void showSuccessPopup(
+            AnchorPane parentPane,
+            Runnable onComplete) {
+
+        StackPane overlay =
+                new StackPane();
+
+        overlay.setStyle(
+                "-fx-background-color: rgba(0,0,0,0.40);"
+        );
+
+        // =====================================================
+        // SUCCESS MESSAGE BOX
+        // =====================================================
+
+        VBox messageBox =
+                new VBox(
+                        15
+                );
+
+        messageBox.setAlignment(
+                Pos.CENTER
+        );
+
+        messageBox.setMaxSize(
+                360,
+                160
+        );
+
+        messageBox.setPrefSize(
+                360,
+                160
+        );
+
+        messageBox.setPadding(
+                new Insets(
+                        20
+                )
+        );
+
+        messageBox.setStyle(
+                "-fx-background-color: " + WHITE + ";" +
+                "-fx-background-radius: 18;" +
+                "-fx-border-radius: 18;" +
+                "-fx-effect: dropshadow(" +
+                "gaussian," +
+                "rgba(0,0,0,0.25)," +
+                "18," +
+                "0," +
+                "0," +
+                "4" +
+                ");"
+        );
+
+        // =====================================================
+        // SUCCESS TEXT
+        // =====================================================
+
+        Label successLabel =
+                new Label(
+                        "✓ Login Successful!"
+                );
+
+        successLabel.setStyle(
+                "-fx-text-fill: #2ecc71;" +
+                "-fx-font-size: 22px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-family: 'Segoe UI';"
+        );
+
+        // =====================================================
+        // REDIRECT TEXT
+        // =====================================================
+
+        Label redirectLabel =
+                new Label(
+                        "Redirecting to Dashboard..."
+                );
+
+        redirectLabel.setStyle(
+                "-fx-text-fill: " + BLACK + ";" +
+                "-fx-font-size: 14px;" +
+                "-fx-font-family: 'Segoe UI';"
+        );
+
+        messageBox.getChildren().addAll(
+                successLabel,
+                redirectLabel
+        );
+
+        // =====================================================
+        // ADD MESSAGE BOX
+        // =====================================================
+
+        overlay.getChildren().add(
+                messageBox
+        );
+
+        StackPane.setAlignment(
+                messageBox,
+                Pos.CENTER
+        );
+
+        // =====================================================
+        // ANCHOR OVERLAY
+        // =====================================================
+
+        AnchorPane.setTopAnchor(
+                overlay,
+                0.0
+        );
+
+        AnchorPane.setBottomAnchor(
+                overlay,
+                0.0
+        );
+
+        AnchorPane.setLeftAnchor(
+                overlay,
+                0.0
+        );
+
+        AnchorPane.setRightAnchor(
+                overlay,
+                0.0
+        );
+
+        // =====================================================
+        // ADD OVERLAY
+        // =====================================================
+
+        parentPane.getChildren().add(
+                overlay
+        );
+
+        // =====================================================
+        // REDIRECT DELAY
+        // =====================================================
+
+        PauseTransition delay =
+                new PauseTransition(
+                        Duration.seconds(
+                                1.2
+                        )
+                );
+
+        delay.setOnFinished(
+                event -> {
+
+                    parentPane.getChildren().remove(
+                            overlay
+                    );
+
+                    if (onComplete != null) {
+
+                        onComplete.run();
+                    }
+                }
+        );
+
+        delay.play();
+    }
+
+    // =========================================================
     // TEXT FIELD
     // =========================================================
 
-    private TextField createTextField(String prompt) {
+    private TextField createTextField(
+            String prompt) {
 
-        TextField field = new TextField();
+        TextField field =
+                new TextField();
 
-        field.setPromptText(prompt);
+        field.setPromptText(
+                prompt
+        );
 
-        setFixedHeight(field, 50);
+        setFixedHeight(
+                field,
+                50
+        );
 
         field.setStyle(
                 normalFieldStyle()
         );
 
-        addFocusStyle(field);
+        addFocusStyle(
+                field
+        );
 
         return field;
     }
@@ -745,15 +1445,22 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
         PasswordField field =
                 new PasswordField();
 
-        field.setPromptText(prompt);
+        field.setPromptText(
+                prompt
+        );
 
-        setFixedHeight(field, 50);
+        setFixedHeight(
+                field,
+                50
+        );
 
         field.setStyle(
                 normalFieldStyle()
         );
 
-        addFocusStyle(field);
+        addFocusStyle(
+                field
+        );
 
         return field;
     }
@@ -770,18 +1477,19 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
                 "-fx-border-width: 2;" +
                 "-fx-border-radius: 10;" +
                 "-fx-background-radius: 10;" +
-                "-fx-font-police: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 17px;" +
                 "-fx-text-fill: " + BLACK + ";" +
                 "-fx-prompt-text-fill: " + PLACEHOLDER + ";" +
-                "-fx-padding: 0 19;";
+                "-fx-padding: 0 40 0 19;";
     }
 
     // =========================================================
     // FIELD FOCUS STYLE
     // =========================================================
 
-    private void addFocusStyle(TextField field) {
+    private void addFocusStyle(
+            TextField field) {
 
         field.focusedProperty().addListener(
                 (obs, oldValue, focused) -> {
@@ -810,11 +1518,11 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
                 "-fx-border-width: 2;" +
                 "-fx-border-radius: 10;" +
                 "-fx-background-radius: 10;" +
-                "-fx-font-police: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 17px;" +
                 "-fx-text-fill: " + BLACK + ";" +
                 "-fx-prompt-text-fill: " + PLACEHOLDER + ";" +
-                "-fx-padding: 0 19;" +
+                "-fx-padding: 0 40 0 19;" +
                 "-fx-effect: dropshadow(" +
                 "gaussian," +
                 "rgba(8,127,140,0.18)," +
@@ -834,28 +1542,35 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
             String color) {
 
         button.setStyle(
-                loginButtonStyle(color)
+                loginButtonStyle(
+                        color
+                )
         );
 
         button.setOnMouseEntered(
                 e -> button.setStyle(
-                        loginButtonStyle(TEAL_DARK)
+                        loginButtonStyle(
+                                TEAL_DARK
+                        )
                 )
         );
 
         button.setOnMouseExited(
                 e -> button.setStyle(
-                        loginButtonStyle(color)
+                        loginButtonStyle(
+                                color
+                        )
                 )
         );
     }
 
-    private String loginButtonStyle(String color) {
+    private String loginButtonStyle(
+            String color) {
 
         return
                 "-fx-background-color: " + color + ";" +
                 "-fx-text-fill: white;" +
-                "-fx-font-police: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 15px;" +
                 "-fx-font-weight: bold;" +
                 "-fx-background-radius: 10;" +
@@ -898,7 +1613,7 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
     }
 
     // =========================================================
-    // FORGOT / BACK BUTTON STYLE
+    // FORGOT PASSWORD STYLE
     // =========================================================
 
     private void setForgotButtonStyle(
@@ -938,7 +1653,7 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
         return
                 "-fx-background-color: transparent;" +
                 "-fx-text-fill: " + color + ";" +
-                "-fx-font-police: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: " + fontSize + "px;" +
                 "-fx-font-weight: bold;" +
                 "-fx-cursor: hand;" +
@@ -949,11 +1664,15 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
     // SPACER
     // =========================================================
 
-    private Region createSpacer(double height) {
+    private Region createSpacer(
+            double height) {
 
-        Region spacer = new Region();
+        Region spacer =
+                new Region();
 
-        spacer.setPrefHeight(height);
+        spacer.setPrefHeight(
+                height
+        );
 
         return spacer;
     }
@@ -967,13 +1686,29 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
             double width,
             double height) {
 
-        node.setPrefWidth(width);
-        node.setMinWidth(width);
-        node.setMaxWidth(width);
+        node.setPrefWidth(
+                width
+        );
 
-        node.setPrefHeight(height);
-        node.setMinHeight(height);
-        node.setMaxHeight(height);
+        node.setMinWidth(
+                width
+        );
+
+        node.setMaxWidth(
+                width
+        );
+
+        node.setPrefHeight(
+                height
+        );
+
+        node.setMinHeight(
+                height
+        );
+
+        node.setMaxHeight(
+                height
+        );
     }
 
     // =========================================================
@@ -984,21 +1719,32 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
             Region node,
             double height) {
 
-        node.setPrefHeight(height);
-        node.setMinHeight(height);
-        node.setMaxHeight(height);
+        node.setPrefHeight(
+                height
+        );
+
+        node.setMinHeight(
+                height
+        );
+
+        node.setMaxHeight(
+                height
+        );
     }
 
     // =========================================================
-    // BLUE BACKGROUND
+    // TEAL BACKGROUND
     // =========================================================
 
     private Path createBlueBackground() {
 
-        Path blueShape = new Path();
+        Path blueShape =
+                new Path();
 
         blueShape.setFill(
-                Color.web(TEAL)
+                Color.web(
+                        TEAL
+                )
         );
 
         blueShape.setStroke(
@@ -1009,7 +1755,7 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
     }
 
     // =========================================================
-    // UPDATE BLUE BACKGROUND
+    // UPDATE TEAL SHAPE
     // =========================================================
 
     private void updateBlueShape(
@@ -1019,8 +1765,11 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
 
         shape.getElements().clear();
 
-        double blueWidth = width * 0.53;
-        double curveAmount = 130;
+        double blueWidth =
+                width * 0.53;
+
+        double curveAmount =
+                130;
 
         shape.getElements().add(
                 new MoveTo(
@@ -1075,10 +1824,10 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
     }
 
     // =========================================================
-    // DOCTOR IMAGE
+    // POLICE IMAGE
     // =========================================================
 
-    private ImageView createDoctorImage() {
+    private ImageView createPoliceImage() {
 
         ImageView imageView =
                 new ImageView();
@@ -1087,23 +1836,33 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
 
             Image image =
                     new Image(
-                            DOCTOR_IMAGE_URL,
+                            POLICE_IMAGE_URL,
                             false
                     );
 
-            imageView.setImage(image);
+            imageView.setImage(
+                    image
+            );
 
         } catch (Exception e) {
 
             System.out.println(
-                    "Could not load doctor image: "
+                    "Could not load police image: "
                             + e.getMessage()
             );
         }
 
-        imageView.setPreserveRatio(false);
-        imageView.setSmooth(true);
-        imageView.setCache(true);
+        imageView.setPreserveRatio(
+                false
+        );
+
+        imageView.setSmooth(
+                true
+        );
+
+        imageView.setCache(
+                true
+        );
 
         return imageView;
     }
@@ -1128,8 +1887,13 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
                 height
         );
 
-        imageView.setPreserveRatio(false);
-        imageView.setSmooth(true);
+        imageView.setPreserveRatio(
+                false
+        );
+
+        imageView.setSmooth(
+                true
+        );
     }
 
     // =========================================================
@@ -1139,7 +1903,9 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
     private HBox createLifeLinkLogo() {
 
         HBox logo =
-                new HBox(9);
+                new HBox(
+                        9
+                );
 
         logo.setAlignment(
                 Pos.CENTER_RIGHT
@@ -1160,7 +1926,9 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
                             false
                     );
 
-            icon.setImage(logoImage);
+            icon.setImage(
+                    logoImage
+            );
 
         } catch (Exception e) {
 
@@ -1170,22 +1938,34 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
             );
         }
 
-        icon.setFitWidth(55);
-        icon.setFitHeight(55);
+        icon.setFitWidth(
+                55
+        );
 
-        icon.setPreserveRatio(true);
-        icon.setSmooth(true);
+        icon.setFitHeight(
+                55
+        );
+
+        icon.setPreserveRatio(
+                true
+        );
+
+        icon.setSmooth(
+                true
+        );
 
         // =====================================================
         // LIFE
         // =====================================================
 
         Text life =
-                new Text("Life");
+                new Text(
+                        "Life"
+                );
 
         life.setStyle(
                 "-fx-fill: white;" +
-                "-fx-font-police: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 33px;" +
                 "-fx-font-weight: bold;"
         );
@@ -1195,11 +1975,13 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
         // =====================================================
 
         Text link =
-                new Text("Link");
+                new Text(
+                        "Link"
+                );
 
         link.setStyle(
                 "-fx-fill: " + TEAL_LIGHT + ";" +
-                "-fx-font-police: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 33px;" +
                 "-fx-font-weight: bold;"
         );
@@ -1209,7 +1991,9 @@ boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordVal
         // =====================================================
 
         HBox text =
-                new HBox(0);
+                new HBox(
+                        0
+                );
 
         text.getChildren().addAll(
                 life,

@@ -5,9 +5,11 @@ import com.kurukshetra.controller.UserController;
 import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.nurse.NurseDashboardPage;
 
+import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -17,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ClosePath;
@@ -26,6 +29,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class NurseLoginPage {
 
@@ -33,9 +37,10 @@ public class NurseLoginPage {
     // COLORS
     // =========================================================
 
-    private static final String TEAL =  "#e67593";
+    private static final String TEAL = "#e67593";
     private static final String TEAL_DARK = "#FF1493";
     private static final String TEAL_LIGHT = "#63D7DC";
+
     private static final String WHITE = "#FFFFFF";
     private static final String BLACK = "#111111";
     private static final String GRAY_BG = "#777775";
@@ -46,7 +51,7 @@ public class NurseLoginPage {
     // IMAGES
     // =========================================================
 
-    private static final String DOCTOR_IMAGE_URL =
+    private static final String NURSE_IMAGE_URL =
             "assets\\Images\\nurseLogin.jpg";
 
     private static final String LIFELINK_LOGO_IMAGE =
@@ -56,72 +61,128 @@ public class NurseLoginPage {
     // PAGE SIZE
     // =========================================================
 
-    private static final double PAGE_WIDTH = Welcome.WelcomeStage.getWidth();
-    private static final double PAGE_HEIGHT = Welcome.WelcomeStage.getHeight();
+    private static final double PAGE_WIDTH =
+            Welcome.WelcomeStage.getWidth();
+
+    private static final double PAGE_HEIGHT =
+            Welcome.WelcomeStage.getHeight();
+
+    // =========================================================
+    // CONTROLLER
+    // =========================================================
+
+    private final UserAuthController userAuthController =
+            new UserAuthController();
+
+    // =========================================================
+    // CALLBACK
+    // =========================================================
+
+    private Runnable callBackActionHolder;
 
     // =========================================================
     // MAIN PAGE
     // =========================================================
-    UserAuthController userAuthController = new UserAuthController();
 
-    public BorderPane getNurseLoginPage(Runnable callBackAction) {
+    public BorderPane getNurseLoginPage(
+            Runnable callBackAction) {
 
-        BorderPane root = new BorderPane();
+        callBackActionHolder = callBackAction;
 
-        root.setPrefSize(PAGE_WIDTH, PAGE_HEIGHT);
-        root.setMinSize(PAGE_WIDTH, PAGE_HEIGHT);
-        root.setMaxSize(PAGE_WIDTH, PAGE_HEIGHT);
+        BorderPane root =
+                new BorderPane();
+
+        root.setPrefSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        root.setMinSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        root.setMaxSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
 
         root.setStyle(
                 "-fx-background-color: " + GRAY_BG + ";" +
-                "-fx-font-nurse: 'Segoe UI';"
+                "-fx-font-family: 'Segoe UI';"
         );
 
-        AnchorPane page = new AnchorPane();
+        AnchorPane page =
+                new AnchorPane();
 
-        page.setPrefSize(PAGE_WIDTH, PAGE_HEIGHT);
-        page.setMinSize(PAGE_WIDTH, PAGE_HEIGHT);
-        page.setMaxSize(PAGE_WIDTH, PAGE_HEIGHT);
+        page.setPrefSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        page.setMinSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
+
+        page.setMaxSize(
+                PAGE_WIDTH,
+                PAGE_HEIGHT
+        );
 
         page.setStyle(
                 "-fx-background-color: " + GRAY_BG + ";"
         );
 
         // =====================================================
-        // DOCTOR IMAGE
+        // NURSE IMAGE
         // =====================================================
 
-        ImageView doctorImage = createDoctorImage();
+        ImageView nurseImage =
+                createNurseImage();
 
         updateImage(
-                doctorImage,
+                nurseImage,
                 PAGE_WIDTH,
                 PAGE_HEIGHT
         );
 
         AnchorPane.setLeftAnchor(
-                doctorImage,
+                nurseImage,
                 PAGE_WIDTH * 0.44
         );
 
         AnchorPane.setTopAnchor(
-                doctorImage,
+                nurseImage,
                 0.0
         );
 
-        page.getChildren().add(doctorImage);
+        page.getChildren().add(
+                nurseImage
+        );
 
         // =====================================================
         // IMAGE OVERLAY
         // =====================================================
 
-        Rectangle imageOverlay = new Rectangle();
+        Rectangle imageOverlay =
+                new Rectangle();
 
-        imageOverlay.setWidth(PAGE_WIDTH * 0.56);
-        imageOverlay.setHeight(PAGE_HEIGHT);
+        imageOverlay.setWidth(
+                PAGE_WIDTH * 0.56
+        );
+
+        imageOverlay.setHeight(
+                PAGE_HEIGHT
+        );
 
         imageOverlay.setFill(
-                Color.rgb(0, 0, 0, 0.50)
+                Color.rgb(
+                        0,
+                        0,
+                        0,
+                        0.50
+                )
         );
 
         AnchorPane.setLeftAnchor(
@@ -134,55 +195,64 @@ public class NurseLoginPage {
                 0.0
         );
 
-        page.getChildren().add(imageOverlay);
+        page.getChildren().add(
+                imageOverlay
+        );
 
         // =====================================================
-        // BLUE S-SHAPED BACKGROUND
+        // PINK S-SHAPED BACKGROUND
         // =====================================================
 
-        Path blueShape = createBlueBackground();
+        Path pinkShape =
+                createPinkBackground();
 
-        updateBlueShape(
-                blueShape,
+        updatePinkShape(
+                pinkShape,
                 PAGE_WIDTH,
                 PAGE_HEIGHT
         );
 
         AnchorPane.setLeftAnchor(
-                blueShape,
+                pinkShape,
                 0.0
         );
 
         AnchorPane.setTopAnchor(
-                blueShape,
+                pinkShape,
                 0.0
         );
 
-        page.getChildren().add(blueShape);
+        page.getChildren().add(
+                pinkShape
+        );
 
         // =====================================================
         // LOGIN CARD
         // =====================================================
 
-        VBox loginCard = createLoginCard();
+        VBox loginCard =
+                createLoginCard();
 
         AnchorPane.setLeftAnchor(
                 loginCard,
-                (double) 150
+                150.0
         );
 
         AnchorPane.setTopAnchor(
                 loginCard,
-                (double)120
+                120.0
         );
 
-        page.getChildren().add(loginCard);
+        page.getChildren().add(
+                loginCard
+        );
 
         // =====================================================
         // LIFELINK LOGO
         // =====================================================
 
-        HBox lifeLinkLogo = createLifeLinkLogo();
+        HBox lifeLinkLogo =
+                createLifeLinkLogo();
 
         AnchorPane.setRightAnchor(
                 lifeLinkLogo,
@@ -194,7 +264,59 @@ public class NurseLoginPage {
                 28.0
         );
 
-        page.getChildren().add(lifeLinkLogo);
+        page.getChildren().add(
+                lifeLinkLogo
+        );
+
+        // =====================================================
+        // BACK BUTTON
+        // EXACTLY LIKE FamilyLoginPage
+        // =====================================================
+
+        Button backButton =
+                createBackButton();
+
+        AnchorPane.setLeftAnchor(
+                backButton,
+                35.0
+        );
+
+        AnchorPane.setTopAnchor(
+                backButton,
+                30.0
+        );
+
+        page.getChildren().add(
+                backButton
+        );
+
+        // =====================================================
+        // BACK BUTTON ACTION
+        // =====================================================
+
+        backButton.setOnAction(e -> {
+
+            if (callBackActionHolder != null) {
+
+                callBackActionHolder.run();
+
+                return;
+            }
+
+            try {
+
+                Welcome welcome =
+                        new Welcome();
+
+                welcome.start(
+                        Welcome.WelcomeStage
+                );
+
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+            }
+        });
 
         // =====================================================
         // ROOT
@@ -211,13 +333,17 @@ public class NurseLoginPage {
 
     private VBox createLoginCard() {
 
-        VBox card = new VBox();
+        VBox card =
+                new VBox();
 
         card.setPrefWidth(400);
         card.setMinWidth(400);
         card.setMaxWidth(400);
 
-        setFixedHeight(card, 560);
+        setFixedHeight(
+                card,
+                560
+        );
 
         card.setPadding(
                 new Insets(
@@ -242,7 +368,6 @@ public class NurseLoginPage {
                 ");"
         );
 
-        // Only one Login UI implementation.
         showLoginForm(card);
 
         return card;
@@ -252,56 +377,78 @@ public class NurseLoginPage {
     // LOGIN FORM
     // =========================================================
 
-    private void showLoginForm(VBox card) {
+    private void showLoginForm(
+            VBox card) {
 
         card.getChildren().clear();
 
-        setFixedHeight(card, 560);
+        setFixedHeight(
+                card,
+                560
+        );
 
         // =====================================================
         // SIGN IN TITLE
         // =====================================================
 
-        Text signIn = new Text("SIGN IN");
+        Text signIn =
+                new Text("SIGN IN");
 
         signIn.setStyle(
                 "-fx-fill: " + BLACK + ";" +
-                "-fx-font-nurse: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 30px;" +
                 "-fx-font-weight: bold;"
         );
 
-        HBox titleBox = new HBox();
+        HBox titleBox =
+                new HBox();
 
-        titleBox.setAlignment(Pos.CENTER);
-        titleBox.setPrefHeight(48);
+        titleBox.setAlignment(
+                Pos.CENTER
+        );
 
-        titleBox.getChildren().add(signIn);
+        titleBox.setPrefHeight(
+                48
+        );
+
+        titleBox.getChildren().add(
+                signIn
+        );
 
         // =====================================================
         // TITLE SPACE
         // =====================================================
 
-        Region titleSpace = createSpacer(25);
+        Region titleSpace =
+                createSpacer(25);
 
         // =====================================================
-        // nurse DATA
+        // NURSE DATA
         // =====================================================
 
-        Text nurseData = new Text("nurse");
+        Text nurseData =
+                new Text("nurse");
 
         nurseData.setStyle(
                 "-fx-fill: " + BLACK + ";" +
-                "-fx-font-nurse: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 24px;" +
                 "-fx-font-style: italic;" +
                 "-fx-font-weight: bold;"
         );
 
-        HBox nurseBox = new HBox();
+        HBox nurseBox =
+                new HBox();
 
-        nurseBox.setAlignment(Pos.CENTER);
-        setFixedHeight(nurseBox, 50);
+        nurseBox.setAlignment(
+                Pos.CENTER
+        );
+
+        setFixedHeight(
+                nurseBox,
+                50
+        );
 
         nurseBox.setPadding(
                 new Insets(
@@ -314,48 +461,69 @@ public class NurseLoginPage {
 
         nurseBox.setStyle(
                 "-fx-background-color: " + WHITE + ";" +
+                // "-fx-border-color: " + BORDER + ";" +
                 "-fx-border-width: 2;" +
                 "-fx-border-radius: 10;" +
                 "-fx-background-radius: 10;"
         );
 
-        nurseBox.getChildren().add(nurseData);
+        nurseBox.getChildren().add(
+                nurseData
+        );
 
         // =====================================================
         // USERNAME
         // =====================================================
 
-        Region space1 = createSpacer(25);
+        Region space1 =
+                createSpacer(25);
 
-        TextField username = createTextField("Username");
+        TextField username =
+                createTextField(
+                        "Useremail"
+                );
 
         // =====================================================
         // PASSWORD
         // =====================================================
 
-        Region space2 = createSpacer(25);
+        Region space2 =
+                createSpacer(25);
 
-        PasswordField password = createPasswordField("Password");
+        PasswordField password =
+                createPasswordField(
+                        "Password"
+                );
+
+        StackPane passwordBox =
+                createPasswordVisibilityBox(
+                        password
+                );
 
         // =====================================================
         // ACTION SPACE
         // =====================================================
 
-        Region actionSpace = createSpacer(40);
+        Region actionSpace =
+                createSpacer(40);
 
         // =====================================================
         // ACTION ROW
         // =====================================================
 
-        HBox actionRow = new HBox();
+        HBox actionRow =
+                new HBox();
 
-        actionRow.setAlignment(Pos.CENTER_LEFT);
+        actionRow.setAlignment(
+                Pos.CENTER_LEFT
+        );
 
         // =====================================================
         // LOGIN BUTTON
         // =====================================================
 
-        Button loginButton = new Button("Login");
+        Button loginButton =
+                new Button("Login");
 
         setFixedSize(
                 loginButton,
@@ -372,7 +540,8 @@ public class NurseLoginPage {
         // BUTTON SPACE
         // =====================================================
 
-        Region buttonSpace = new Region();
+        Region buttonSpace =
+                new Region();
 
         HBox.setHgrow(
                 buttonSpace,
@@ -383,7 +552,10 @@ public class NurseLoginPage {
         // FORGOT PASSWORD
         // =====================================================
 
-        Button forgot = new Button("Forgot Password?");
+        Button forgot =
+                new Button(
+                        "Forgot Password?"
+                );
 
         setForgotButtonStyle(
                 forgot,
@@ -400,23 +572,29 @@ public class NurseLoginPage {
         // SIGN UP
         // =====================================================
 
-        Region signUpSpace = createSpacer(35);
+        Region signUpSpace =
+                createSpacer(35);
 
-        HBox signUpRow = new HBox();
+        HBox signUpRow =
+                new HBox();
 
-        signUpRow.setAlignment(Pos.CENTER);
-
-        Text accountText = new Text(
-                "Don't have an account? "
+        signUpRow.setAlignment(
+                Pos.CENTER
         );
+
+        Text accountText =
+                new Text(
+                        "Don't have an account? "
+                );
 
         accountText.setStyle(
                 "-fx-fill: " + BLACK + ";" +
                 "-fx-font-size: 14px;" +
-                "-fx-font-nurse: 'Segoe UI';"
+                "-fx-font-family: 'Segoe UI';"
         );
 
-        Button signUp = new Button("Sign Up");
+        Button signUp =
+                new Button("Sign Up");
 
         setSignUpButtonStyle(
                 signUp,
@@ -443,40 +621,57 @@ public class NurseLoginPage {
             if (emailValue.isEmpty()
                     || passwordValue.isEmpty()) {
 
-                System.out.println(
-                        "Please enter username and password."
+                showMessage(
+                        card,
+                        "Please enter username and password.",
+                        false
                 );
 
                 return;
             }
-            boolean isSuccess = userAuthController.signIn(emailValue, passwordValue);
-            if(isSuccess){
 
-            System.out.println(
-                    "nurse: nurseData"
-            );
+            try {
 
-            System.out.println(
-                    "Username: " + emailValue
-            );
+                boolean isSuccess =
+                        userAuthController.signIn(
+                                emailValue,
+                                passwordValue
+                        );
 
-            System.out.println(
-                    "Login successful."
-            );
+                if (isSuccess) {
 
-            NurseDashboardPage nurseDashboardPage = new NurseDashboardPage();
+                    System.out.println(
+                            "Nurse login successful."
+                    );
 
-            try{
-                nurseDashboardPage.start(Welcome.WelcomeStage);
-            }catch(Exception e1){
-                e1.printStackTrace();
+                    showSuccessMessage(
+                            card,
+                            "Login successful!"
+                    );
+
+                } else {
+
+                    showMessage(
+                            card,
+                            "Invalid email or password.",
+                            false
+                    );
+                }
+
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+
+                showMessage(
+                        card,
+                        "Login failed. Please try again.",
+                        false
+                );
             }
-            }
-            
         });
 
         // =====================================================
-        // FORGOT PASSWORD ACTION
+        // FORGOT PASSWORD
         // =====================================================
 
         forgot.setOnAction(e ->
@@ -489,12 +684,12 @@ public class NurseLoginPage {
         // SIGN UP ACTION
         // =====================================================
 
-        signUp.setOnAction(e ->
-                showSignUpForm(card)
+        signUp.setOnAction(
+                e -> showSignUpForm(card)
         );
 
         // =====================================================
-        // ADD LOGIN CONTENT
+        // ADD CONTENT
         // =====================================================
 
         card.getChildren().addAll(
@@ -504,7 +699,7 @@ public class NurseLoginPage {
                 space1,
                 username,
                 space2,
-                password,
+                passwordBox,
                 actionSpace,
                 actionRow,
                 signUpSpace,
@@ -513,69 +708,272 @@ public class NurseLoginPage {
     }
 
     // =========================================================
+    // PASSWORD VISIBILITY
+    // =========================================================
+
+    private StackPane createPasswordVisibilityBox(
+            PasswordField password) {
+
+        StackPane container =
+                new StackPane();
+
+        setFixedHeight(
+                container,
+                50
+        );
+
+        TextField visiblePassword =
+                new TextField();
+
+        visiblePassword.setPromptText(
+                "Password"
+        );
+
+        visiblePassword.setVisible(
+                false
+        );
+
+        visiblePassword.setManaged(
+                false
+        );
+
+        setFixedHeight(
+                visiblePassword,
+                50
+        );
+
+        visiblePassword.setStyle(
+                normalFieldStyle()
+        );
+
+        addFocusStyle(
+                visiblePassword
+        );
+
+        Button eyeButton =
+                new Button("👁");
+
+        eyeButton.setFocusTraversable(
+               false
+        );
+
+         eyeButton.setStyle(
+                eyeButtonStyle(
+                        PLACEHOLDER
+                )
+        );
+
+        StackPane.setAlignment(
+                eyeButton,
+                Pos.CENTER_RIGHT
+        );
+
+        eyeButton.setOnMouseEntered(
+                e -> eyeButton.setStyle(
+                        eyeButtonStyle(TEAL)
+                )
+        );
+
+        eyeButton.setOnMouseExited(
+                e -> {
+
+                    String color =
+                            password.isVisible()
+                                    ? TEAL
+                                    : PLACEHOLDER;
+
+                    eyeButton.setStyle(
+                            eyeButtonStyle(color)
+                    );
+                }
+        );
+
+        // =====================================================
+        // SHOW / HIDE
+        // =====================================================
+
+        eyeButton.setOnAction(e -> {
+
+            if (password.isVisible()) {
+
+                visiblePassword.setText(
+                        password.getText()
+                );
+
+                password.setVisible(
+                        false
+                );
+
+                password.setManaged(
+                        false
+                );
+
+                visiblePassword.setVisible(
+                        true
+                );
+
+                visiblePassword.setManaged(
+                        true
+                );
+
+                eyeButton.setText(
+                        "🙈"
+                );
+
+                eyeButton.setStyle(
+                        eyeButtonStyle(TEAL)
+                );
+
+                visiblePassword.requestFocus();
+
+
+            } else {
+
+                password.setText(
+                        visiblePassword.getText()
+                );
+
+                visiblePassword.setVisible(
+                        false
+                );
+
+                visiblePassword.setManaged(
+                        false
+                );
+
+                password.setVisible(
+                        true
+                );
+
+                password.setManaged(
+                        true
+                );
+
+                eyeButton.setText(
+                        "👁"
+                );
+                //  eyeButton.setStyle(
+                //         eyeButtonStyle(PLACEHOLDER)
+                // );
+
+                password.requestFocus();
+            }
+        });
+
+        container.getChildren().addAll(
+                password,
+                visiblePassword,
+                eyeButton
+        );
+
+        return container;
+    }
+
+    private String eyeButtonStyle(
+            String color) {
+
+        return
+                "-fx-background-color: transparent;" +
+                "-fx-text-fill: " + color + ";" +
+                "-fx-font-size: 18px;" +
+                "-fx-cursor: hand;" +
+                "-fx-padding: 0 12 0 12;";
+    }
+
+    // =========================================================
     // SIGN UP FORM
     // =========================================================
 
-    private void showSignUpForm(VBox card) {
+    private void showSignUpForm(
+            VBox card) {
 
         card.getChildren().clear();
 
-        setFixedHeight(card, 550);
+        setFixedHeight(
+                card,
+                550
+        );
 
         // =====================================================
         // TITLE
         // =====================================================
 
-        Text signUpTitle = new Text("SIGN UP");
+        Text signUpTitle =
+                new Text("SIGN UP");
 
         signUpTitle.setStyle(
                 "-fx-fill: " + BLACK + ";" +
-                "-fx-font-nurse: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 30px;" +
                 "-fx-font-weight: bold;"
         );
 
-        HBox titleBox = new HBox();
+        HBox titleBox =
+                new HBox();
 
-        titleBox.setAlignment(Pos.CENTER);
-        titleBox.setPrefHeight(48);
+        titleBox.setAlignment(
+                Pos.CENTER
+        );
 
-        titleBox.getChildren().add(signUpTitle);
+        titleBox.setPrefHeight(
+                48
+        );
+
+        titleBox.getChildren().add(
+                signUpTitle
+        );
 
         // =====================================================
         // TITLE SPACE
         // =====================================================
 
-        Region titleSpace = createSpacer(25);
+        Region titleSpace =
+                createSpacer(25);
 
         // =====================================================
         // NAME
         // =====================================================
 
-        TextField name = createTextField("Name");
+        TextField name =
+                createTextField(
+                        "Name"
+                );
 
         // =====================================================
         // EMAIL
         // =====================================================
 
-        Region space1 = createSpacer(18);
+        Region space1 =
+                createSpacer(18);
 
-        TextField email = createTextField("Email");
+        TextField email =
+                createTextField(
+                        "Email"
+                );
 
         // =====================================================
         // PASSWORD
         // =====================================================
 
-        Region space2 = createSpacer(18);
+        Region space2 =
+                createSpacer(18);
 
         PasswordField password =
-                createPasswordField("Password");
+                createPasswordField(
+                        "Password"
+                );
+
+        StackPane passwordBox =
+                createPasswordVisibilityBox(
+                        password
+                );
 
         // =====================================================
         // ACTION SPACE
         // =====================================================
 
-        Region actionSpace = createSpacer(30);
+        Region actionSpace =
+                createSpacer(30);
 
         // =====================================================
         // SIGN UP BUTTON
@@ -595,16 +993,23 @@ public class NurseLoginPage {
                 TEAL
         );
 
-        HBox buttonBox = new HBox();
+        HBox buttonBox =
+                new HBox();
 
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.getChildren().add(signUpButton);
+        buttonBox.setAlignment(
+                Pos.CENTER
+        );
+
+        buttonBox.getChildren().add(
+                signUpButton
+        );
 
         // =====================================================
         // LOGIN SPACE
         // =====================================================
 
-        Region loginSpace = createSpacer(25);
+        Region loginSpace =
+                createSpacer(25);
 
         // =====================================================
         // BACK TO LOGIN
@@ -620,10 +1025,16 @@ public class NurseLoginPage {
                 BLACK
         );
 
-        HBox loginBox = new HBox();
+        HBox loginBox =
+                new HBox();
 
-        loginBox.setAlignment(Pos.CENTER);
-        loginBox.getChildren().add(backToLogin);
+        loginBox.setAlignment(
+                Pos.CENTER
+        );
+
+        loginBox.getChildren().add(
+                backToLogin
+        );
 
         // =====================================================
         // SIGN UP ACTION
@@ -644,53 +1055,91 @@ public class NurseLoginPage {
                     || emailValue.isEmpty()
                     || passwordValue.isEmpty()) {
 
-                System.out.println(
-                        "Please enter name, email and password."
+                showMessage(
+                        card,
+                        "Please enter name, email and password.",
+                        false
                 );
 
                 return;
             }
 
-            boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+            try {
 
-            if(isSuccess){
+                boolean isSuccess =
+                        userAuthController.signUp(
+                                nameValue,
+                                emailValue,
+                                passwordValue
+                        );
 
-                                 System.out.println("API Hit Successfully (SignUp)");
-                                UserController userController = new UserController();
-                                userController.passToNurseModel(nameValue, emailValue);
+                if (isSuccess) {
 
-            System.out.println(
-                    "========== SIGN UP =========="
-            );
+                    System.out.println(
+                            "API Hit Successfully (SignUp)"
+                    );
 
-            System.out.println(
-                    "Name: " + nameValue
-            );
+                    UserController
+                            userController =
+                            new UserController();
 
-            System.out.println(
-                    "Email: " + emailValue
-            );
+                    userController.passToNurseModel(
+                            nameValue,
+                            emailValue
+                    );
 
-            System.out.println(
-                    "Password: " + passwordValue
-            );
+                    System.out.println(
+                            "========== SIGN UP =========="
+                    );
 
-            System.out.println(
-                    "Sign Up successful."
-            );
+                    System.out.println(
+                            "Name: " + nameValue
+                    );
 
-            System.out.println(
-                    "============================="
-            );
-        }
+                    System.out.println(
+                            "Email: " + emailValue
+                    );
+
+                    System.out.println(
+                            "Sign Up successful."
+                    );
+
+                    System.out.println(
+                            "============================="
+                    );
+
+                    showSuccessMessage(
+                            card,
+                            "Account created successfully!"
+                    );
+
+                } else {
+
+                    showMessage(
+                            card,
+                            "Sign up failed. Please try again.",
+                            false
+                    );
+                }
+
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+
+                showMessage(
+                        card,
+                        "Unable to create account.",
+                        false
+                );
+            }
         });
 
         // =====================================================
-        // BACK TO LOGIN ACTION
+        // BACK TO LOGIN
         // =====================================================
 
-        backToLogin.setOnAction(e ->
-                showLoginForm(card)
+        backToLogin.setOnAction(
+                e -> showLoginForm(card)
         );
 
         // =====================================================
@@ -704,7 +1153,7 @@ public class NurseLoginPage {
                 space1,
                 email,
                 space2,
-                password,
+                passwordBox,
                 actionSpace,
                 buttonBox,
                 loginSpace,
@@ -713,22 +1162,181 @@ public class NurseLoginPage {
     }
 
     // =========================================================
+    // SUCCESS MESSAGE
+    // =========================================================
+
+    private void showSuccessMessage(
+            VBox card,
+            String message) {
+
+        StackPane overlay =
+                new StackPane();
+
+        overlay.setStyle(
+                "-fx-background-color: rgba(255,255,255,0.97);" +
+                "-fx-background-radius: 38;"
+        );
+
+        VBox successBox =
+                new VBox(18);
+
+        successBox.setAlignment(
+                Pos.CENTER
+        );
+
+        successBox.setPadding(
+                new Insets(30)
+        );
+
+        Text successIcon =
+                new Text("✓");
+
+        successIcon.setStyle(
+                "-fx-fill: " + TEAL + ";" +
+                "-fx-font-size: 55px;" +
+                "-fx-font-weight: bold;"
+        );
+
+        Text title =
+                new Text("Success!");
+
+        title.setStyle(
+                "-fx-fill: " + BLACK + ";" +
+                "-fx-font-family: 'Segoe UI';" +
+                "-fx-font-size: 26px;" +
+                "-fx-font-weight: bold;"
+        );
+
+        Label messageLabel =
+                new Label(message);
+
+        messageLabel.setWrapText(
+                true
+        );
+
+        messageLabel.setAlignment(
+                Pos.CENTER
+        );
+
+        messageLabel.setStyle(
+                "-fx-text-fill: #555555;" +
+                "-fx-font-family: 'Segoe UI';" +
+                "-fx-font-size: 15px;"
+        );
+
+        Button continueButton =
+                new Button("Continue");
+
+        setFixedSize(
+                continueButton,
+                130,
+                45
+        );
+
+        setLoginButtonStyle(
+                continueButton,
+                TEAL
+        );
+
+        successBox.getChildren().addAll(
+                successIcon,
+                title,
+                messageLabel,
+                continueButton
+        );
+
+        overlay.getChildren().add(
+                successBox
+        );
+
+        card.getChildren().clear();
+
+        card.getChildren().add(
+                overlay
+        );
+
+        continueButton.setOnAction(e -> {
+
+            NurseDashboardPage
+                    nurseDashboardPage =
+                    new NurseDashboardPage();
+
+            try {
+
+                nurseDashboardPage.start(
+                        Welcome.WelcomeStage
+                );
+
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    // =========================================================
+    // NORMAL MESSAGE
+    // =========================================================
+
+    private void showMessage(
+            VBox card,
+            String message,
+            boolean success) {
+
+        Text messageText =
+                new Text(message);
+
+        messageText.setStyle(
+                "-fx-fill: " +
+                (success ? TEAL : "#D32F2F") +
+                ";" +
+                "-fx-font-family: 'Segoe UI';" +
+                "-fx-font-size: 14px;" +
+                "-fx-font-weight: bold;"
+        );
+
+        HBox messageBox =
+                new HBox();
+
+        messageBox.setAlignment(
+                Pos.CENTER
+        );
+
+        messageBox.getChildren().add(
+                messageText
+        );
+
+        card.getChildren().add(
+                messageBox
+        );
+    }
+
+    // =========================================================
     // TEXT FIELD
     // =========================================================
 
-    private TextField createTextField(String prompt) {
+    private TextField createTextField(
+            String prompt) {
 
-        TextField field = new TextField();
+        TextField field =
+                new TextField();
 
-        field.setPromptText(prompt);
+        field.setPromptText(
+                prompt
+        );
 
-        setFixedHeight(field, 50);
+        setFixedHeight(
+                field,
+                50
+        );
 
         field.setStyle(
                 normalFieldStyle()
         );
 
-        addFocusStyle(field);
+        addFocusStyle(
+                field
+        );
 
         return field;
     }
@@ -743,15 +1351,22 @@ public class NurseLoginPage {
         PasswordField field =
                 new PasswordField();
 
-        field.setPromptText(prompt);
+        field.setPromptText(
+                prompt
+        );
 
-        setFixedHeight(field, 50);
+        setFixedHeight(
+                field,
+                50
+        );
 
         field.setStyle(
                 normalFieldStyle()
         );
 
-        addFocusStyle(field);
+        addFocusStyle(
+                field
+        );
 
         return field;
     }
@@ -768,7 +1383,7 @@ public class NurseLoginPage {
                 "-fx-border-width: 2;" +
                 "-fx-border-radius: 10;" +
                 "-fx-background-radius: 10;" +
-                "-fx-font-nurse: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 17px;" +
                 "-fx-text-fill: " + BLACK + ";" +
                 "-fx-prompt-text-fill: " + PLACEHOLDER + ";" +
@@ -779,7 +1394,8 @@ public class NurseLoginPage {
     // FIELD FOCUS STYLE
     // =========================================================
 
-    private void addFocusStyle(TextField field) {
+    private void addFocusStyle(
+            TextField field) {
 
         field.focusedProperty().addListener(
                 (obs, oldValue, focused) -> {
@@ -808,7 +1424,7 @@ public class NurseLoginPage {
                 "-fx-border-width: 2;" +
                 "-fx-border-radius: 10;" +
                 "-fx-background-radius: 10;" +
-                "-fx-font-nurse: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 17px;" +
                 "-fx-text-fill: " + BLACK + ";" +
                 "-fx-prompt-text-fill: " + PLACEHOLDER + ";" +
@@ -837,7 +1453,9 @@ public class NurseLoginPage {
 
         button.setOnMouseEntered(
                 e -> button.setStyle(
-                        loginButtonStyle(TEAL_DARK)
+                        loginButtonStyle(
+                                TEAL_DARK
+                        )
                 )
         );
 
@@ -848,12 +1466,13 @@ public class NurseLoginPage {
         );
     }
 
-    private String loginButtonStyle(String color) {
+    private String loginButtonStyle(
+            String color) {
 
         return
                 "-fx-background-color: " + color + ";" +
                 "-fx-text-fill: white;" +
-                "-fx-font-nurse: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 15px;" +
                 "-fx-font-weight: bold;" +
                 "-fx-background-radius: 10;" +
@@ -896,7 +1515,7 @@ public class NurseLoginPage {
     }
 
     // =========================================================
-    // FORGOT / BACK BUTTON STYLE
+    // FORGOT BUTTON STYLE
     // =========================================================
 
     private void setForgotButtonStyle(
@@ -936,7 +1555,7 @@ public class NurseLoginPage {
         return
                 "-fx-background-color: transparent;" +
                 "-fx-text-fill: " + color + ";" +
-                "-fx-font-nurse: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: " + fontSize + "px;" +
                 "-fx-font-weight: bold;" +
                 "-fx-cursor: hand;" +
@@ -944,14 +1563,94 @@ public class NurseLoginPage {
     }
 
     // =========================================================
+    // BACK BUTTON
+    // SAME AS FAMILY LOGIN PAGE
+    // =========================================================
+
+    private Button createBackButton() {
+
+        Button backButton =
+                new Button("←  Back");
+
+        // EXACT SAME SIZE
+        setFixedSize(
+                backButton,
+                100,
+                42
+        );
+
+        // NORMAL STYLE
+        backButton.setStyle(
+                backButtonStyle()
+        );
+
+        // HOVER STYLE
+        backButton.setOnMouseEntered(
+                e -> backButton.setStyle(
+                        backButtonHoverStyle()
+                )
+        );
+
+        backButton.setOnMouseExited(
+                e -> backButton.setStyle(
+                        backButtonStyle()
+                )
+        );
+
+        return backButton;
+    }
+
+    // =========================================================
+    // BACK BUTTON NORMAL STYLE
+    // =========================================================
+
+    private String backButtonStyle() {
+
+        return
+                "-fx-background-color: rgba(255,255,255,0.15);" +
+                "-fx-text-fill: white;" +
+                "-fx-font-family: 'Segoe UI';" +
+                "-fx-font-size: 15px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-background-radius: 10;" +
+                "-fx-border-color: rgba(255,255,255,0.55);" +
+                "-fx-border-width: 1;" +
+                "-fx-border-radius: 10;" +
+                "-fx-cursor: hand;";
+    }
+
+    // =========================================================
+    // BACK BUTTON HOVER STYLE
+    // =========================================================
+
+    private String backButtonHoverStyle() {
+
+        return
+                "-fx-background-color: white;" +
+                "-fx-text-fill: " + TEAL_DARK + ";" +
+                "-fx-font-family: 'Segoe UI';" +
+                "-fx-font-size: 15px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-background-radius: 10;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 1;" +
+                "-fx-border-radius: 10;" +
+                "-fx-cursor: hand;";
+    }
+
+    // =========================================================
     // SPACER
     // =========================================================
 
-    private Region createSpacer(double height) {
+    private Region createSpacer(
+            double height) {
 
-        Region spacer = new Region();
+        Region spacer =
+                new Region();
 
-        spacer.setPrefHeight(height);
+        spacer.setPrefHeight(
+                height
+        );
 
         return spacer;
     }
@@ -988,37 +1687,41 @@ public class NurseLoginPage {
     }
 
     // =========================================================
-    // BLUE BACKGROUND
+    // PINK BACKGROUND
     // =========================================================
 
-    private Path createBlueBackground() {
+    private Path createPinkBackground() {
 
-        Path blueShape = new Path();
+        Path pinkShape =
+                new Path();
 
-        blueShape.setFill(
+        pinkShape.setFill(
                 Color.web(TEAL)
         );
 
-        blueShape.setStroke(
+        pinkShape.setStroke(
                 Color.TRANSPARENT
         );
 
-        return blueShape;
+        return pinkShape;
     }
 
     // =========================================================
-    // UPDATE BLUE BACKGROUND
+    // UPDATE PINK BACKGROUND
     // =========================================================
 
-    private void updateBlueShape(
+    private void updatePinkShape(
             Path shape,
             double width,
             double height) {
 
         shape.getElements().clear();
 
-        double blueWidth = width * 0.53;
-        double curveAmount = 130;
+        double pinkWidth =
+                width * 0.53;
+
+        double curveAmount =
+                130;
 
         shape.getElements().add(
                 new MoveTo(
@@ -1029,33 +1732,33 @@ public class NurseLoginPage {
 
         shape.getElements().add(
                 new LineTo(
-                        blueWidth,
+                        pinkWidth,
                         0
                 )
         );
 
         shape.getElements().add(
                 new CubicCurveTo(
-                        blueWidth + curveAmount,
+                        pinkWidth + curveAmount,
                         height * 0.14,
 
-                        blueWidth + curveAmount,
+                        pinkWidth + curveAmount,
                         height * 0.32,
 
-                        blueWidth,
+                        pinkWidth,
                         height * 0.50
                 )
         );
 
         shape.getElements().add(
                 new CubicCurveTo(
-                        blueWidth - curveAmount,
+                        pinkWidth - curveAmount,
                         height * 0.68,
 
-                        blueWidth - curveAmount,
+                        pinkWidth - curveAmount,
                         height * 0.86,
 
-                        blueWidth,
+                        pinkWidth,
                         height
                 )
         );
@@ -1073,10 +1776,10 @@ public class NurseLoginPage {
     }
 
     // =========================================================
-    // DOCTOR IMAGE
+    // NURSE IMAGE
     // =========================================================
 
-    private ImageView createDoctorImage() {
+    private ImageView createNurseImage() {
 
         ImageView imageView =
                 new ImageView();
@@ -1085,23 +1788,33 @@ public class NurseLoginPage {
 
             Image image =
                     new Image(
-                            DOCTOR_IMAGE_URL,
+                            NURSE_IMAGE_URL,
                             false
                     );
 
-            imageView.setImage(image);
+            imageView.setImage(
+                    image
+            );
 
         } catch (Exception e) {
 
             System.out.println(
-                    "Could not load doctor image: "
+                    "Could not load nurse image: "
                             + e.getMessage()
             );
         }
 
-        imageView.setPreserveRatio(false);
-        imageView.setSmooth(true);
-        imageView.setCache(true);
+        imageView.setPreserveRatio(
+                false
+        );
+
+        imageView.setSmooth(
+                true
+        );
+
+        imageView.setCache(
+                true
+        );
 
         return imageView;
     }
@@ -1126,8 +1839,13 @@ public class NurseLoginPage {
                 height
         );
 
-        imageView.setPreserveRatio(false);
-        imageView.setSmooth(true);
+        imageView.setPreserveRatio(
+                false
+        );
+
+        imageView.setSmooth(
+                true
+        );
     }
 
     // =========================================================
@@ -1158,7 +1876,9 @@ public class NurseLoginPage {
                             false
                     );
 
-            icon.setImage(logoImage);
+            icon.setImage(
+                    logoImage
+            );
 
         } catch (Exception e) {
 
@@ -1168,11 +1888,21 @@ public class NurseLoginPage {
             );
         }
 
-        icon.setFitWidth(55);
-        icon.setFitHeight(55);
+        icon.setFitWidth(
+                55
+        );
 
-        icon.setPreserveRatio(true);
-        icon.setSmooth(true);
+        icon.setFitHeight(
+                55
+        );
+
+        icon.setPreserveRatio(
+                true
+        );
+
+        icon.setSmooth(
+                true
+        );
 
         // =====================================================
         // LIFE
@@ -1183,7 +1913,7 @@ public class NurseLoginPage {
 
         life.setStyle(
                 "-fx-fill: white;" +
-                "-fx-font-nurse: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 33px;" +
                 "-fx-font-weight: bold;"
         );
@@ -1197,7 +1927,7 @@ public class NurseLoginPage {
 
         link.setStyle(
                 "-fx-fill: " + TEAL_LIGHT + ";" +
-                "-fx-font-nurse: 'Segoe UI';" +
+                "-fx-font-family: 'Segoe UI';" +
                 "-fx-font-size: 33px;" +
                 "-fx-font-weight: bold;"
         );

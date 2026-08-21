@@ -1,4 +1,4 @@
-package com.kurukshetra.model;
+package com.kurukshetra.model.admin;
 
 public class AdminUserModel {
     

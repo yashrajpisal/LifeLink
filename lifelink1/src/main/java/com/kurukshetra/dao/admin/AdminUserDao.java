@@ -1,8 +1,7 @@
-package com.kurukshetra.dao.adminDao;
+package com.kurukshetra.dao.admin;
 
 import com.kurukshetra.config.FirebaseConfig;
-import com.kurukshetra.model.AdminUserModel;
-
+import com.kurukshetra.model.admin.AdminUserModel;
 import com.google.cloud.firestore.Firestore;
 
 public class AdminUserDao {

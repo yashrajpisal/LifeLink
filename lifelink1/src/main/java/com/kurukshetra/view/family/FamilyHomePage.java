@@ -380,8 +380,9 @@ public class FamilyHomePage extends Application {
     public void start(Stage stage) {
         mainStage = stage;
         BorderPane bp = setBorderPane(stage);
-        Scene scene = new Scene(bp, 1280, 800);
+        Scene scene = new Scene(bp, mainStage.getWidth(), mainStage.getHeight());
         stage.setTitle("LifeLink - Family Care");
+        mainStage.setMaximized(true);
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
@@ -411,7 +412,6 @@ public class FamilyHomePage extends Application {
 
     // ---------------- MAIN CONTENT ----------------
     private VBox buildMainContent(Stage stage) {
-        HBox topBar = buildTopBar();
 
         Text greeting = new Text("Good morning, Sarah");
         greeting.setFont(Font.font("System", FontWeight.BOLD, 26));
@@ -433,52 +433,11 @@ public class FamilyHomePage extends Application {
         HBox row2 = new HBox(20, quickActionsGrid, nearbyCareCard);
         HBox.setHgrow(quickActionsGrid, Priority.ALWAYS);
 
-        VBox mainContent = new VBox(20, topBar, greeting, subGreeting, row1, row2);
+        VBox mainContent = new VBox(20, greeting, subGreeting, row1, row2);
         mainContent.setStyle("-fx-background-color: " + PAGE_BG + ";");
         mainContent.setPadding(new Insets(24));
 
         return mainContent;
-    }
-
-    private HBox buildTopBar() {
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-
-        Label bell = new Label("🔔");
-        styleUtilityIconButton(bell);
-
-        Label help = new Label("❓");
-        styleUtilityIconButton(help);
-
-        Label name = new Label("Sarah Miller");
-        name.setFont(Font.font("System", FontWeight.BOLD, 14));
-        name.setStyle("-fx-text-fill: " + TEXT_PRIMARY + ";");
-
-        Label role = new Label("Family Care Lead");
-        role.setFont(Font.font("System", FontWeight.NORMAL, 12));
-        role.setStyle("-fx-text-fill: " + TEXT_SECONDARY + ";");
-
-        VBox profileText = new VBox(2, name, role);
-        profileText.setAlignment(Pos.CENTER_RIGHT);
-
-        Label avatar = new Label("👩");
-        avatar.setStyle(
-                "-fx-background-color: " + VERY_LIGHT_TERRACOTTA + ";" +
-                "-fx-border-color: " + BORDER_COLOR + ";" +
-                "-fx-border-radius: 20px;" +
-                "-fx-background-radius: 20px;" +
-                "-fx-min-width: 40px;" +
-                "-fx-min-height: 40px;" +
-                "-fx-alignment: center;" +
-                "-fx-font-size: 18px;"
-        );
-
-        HBox profileBox = new HBox(10, profileText, avatar);
-        profileBox.setAlignment(Pos.CENTER_RIGHT);
-
-        HBox topBar = new HBox(16, spacer, bell, help, profileBox);
-        topBar.setAlignment(Pos.CENTER_RIGHT);
-        return topBar;
     }
 
     private VBox buildEmergencyCard(Stage stage) {

@@ -556,7 +556,7 @@ public class NurseSettingPage {
 
         saveButton.setOnAction(e -> {
             System.out.println("Save Changes button clicked");
-            NurseToast.show(NurseDashboardPage.appOverlay, "Settings saved", "success");
+            // NurseToast.show(NurseDashboardPage.appOverlay, "Settings saved", "success");
         });
 
         saveButton.setOnMouseEntered(e ->

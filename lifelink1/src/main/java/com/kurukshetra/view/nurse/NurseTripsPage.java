@@ -1187,7 +1187,7 @@ public class NurseTripsPage {
             trackButton.setStyle("-fx-background-color : " + PRIMARY_PINK + "; -fx-text-fill : white; -fx-font-size : 11px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;");
             trackButton.setOnAction(e -> {
                 System.out.println("View Current Trip clicked: " + tripId);
-                NurseToast.show(NurseDashboardPage.appOverlay, "Tracking Trip " + tripId, "info");
+                // NurseToast.show(NurseDashboardPage.appOverlay, "Tracking Trip " + tripId, "info");
             });
 
             actionsRow.getChildren().add(0, trackButton);
@@ -1272,7 +1272,7 @@ public class NurseTripsPage {
         createButton.setOnAction(e -> {
             System.out.println("Create Trip button clicked");
             hideModal(dimmer);
-            NurseToast.show(NurseDashboardPage.appOverlay, "Trip created successfully.", "success");
+            // NurseToast.show(NurseDashboardPage.appOverlay, "Trip created successfully.", "success");
         });
 
         modal.getChildren().addAll(modalTitle, patientField, fromField, toField, tripDate, timeField, createButton);

@@ -465,7 +465,7 @@ UserAuthController userAuthController = new UserAuthController();
 
             AdminDashboard adminDashboard = new AdminDashboard();
             try{
-                adminDashboard.start(AalLoginStartPoint.startPageStage);
+                adminDashboard.start(Welcome.WelcomeStage);
             }catch(Exception e1){
                 e1.printStackTrace();
             }

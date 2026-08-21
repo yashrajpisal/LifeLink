@@ -755,7 +755,6 @@ public class NursePatientDetailsPage {
 
         addImage.setOnMouseClicked(e -> {
             System.out.println("Add Photo button clicked");
-            NurseToast.show(NurseDashboardPage.appOverlay, "Photo upload coming soon", "info");
         });
 
         galleryImages.getChildren().addAll(imageOne, imageTwo, addImage);
@@ -773,7 +772,6 @@ public class NursePatientDetailsPage {
 
         saveButton.setOnAction(e -> {
             System.out.println("Save Patient Details button clicked");
-            NurseToast.show(NurseDashboardPage.appOverlay, "Patient details saved", "success");
         });
 
         saveButton.setOnMouseEntered(e ->

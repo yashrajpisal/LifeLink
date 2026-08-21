@@ -1,7 +1,9 @@
 package com.kurukshetra.view.loginSignup;
 
 import com.kurukshetra.controller.UserAuthController;
+import com.kurukshetra.controller.UserController;
 import com.kurukshetra.view.Welcome;
+import com.kurukshetra.view.family.FamilyHomePage;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -418,6 +420,8 @@ public class FamilyLoginPage {
                                 System.out.println(
                                                 "Login successful.");
 
+                                FamilyHomePage familyHomePage = new FamilyHomePage();
+                                familyHomePage.start(Welcome.WelcomeStage);
                         }
 
                 });
@@ -579,24 +583,35 @@ public class FamilyLoginPage {
 
                                 return;
                         }
+                        UserAuthController userAuthController = new UserAuthController();
 
-                        System.out.println(
-                                        "========== SIGN UP ==========");
+                        boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+                        if (isSuccess) {
+                                System.out.println("API Hit Successfully (SignUp)");
 
-                        System.out.println(
-                                        "Name: " + nameValue);
+                                UserController userController = new UserController();
+                                userController.passToFamilyModel(nameValue, emailValue);
 
-                        System.out.println(
-                                        "Email: " + emailValue);
+                                System.out.println(
+                                                "========== SIGN UP ==========");
 
-                        System.out.println(
-                                        "Password: " + passwordValue);
+                                System.out.println(
+                                                "Name: " + nameValue);
 
-                        System.out.println(
-                                        "Sign Up successful.");
+                                System.out.println(
+                                                "Email: " + emailValue);
 
-                        System.out.println(
-                                        "=============================");
+                                System.out.println(
+                                                "Password: " + passwordValue);
+
+                                System.out.println(
+                                                "Sign Up successful.");
+
+                                System.out.println(
+                                                "=============================");
+
+                        }
+
                 });
 
                 // =====================================================

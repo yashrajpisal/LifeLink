@@ -40,7 +40,7 @@
 //     public Button tripsButton;
 //     public Button profileButton;
 //     public Button settingsButton;
-//     public Button helpButton;
+//     public Button logoutButton;
 
 //     public Button activeMenuButton;
 
@@ -132,7 +132,7 @@
 
 //         settingsButton = menuButton("⚙", "Settings");
 
-//         helpButton = menuButton("?", "Help");
+//         logoutButton = menuButton("?", "logout");
 
 //         setSelectedMenuButton(dashboardButton);
 
@@ -187,13 +187,13 @@
 //             root.setCenter(settingsPage.getAppSettingsPage(() -> getToDashboardPage()));
 //         });
 
-//         helpButton.setOnAction(e -> {
+//         logoutButton.setOnAction(e -> {
 
-//             System.out.println("Help button clicked");
+//             System.out.println("logout button clicked");
 
-//             setSelectedMenuButton(helpButton);
+//             setSelectedMenuButton(logoutButton);
 
-//             NurseToast.show(appOverlay, "Help center coming soon", "info");
+//             NurseToast.show(appOverlay, "logout center coming soon", "info");
 //         });
 
 //         Region sideSpace = new Region();
@@ -219,7 +219,7 @@
 //                 sideSpace,
 //                 supportLabelBox,
 //                 settingsButton,
-//                 helpButton);
+//                 logoutButton);
 
 //         mainContent = createDashboardContent();
 
@@ -287,7 +287,7 @@
 //             sideBarRef.setPrefWidth(compact ? 76 : 225);
 //             sideBarRef.setPadding(compact ? new Insets(24, 10, 18, 10) : new Insets(24, 16, 18, 16));
 
-//             Button[] navButtons = { dashboardButton, patientsButton, tripsButton, profileButton, settingsButton, helpButton };
+//             Button[] navButtons = { dashboardButton, patientsButton, tripsButton, profileButton, settingsButton, logoutButton };
 
 //             for (Button button : navButtons) {
 
@@ -567,7 +567,7 @@
 //                 tripsButton,
 //                 profileButton,
 //                 settingsButton,
-//                 helpButton
+//                 logoutButton
 //         };
 
 //         for (Button button : buttons) {
@@ -1068,6 +1068,8 @@
 
 package com.kurukshetra.view.nurse;
 
+import com.kurukshetra.view.Welcome;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
@@ -1126,7 +1128,7 @@ public class NurseDashboardPage extends Application {
     public Button tripsButton;
     public Button profileButton;
     public Button settingsButton;
-    public Button helpButton;
+    public Button logoutButton;
 
     public Button activeMenuButton;
 
@@ -1206,7 +1208,7 @@ public class NurseDashboardPage extends Application {
         tripsButton = menuButton("✈", "Nurse Trips");
         profileButton = menuButton("◍", "Profile");
         settingsButton = menuButton("⚙", "Settings");
-        helpButton = menuButton("?", "Help");
+        logoutButton = menuButton("⇥", "Logout");
 
         setSelectedMenuButton(dashboardButton);
 
@@ -1243,10 +1245,11 @@ public class NurseDashboardPage extends Application {
             root.setCenter(settingsPage.getAppSettingsPage(() -> getToDashboardPage()));
         });
 
-        helpButton.setOnAction(e -> {
-            System.out.println("Help button clicked");
-            setSelectedMenuButton(helpButton);
-            NurseToast.show(appOverlay, "Help center coming soon", "info");
+        logoutButton.setOnAction(e -> {
+            System.out.println("logout button clicked");
+            setSelectedMenuButton(logoutButton);
+            Welcome wel = new Welcome();
+            wel.start(stage);
         });
 
         Region sideSpace = new Region();
@@ -1269,7 +1272,7 @@ public class NurseDashboardPage extends Application {
                 sideSpace,
                 supportLabelBox,
                 settingsButton,
-                helpButton);
+                logoutButton);
 
         mainContent = createDashboardContent();
 
@@ -1323,7 +1326,7 @@ public class NurseDashboardPage extends Application {
             sideBarRef.setPrefWidth(compact ? 76 : 225);
             sideBarRef.setPadding(compact ? new Insets(24, 10, 18, 10) : new Insets(24, 16, 18, 16));
 
-            Button[] navButtons = { dashboardButton, patientsButton, tripsButton, profileButton, settingsButton, helpButton };
+            Button[] navButtons = { dashboardButton, patientsButton, tripsButton, profileButton, settingsButton, logoutButton };
 
             for (Button button : navButtons) {
                 HBox box = (HBox) button.getGraphic();
@@ -1562,7 +1565,7 @@ public class NurseDashboardPage extends Application {
                 tripsButton,
                 profileButton,
                 settingsButton,
-                helpButton
+                logoutButton
         };
 
         for (Button button : buttons) {

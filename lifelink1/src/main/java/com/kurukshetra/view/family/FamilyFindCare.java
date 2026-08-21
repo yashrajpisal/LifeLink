@@ -276,12 +276,7 @@ public class FamilyFindCare {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Label bell = new Label("🔔");
-        Label help = new Label("❓");
-        styleUtilityIconButton(bell);
-        styleUtilityIconButton(help);
-
-        HBox header = new HBox(20, title, spacer, bell, help);
+        HBox header = new HBox(20, title);
         header.setAlignment(Pos.CENTER_LEFT);
         return header;
     }

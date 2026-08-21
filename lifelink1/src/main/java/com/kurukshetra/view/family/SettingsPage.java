@@ -416,24 +416,9 @@ public class SettingsPage {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Label bell = new Label("🔔");
-        Label help = new Label("❓");
-        styleUtilityIconButton(bell);
-        styleUtilityIconButton(help);
+        
 
-        Label avatar = new Label("👩");
-        avatar.setStyle(
-                "-fx-background-color: " + VERY_LIGHT_TERRACOTTA + ";" +
-                "-fx-border-color: " + BORDER_COLOR + ";" +
-                "-fx-border-radius: 20px;" +
-                "-fx-background-radius: 20px;" +
-                "-fx-min-width: 38px;" +
-                "-fx-min-height: 38px;" +
-                "-fx-alignment: center;" +
-                "-fx-font-size: 16px;"
-        );
-
-        HBox header = new HBox(16, title, spacer, bell, help, avatar);
+        HBox header = new HBox(16, title, spacer);
         header.setAlignment(Pos.CENTER_LEFT);
         return header;
     }

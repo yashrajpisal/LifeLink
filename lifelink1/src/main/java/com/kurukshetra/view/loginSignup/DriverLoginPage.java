@@ -428,7 +428,7 @@ public class DriverLoginPage {
                                 DriverDashboard driverDashboard = new DriverDashboard();
                                 try {
 
-                                        driverDashboard.start(AalLoginStartPoint.startPageStage);
+                                        driverDashboard.start(Welcome.WelcomeStage);
 
                                 } catch (Exception e1) {
                                         e1.printStackTrace();

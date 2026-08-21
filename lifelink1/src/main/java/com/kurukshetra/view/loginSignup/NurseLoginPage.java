@@ -467,7 +467,7 @@ public class NurseLoginPage {
             NurseDashboardPage nurseDashboardPage = new NurseDashboardPage();
 
             try{
-                nurseDashboardPage.start(AalLoginStartPoint.startPageStage);
+                nurseDashboardPage.start(Welcome.WelcomeStage);
             }catch(Exception e1){
                 e1.printStackTrace();
             }

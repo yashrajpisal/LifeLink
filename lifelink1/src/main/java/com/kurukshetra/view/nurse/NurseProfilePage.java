@@ -149,36 +149,36 @@
 // //         Text accountTitle = new Text("Account Settings");
 // //         accountTitle.setStyle("-fx-font-size : 14px; -fx-font-weight : bold; -fx-fill : #172B4D;");
 
-// //         Button logoutButton = new Button("⇥  Logout");
-// //         logoutButton.setPrefWidth(110);
-// //         logoutButton.setAlignment(Pos.CENTER_LEFT);
-// //         logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
+// //         Button helpButton = new Button("⇥  help");
+// //         helpButton.setPrefWidth(110);
+// //         helpButton.setAlignment(Pos.CENTER_LEFT);
+// //         helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
 
 // //         StackPane pageStack = new StackPane();
 
-// //         logoutButton.setOnAction(e -> showLogoutConfirm(pageStack));
+// //         helpButton.setOnAction(e -> showhelpConfirm(pageStack));
 
-// //         logoutButton.focusedProperty().addListener((obs, wasFocused, isFocused) -> {
+// //         helpButton.focusedProperty().addListener((obs, wasFocused, isFocused) -> {
 
 // //             if (isFocused) {
 
-// //                 logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand; -fx-border-color : #D71920; -fx-border-width : 1.5; -fx-border-radius : 6;");
+// //                 helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand; -fx-border-color : #D71920; -fx-border-width : 1.5; -fx-border-radius : 6;");
 
 // //             } else {
 
-// //                 logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
+// //                 helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
 // //             }
 // //         });
 
-// //         logoutButton.setOnMouseEntered(e ->
-// //                 logoutButton.setStyle("-fx-background-color : #FFF0F0; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;")
+// //         helpButton.setOnMouseEntered(e ->
+// //                 helpButton.setStyle("-fx-background-color : #FFF0F0; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;")
 // //         );
 
-// //         logoutButton.setOnMouseExited(e ->
-// //                 logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;")
+// //         helpButton.setOnMouseExited(e ->
+// //                 helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;")
 // //         );
 
-// //         accountCard.getChildren().addAll(accountTitle, logoutButton);
+// //         accountCard.getChildren().addAll(accountTitle, helpButton);
 
 // //         mainContent.getChildren().addAll(profileCard, statistics, professionalCard, accountCard);
 
@@ -200,12 +200,12 @@
 // //     }
 
 // //     // =========================================================
-// //     // LOGOUT CONFIRMATION MODAL
+// //     // help CONFIRMATION MODAL
 // //     // A lightweight in-window overlay (fade + scale in) instead of a native
 // //     // Dialog, so it stays visually consistent with the rest of the app.
 // //     // =========================================================
 
-// //     public void showLogoutConfirm(StackPane pageStack) {
+// //     public void showhelpConfirm(StackPane pageStack) {
 
 // //         StackPane dimmer = new StackPane();
 // //         dimmer.setStyle("-fx-background-color : rgba(23,43,77,0.45);");
@@ -237,7 +237,7 @@
 // //         cancelButton.setPrefHeight(36);
 // //         cancelButton.setStyle("-fx-background-color : #F0F4F9; -fx-text-fill : #536277; -fx-font-size : 11px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;");
 
-// //         Button confirmButton = new Button("Logout");
+// //         Button confirmButton = new Button("help");
 // //         confirmButton.setPrefWidth(110);
 // //         confirmButton.setPrefHeight(36);
 // //         confirmButton.setStyle("-fx-background-color : #D71920; -fx-text-fill : white; -fx-font-size : 11px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;");
@@ -246,7 +246,7 @@
 
 // //         confirmButton.setOnAction(e -> {
 
-// //             System.out.println("Logout button clicked");
+// //             System.out.println("help button clicked");
 
 // //             hideModal(pageStack, dimmer);
 
@@ -527,36 +527,36 @@
 //         Text accountTitle = new Text("Account Settings");
 //         accountTitle.setStyle("-fx-font-size : 14px; -fx-font-weight : bold; -fx-fill : #172B4D;");
 
-//         Button logoutButton = new Button("⇥  Logout");
-//         logoutButton.setPrefWidth(110);
-//         logoutButton.setAlignment(Pos.CENTER_LEFT);
-//         logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
+//         Button helpButton = new Button("⇥  help");
+//         helpButton.setPrefWidth(110);
+//         helpButton.setAlignment(Pos.CENTER_LEFT);
+//         helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
 
 //         StackPane pageStack = new StackPane();
 
-//         logoutButton.setOnAction(e -> showLogoutConfirm(pageStack));
+//         helpButton.setOnAction(e -> showhelpConfirm(pageStack));
 
-//         logoutButton.focusedProperty().addListener((obs, wasFocused, isFocused) -> {
+//         helpButton.focusedProperty().addListener((obs, wasFocused, isFocused) -> {
 
 //             if (isFocused) {
 
-//                 logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand; -fx-border-color : #D71920; -fx-border-width : 1.5; -fx-border-radius : 6;");
+//                 helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand; -fx-border-color : #D71920; -fx-border-width : 1.5; -fx-border-radius : 6;");
 
 //             } else {
 
-//                 logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
+//                 helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
 //             }
 //         });
 
-//         logoutButton.setOnMouseEntered(e ->
-//                 logoutButton.setStyle("-fx-background-color : #FFF0F0; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;")
+//         helpButton.setOnMouseEntered(e ->
+//                 helpButton.setStyle("-fx-background-color : #FFF0F0; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;")
 //         );
 
-//         logoutButton.setOnMouseExited(e ->
-//                 logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;")
+//         helpButton.setOnMouseExited(e ->
+//                 helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #D71920; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;")
 //         );
 
-//         accountCard.getChildren().addAll(accountTitle, logoutButton);
+//         accountCard.getChildren().addAll(accountTitle, helpButton);
 
 //         mainContent.getChildren().addAll(profileCard, statistics, professionalCard, accountCard);
 
@@ -578,12 +578,12 @@
 //     }
 
 //     // =========================================================
-//     // LOGOUT CONFIRMATION MODAL
+//     // help CONFIRMATION MODAL
 //     // A lightweight in-window overlay (fade + scale in) instead of a native
 //     // Dialog, so it stays visually consistent with the rest of the app.
 //     // =========================================================
 
-//     public void showLogoutConfirm(StackPane pageStack) {
+//     public void showhelpConfirm(StackPane pageStack) {
 
 //         StackPane dimmer = new StackPane();
 //         dimmer.setStyle("-fx-background-color : rgba(23,43,77,0.45);");
@@ -615,7 +615,7 @@
 //         cancelButton.setPrefHeight(36);
 //         cancelButton.setStyle("-fx-background-color : #F0F4F9; -fx-text-fill : #536277; -fx-font-size : 11px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;");
 
-//         Button confirmButton = new Button("Logout");
+//         Button confirmButton = new Button("help");
 //         confirmButton.setPrefWidth(110);
 //         confirmButton.setPrefHeight(36);
 //         confirmButton.setStyle("-fx-background-color : #D71920; -fx-text-fill : white; -fx-font-size : 11px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;");
@@ -624,7 +624,7 @@
 
 //         confirmButton.setOnAction(e -> {
 
-//             System.out.println("Logout button clicked");
+//             System.out.println("help button clicked");
 
 //             hideModal(pageStack, dimmer);
 
@@ -907,31 +907,33 @@ public class NurseProfilePage {
         Text accountTitle = new Text("Account Settings");
         accountTitle.setStyle("-fx-font-size : 14px; -fx-font-weight : bold; -fx-fill : " + PRIMARY_TEXT + ";");
 
-        Button logoutButton = new Button("⇥  Logout");
-        logoutButton.setPrefWidth(110);
-        logoutButton.setAlignment(Pos.CENTER_LEFT);
-        logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #C94F4F; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
+        Button helpButton = new Button("⇥  help");
+        helpButton.setPrefWidth(110);
+        helpButton.setAlignment(Pos.CENTER_LEFT);
+        helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #C94F4F; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
 
         StackPane pageStack = new StackPane();
-        logoutButton.setOnAction(e -> showLogoutConfirm(pageStack));
+        helpButton.setOnAction(event ->{
+            System.out.println("Help button clicked !!");
+        });
 
-        logoutButton.focusedProperty().addListener((obs, wasFocused, isFocused) -> {
+        helpButton.focusedProperty().addListener((obs, wasFocused, isFocused) -> {
             if (isFocused) {
-                logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #C94F4F; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand; -fx-border-color : #C94F4F; -fx-border-width : 1.5; -fx-border-radius : 6;");
+                helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #C94F4F; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand; -fx-border-color : #C94F4F; -fx-border-width : 1.5; -fx-border-radius : 6;");
             } else {
-                logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #C94F4F; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
+                helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #C94F4F; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;");
             }
         });
 
-        logoutButton.setOnMouseEntered(e ->
-                logoutButton.setStyle("-fx-background-color : #FCE8E7; -fx-text-fill : #C94F4F; -fx-font-size : 12px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;")
+        helpButton.setOnMouseEntered(e ->
+                helpButton.setStyle("-fx-background-color : #FCE8E7; -fx-text-fill : #C94F4F; -fx-font-size : 12px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;")
         );
 
-        logoutButton.setOnMouseExited(e ->
-                logoutButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #C94F4F; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;")
+        helpButton.setOnMouseExited(e ->
+                helpButton.setStyle("-fx-background-color : transparent; -fx-text-fill : #C94F4F; -fx-font-size : 12px; -fx-font-weight : bold; -fx-cursor : hand;")
         );
 
-        accountCard.getChildren().addAll(accountTitle, logoutButton);
+        accountCard.getChildren().addAll(accountTitle, helpButton);
         mainContent.getChildren().addAll(profileCard, statistics, professionalCard, accountCard);
         pageStack.getChildren().add(mainContent);
 
@@ -946,77 +948,7 @@ public class NurseProfilePage {
         return profileRoot;
     }
 
-    public void showLogoutConfirm(StackPane pageStack) {
-
-        StackPane dimmer = new StackPane();
-        dimmer.setStyle("-fx-background-color : rgba(43,34,38,0.45);");
-
-        VBox modal = new VBox(14);
-        modal.setAlignment(Pos.CENTER);
-        modal.setMaxWidth(300);
-        modal.setPadding(new Insets(26));
-        modal.setStyle("-fx-background-color : white; -fx-background-radius : 16; -fx-border-color : " + BORDER_COLOR + "; -fx-border-width : 1; -fx-border-radius : 16; -fx-effect : dropshadow(gaussian, rgba(43,34,38,0.25), 20, 0, 0, 8);");
-        modal.setOpacity(0);
-        modal.setScaleX(0.9);
-        modal.setScaleY(0.9);
-
-        Text modalIcon = new Text("⇥");
-        modalIcon.setStyle("-fx-font-size : 26px; -fx-fill : #C94F4F;");
-
-        Text modalTitle = new Text("Log out of LifeLink?");
-        modalTitle.setStyle("-fx-font-size : 14px; -fx-font-weight : bold; -fx-fill : " + PRIMARY_TEXT + ";");
-
-        Text modalBody = new Text("You will need to sign back in to access the dashboard.");
-        modalBody.setStyle("-fx-font-size : 10px; -fx-fill : " + SECONDARY_TEXT + "; -fx-text-alignment : center;");
-        modalBody.setWrappingWidth(230);
-
-        HBox modalButtons = new HBox(10);
-        modalButtons.setAlignment(Pos.CENTER);
-
-        Button cancelButton = new Button("Cancel");
-        cancelButton.setPrefWidth(110);
-        cancelButton.setPrefHeight(36);
-        cancelButton.setStyle("-fx-background-color : #FFFFFF; -fx-border-color : " + BORDER_COLOR + "; -fx-text-fill : " + SECONDARY_TEXT + "; -fx-font-size : 11px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-border-radius : 8; -fx-cursor : hand;");
-
-        Button confirmButton = new Button("Logout");
-        confirmButton.setPrefWidth(110);
-        confirmButton.setPrefHeight(36);
-        confirmButton.setStyle("-fx-background-color : #C94F4F; -fx-text-fill : white; -fx-font-size : 11px; -fx-font-weight : bold; -fx-background-radius : 8; -fx-cursor : hand;");
-
-        cancelButton.setOnAction(e -> hideModal(pageStack, dimmer));
-
-        confirmButton.setOnAction(e -> {
-            System.out.println("Logout button clicked");
-            hideModal(pageStack, dimmer);
-            NurseToast.show(NurseDashboardPage.appOverlay, "You have been logged out", "success");
-        });
-
-        modalButtons.getChildren().addAll(cancelButton, confirmButton);
-        modal.getChildren().addAll(modalIcon, modalTitle, modalBody, modalButtons);
-
-        dimmer.getChildren().add(modal);
-        dimmer.setOnMouseClicked(e -> {
-            if (e.getTarget() == dimmer) {
-                hideModal(pageStack, dimmer);
-            }
-        });
-
-        pageStack.getChildren().add(dimmer);
-
-        FadeTransition dimIn = new FadeTransition(NurseAppSettings.dur(180), dimmer);
-        dimIn.setFromValue(0);
-        dimIn.setToValue(1);
-
-        FadeTransition modalFadeIn = new FadeTransition(NurseAppSettings.dur(200), modal);
-        modalFadeIn.setToValue(1);
-
-        ScaleTransition modalScaleIn = new ScaleTransition(NurseAppSettings.dur(200), modal);
-        modalScaleIn.setToX(1);
-        modalScaleIn.setToY(1);
-
-        new ParallelTransition(dimIn, modalFadeIn, modalScaleIn).play();
-    }
-
+    
     public void hideModal(StackPane pageStack, StackPane dimmer) {
         FadeTransition dimOut = new FadeTransition(NurseAppSettings.dur(160), dimmer);
         dimOut.setToValue(0);

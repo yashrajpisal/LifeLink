@@ -365,12 +365,7 @@ public class FirstAidAssistant {
         Region topSpacer = new Region();
         HBox.setHgrow(topSpacer, Priority.ALWAYS);
 
-        Label bellIcon = new Label("\uD83D\uDD14");
-        Label helpIcon = new Label("\u2753");
-        styleUtilityIconButton(bellIcon);
-        styleUtilityIconButton(helpIcon);
-
-        HBox topBar = new HBox(15, heading, topSpacer, bellIcon, helpIcon);
+        HBox topBar = new HBox(15, heading, topSpacer);
         topBar.setAlignment(Pos.CENTER_LEFT);
 
         VBox assistantCard = createAssistantCard();

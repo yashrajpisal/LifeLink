@@ -523,15 +523,7 @@ public class EmergencyServices {
 
         HBox rightIcons = new HBox(14);
         rightIcons.setAlignment(Pos.CENTER_RIGHT);
-
-        Label notification = new Label("🔔");
-        Label help = new Label("❓");
-        styleUtilityIconButton(notification);
-        styleUtilityIconButton(help);
-
-        rightIcons.getChildren().addAll(notification, help);
         header.setLeft(title);
-        header.setRight(rightIcons);
         return header;
     }
 
@@ -777,14 +769,14 @@ public class EmergencyServices {
         directions.setPrefHeight(34);
         directions.setCursor(Cursor.HAND);
         directions.setStyle(
-                "-fx-background-color: " + PRIMARY_DARK + ";" +
+                "-fx-background-color: " + PRIMARY + ";" +
                 "-fx-background-radius: 8;" +
                 "-fx-text-fill: white;" +
                 "-fx-font-size: 11px;" +
                 "-fx-font-weight: bold;"
         );
         directions.setOnMouseEntered(e -> directions.setStyle(
-                "-fx-background-color: " + PRIMARY + ";" +
+                "-fx-background-color: " + PRIMARY_DARK + ";" +
                 "-fx-background-radius: 8;" +
                 "-fx-text-fill: white;" +
                 "-fx-font-size: 11px;" +

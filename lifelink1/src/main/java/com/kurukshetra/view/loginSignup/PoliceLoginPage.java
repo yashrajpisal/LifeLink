@@ -5,7 +5,6 @@ import com.kurukshetra.controller.UserController;
 import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.police.PoliceDashboard;
 
-import io.opentelemetry.semconv.UserAgentAttributes;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -471,7 +470,7 @@ public class PoliceLoginPage {
 
             PoliceDashboard policeDashboard =  new PoliceDashboard();
             try{
-                policeDashboard.start(AalLoginStartPoint.startPageStage);
+                policeDashboard.start(Welcome.WelcomeStage);
             }catch(Exception e1){
                 e1.printStackTrace();
             }

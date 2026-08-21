@@ -7,7 +7,7 @@ import java.net.http.HttpResponse;
 
 import org.json.JSONObject;
 
-import com.kurukshetra.model.HospitalUserModel;
+// import com.kurukshetra.model.HospitalUserModel;
 
 public class UserAuthController {
 

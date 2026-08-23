@@ -112,14 +112,114 @@
     
 // }
 
+// package com.kurukshetra.model.admin;
+
+// import com.google.cloud.Timestamp;
+
+// public class AdminSideEmgReqModel {
+
+//     private String destination;
+//     private String source;
+//     private String patID;
+//     private String status;
+//     private String nurseID;
+//     private String driverID;
+//     private Timestamp timestamp;
+//     private String tripID;
+
+//     // Required by Firestore for automatic object deserialization
+//     public AdminSideEmgReqModel() {}
+
+//     public AdminSideEmgReqModel(String destination, String source, String patID, String status, 
+//                                 String nurseID, String driverID, Timestamp timestamp, String tripID) {
+//         this.destination = destination;
+//         this.source = source;
+//         this.patID = patID;
+//         this.status = status;
+//         this.nurseID = nurseID;
+//         this.driverID = driverID;
+//         this.timestamp = timestamp;
+//         this.tripID = tripID;
+//     }
+
+//     public String getDestination() {
+//         return destination;
+//     }
+
+//     public void setDestination(String destination) {
+//         this.destination = destination;
+//     }
+
+//     public String getSource() {
+//         return source;
+//     }
+
+//     public void setSource(String source) {
+//         this.source = source;
+//     }
+
+//     public String getPatID() {
+//         return patID;
+//     }
+
+//     public void setPatID(String patID) {
+//         this.patID = patID;
+//     }
+
+//     public String getStatus() {
+//         return status;
+//     }
+
+//     public void setStatus(String status) {
+//         this.status = status;
+//     }
+
+//     public String getNurseID() {
+//         return nurseID;
+//     }
+
+//     public void setNurseID(String nurseID) {
+//         this.nurseID = nurseID;
+//     }
+
+//     public String getDriverID() {
+//         return driverID;
+//     }
+
+//     public void setDriverID(String driverID) {
+//         this.driverID = driverID;
+//     }
+
+//     public Timestamp getTimestamp() {
+//         return timestamp;
+//     }
+
+//     public void setTimestamp(Timestamp timestamp) {
+//         this.timestamp = timestamp;
+//     }
+
+//     public String getTripID() {
+//         return tripID;
+//     }
+
+//     public void setTripID(String tripID) {
+//         this.tripID = tripID;
+//     }
+// }
+
+
 package com.kurukshetra.model.admin;
 
 import com.google.cloud.Timestamp;
 
 public class AdminSideEmgReqModel {
 
-    private String destination;
+    // Accident / pickup location
     private String source;
+
+    // Destination hospital
+    private String destination;
+
     private String patID;
     private String status;
     private String nurseID;
@@ -127,11 +227,25 @@ public class AdminSideEmgReqModel {
     private Timestamp timestamp;
     private String tripID;
 
-    // Required by Firestore for automatic object deserialization
-    public AdminSideEmgReqModel() {}
+    // Green Corridor fields
+    private String severity;
+    private String ambulanceStatus;
 
-    public AdminSideEmgReqModel(String destination, String source, String patID, String status, 
-                                String nurseID, String driverID, Timestamp timestamp, String tripID) {
+    // Required by Firestore for automatic object deserialization
+    public AdminSideEmgReqModel() {
+    }
+
+    // Existing constructor kept for compatibility with old code
+    public AdminSideEmgReqModel(
+            String destination,
+            String source,
+            String patID,
+            String status,
+            String nurseID,
+            String driverID,
+            Timestamp timestamp,
+            String tripID) {
+
         this.destination = destination;
         this.source = source;
         this.patID = patID;
@@ -140,6 +254,31 @@ public class AdminSideEmgReqModel {
         this.driverID = driverID;
         this.timestamp = timestamp;
         this.tripID = tripID;
+    }
+
+    // Constructor including Green Corridor information
+    public AdminSideEmgReqModel(
+            String destination,
+            String source,
+            String patID,
+            String status,
+            String nurseID,
+            String driverID,
+            Timestamp timestamp,
+            String tripID,
+            String severity,
+            String ambulanceStatus) {
+
+        this.destination = destination;
+        this.source = source;
+        this.patID = patID;
+        this.status = status;
+        this.nurseID = nurseID;
+        this.driverID = driverID;
+        this.timestamp = timestamp;
+        this.tripID = tripID;
+        this.severity = severity;
+        this.ambulanceStatus = ambulanceStatus;
     }
 
     public String getDestination() {
@@ -204,5 +343,21 @@ public class AdminSideEmgReqModel {
 
     public void setTripID(String tripID) {
         this.tripID = tripID;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    public String getAmbulanceStatus() {
+        return ambulanceStatus;
+    }
+
+    public void setAmbulanceStatus(String ambulanceStatus) {
+        this.ambulanceStatus = ambulanceStatus;
     }
 }

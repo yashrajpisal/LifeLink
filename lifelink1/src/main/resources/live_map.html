@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLink - Green Corridor Command Center</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root {
+            --accent:      #dc2626;
+            --accent-dark: #991b1b;
+            --accent-light:#ef4444;
+            --accent-glow: rgba(220, 38, 38, 0.3);
+            --dash-blue:   #3949ab;
+            --dash-blue-bg:#e9edff;
+            --text-primary:#111827;
+            --text-muted:  #6b7280;
+            --border:      #e5e7eb;
+            --input-bg:    #ffffff;
+        }
+
+        html, body, #map {
+            width: 100%; height: 100%; margin: 0; padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #f8f8ff; overflow: hidden;
+        }
+
+        .leaflet-tile { filter: inherit; visibility: inherit !important; }
+        .leaflet-tile-container img { width: 256.5px !important; height: 256.5px !important; }
+
+        /* ── Control Panel — light card matching Police Dashboard ── */
+        #control-panel {
+            position: absolute; top: 12px; left: 12px; z-index: 9999;
+            width: 240px;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            color: var(--text-primary);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10), 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        /* ── Panel Header ── */
+        .panel-header {
+            margin-bottom: 10px; padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .panel-title {
+            font-size: 11px; font-weight: 800; letter-spacing: 0.6px;
+            color: var(--accent); text-transform: uppercase;
+        }
+
+        /* ── Input Groups ── */
+        .input-group { display: flex; flex-direction: column; gap: 3px; margin-bottom: 10px; }
+        .input-group label {
+            font-size: 9px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--text-muted);
+        }
+        .input-group input {
+            background: var(--input-bg);
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            padding: 8px 10px;
+            color: var(--text-primary);
+            font-size: 12px;
+            font-family: inherit;
+            font-weight: 500;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .input-group input::placeholder { color: #9ca3af; font-weight: 400; }
+        .input-group input:focus {
+            border-color: var(--dash-blue);
+            box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.12);
+        }
+
+        /* ── Buttons ── */
+        .btn-find {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: #ffffff; border: none; padding: 9px 8px;
+            border-radius: 8px; font-weight: 700; font-size: 11px;
+            cursor: pointer; letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px var(--accent-glow);
+            transition: transform 0.15s, opacity 0.15s;
+            font-family: inherit;
+        }
+        .btn-find:hover { transform: translateY(-1px); opacity: 0.93; }
+        .btn-find:active { transform: translateY(0); }
+
+        .btn-dispatch {
+            width: 100%;
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            color: #ffffff; border: none; padding: 9px 8px;
+            border-radius: 8px; font-weight: 700; font-size: 11px;
+            cursor: pointer; margin-top: 7px; display: none;
+            letter-spacing: 0.3px; font-family: inherit;
+            transition: transform 0.15s, opacity 0.15s;
+        }
+        .btn-dispatch:hover { transform: translateY(-1px); opacity: 0.93; }
+
+        /* ── HUD / Stats ── */
+        #hud-stats {
+            margin-top: 10px; padding-top: 8px;
+            border-top: 1px dashed var(--border);
+            display: flex; justify-content: space-between;
+            font-size: 11px; color: var(--text-muted);
+        }
+        .stat-val { font-weight: 700; color: var(--accent); }
+
+        /* ── Status message ── */
+        #status-msg {
+            font-size: 10px; font-weight: 600; color: #d97706;
+            margin-top: 6px; display: none; line-height: 1.4;
+        }
+
+        /* ── Markers ── */
+        .marker-accident { width: 30px; height: 30px; background: #dc2626; color: white; border: 3px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; box-shadow: 0 2px 8px rgba(220,38,38,0.4); }
+        .marker-hospital { width: 32px; height: 32px; background: #16a34a; color: white; border: 3px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; box-shadow: 0 2px 8px rgba(22,163,74,0.4); }
+        .marker-amb      { width: 38px; height: 38px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 0 16px rgba(220,38,38,0.35); }
+
+        /* ── Tooltip badge ── */
+        .permanent-badge {
+            background: #ffffff !important;
+            color: #111827 !important;
+            border: 1.5px solid #3949ab !important;
+            border-radius: 6px !important;
+            font-weight: 700 !important;
+            font-size: 10px !important;
+            padding: 3px 7px !important;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.12) !important;
+        }
+
+        /* ── Dynamic Flash Animation ── */
+        @keyframes dynamicFlash {
+            0%   { background-color: #ffffff; border-color: #d1d5db; box-shadow: none; }
+            30%  { background-color: #ecfdf5; border-color: #10b981; box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); transform: scale(1.02); }
+            100% { background-color: #ffffff; border-color: #d1d5db; box-shadow: none; transform: scale(1); }
+        }
+        .flash-highlight {
+            animation: dynamicFlash 1.5s ease-out;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- FULLSCREEN BUTTON -->
+<button onclick="toggleMapFullscreen()" id="btn-fullscreen" style="position:absolute; top: 12px; right: 12px; z-index:9999; background: white; padding: 6px 12px; cursor: pointer; border: 2px solid rgba(0,0,0,0.2); border-radius: 6px; font-weight: 800; font-size: 13px; color: #111827; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+    ⛶ Full Screen
+</button>
+
+<script>
+    function toggleMapFullscreen() {
+        if (window.javaControlRoom) {
+            window.javaControlRoom.toggleFullscreen();
+        }
+    }
+</script>
+
+<div id="control-panel">
+    <div class="panel-header">
+        <span class="panel-title">🚨 Route Clearance Command</span>
+    </div>
+
+    <div class="input-group">
+        <label>Accident / Pickup Location</label>
+        <input type="text" id="txt-accident" placeholder="Enter Pickup Location..." autocomplete="off">
+    </div>
+
+    <div class="input-group">
+        <label>Destination Hospital</label>
+        <input type="text" id="txt-hospital" placeholder="Enter Hospital Name..." autocomplete="off">
+    </div>
+
+    <button class="btn-find" onclick="findBestPath()">🔍 FIND BEST PATH & CORRIDOR</button>
+    <button class="btn-dispatch" id="btn-dispatch" onclick="notifyTrafficPolice()">📢 NOTIFY TRAFFIC POLICE</button>
+
+    <div id="status-msg">Processing...</div>
+
+    <div id="hud-stats">
+        <span>Distance: <span class="stat-val" id="lbl-dist">-- km</span></span>
+        <span>ETA: <span class="stat-val" id="lbl-eta">-- mins</span></span>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    let map, accidentMarker, hospitalMarker, ambulanceMarker, corridorCasing, corridorCore;
+    let routeCoordinates = [];
+
+    const accidentIcon = L.divIcon({ className: '', html: '<div class="marker-accident">🚨</div>', iconSize: [30, 30], iconAnchor: [15, 15] });
+    const hospitalIcon = L.divIcon({ className: '', html: '<div class="marker-hospital">🏥</div>', iconSize: [32, 32], iconAnchor: [16, 16] });
+    const ambulanceIcon = L.divIcon({ className: '', html: '<div class="marker-amb">🚑</div>', iconSize: [38, 38], iconAnchor: [19, 19] });
+
+    window.onload = function () {
+        L.Browser.any3d = false;
+        map = L.map('map', { zoomAnimation: false, fadeAnimation: false, zoomControl: false }).setView([18.5204, 73.8567], 13);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 20 }).addTo(map);
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+    };
+
+    function showStatus(msg, isError = false) {
+        const el = document.getElementById("status-msg");
+        el.innerText = msg;
+        el.style.color = isError ? "#ef4444" : "#f59e0b";
+        el.style.display = "block";
+    }
+
+    function hideStatus() { document.getElementById("status-msg").style.display = "none"; }
+
+    async function geocodeLocationName(nameStr) {
+        const query = nameStr.trim();
+        if (!query) throw new Error("Location cannot be empty.");
+
+        const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query)}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Geocoding service unavailable.");
+
+        const data = await res.json();
+        if (data && data.length > 0) {
+            return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon), displayName: data[0].display_name.split(',')[0] };
+        }
+        throw new Error(`Location not found: "${nameStr}"`);
+    }
+
+    async function findBestPath() {
+        const accidentInput = document.getElementById("txt-accident").value.trim();
+        const hospitalInput = document.getElementById("txt-hospital").value.trim();
+
+        if (!accidentInput || !hospitalInput) {
+            showStatus("Please enter both locations.", true);
+            return;
+        }
+
+        try {
+            showStatus("🔍 Geocoding locations...");
+            const [accidentLoc, hospitalLoc] = await Promise.all([
+                geocodeLocationName(accidentInput),
+                geocodeLocationName(hospitalInput)
+            ]);
+
+            showStatus("🛣️ Computing Green Corridor...");
+            await renderCorridorRoute(accidentLoc, hospitalLoc);
+        } catch (err) {
+            showStatus(err.message, true);
+        }
+    }
+
+    // Callable directly from Java Controller
+    function setRouteByNames(accidentName, hospitalName) {
+        let accInput = document.getElementById("txt-accident");
+        let hospInput = document.getElementById("txt-hospital");
+        
+        accInput.value = accidentName;
+        hospInput.value = hospitalName;
+        
+        // Add dynamic visual cue
+        accInput.classList.remove("flash-highlight");
+        hospInput.classList.remove("flash-highlight");
+        // Force reflow to restart animation
+        void accInput.offsetWidth; 
+        
+        accInput.classList.add("flash-highlight");
+        hospInput.classList.add("flash-highlight");
+
+        findBestPath();
+    }
+
+    function clearMap() {
+        if (accidentMarker) map.removeLayer(accidentMarker);
+        if (hospitalMarker) map.removeLayer(hospitalMarker);
+        if (ambulanceMarker) map.removeLayer(ambulanceMarker);
+        if (corridorCasing) map.removeLayer(corridorCasing);
+        if (corridorCore) map.removeLayer(corridorCore);
+    }
+
+    async function renderCorridorRoute(accidentLoc, hospitalLoc) {
+        clearMap();
+        const accidentPt = [accidentLoc.lat, accidentLoc.lng];
+        const hospitalPt = [hospitalLoc.lat, hospitalLoc.lng];
+
+        accidentMarker = L.marker(accidentPt, { icon: accidentIcon }).addTo(map)
+            .bindTooltip(`ACCIDENT: ${accidentLoc.displayName}`, { permanent: true, direction: "top", className: "permanent-badge", offset: [0, -12] });
+
+        hospitalMarker = L.marker(hospitalPt, { icon: hospitalIcon }).addTo(map)
+            .bindTooltip(`HOSPITAL: ${hospitalLoc.displayName}`, { permanent: true, direction: "top", className: "permanent-badge", offset: [0, -14] });
+
+        ambulanceMarker = L.marker(accidentPt, { icon: ambulanceIcon, zIndexOffset: 3000 }).addTo(map);
+
+        const url = `https://router.project-osrm.org/route/v1/driving/${accidentLoc.lng},${accidentLoc.lat};${hospitalLoc.lng},${hospitalLoc.lat}?overview=full&geometries=geojson`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.routes && data.routes[0]) {
+            const route = data.routes[0];
+            routeCoordinates = route.geometry.coordinates.map(p => [p[1], p[0]]);
+
+            corridorCasing = L.polyline(routeCoordinates, { color: '#065f46', weight: 12, opacity: 0.6 }).addTo(map);
+            corridorCore = L.polyline(routeCoordinates, { color: '#22c55e', weight: 7, opacity: 0.95 }).addTo(map);
+
+            document.getElementById("lbl-dist").innerText = `${(route.distance / 1000).toFixed(1)} km`;
+            document.getElementById("lbl-eta").innerText = `${Math.ceil(route.duration / 60)} mins`;
+
+            document.getElementById("btn-dispatch").style.display = "block";
+            hideStatus();
+            map.fitBounds(L.latLngBounds(routeCoordinates), { paddingTopLeft: [280, 80], paddingBottomRight: [80, 80] });
+        }
+    }
+
+    // ─── Smooth ambulance repositioning ───────────────────────────────
+    // Called from Java: webEngine.executeScript("updateAmbulancePosition(lat, lng)")
+    // Interpolates over ~600ms so the marker glides instead of jumping.
+    let _ambAnimFrame = null;
+
+    function updateAmbulancePosition(lat, lng) {
+        if (!ambulanceMarker) return;
+
+        const targetLat = Number(lat);
+        const targetLng = Number(lng);
+        const startLatLng = ambulanceMarker.getLatLng();
+        const startLat = startLatLng.lat;
+        const startLng = startLatLng.lng;
+        const duration = 600; // ms
+        const startTime = performance.now();
+
+        if (_ambAnimFrame) cancelAnimationFrame(_ambAnimFrame);
+
+        function step(now) {
+            const elapsed = now - startTime;
+            const t = Math.min(elapsed / duration, 1);
+            // ease-out cubic
+            const ease = 1 - Math.pow(1 - t, 3);
+            const curLat = startLat + (targetLat - startLat) * ease;
+            const curLng = startLng + (targetLng - startLng) * ease;
+            ambulanceMarker.setLatLng([curLat, curLng]);
+
+            if (t < 1) {
+                _ambAnimFrame = requestAnimationFrame(step);
+            }
+        }
+        _ambAnimFrame = requestAnimationFrame(step);
+    }
+
+    // ─── Notify Traffic Police ──────────────────────────────────────────
+    function notifyTrafficPolice() {
+        const accidentName = document.getElementById("txt-accident").value;
+        const hospitalName = document.getElementById("txt-hospital").value;
+
+        // Visual feedback on the button
+        const btn = document.getElementById("btn-dispatch");
+        btn.innerText = "✅ POLICE NOTIFIED";
+        btn.style.background = "linear-gradient(135deg, #065f46 0%, #064e3b 100%)";
+        btn.style.cursor = "default";
+        btn.disabled = true;
+
+        // Show banner status
+        showStatus("🚨 Traffic Police notified — corridor clearance active!", false);
+        document.getElementById("status-msg").style.color = "#22c55e";
+
+        // Call Java backend if bridge is available
+        if (window.javaControlRoom) {
+            try {
+                window.javaControlRoom.onCorridorCleared(accidentName, hospitalName);
+            } catch (e) {
+                console.warn("Java bridge call failed:", e);
+            }
+        }
+
+        // Also show a browser alert as confirmation
+        alert("🚨 TRAFFIC POLICE NOTIFIED!\n\nCorridor Cleared:\nFROM: " + accidentName + "\nTO: " + hospitalName + "\n\nSignals along route switched to EMERGENCY GREEN.");
+    }
+
+    function getRouteCoordsJSON() {
+        return JSON.stringify(routeCoordinates);
+    }
+</script>
+</body>
+</html>

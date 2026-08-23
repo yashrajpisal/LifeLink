@@ -112,6 +112,10 @@ public class AdminSideEmgReqDao {
                 model.setTimestamp(Timestamp.now());
             }
 
+            // Green Corridor fields (nullable — may not exist on older documents)
+            model.setSeverity(doc.getString("severity"));
+            model.setAmbulanceStatus(doc.getString("ambulanceStatus"));
+
             return model;
         } catch (Exception e) {
             System.err.println("[AdminSideEmgReqDao] Error parsing doc ID: " + doc.getId() + " - " + e.getMessage());

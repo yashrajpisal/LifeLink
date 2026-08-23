@@ -18,30 +18,32 @@ public class PoliceSignIn {
         VBox mainBox = new VBox(20);
         mainBox.setAlignment(Pos.CENTER);
         mainBox.setPadding(new Insets(40));
-        mainBox.setStyle("-fx-background-color: #faf8ff;");
+        mainBox.setStyle("-fx-background-color: #f8f8ff;"); // Match dashboard background
 
         Text title = new Text("LifeLink");
-        title.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: #006591;");
+        title.setStyle("-fx-font-size: 36px; -fx-font-weight: bold; -fx-fill: #111827;"); // Match dashboard primary text
 
         Text subTitle = new Text("Police Control Room");
-        subTitle.setStyle("-fx-font-size: 15px; -fx-fill: #3e4850;");
+        subTitle.setStyle("-fx-font-size: 16px; -fx-fill: #6b7280;"); // Match dashboard subtitle text
 
         TextField usernameField = new TextField();
         usernameField.setPromptText("Username");
         usernameField.setPrefWidth(300);
         usernameField.setPrefHeight(45);
-        usernameField.setStyle("-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #bec8d2; -fx-padding: 10px;");
+        usernameField.setMaxWidth(300);
+        usernameField.setStyle("-fx-background-color: #ffffff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #d1d5db; -fx-padding: 10px; -fx-text-fill: #111827;");
 
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Password");
         passwordField.setPrefWidth(300);
         passwordField.setPrefHeight(45);
-        passwordField.setStyle("-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #bec8d2; -fx-padding: 10px;");
+        passwordField.setMaxWidth(300);
+        passwordField.setStyle("-fx-background-color: #ffffff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #d1d5db; -fx-padding: 10px; -fx-text-fill: #111827;");
 
         Button signInButton = new Button("Sign In");
         signInButton.setPrefWidth(300);
         signInButton.setPrefHeight(45);
-        signInButton.setStyle("-fx-background-color: #006591; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 10px;");
+        signInButton.setStyle("-fx-background-color: #3949ab; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-cursor: hand;");
 
         mainBox.getChildren().addAll(
                 title,

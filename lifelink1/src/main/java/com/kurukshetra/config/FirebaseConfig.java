@@ -16,16 +16,24 @@ public class FirebaseConfig {
 
     private static void getFirebaseConfig(){
         try{
+            java.io.InputStream serviceAccount = FirebaseConfig.class.getResourceAsStream("/lifelinkFirebase.json");
+            
+            if (serviceAccount == null) {
+                System.err.println("[FirebaseConfig] ERROR: Could not find /lifelinkFirebase.json in classpath!");
+                return;
+            }
 
-            FileInputStream serviceAccount = new FileInputStream("C:\\Users\\Asus\\Desktop\\JavaFx_Practical\\LifeLink\\lifelink1\\src\\main\\resources\\lifelinkFirebase.json");
+            System.out.println("[FirebaseConfig] Loading Firebase config from classpath...");
 
             FirebaseOptions options =  FirebaseOptions.builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
             .build();
 
             FirebaseApp.initializeApp(options);
+            System.out.println("[FirebaseConfig] FirebaseApp successfully initialized!");
 
         } catch(Exception e){
+            System.err.println("[FirebaseConfig] FAILED to initialize FirebaseApp:");
             e.printStackTrace();
         }
     }

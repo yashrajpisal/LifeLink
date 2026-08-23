@@ -136,6 +136,71 @@ public class AdminSideEmgReqController {
         return true;
     }
 
+    // =========================================================================
+    // 1b. GREEN CORRIDOR EMERGENCY DISPATCH
+    // =========================================================================
+    /**
+     * Creates a Green Corridor emergency request with severity and ambulance
+     * tracking.  Source (accident / pickup location) and destination (hospital)
+     * are supplied dynamically by the UI — nothing is hardcoded.
+     *
+     * <p>A unique Trip ID is auto-generated, and status is set to
+     * {@code PENDING_CLEARANCE} so Police dashboards can pick it up for
+     * route clearance.
+     *
+     * @param patientId       the patient identifier
+     * @param source          accident / pickup location name (from UI)
+     * @param destination     hospital name (from UI)
+     * @param nurseId         assigned nurse (nullable → defaults to "Unassigned")
+     * @param driverId        assigned driver (nullable → defaults to "Unassigned")
+     * @param severity        e.g. "CRITICAL", "HIGH", "MEDIUM", "LOW"
+     * @param ambulanceStatus e.g. "DISPATCHED", "EN_ROUTE", "WAITING"
+     * @return true when the request is successfully queued for persistence
+     */
+    public boolean dispatchGreenCorridorRequest(String patientId, String source,
+                                                String destination, String nurseId,
+                                                String driverId, String severity,
+                                                String ambulanceStatus) {
+
+        // --- input validation (source, destination, patientId are mandatory) ---
+        if (patientId == null || patientId.trim().isEmpty() ||
+            source == null || source.trim().isEmpty() ||
+            destination == null || destination.trim().isEmpty()) {
+            System.err.println("[AdminSideEmgReqController] Green Corridor Error: Required fields missing.");
+            return false;
+        }
+
+        // Auto-generate a unique Trip ID with a GC (Green Corridor) prefix
+        String tripId = "GC-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+
+        // Green Corridor requests always start as PENDING_CLEARANCE
+        String status = "PENDING_CLEARANCE";
+
+        Timestamp now = Timestamp.now();
+
+        String finalSeverity = (severity != null && !severity.trim().isEmpty())
+                ? severity.trim() : "HIGH";
+        String finalAmbulanceStatus = (ambulanceStatus != null && !ambulanceStatus.trim().isEmpty())
+                ? ambulanceStatus.trim() : "DISPATCHED";
+
+        AdminSideEmgReqModel model = new AdminSideEmgReqModel(
+            destination.trim(),
+            source.trim(),
+            patientId.trim(),
+            status,
+            nurseId != null ? nurseId.trim() : "Unassigned",
+            driverId != null ? driverId.trim() : "Unassigned",
+            now,
+            tripId,
+            finalSeverity,
+            finalAmbulanceStatus
+        );
+
+        // Persist via the existing DAO save method
+        emgReqDao.createEmergencyRequest(model);
+        return true;
+    }
+
     /**
      * Direct save method for pre-constructed models.
      */

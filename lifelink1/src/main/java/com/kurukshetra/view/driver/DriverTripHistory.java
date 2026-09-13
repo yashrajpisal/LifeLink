@@ -1,7 +1,7 @@
 package com.kurukshetra.view.driver;
 
-import com.kurukshetra.controller.admin.AdminSideEmgReqController;
-import com.kurukshetra.model.admin.AdminSideEmgReqModel;
+import com.kurukshetra.controller.AdminSideEmgReqController;
+import com.kurukshetra.model.AdminSideEmgReqModel;
 import com.google.cloud.Timestamp;
 
 import javafx.animation.FadeTransition;
@@ -38,16 +38,16 @@ import java.util.UUID;
 public class DriverTripHistory {
 
     // ================= COLOR PALETTE =================
-    private static final String PRIMARY_BLUE = "#08A1E5";
-    private static final String PRIMARY_HOVER = "#007FAE";
-    private static final String VERY_LIGHT_BLUE = "#EAF7FD";
-    private static final String PAGE_BG = "#F7F9FC";
+    private static final String PRIMARY_BLUE = "#29B6E8";
+    private static final String PRIMARY_HOVER = "#0694C8";
+    private static final String VERY_LIGHT_BLUE = "#E0F7FD";
+    private static final String PAGE_BG = "#ccdde7ff";
     private static final String SURFACE = "#FFFFFF";
-    private static final String PRIMARY_TEXT = "#172B4D";
-    private static final String SECONDARY_TEXT = "#728096";
-    private static final String MUTED_TEXT = "#A6B2C2";
-    private static final String BORDER_COLOR = "#DCE5EC";
-    private static final String DIVIDER_COLOR = "#EEF1F6";
+    private static final String PRIMARY_TEXT = "#0A2540";
+    private static final String SECONDARY_TEXT = "#4A6A85";
+    private static final String MUTED_TEXT = "#7EA8C1";
+    private static final String BORDER_COLOR = "#B8E4F5";
+    private static final String DIVIDER_COLOR = "#D6F0FA";
 
     // Controller and Real-Time Data Store
     private final AdminSideEmgReqController emgController = new AdminSideEmgReqController();
@@ -99,7 +99,7 @@ public class DriverTripHistory {
         Button backButton = new Button("‹");
         backButton.setPrefWidth(40);
         backButton.setPrefHeight(40);
-        backButton.setStyle("-fx-background-color : " + VERY_LIGHT_BLUE + "; -fx-text-fill : " + PRIMARY_BLUE + "; -fx-font-size : 22px; -fx-font-weight : bold; -fx-background-radius : 20; -fx-cursor : hand;");
+        backButton.setStyle("-fx-background-color : " + VERY_LIGHT_BLUE + "; -fx-text-fill : " + PRIMARY_BLUE + "; -fx-font-size : 20px; -fx-font-weight : bold; -fx-background-radius : 20; -fx-cursor : hand;");
 
         backButton.setOnAction(e -> {
             System.out.println("Back to Driver Dashboard");
@@ -109,19 +109,19 @@ public class DriverTripHistory {
         });
 
         backButton.setOnMouseEntered(e ->
-                backButton.setStyle("-fx-background-color : " + PRIMARY_BLUE + "; -fx-text-fill : white; -fx-font-size : 22px; -fx-font-weight : bold; -fx-background-radius : 20; -fx-cursor : hand;")
+                backButton.setStyle("-fx-background-color : " + PRIMARY_BLUE + "; -fx-text-fill : white; -fx-font-size : 20px; -fx-font-weight : bold; -fx-background-radius : 20; -fx-cursor : hand;")
         );
 
         backButton.setOnMouseExited(e ->
-                backButton.setStyle("-fx-background-color : " + VERY_LIGHT_BLUE + "; -fx-text-fill : " + PRIMARY_BLUE + "; -fx-font-size : 22px; -fx-font-weight : bold; -fx-background-radius : 20; -fx-cursor : hand;")
+                backButton.setStyle("-fx-background-color : " + VERY_LIGHT_BLUE + "; -fx-text-fill : " + PRIMARY_BLUE + "; -fx-font-size : 20px; -fx-font-weight : bold; -fx-background-radius : 20; -fx-cursor : hand;")
         );
 
         VBox heading = new VBox(3);
         Text pageTitle = new Text("Driver Trips");
-        pageTitle.setStyle("-fx-font-size : 24px; -fx-font-weight : bold; -fx-fill : " + PRIMARY_TEXT + ";");
+        pageTitle.setStyle("-fx-font-size : 28px; -fx-font-weight : bold; -fx-fill : " + PRIMARY_TEXT + ";");
 
         Text pageSubtitle = new Text("Live feed of ambulance emergency dispatches from collection 'adminEmergencyRequests'.");
-        pageSubtitle.setStyle("-fx-font-size : 11px; -fx-fill : " + SECONDARY_TEXT + ";");
+        pageSubtitle.setStyle("-fx-font-size : 11.5px; -fx-fill : " + SECONDARY_TEXT + ";");
         heading.getChildren().addAll(pageTitle, pageSubtitle);
 
         Region topSpace = new Region();
@@ -199,7 +199,7 @@ public class DriverTripHistory {
 
         // ================= TRIP HISTORY TABLE =================
         Text sectionTitle = new Text("Trip History (Live Feed)");
-        sectionTitle.setStyle("-fx-font-size : 15px; -fx-font-weight : bold; -fx-fill : " + PRIMARY_TEXT + ";");
+        sectionTitle.setStyle("-fx-font-size : 15.5px; -fx-font-weight : bold; -fx-fill : " + PRIMARY_TEXT + ";");
 
         VBox tableContainer = new VBox();
         tableContainer.setStyle("-fx-background-color : " + SURFACE + "; -fx-border-color : " + BORDER_COLOR + "; -fx-border-width : 1; -fx-border-radius : 14; -fx-background-radius : 14; -fx-effect : dropshadow(gaussian, rgba(30,60,90,0.08), 10, 0, 0, 3);");
@@ -369,9 +369,9 @@ public class DriverTripHistory {
         card.setStyle("-fx-background-color : " + SURFACE + "; -fx-border-color : " + BORDER_COLOR + "; -fx-border-width : 1; -fx-border-radius : 14; -fx-background-radius : 14; -fx-effect : dropshadow(gaussian, rgba(30,60,90,0.07), 8, 0, 0, 2);");
 
         Text labelText = new Text(label);
-        labelText.setStyle("-fx-font-size : 9px; -fx-font-weight : bold; -fx-fill : " + MUTED_TEXT + ";");
+        labelText.setStyle("-fx-font-size : 11px; -fx-font-weight : bold; -fx-fill : " + MUTED_TEXT + ";");
 
-        valueNode.setStyle("-fx-font-size : 22px; -fx-font-weight : bold; -fx-fill : " + accentColor + ";");
+        valueNode.setStyle("-fx-font-size : 26px; -fx-font-weight : bold; -fx-fill : " + accentColor + ";");
 
         card.getChildren().addAll(labelText, valueNode);
         return card;
@@ -553,10 +553,10 @@ public class DriverTripHistory {
         icon.setStyle("-fx-font-size : 30px; -fx-fill : " + MUTED_TEXT + ";");
 
         Text title = new Text("No trips found");
-        title.setStyle("-fx-font-size : 14px; -fx-font-weight : bold; -fx-fill : " + PRIMARY_TEXT + ";");
+        title.setStyle("-fx-font-size : 18px; -fx-font-weight : bold; -fx-fill : " + PRIMARY_TEXT + ";");
 
         Text subtitle = new Text("No ambulance trips found in 'adminEmergencyRequests'.");
-        subtitle.setStyle("-fx-font-size : 11px; -fx-fill : " + SECONDARY_TEXT + ";");
+        subtitle.setStyle("-fx-font-size : 13px; -fx-fill : " + SECONDARY_TEXT + ";");
 
         // Button createButton = new Button("+  New Trip");
         // createButton.setPrefHeight(38);

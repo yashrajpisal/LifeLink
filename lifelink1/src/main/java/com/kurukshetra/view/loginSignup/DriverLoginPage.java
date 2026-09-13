@@ -4,6 +4,7 @@ import com.kurukshetra.controller.UserAuthController;
 import com.kurukshetra.controller.UserController;
 import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.driver.DriverDashboard;
+import com.kurukshetra.view.util.ModernAuthLoader;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -39,7 +40,7 @@ public class DriverLoginPage {
     private static final String TEAL_LIGHT = "#63D7DC";
     private static final String WHITE = "#FFFFFF";
     private static final String BLACK = "#111111";
-    private static final String GRAY_BG = "#777775";
+    private static final String GRAY_BG = "#0B1329";
     private static final String BORDER = "#D7DBDF";
     private static final String PLACEHOLDER = "#A7A9AC";
 
@@ -694,63 +695,50 @@ public class DriverLoginPage {
         // LOGIN ACTION
         // =====================================================
 
-        loginButton.setOnAction(
-                e -> {
+        loginButton.setOnAction(e -> {
 
-                    String emailValue =
-                            username.getText().trim();
+            String emailValue =
+                    username.getText().trim();
 
-                    String passwordValue =
-                            password.getText();
+            String passwordValue =
+                    password.getText();
 
-                    if (emailValue.isEmpty()
-                            || passwordValue.isEmpty()) {
+            if (emailValue.isEmpty()
+                    || passwordValue.isEmpty()) {
 
-                        System.out.println(
-                                "Please enter username and password."
-                        );
+                System.out.println(
+                        "Please enter username and password."
+                );
 
-                        return;
-                    }
+                return;
+            }
 
-                    boolean isSuccess =
-                            userAuthController.signIn(
-                                    emailValue,
-                                    passwordValue
-                            );
+            ModernAuthLoader.runAsyncAuth(
+                    loginButton,
+                    card,
+                    "Authenticating...",
+                    () -> {
+                        DriverDashboard.loggedInDriverEmail = emailValue;
+                        return userAuthController.signIn(emailValue, passwordValue);
+                    },
+                    isSuccess -> {
+                        if (isSuccess) {
+                            System.out.println("Driver: Driver Data");
+                            System.out.println("Username: " + emailValue);
+                            System.out.println("Login successful.");
 
-                    if (isSuccess) {
-
-                        System.out.println(
-                                "Driver: Driver Data"
-                        );
-
-                        System.out.println(
-                                "Username: "
-                                        + emailValue
-                        );
-
-                        System.out.println(
-                                "Login successful."
-                        );
-
-                        DriverDashboard
-                                driverDashboard =
-                                new DriverDashboard();
-
-                        try {
-
-                            driverDashboard.start(
-                                    Welcome.WelcomeStage
-                            );
-
-                        } catch (Exception e1) {
-
-                            e1.printStackTrace();
+                            DriverDashboard driverDashboard = new DriverDashboard();
+                            try {
+                                driverDashboard.start(Welcome.WelcomeStage);
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
                         }
-                    }
-                }
-        );
+                    },
+                    username,
+                    password
+            );
+        });
 
         // =====================================================
         // FORGOT PASSWORD ACTION
@@ -1139,79 +1127,51 @@ public class DriverLoginPage {
         // SIGN UP ACTION
         // =====================================================
 
-        signUpButton.setOnAction(
-                e -> {
+        signUpButton.setOnAction(e -> {
 
-                    String nameValue =
-                            name.getText().trim();
+            String nameValue =
+                    name.getText().trim();
 
-                    String emailValue =
-                            email.getText().trim();
+            String emailValue =
+                    email.getText().trim();
 
-                    String passwordValue =
-                            password.getText();
+            String passwordValue =
+                    password.getText();
 
-                    if (nameValue.isEmpty()
-                            || emailValue.isEmpty()
-                            || passwordValue.isEmpty()) {
+            if (nameValue.isEmpty()
+                    || emailValue.isEmpty()
+                    || passwordValue.isEmpty()) {
 
-                        System.out.println(
-                                "Please enter name, email and password."
-                        );
+                System.out.println(
+                        "Please enter name, email and password."
+                );
 
-                        return;
-                    }
+                return;
+            }
 
-                    boolean isSuccess =
-                            userAuthController.signUp(
-                                    nameValue,
-                                    emailValue,
-                                    passwordValue
-                            );
-
-                    if (isSuccess) {
-
-                        System.out.println(
-                                "API Hit Successfully (SignUp)"
-                        );
-
-                        UserController userController =
-                                new UserController();
-
-                        userController.passToDriverModel(
-                                nameValue,
-                                emailValue
-                        );
-
-                        System.out.println(
-                                "========== SIGN UP =========="
-                        );
-
-                        System.out.println(
-                                "Name: "
-                                        + nameValue
-                        );
-
-                        System.out.println(
-                                "Email: "
-                                        + emailValue
-                        );
-
-                        System.out.println(
-                                "Password: "
-                                        + passwordValue
-                        );
-
-                        System.out.println(
-                                "Sign Up successful."
-                        );
-
-                        System.out.println(
-                                "============================="
-                        );
-                    }
-                }
-        );
+            ModernAuthLoader.runAsyncAuth(
+                    signUpButton,
+                    card,
+                    "Creating...",
+                    () -> {
+                        boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+                        if (isSuccess) {
+                            UserController userController = new UserController();
+                            userController.passToDriverModel(nameValue, emailValue);
+                        }
+                        return isSuccess;
+                    },
+                    isSuccess -> {
+                        if (isSuccess) {
+                            System.out.println("Sign Up successful.");
+                            showLoginForm(card);
+                        }
+                    },
+                    name,
+                    email,
+                    password
+            );
+        });
 
         // =====================================================
         // BACK TO LOGIN ACTION

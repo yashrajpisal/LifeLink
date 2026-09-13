@@ -4,6 +4,7 @@ import com.kurukshetra.controller.UserAuthController;
 import com.kurukshetra.controller.UserController;
 import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.nurse.NurseDashboardPage;
+import com.kurukshetra.view.util.ModernAuthLoader;
 
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
@@ -43,7 +44,7 @@ public class NurseLoginPage {
 
     private static final String WHITE = "#FFFFFF";
     private static final String BLACK = "#111111";
-    private static final String GRAY_BG = "#777775";
+    private static final String GRAY_BG = "#0B1329";
     private static final String BORDER = "#D7DBDF";
     private static final String PLACEHOLDER = "#A7A9AC";
 
@@ -630,44 +631,24 @@ public class NurseLoginPage {
                 return;
             }
 
-            try {
-
-                boolean isSuccess =
-                        userAuthController.signIn(
-                                emailValue,
-                                passwordValue
-                        );
-
-                if (isSuccess) {
-
-                    System.out.println(
-                            "Nurse login successful."
-                    );
-
-                    showSuccessMessage(
-                            card,
-                            "Login successful!"
-                    );
-
-                } else {
-
-                    showMessage(
-                            card,
-                            "Invalid email or password.",
-                            false
-                    );
-                }
-
-            } catch (Exception ex) {
-
-                ex.printStackTrace();
-
-                showMessage(
-                        card,
-                        "Login failed. Please try again.",
-                        false
-                );
-            }
+            ModernAuthLoader.runAsyncAuth(
+                    loginButton,
+                    card,
+                    "Authenticating...",
+                    () -> {
+                        NurseDashboardPage.loginemail = emailValue;
+                        System.out.println("Email: "+ NurseDashboardPage.loginemail);
+                        return userAuthController.signIn(emailValue, passwordValue);
+                    },
+                    isSuccess -> {
+                        if (isSuccess) {
+                            System.out.println("Nurse login successful.");
+                            showSuccessMessage(card, "Login successful!");
+                        }
+                    },
+                    username,
+                    password
+            );
         });
 
         // =====================================================
@@ -1064,74 +1045,31 @@ public class NurseLoginPage {
                 return;
             }
 
-            try {
+            ModernAuthLoader.runAsyncAuth(
+                    signUpButton,
+                    card,
+                    "Creating...",
+                    () -> {
+                        boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+                        if (isSuccess) {
+                            UserController userController = new UserController();
+                            userController.passToNurseModel(nameValue, emailValue);
+                            NurseDashboardPage.loginemail = emailValue;
+                        }
+                        return isSuccess;
 
-                boolean isSuccess =
-                        userAuthController.signUp(
-                                nameValue,
-                                emailValue,
-                                passwordValue
-                        );
-
-                if (isSuccess) {
-
-                    System.out.println(
-                            "API Hit Successfully (SignUp)"
-                    );
-
-                    UserController
-                            userController =
-                            new UserController();
-
-                    userController.passToNurseModel(
-                            nameValue,
-                            emailValue
-                    );
-
-                    System.out.println(
-                            "========== SIGN UP =========="
-                    );
-
-                    System.out.println(
-                            "Name: " + nameValue
-                    );
-
-                    System.out.println(
-                            "Email: " + emailValue
-                    );
-
-                    System.out.println(
-                            "Sign Up successful."
-                    );
-
-                    System.out.println(
-                            "============================="
-                    );
-
-                    showSuccessMessage(
-                            card,
-                            "Account created successfully!"
-                    );
-
-                } else {
-
-                    showMessage(
-                            card,
-                            "Sign up failed. Please try again.",
-                            false
-                    );
-                }
-
-            } catch (Exception ex) {
-
-                ex.printStackTrace();
-
-                showMessage(
-                        card,
-                        "Unable to create account.",
-                        false
-                );
-            }
+                    },
+                    
+                    isSuccess -> {
+                        if (isSuccess) {
+                            System.out.println("Sign Up successful.");
+                            showSuccessMessage(card, "Account created successfully for " + nameValue);
+                        }
+                    },
+                    name,
+                    email,
+                    password
+            );
         });
 
         // =====================================================

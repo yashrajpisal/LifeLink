@@ -106,9 +106,20 @@ public class AdminSideEmgReqController {
     public boolean dispatchEmergencyRequest(String tripId, String patientId, String source, 
                                            String destination, String nurseId, String driverId, 
                                            String status) {
+        return dispatchEmergencyRequest(tripId, patientId, source, destination, nurseId, driverId, status, null);
+    }
+
+    public boolean dispatchEmergencyRequest(String tripId, String patientId, String source, 
+                                           String destination, String nurseId, String driverId, 
+                                           String status, String ambulanceId) {
+        return dispatchEmergencyRequest(tripId, patientId, source, destination, nurseId, driverId, status, ambulanceId, null, null);
+    }
+
+    public boolean dispatchEmergencyRequest(String tripId, String patientId, String source, 
+                                           String destination, String nurseId, String driverId, 
+                                           String status, String ambulanceId, Double latitude, Double longitude) {
         
         if (patientId == null || patientId.trim().isEmpty() ||
-            source == null || source.trim().isEmpty() ||
             destination == null || destination.trim().isEmpty()) {
             System.err.println("[AdminSideEmgReqController] Error: Required fields missing.");
             return false;
@@ -119,17 +130,21 @@ public class AdminSideEmgReqController {
                 : "TRIP-" + UUID.randomUUID().toString().substring(0, 6).toUpperCase();
 
         String finalStatus = (status != null && !status.trim().isEmpty()) ? status.trim() : "PENDING";
+        String finalSource = (source != null && !source.trim().isEmpty() && !source.equalsIgnoreCase("Emergency Location")) ? source.trim() : "Swargate";
         Timestamp currentTimestamp = Timestamp.now();
 
         AdminSideEmgReqModel requestModel = new AdminSideEmgReqModel(
             destination.trim(),
-            source.trim(),
+            finalSource,
             patientId.trim(),
             finalStatus,
             nurseId != null ? nurseId.trim() : "Unassigned",
             driverId != null ? driverId.trim() : "Unassigned",
             currentTimestamp,
-            finalTripId
+            finalTripId,
+            ambulanceId != null ? ambulanceId.trim() : "Unassigned",
+            latitude,
+            longitude
         );
 
         emgReqDao.createEmergencyRequest(requestModel);

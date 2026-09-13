@@ -1,269 +1,801 @@
 package com.kurukshetra.view.police;
 
+import com.kurukshetra.config.FirebaseConfig;
+import com.google.cloud.Timestamp;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import com.kurukshetra.view.util.ShimmerLoader;
+import javafx.util.Duration;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class PoliceHistory {
 
-    private static final String BG_SURFACE = "#faf8ff";
-    private static final String PRIMARY_COLOR = "#006591";
-    private static final String ON_SURFACE = "#131b2e";
-    private static final String ON_SURFACE_VARIANT = "#3e4850";
-    private static final String OUTLINE_VARIANT = "#bec8d2";
-    private static final String CARD_BG = "#ffffff";
+    private static final String FONT_FAMILY = "-fx-font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; ";
 
-    public VBox getHistoryVBox() {
+    // =========================================================
+    // MAIN CONTENT COLORS (BROWN 3 — MOCHA & TERRACOTTA)
+    // =========================================================
+    private static final String PAGE_BG                = "#F8F0EA";   // page background
+    private static final String SURFACE                = "#FFFFFF";   // cards
+    private static final String VERY_LIGHT_BEIGE       = "#FBF5EF";   // input field background
+    private static final String BROWN_DARK             = "#7A4A32";   // primary buttons, headers
+    private static final String PRIMARY_TEXT           = "#33261E";   // main text
+    private static final String SEC_TEXT               = "#725D4E";   // secondary/label text
+    private static final String BORDER                 = "#EBDCCF";   // card and input borders
+    private static final String ACCENT_TERRACOTTA      = "#D85A30";   // hover states, links, live/priority badges
+    private static final String ACCENT_TERRACOTTA_BG   = "#FAECE7";   // light bg for pending/priority badges
+    private static final String ACCENT_TERRACOTTA_TEXT = "#993C1D";   // text on ACCENT_TERRACOTTA_BG
+    private static final String SUCCESS_GREEN          = "#639922";   // "Completed"/"Cleared" badge text
+    private static final String SUCCESS_GREEN_BG       = "#EAF3DE";   // "Completed"/"Cleared" badge background
 
-        VBox historyPage = new VBox(24);
-        historyPage.setPadding(new Insets(40, 50, 40, 50));
-        historyPage.setStyle("-fx-background-color:" + BG_SURFACE + ";");
+    // =========================================================
+    // SIDEBAR COLORS
+    // =========================================================
+    private static final String SIDEBAR_BG             = "#2B1D15";   // dark espresso-brown sidebar background
+    private static final String SIDEBAR_TEXT           = "#E8DCD1";   // default nav item text (light warm gray, not pure white)
+    private static final String SIDEBAR_TEXT_MUTED     = "#A6907E";   // section labels like "POLICE NAVIGATION", inactive icons
+    private static final String SIDEBAR_ACTIVE_BG      = "#D85A30";   // active nav item background = ACCENT_TERRACOTTA
+    private static final String SIDEBAR_ACTIVE_TEXT    = "#FFFFFF";   // text/icon on the active nav item
+    private static final String SIDEBAR_HOVER_BG       = "#3D2A1F";   // subtle hover state on inactive nav items, one step lighter than SIDEBAR_BG
+    private static final String SIDEBAR_BORDER         = "#3D2A1F";   // divider lines inside sidebar, if any
+    private static final String SIDEBAR_SIGNOUT_BG     = "#4A241C";   // "Sign Out Shift" button background — dark red-brown
+    private static final String SIDEBAR_SIGNOUT_TEXT   = "#F3B8A8";   // "Sign Out Shift" text color — light coral
 
-        Text heading = new Text("Ambulance History");
-        heading.setStyle("-fx-font-size:30px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
+    // Reusable Card Style with soft gaussian ambient shadow
+    private static final String CARD_STYLE = "-fx-background-color: " + SURFACE
+            + "; -fx-background-radius: 18px; -fx-border-color: " + BORDER
+            + "; -fx-border-radius: 18px; -fx-effect: dropshadow(gaussian, rgba(51, 38, 30, 0.06), 16, 0.10, 0, 4);";
 
-        Text subHeading = new Text("View ambulances that used police facilities");
-        subHeading.setStyle("-fx-font-size:15px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
+    public static class HistoryRecord {
+        public String docId;
+        public String tripId;
+        public String patId;
+        public String driverName;
+        public String source;
+        public String destination;
+        public String status;
+        public Date timestamp;
+        public String formattedDate;
+        public String formattedTime;
+        public String actionTimeStr;
 
-        VBox headingBox = new VBox(7, heading, subHeading);
+        public HistoryRecord(String docId, String tripId, String patId, String driverName, String source, String destination, String status, Date timestamp, String actionTimeStr) {
+            this.docId = docId;
+            this.tripId = tripId;
+            this.patId = patId;
+            this.driverName = driverName;
+            this.source = source;
+            this.destination = destination;
+            this.status = status;
+            this.timestamp = timestamp != null ? timestamp : new Date();
 
-        HBox filterBox = new HBox(15);
+            SimpleDateFormat dateFmt = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
+            SimpleDateFormat timeFmt = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+
+            this.formattedDate = dateFmt.format(this.timestamp);
+            this.formattedTime = timeFmt.format(this.timestamp);
+            this.actionTimeStr = actionTimeStr != null ? actionTimeStr : "Cleared: " + timeFmt.format(new Date(this.timestamp.getTime() + 180000));
+        }
+    }
+
+    // High-performance daemon thread pool matching available CPU cores
+    private static final ExecutorService WORKER_POOL = Executors.newFixedThreadPool(
+            Math.max(2, Runtime.getRuntime().availableProcessors()),
+            r -> {
+                Thread t = new Thread(r, "PoliceHistory-Worker");
+                t.setDaemon(true);
+                return t;
+            }
+    );
+
+    private final List<HistoryRecord> allRecordsList = new ArrayList<>();
+    private VBox historyCardsContainer;
+    private DatePicker datePicker;
+    private TextField searchField;
+    private ShimmerLoader.ShimmerPane historyShimmer;
+
+    // Dynamic KPI Metric Nodes
+    private Text kpiTotalCountText;
+    private Text kpiClearedCountText;
+    private Text kpiHospitalsCountText;
+    private Text showingCountBadgeText;
+
+    // KPI shimmer references for reveal-on-load
+    private HBox kpiBannerSlot;
+    private ShimmerLoader.ShimmerPane kpiShimmer1;
+    private ShimmerLoader.ShimmerPane kpiShimmer2;
+    private ShimmerLoader.ShimmerPane kpiShimmer3;
+    private VBox kpiCard1Real;
+    private VBox kpiCard2Real;
+    private VBox kpiCard3Real;
+
+    public ScrollPane getHistoryView() {
+        VBox historyPage = new VBox(22);
+        historyPage.setPadding(new Insets(32, 44, 40, 44));
+        historyPage.setStyle("-fx-background-color: " + PAGE_BG + "; " + FONT_FAMILY);
+
+        // =========================================================
+        // 1. MODERN HEADER WITH LIVE ARCHIVE STATUS BADGE
+        // =========================================================
+        HBox topHeaderRow = new HBox(16);
+        topHeaderRow.setAlignment(Pos.CENTER_LEFT);
+
+        VBox headingBox = new VBox(5);
+
+        Text heading = new Text("Ambulance Clearance History");
+        heading.setStyle(FONT_FAMILY + "-fx-font-size: 28px; -fx-font-weight: 800; -fx-fill: " + PRIMARY_TEXT + ";");
+
+        headingBox.getChildren().addAll( heading);
+
+        Region headerSpacer = new Region();
+        HBox.setHgrow(headerSpacer, Priority.ALWAYS);
+
+        // Header Live Sync Counter Pill
+        HBox syncChip = new HBox(8);
+        syncChip.setAlignment(Pos.CENTER);
+        syncChip.setPadding(new Insets(8, 16, 8, 16));
+        syncChip.setStyle("-fx-background-color: " + SURFACE + "; -fx-background-radius: 20px; -fx-border-color: " + BORDER + "; -fx-border-radius: 20px; -fx-effect: dropshadow(gaussian, rgba(51,38,30,0.04), 10, 0, 0, 2);");
+
+        Label syncIcon = new Label("⚡");
+        syncIcon.setStyle("-fx-font-size: 13px; -fx-text-fill: " + ACCENT_TERRACOTTA + ";");
+        showingCountBadgeText = new Text("Loading Logs...");
+        showingCountBadgeText.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEXT + ";");
+        syncChip.getChildren().addAll(syncIcon, showingCountBadgeText);
+
+        topHeaderRow.getChildren().addAll(headingBox, headerSpacer, syncChip);
+
+        // =========================================================
+        // 2. HERO KPI STAT SUMMARY BANNER (3-COLUMN CARDS)
+        // =========================================================
+        HBox kpiBanner = buildKpiBannerWithShimmer();
+
+        // =========================================================
+        // 3. ELEVATED SEGMENTED FILTER & SEARCH BAR
+        // =========================================================
+        HBox filterBox = new HBox(14);
         filterBox.setAlignment(Pos.CENTER_LEFT);
-        filterBox.setPadding(new Insets(18));
-        filterBox.setStyle("-fx-background-color:" + CARD_BG + "; -fx-background-radius:16px; -fx-border-color:" + OUTLINE_VARIANT + "; -fx-border-radius:16px;");
+        filterBox.setPadding(new Insets(16, 20, 16, 20));
+        filterBox.setStyle(CARD_STYLE);
 
-        Text dateText = new Text("Select Date");
-        dateText.setStyle("-fx-font-size:14px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
+        HBox dateLabelBox = new HBox(6);
+        dateLabelBox.setAlignment(Pos.CENTER_LEFT);
+        Label dateIcon = new Label("📅");
+        dateIcon.setStyle("-fx-font-size: 14px;");
+        Text dateText = new Text("Date Filter");
+        dateText.setStyle(FONT_FAMILY + "-fx-font-size: 13.5px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEXT + ";");
+        dateLabelBox.getChildren().addAll(dateIcon, dateText);
 
-        DatePicker datePicker = new DatePicker();
-        datePicker.setPrefWidth(190);
-        datePicker.setStyle("-fx-background-radius:10px;");
+        datePicker = new DatePicker();
+        datePicker.setPrefWidth(180);
+        datePicker.setPrefHeight(38);
+        datePicker.setPromptText("Pick a date...");
+        datePicker.setStyle("-fx-background-color: " + VERY_LIGHT_BEIGE + "; -fx-background-radius: 10px; -fx-border-color: " + BORDER + "; -fx-border-radius: 10px; -fx-font-size: 12.5px;");
+        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> filterAndRenderRecords());
 
         Button todayButton = new Button("Today");
-        todayButton.setPrefWidth(90);
-        todayButton.setPrefHeight(36);
-        todayButton.setStyle("-fx-background-color:" + PRIMARY_COLOR + "; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:10px;");
+        todayButton.setPrefWidth(85);
+        todayButton.setPrefHeight(38);
+        todayButton.setStyle(FONT_FAMILY + "-fx-background-color: " + BROWN_DARK + "; -fx-text-fill: white; -fx-font-size: 12.5px; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-cursor: hand;");
+        addSpringHoverEffect(todayButton, BROWN_DARK, ACCENT_TERRACOTTA, "#FFFFFF", "#FFFFFF");
+        todayButton.setOnAction(event -> datePicker.setValue(LocalDate.now()));
 
-        todayButton.setOnAction(event -> datePicker.setValue(java.time.LocalDate.now()));
+        Button clearFilterBtn = new Button("All Records");
+        clearFilterBtn.setPrefWidth(98);
+        clearFilterBtn.setPrefHeight(38);
+        clearFilterBtn.setStyle(FONT_FAMILY + "-fx-background-color: transparent; -fx-border-color: " + BORDER + "; -fx-border-radius: 10px; -fx-text-fill: " + SEC_TEXT + "; -fx-font-size: 12.5px; -fx-font-weight: bold; -fx-cursor: hand;");
+        addSpringHoverEffect(clearFilterBtn, "transparent", VERY_LIGHT_BEIGE, SEC_TEXT, PRIMARY_TEXT);
+        clearFilterBtn.setOnAction(event -> datePicker.setValue(null));
 
-        filterBox.getChildren().addAll(dateText, datePicker, todayButton);
+        Button refreshBtn = new Button("↻  Refresh");
+        refreshBtn.setPrefWidth(100);
+        refreshBtn.setPrefHeight(38);
+        refreshBtn.setStyle(FONT_FAMILY + "-fx-background-color: " + VERY_LIGHT_BEIGE + "; -fx-border-color: " + BORDER + "; -fx-border-radius: 10px; -fx-text-fill: " + BROWN_DARK + "; -fx-font-size: 12.5px; -fx-font-weight: bold; -fx-cursor: hand;");
+        addSpringHoverEffect(refreshBtn, VERY_LIGHT_BEIGE, ACCENT_TERRACOTTA_BG, BROWN_DARK, ACCENT_TERRACOTTA_TEXT);
+        refreshBtn.setOnAction(event -> refreshHistory());
 
-        VBox date1Box = new VBox(14);
-        date1Box.setPadding(new Insets(22));
-        date1Box.setStyle("-fx-background-color:" + CARD_BG + "; -fx-background-radius:18px; -fx-border-color:" + OUTLINE_VARIANT + "; -fx-border-radius:18px;");
+        Region searchSpacer = new Region();
+        HBox.setHgrow(searchSpacer, Priority.ALWAYS);
 
-        HBox date1Header = new HBox();
+        // Modern Search Input with subtle magnifying glass icon
+        HBox searchContainer = new HBox(8);
+        searchContainer.setAlignment(Pos.CENTER_LEFT);
+        searchContainer.setPadding(new Insets(0, 12, 0, 12));
+        searchContainer.setPrefWidth(300);
+        searchContainer.setPrefHeight(38);
+        searchContainer.setStyle("-fx-background-color: " + VERY_LIGHT_BEIGE + "; -fx-background-radius: 12px; -fx-border-color: " + BORDER + "; -fx-border-radius: 12px;");
 
-        Text date1Text = new Text("12 August 2026");
-        date1Text.setStyle("-fx-font-size:20px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
+        Label searchIcon = new Label("🔍");
+        searchIcon.setStyle("-fx-font-size: 13px; -fx-text-fill: " + SEC_TEXT + ";");
 
-        Text count1 = new Text("3 Ambulances");
-        count1.setStyle("-fx-font-size:13px; -fx-font-weight:bold; -fx-fill:" + PRIMARY_COLOR + ";");
+        searchField = new TextField();
+        searchField.setPromptText("Search Unit, Hospital or Driver...");
+        searchField.setStyle(FONT_FAMILY + "-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: " + PRIMARY_TEXT + "; -fx-font-size: 13px; -fx-padding: 0;");
+        HBox.setHgrow(searchField, Priority.ALWAYS);
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> filterAndRenderRecords());
 
-        Region date1Spacer = new Region();
-        HBox.setHgrow(date1Spacer, Priority.ALWAYS);
+        searchField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) {
+                searchContainer.setStyle("-fx-background-color: #FFFFFF; -fx-background-radius: 12px; -fx-border-color: " + ACCENT_TERRACOTTA + "; -fx-border-radius: 12px; -fx-border-width: 1.5px;");
+            } else {
+                searchContainer.setStyle("-fx-background-color: " + VERY_LIGHT_BEIGE + "; -fx-background-radius: 12px; -fx-border-color: " + BORDER + "; -fx-border-radius: 12px; -fx-border-width: 1px;");
+            }
+        });
 
-        date1Header.getChildren().addAll(date1Text, date1Spacer, count1);
+        searchContainer.getChildren().addAll(searchIcon, searchField);
 
-        HBox ambulance1 = new HBox(20);
-        ambulance1.setAlignment(Pos.CENTER_LEFT);
-        ambulance1.setPadding(new Insets(16));
-        ambulance1.setStyle("-fx-background-color:" + CARD_BG + "; -fx-background-radius:14px; -fx-border-color:" + OUTLINE_VARIANT + "; -fx-border-radius:14px; -fx-border-width:1px;");
+        filterBox.getChildren().addAll(dateLabelBox, datePicker, todayButton, clearFilterBtn, refreshBtn, searchSpacer, searchContainer);
 
-        VBox unit1Box = new VBox(5);
-        Text unit1 = new Text("UNIT A-102");
-        unit1.setStyle("-fx-font-size:15px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
-        Text driver1 = new Text("Driver: Rahul Patil");
-        driver1.setStyle("-fx-font-size:12px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
-        unit1Box.getChildren().addAll(unit1, driver1);
+        historyCardsContainer = new VBox(20);
+        showShimmerSkeleton();
 
-        VBox time1Box = new VBox(5);
-        Text arrival1 = new Text("09:42 AM");
-        arrival1.setStyle("-fx-font-size:14px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
-        Text clearance1 = new Text("Cleared: 09:45 AM");
-        clearance1.setStyle("-fx-font-size:12px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
-        time1Box.getChildren().addAll(arrival1, clearance1);
+        historyPage.getChildren().addAll(topHeaderRow, kpiBanner, filterBox, historyCardsContainer);
 
-        VBox route1Box = new VBox(5);
-        Text route1 = new Text("Shivajinagar → Kothrud");
-        route1.setStyle("-fx-font-size:13px; -fx-fill:" + ON_SURFACE + ";");
-        Text facility1 = new Text("Traffic Clearance");
-        facility1.setStyle("-fx-font-size:12px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
-        route1Box.getChildren().addAll(route1, facility1);
+        ScrollPane scrollPane = new ScrollPane(historyPage);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-background: " + PAGE_BG + "; -fx-border-color: transparent;");
+        PoliceDashboard.applyHiddenScrollbars(scrollPane);
 
-        VBox hospital1Box = new VBox(5);
-        Text hospital1 = new Text("Ruby Hall Clinic");
-        hospital1.setStyle("-fx-font-size:13px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
-        Text status1 = new Text("COMPLETED");
-        status1.setStyle("-fx-font-size:11px; -fx-font-weight:bold; -fx-fill:#16803c;");
-        hospital1Box.getChildren().addAll(hospital1, status1);
+        loadHistoryFromFirestore();
 
-        HBox.setHgrow(unit1Box, Priority.ALWAYS);
-        HBox.setHgrow(time1Box, Priority.ALWAYS);
-        HBox.setHgrow(route1Box, Priority.ALWAYS);
-        HBox.setHgrow(hospital1Box, Priority.ALWAYS);
+        return scrollPane;
+    }
 
-        ambulance1.getChildren().addAll(unit1Box, time1Box, route1Box, hospital1Box);
+    // =========================================================
+    // 2. KPI STAT BANNER COMPONENT (WITH SHIMMER SKELETONS)
+    // =========================================================
+    private HBox buildKpiBannerWithShimmer() {
+        kpiTotalCountText = new Text("0");
+        kpiClearedCountText = new Text("0");
+        kpiHospitalsCountText = new Text("0");
 
-        HBox ambulance2 = new HBox(20);
-        ambulance2.setAlignment(Pos.CENTER_LEFT);
-        ambulance2.setPadding(new Insets(16));
-        ambulance2.setStyle("-fx-background-color:" + CARD_BG + "; -fx-background-radius:14px; -fx-border-color:" + OUTLINE_VARIANT + "; -fx-border-radius:14px; -fx-border-width:1px;");
+        kpiCard1Real = createKpiStatCard("🚑", "TOTAL CORRIDORS", kpiTotalCountText, "Telemetry Logged", ACCENT_TERRACOTTA);
+        kpiCard2Real = createKpiStatCard("✓", "CLEARANCES COMPLETED", kpiClearedCountText, "100% Interlock Success", SUCCESS_GREEN);
+        kpiCard3Real = createKpiStatCard("🏥", "HOSPITALS CONNECTED", kpiHospitalsCountText, "Emergency Care Centers", BROWN_DARK);
+        kpiCard1Real.setOpacity(0);
+        kpiCard2Real.setOpacity(0);
+        kpiCard3Real.setOpacity(0);
 
-        VBox unit2Box = new VBox(5);
-        Text unit2 = new Text("UNIT C-088");
-        unit2.setStyle("-fx-font-size:15px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
-        Text driver2 = new Text("Driver: Amit Shinde");
-        driver2.setStyle("-fx-font-size:12px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
-        unit2Box.getChildren().addAll(unit2, driver2);
+        // Shimmer skeletons overlaid on each KPI slot
+        kpiShimmer1 = ShimmerLoader.createCardSkeleton(260, 110);
+        kpiShimmer2 = ShimmerLoader.createCardSkeleton(260, 110);
+        kpiShimmer3 = ShimmerLoader.createCardSkeleton(260, 110);
+        kpiShimmer1.setMaxSize(Double.MAX_VALUE, 110);
+        kpiShimmer2.setMaxSize(Double.MAX_VALUE, 110);
+        kpiShimmer3.setMaxSize(Double.MAX_VALUE, 110);
 
-        VBox time2Box = new VBox(5);
-        Text arrival2 = new Text("10:15 AM");
-        arrival2.setStyle("-fx-font-size:14px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
-        Text clearance2 = new Text("Cleared: 10:18 AM");
-        clearance2.setStyle("-fx-font-size:12px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
-        time2Box.getChildren().addAll(arrival2, clearance2);
+        StackPane slot1 = new StackPane(kpiCard1Real, kpiShimmer1);
+        StackPane slot2 = new StackPane(kpiCard2Real, kpiShimmer2);
+        StackPane slot3 = new StackPane(kpiCard3Real, kpiShimmer3);
+        slot1.setAlignment(Pos.TOP_LEFT);
+        slot2.setAlignment(Pos.TOP_LEFT);
+        slot3.setAlignment(Pos.TOP_LEFT);
+        HBox.setHgrow(slot1, Priority.ALWAYS);
+        HBox.setHgrow(slot2, Priority.ALWAYS);
+        HBox.setHgrow(slot3, Priority.ALWAYS);
 
-        VBox route2Box = new VBox(5);
-        Text route2 = new Text("Camp → Shivajinagar");
-        route2.setStyle("-fx-font-size:13px; -fx-fill:" + ON_SURFACE + ";");
-        Text facility2 = new Text("Signal Clearance");
-        facility2.setStyle("-fx-font-size:12px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
-        route2Box.getChildren().addAll(route2, facility2);
+        kpiBannerSlot = new HBox(16, slot1, slot2, slot3);
+        kpiBannerSlot.setAlignment(Pos.CENTER);
+        kpiBannerSlot.setMaxWidth(Double.MAX_VALUE);
+        return kpiBannerSlot;
+    }
 
-        VBox hospital2Box = new VBox(5);
-        Text hospital2 = new Text("KEM Hospital");
-        hospital2.setStyle("-fx-font-size:13px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
-        Text status2 = new Text("COMPLETED");
-        status2.setStyle("-fx-font-size:11px; -fx-font-weight:bold; -fx-fill:#16803c;");
-        hospital2Box.getChildren().addAll(hospital2, status2);
+    /** Fade out the KPI shimmer skeletons and reveal the real stat cards. */
+    private void revealKpiBanner() {
+        revealKpiSlot(kpiShimmer1, kpiCard1Real);
+        revealKpiSlot(kpiShimmer2, kpiCard2Real);
+        revealKpiSlot(kpiShimmer3, kpiCard3Real);
+    }
 
-        HBox.setHgrow(unit2Box, Priority.ALWAYS);
-        HBox.setHgrow(time2Box, Priority.ALWAYS);
-        HBox.setHgrow(route2Box, Priority.ALWAYS);
-        HBox.setHgrow(hospital2Box, Priority.ALWAYS);
+    private void revealKpiSlot(ShimmerLoader.ShimmerPane shimmer, VBox realCard) {
+        if (shimmer == null) return;
+        shimmer.stop();
+        // Find parent StackPane
+        if (shimmer.getParent() instanceof javafx.scene.layout.StackPane sp) {
+            FadeTransition fo = new FadeTransition(Duration.millis(280), shimmer);
+            fo.setFromValue(1.0);
+            fo.setToValue(0.0);
+            fo.setOnFinished(e -> sp.getChildren().remove(shimmer));
+            fo.play();
+        }
+        FadeTransition fi = new FadeTransition(Duration.millis(320), realCard);
+        fi.setFromValue(0.0);
+        fi.setToValue(1.0);
+        fi.play();
+    }
 
-        ambulance2.getChildren().addAll(unit2Box, time2Box, route2Box, hospital2Box);
+    private VBox createKpiStatCard(String iconStr, String titleStr, Text valueNode, String subtextStr, String accentColor) {
+        VBox card = new VBox(10);
+        card.setPadding(new Insets(18, 22, 18, 22));
+        card.setStyle(CARD_STYLE);
 
-        HBox ambulance3 = new HBox(20);
-        ambulance3.setAlignment(Pos.CENTER_LEFT);
-        ambulance3.setPadding(new Insets(16));
-        ambulance3.setStyle("-fx-background-color:" + CARD_BG + "; -fx-background-radius:14px; -fx-border-color:" + OUTLINE_VARIANT + "; -fx-border-radius:14px; -fx-border-width:1px;");
+        HBox topRow = new HBox(10);
+        topRow.setAlignment(Pos.CENTER_LEFT);
 
-        VBox unit3Box = new VBox(5);
-        Text unit3 = new Text("UNIT B-205");
-        unit3.setStyle("-fx-font-size:15px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
-        Text driver3 = new Text("Driver: Sagar More");
-        driver3.setStyle("-fx-font-size:12px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
-        unit3Box.getChildren().addAll(unit3, driver3);
+        StackPane iconCircle = new StackPane();
+        iconCircle.setPrefSize(38, 38);
+        iconCircle.setMinSize(38, 38);
+        iconCircle.setMaxSize(38, 38);
+        iconCircle.setStyle("-fx-background-color: " + VERY_LIGHT_BEIGE + "; -fx-background-radius: 10px; -fx-border-color: " + BORDER + "; -fx-border-radius: 10px;");
+        Label iconLbl = new Label(iconStr);
+        iconLbl.setStyle("-fx-font-size: 16px;");
+        iconCircle.getChildren().add(iconLbl);
 
-        VBox time3Box = new VBox(5);
-        Text arrival3 = new Text("11:30 AM");
-        arrival3.setStyle("-fx-font-size:14px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
-        Text clearance3 = new Text("Cleared: 11:33 AM");
-        clearance3.setStyle("-fx-font-size:12px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
-        time3Box.getChildren().addAll(arrival3, clearance3);
+        Text titleText = new Text(titleStr);
+        titleText.setStyle(FONT_FAMILY + "-fx-font-size: 11px; -fx-font-weight: 800; -fx-fill: " + SEC_TEXT + "; -fx-letter-spacing: 0.5px;");
 
-        VBox route3Box = new VBox(5);
-        Text route3 = new Text("Hadapsar → Swargate");
-        route3.setStyle("-fx-font-size:13px; -fx-fill:" + ON_SURFACE + ";");
-        Text facility3 = new Text("Route Clearance");
-        facility3.setStyle("-fx-font-size:12px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
-        route3Box.getChildren().addAll(route3, facility3);
+        topRow.getChildren().addAll(iconCircle, titleText);
 
-        VBox hospital3Box = new VBox(5);
-        Text hospital3 = new Text("Sassoon Hospital");
-        hospital3.setStyle("-fx-font-size:13px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
-        Text status3 = new Text("COMPLETED");
-        status3.setStyle("-fx-font-size:11px; -fx-font-weight:bold; -fx-fill:#16803c;");
-        hospital3Box.getChildren().addAll(hospital3, status3);
+        valueNode.setStyle(FONT_FAMILY + "-fx-font-size: 26px; -fx-font-weight: 800; -fx-fill: " + PRIMARY_TEXT + ";");
 
-        HBox.setHgrow(unit3Box, Priority.ALWAYS);
-        HBox.setHgrow(time3Box, Priority.ALWAYS);
-        HBox.setHgrow(route3Box, Priority.ALWAYS);
-        HBox.setHgrow(hospital3Box, Priority.ALWAYS);
+        HBox subBox = new HBox(6);
+        subBox.setAlignment(Pos.CENTER_LEFT);
+        Label dot = new Label("●");
+        dot.setStyle("-fx-font-size: 9px; -fx-text-fill: " + accentColor + ";");
+        Text subText = new Text(subtextStr);
+        subText.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-font-weight: 600; -fx-fill: " + SEC_TEXT + ";");
+        subBox.getChildren().addAll(dot, subText);
 
-        ambulance3.getChildren().addAll(unit3Box, time3Box, route3Box, hospital3Box);
+        card.getChildren().addAll(topRow, valueNode, subBox);
 
-        date1Box.getChildren().addAll(date1Header, ambulance1, ambulance2, ambulance3);
+        // Tactile hover elevation
+        card.setOnMouseEntered(e -> {
+            card.setStyle("-fx-background-color: " + SURFACE + "; -fx-background-radius: 18px; -fx-border-color: " + ACCENT_TERRACOTTA + "; -fx-border-radius: 18px; -fx-effect: dropshadow(gaussian, rgba(216, 90, 48, 0.12), 18, 0.12, 0, 5);");
+            card.setTranslateY(-2);
+        });
+        card.setOnMouseExited(e -> {
+            card.setStyle(CARD_STYLE);
+            card.setTranslateY(0);
+        });
 
-        VBox date2Box = new VBox(14);
-        date2Box.setPadding(new Insets(22));
-        date2Box.setStyle("-fx-background-color:" + CARD_BG + "; -fx-background-radius:18px; -fx-border-color:" + OUTLINE_VARIANT + "; -fx-border-radius:18px;");
+        return card;
+    }
 
-        HBox date2Header = new HBox();
+    private void updateKpiMetrics(List<HistoryRecord> records) {
+        int total = records.size();
+        long cleared = records.stream()
+                .filter(r -> "CLEARED".equalsIgnoreCase(r.status) || "COMPLETED".equalsIgnoreCase(r.status))
+                .count();
+        long hospitalCount = records.stream()
+                .map(r -> r.destination)
+                .filter(d -> d != null && !d.trim().isEmpty())
+                .distinct()
+                .count();
 
-        Text date2Text = new Text("11 August 2026");
-        date2Text.setStyle("-fx-font-size:20px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
+        kpiTotalCountText.setText(String.valueOf(total));
+        kpiClearedCountText.setText(String.valueOf(cleared));
+        kpiHospitalsCountText.setText(String.valueOf(hospitalCount));
+        showingCountBadgeText.setText(total + " Corridors in Registry");
 
-        Text count2 = new Text("2 Ambulances");
-        count2.setStyle("-fx-font-size:13px; -fx-font-weight:bold; -fx-fill:" + PRIMARY_COLOR + ";");
+        // Subtle pop animation on metric updates
+        ScaleTransition st1 = new ScaleTransition(Duration.millis(180), kpiTotalCountText);
+        st1.setFromX(1.15); st1.setFromY(1.15); st1.setToX(1.0); st1.setToY(1.0);
+        st1.play();
 
-        Region date2Spacer = new Region();
-        HBox.setHgrow(date2Spacer, Priority.ALWAYS);
+        ScaleTransition st2 = new ScaleTransition(Duration.millis(180), kpiClearedCountText);
+        st2.setFromX(1.15); st2.setFromY(1.15); st2.setToX(1.0); st2.setToY(1.0);
+        st2.play();
 
-        date2Header.getChildren().addAll(date2Text, date2Spacer, count2);
+        ScaleTransition st3 = new ScaleTransition(Duration.millis(180), kpiHospitalsCountText);
+        st3.setFromX(1.15); st3.setFromY(1.15); st3.setToX(1.0); st3.setToY(1.0);
+        st3.play();
+    }
 
-        HBox history1 = new HBox(20);
-        history1.setPadding(new Insets(16));
-        history1.setAlignment(Pos.CENTER_LEFT);
-        history1.setStyle("-fx-background-color:" + CARD_BG + "; -fx-background-radius:14px; -fx-border-color:" + OUTLINE_VARIANT + "; -fx-border-radius:14px;");
+    private void showShimmerSkeleton() {
+        if (historyShimmer != null) {
+            historyShimmer.stop();
+        }
+        historyCardsContainer.getChildren().clear();
+        historyShimmer = ShimmerLoader.createPoliceHistorySkeleton(860, 2);
+        historyCardsContainer.getChildren().add(historyShimmer);
+    }
 
-        Text historyUnit1 = new Text("UNIT A-087");
-        historyUnit1.setStyle("-fx-font-size:14px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
+    public void refreshHistory() {
+        showShimmerSkeleton();
+        loadHistoryFromFirestore();
+    }
 
-        Text historyTime1 = new Text("08:20 AM");
-        historyTime1.setStyle("-fx-font-size:13px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
+    // =========================================================
+    // 3. FIRESTORE DATA RETRIEVAL (MULTI-THREADED & ASYNC)
+    // =========================================================
+    private static HistoryRecord mapDocToHistoryRecord(QueryDocumentSnapshot doc) {
+        String docId = doc.getId();
 
-        Text historyFacility1 = new Text("Traffic Clearance");
-        historyFacility1.setStyle("-fx-font-size:13px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
+        String tripId = doc.contains("tripID") ? doc.getString("tripID") : doc.getString("TripID");
+        if (tripId == null) tripId = "UNIT-" + docId.substring(0, Math.min(docId.length(), 6)).toUpperCase();
 
-        Text historyHospital1 = new Text("Deenanath Hospital");
-        historyHospital1.setStyle("-fx-font-size:13px; -fx-fill:" + ON_SURFACE + ";");
+        String patId = doc.contains("patID") ? doc.getString("patID") : doc.getString("PATID");
+        if (patId == null) patId = "PAT-UNKNOWN";
 
-        Region historySpacer1 = new Region();
-        HBox.setHgrow(historySpacer1, Priority.ALWAYS);
+        String driver = doc.contains("driverID") ? doc.getString("driverID") : doc.getString("driverName");
+        if (driver == null) driver = "On-Duty Paramedic";
 
-        Text historyStatus1 = new Text("COMPLETED");
-        historyStatus1.setStyle("-fx-font-size:11px; -fx-font-weight:bold; -fx-fill:#16803c;");
+        String source = doc.contains("pickupLocation") ? doc.getString("pickupLocation") : doc.getString("source");
+        if (source == null) source = "Swargate Central";
 
-        history1.getChildren().addAll(historyUnit1, historyTime1, historyFacility1, historyHospital1, historySpacer1, historyStatus1);
+        String dest = null;
+        if (doc.contains("destinationHospital")) dest = doc.getString("destinationHospital");
+        if (dest == null && doc.contains("destination")) dest = doc.getString("destination");
+        if (dest == null && doc.contains("Destination")) dest = doc.getString("Destination");
+        if (dest == null && doc.contains("hospitalName")) dest = doc.getString("hospitalName");
+        if (dest == null && doc.contains("hospital")) dest = doc.getString("hospital");
+        if (dest == null || dest.trim().isEmpty()) dest = "KEM Hospital";
 
-        HBox history2 = new HBox(20);
-        history2.setPadding(new Insets(16));
-        history2.setAlignment(Pos.CENTER_LEFT);
-        history2.setStyle("-fx-background-color:" + CARD_BG + "; -fx-background-radius:14px; -fx-border-color:" + OUTLINE_VARIANT + "; -fx-border-radius:14px;");
+        String status = doc.contains("status") ? doc.getString("status") : "COMPLETED";
 
-        Text historyUnit2 = new Text("UNIT C-041");
-        historyUnit2.setStyle("-fx-font-size:14px; -fx-font-weight:bold; -fx-fill:" + ON_SURFACE + ";");
+        Date recordTime = new Date();
+        if (doc.contains("timestamp") && doc.get("timestamp") instanceof Timestamp) {
+            Timestamp ts = doc.getTimestamp("timestamp");
+            if (ts != null) recordTime = ts.toDate();
+        }
 
-        Text historyTime2 = new Text("02:10 PM");
-        historyTime2.setStyle("-fx-font-size:13px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
+        String actionTimeStr = null;
+        if (doc.contains("policeActionTime") && doc.get("policeActionTime") instanceof Timestamp) {
+            Timestamp pts = doc.getTimestamp("policeActionTime");
+            if (pts != null) {
+                SimpleDateFormat timeFmt = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+                actionTimeStr = "Cleared: " + timeFmt.format(pts.toDate());
+            }
+        }
 
-        Text historyFacility2 = new Text("Signal Clearance");
-        historyFacility2.setStyle("-fx-font-size:13px; -fx-fill:" + ON_SURFACE_VARIANT + ";");
+        return new HistoryRecord(docId, tripId, patId, driver, source, dest, status, recordTime, actionTimeStr);
+    }
 
-        Text historyHospital2 = new Text("KEM Hospital");
-        historyHospital2.setStyle("-fx-font-size:13px; -fx-fill:" + ON_SURFACE + ";");
+    private void loadHistoryFromFirestore() {
+        CompletableFuture.supplyAsync(() -> {
+            try {
+                Firestore db = FirebaseConfig.getFirestore();
+                if (db == null) return Collections.<HistoryRecord>emptyList();
 
-        Region historySpacer2 = new Region();
-        HBox.setHgrow(historySpacer2, Priority.ALWAYS);
+                QuerySnapshot snapshot = db.collection("policeEmergencyAlerts").get().get();
 
-        Text historyStatus2 = new Text("COMPLETED");
-        historyStatus2.setStyle("-fx-font-size:11px; -fx-font-weight:bold; -fx-fill:#16803c;");
+                return snapshot.getDocuments()
+                        .parallelStream()
+                        .map(PoliceHistory::mapDocToHistoryRecord)
+                        .sorted((a, b) -> b.timestamp.compareTo(a.timestamp))
+                        .collect(Collectors.toList());
 
-        history2.getChildren().addAll(historyUnit2, historyTime2, historyFacility2, historyHospital2, historySpacer2, historyStatus2);
+            } catch (Exception e) {
+                System.err.println("Error fetching police history: " + e.getMessage());
+                return Collections.<HistoryRecord>emptyList();
+            }
+        }, WORKER_POOL).thenAccept(records -> {
+            Platform.runLater(() -> {
+                allRecordsList.clear();
+                allRecordsList.addAll(records);
+                updateKpiMetrics(allRecordsList);
+                revealKpiBanner();
+                filterAndRenderRecords();
+            });
+        });
+    }
 
-        date2Box.getChildren().addAll(date2Header, history1, history2);
+    // =========================================================
+    // 4. DYNAMIC GROUPING & FILTERING WITH STAGGERED ENTRANCE
+    // =========================================================
+    private void filterAndRenderRecords() {
+        if (historyShimmer != null) {
+            historyShimmer.stop();
+            historyShimmer = null;
+        }
+        historyCardsContainer.getChildren().clear();
 
-        historyPage.getChildren().addAll(headingBox, filterBox, date1Box, date2Box);
+        String query = searchField.getText() != null ? searchField.getText().trim().toLowerCase() : "";
+        LocalDate selectedDate = datePicker.getValue();
 
-        return historyPage;
+        SimpleDateFormat compareFmt = new SimpleDateFormat("yyyy-MM-dd");
+
+        List<HistoryRecord> filtered = new ArrayList<>();
+        for (HistoryRecord r : allRecordsList) {
+            boolean matchesSearch = query.isEmpty()
+                    || r.tripId.toLowerCase().contains(query)
+                    || r.destination.toLowerCase().contains(query)
+                    || r.source.toLowerCase().contains(query)
+                    || r.driverName.toLowerCase().contains(query)
+                    || r.patId.toLowerCase().contains(query);
+
+            boolean matchesDate = true;
+            if (selectedDate != null) {
+                String rDateStr = compareFmt.format(r.timestamp);
+                String sDateStr = selectedDate.toString();
+                matchesDate = rDateStr.equals(sDateStr);
+            }
+
+            if (matchesSearch && matchesDate) {
+                filtered.add(r);
+            }
+        }
+
+        showingCountBadgeText.setText("Showing " + filtered.size() + " of " + allRecordsList.size() + " Transits");
+
+        if (filtered.isEmpty()) {
+            VBox emptyBox = buildEmptyState();
+            historyCardsContainer.getChildren().add(emptyBox);
+            return;
+        }
+
+        Map<String, List<HistoryRecord>> grouped = new LinkedHashMap<>();
+        for (HistoryRecord r : filtered) {
+            grouped.computeIfAbsent(r.formattedDate, k -> new ArrayList<>()).add(r);
+        }
+
+        for (Map.Entry<String, List<HistoryRecord>> entry : grouped.entrySet()) {
+            VBox dateBox = buildDateGroupCard(entry.getKey(), entry.getValue());
+            historyCardsContainer.getChildren().add(dateBox);
+        }
+
+        // Staggered Cascade Entrance Animation for smooth SaaS feel
+        int delay = 0;
+        for (Node card : historyCardsContainer.getChildren()) {
+            card.setOpacity(0);
+            card.setTranslateY(18);
+
+            FadeTransition ft = new FadeTransition(Duration.millis(320), card);
+            ft.setToValue(1.0);
+
+            TranslateTransition tt = new TranslateTransition(Duration.millis(320), card);
+            tt.setToY(0);
+
+            ParallelTransition pt = new ParallelTransition(ft, tt);
+            pt.setDelay(Duration.millis(delay));
+            pt.play();
+
+            delay += 70;
+        }
+    }
+
+    private VBox buildDateGroupCard(String dateTitle, List<HistoryRecord> records) {
+        VBox dateBox = new VBox(14);
+        dateBox.setPadding(new Insets(22, 24, 22, 24));
+        dateBox.setStyle(CARD_STYLE);
+
+        HBox dateHeader = new HBox(12);
+        dateHeader.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane calIconHolder = new StackPane();
+        calIconHolder.setPrefSize(34, 34);
+        calIconHolder.setMinSize(34, 34);
+        calIconHolder.setMaxSize(34, 34);
+        calIconHolder.setStyle("-fx-background-color: " + VERY_LIGHT_BEIGE + "; -fx-background-radius: 8px; -fx-border-color: " + BORDER + "; -fx-border-radius: 8px;");
+        Label calIcon = new Label("📅");
+        calIcon.setStyle("-fx-font-size: 14px;");
+        calIconHolder.getChildren().add(calIcon);
+
+        Text dateText = new Text(dateTitle);
+        dateText.setStyle(FONT_FAMILY + "-fx-font-size: 18px; -fx-font-weight: 800; -fx-fill: " + PRIMARY_TEXT + ";");
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        HBox countPill = new HBox(6);
+        countPill.setAlignment(Pos.CENTER);
+        countPill.setPadding(new Insets(4, 12, 4, 12));
+        countPill.setStyle("-fx-background-color: " + ACCENT_TERRACOTTA_BG + "; -fx-background-radius: 12px; -fx-border-color: " + BORDER + "; -fx-border-radius: 12px;");
+        Text countText = new Text(records.size() + (records.size() == 1 ? " Transit Cleared" : " Transits Cleared"));
+        countText.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-font-weight: bold; -fx-fill: " + ACCENT_TERRACOTTA_TEXT + ";");
+        countPill.getChildren().add(countText);
+
+        dateHeader.getChildren().addAll(calIconHolder, dateText, spacer, countPill);
+        dateBox.getChildren().add(dateHeader);
+
+        for (HistoryRecord r : records) {
+            dateBox.getChildren().add(buildHistoryRow(r));
+        }
+
+        return dateBox;
+    }
+
+    // =========================================================
+    // 5. ELEVATED HISTORY ROW WITH TACTILE HOVER ANIMATION
+    // =========================================================
+    private HBox buildHistoryRow(HistoryRecord r) {
+        HBox row = new HBox(18);
+        row.setAlignment(Pos.CENTER_LEFT);
+        row.setPadding(new Insets(14, 18, 14, 18));
+        row.setStyle("-fx-background-color: " + SURFACE + "; -fx-background-radius: 14px; -fx-border-color: " + BORDER + "; -fx-border-radius: 14px; -fx-border-width: 1px; -fx-cursor: hand;");
+
+        // Col 1: Rounded Unit Emblem Badge + Unit ID + Patient
+        HBox unitCol = new HBox(12);
+        unitCol.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane unitBadgeHolder = new StackPane();
+        unitBadgeHolder.setPrefSize(42, 42);
+        unitBadgeHolder.setMinSize(42, 42);
+        unitBadgeHolder.setMaxSize(42, 42);
+        unitBadgeHolder.setStyle("-fx-background-color: " + VERY_LIGHT_BEIGE + "; -fx-background-radius: 12px; -fx-border-color: " + BORDER + "; -fx-border-radius: 12px;");
+        Label ambIcon = new Label("🚑");
+        ambIcon.setStyle("-fx-font-size: 18px;");
+        unitBadgeHolder.getChildren().add(ambIcon);
+
+        VBox unitDetails = new VBox(3);
+        HBox idLine = new HBox(6);
+        idLine.setAlignment(Pos.CENTER_LEFT);
+
+        Text unitTitle = new Text(r.tripId);
+        unitTitle.setStyle(FONT_FAMILY + "-fx-font-size: 14px; -fx-font-weight: 800; -fx-fill: " + PRIMARY_TEXT + ";");
+
+        HBox patBadge = new HBox(4);
+        patBadge.setPadding(new Insets(2, 6, 2, 6));
+        patBadge.setStyle("-fx-background-color: " + VERY_LIGHT_BEIGE + "; -fx-background-radius: 6px; -fx-border-color: " + BORDER + "; -fx-border-radius: 6px;");
+        Text patText = new Text(r.patId);
+        patText.setStyle(FONT_FAMILY + "-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + SEC_TEXT + ";");
+        patBadge.getChildren().add(patText);
+
+        idLine.getChildren().addAll(unitTitle, patBadge);
+
+        Text driverText = new Text("👤 " + r.driverName);
+        driverText.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-fill: " + SEC_TEXT + ";");
+
+        unitDetails.getChildren().addAll(idLine, driverText);
+        unitCol.getChildren().addAll(unitBadgeHolder, unitDetails);
+
+        // Col 2: Route Visualizer (Origin -> Destination)
+        VBox routeCol = new VBox(3);
+        routeCol.setAlignment(Pos.CENTER_LEFT);
+
+        HBox routeLine = new HBox(6);
+        routeLine.setAlignment(Pos.CENTER_LEFT);
+        Text fromText = new Text("📍 " + r.source);
+        fromText.setStyle(FONT_FAMILY + "-fx-font-size: 12.5px; -fx-font-weight: 600; -fx-fill: " + PRIMARY_TEXT + ";");
+        Text arrowText = new Text(" ➔ ");
+        arrowText.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-font-weight: 800; -fx-fill: " + ACCENT_TERRACOTTA + ";");
+        Text toText = new Text("🏥 " + r.destination);
+        toText.setStyle(FONT_FAMILY + "-fx-font-size: 12.5px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEXT + ";");
+        routeLine.getChildren().addAll(fromText, arrowText, toText);
+
+        Text corridorTag = new Text("⚡ Automated Green Corridor Preemption Active");
+        corridorTag.setStyle(FONT_FAMILY + "-fx-font-size: 11px; -fx-fill: " + SEC_TEXT + ";");
+
+        routeCol.getChildren().addAll(routeLine, corridorTag);
+
+        // Col 3: Timeline & Clearance Performance
+        VBox timeCol = new VBox(3);
+        timeCol.setAlignment(Pos.CENTER_LEFT);
+
+        Text arrivalText = new Text("🕒 Dispatched: " + r.formattedTime);
+        arrivalText.setStyle(FONT_FAMILY + "-fx-font-size: 12.5px; -fx-font-weight: 700; -fx-fill: " + PRIMARY_TEXT + ";");
+
+        Text clearanceText = new Text(r.actionTimeStr);
+        clearanceText.setStyle(FONT_FAMILY + "-fx-font-size: 11px; -fx-font-weight: 600; -fx-fill: " + SEC_TEXT + ";");
+
+        timeCol.getChildren().addAll(arrivalText, clearanceText);
+
+        // Col 4: Modern Glowing Status Badge
+        boolean isCleared = "CLEARED".equalsIgnoreCase(r.status) || "COMPLETED".equalsIgnoreCase(r.status);
+        Label statusBadge = new Label(isCleared ? "●  CLEARED & LOGGED" : "●  PENDING INTERLOCK");
+        statusBadge.setStyle(
+                FONT_FAMILY + "-fx-background-color: " + (isCleared ? SUCCESS_GREEN_BG : ACCENT_TERRACOTTA_BG) + ";" +
+                "-fx-text-fill: " + (isCleared ? SUCCESS_GREEN : ACCENT_TERRACOTTA_TEXT) + ";" +
+                "-fx-font-size: 11px; -fx-font-weight: 800; -fx-padding: 6px 14px; -fx-background-radius: 20px; " +
+                "-fx-border-color: " + (isCleared ? SUCCESS_GREEN : ACCENT_TERRACOTTA) + "; -fx-border-radius: 20px; -fx-border-width: 1px;"
+        );
+
+        HBox.setHgrow(unitCol, Priority.ALWAYS);
+        HBox.setHgrow(routeCol, Priority.ALWAYS);
+        HBox.setHgrow(timeCol, Priority.NEVER);
+
+        row.getChildren().addAll(unitCol, routeCol, timeCol, statusBadge);
+
+        // Smooth Tactile Hover Micro-Animation
+        row.setOnMouseEntered(e -> {
+            row.setStyle("-fx-background-color: " + VERY_LIGHT_BEIGE + "; -fx-background-radius: 14px; -fx-border-color: " + ACCENT_TERRACOTTA + "; -fx-border-radius: 14px; -fx-border-width: 1.5px; -fx-cursor: hand;");
+            row.setEffect(new DropShadow(12, 0, 3, Color.rgb(51, 38, 30, 0.08)));
+
+            TranslateTransition tt = new TranslateTransition(Duration.millis(140), row);
+            tt.setToX(4);
+            tt.play();
+        });
+
+        row.setOnMouseExited(e -> {
+            row.setStyle("-fx-background-color: " + SURFACE + "; -fx-background-radius: 14px; -fx-border-color: " + BORDER + "; -fx-border-radius: 14px; -fx-border-width: 1px; -fx-cursor: hand;");
+            row.setEffect(null);
+
+            TranslateTransition tt = new TranslateTransition(Duration.millis(140), row);
+            tt.setToX(0);
+            tt.play();
+        });
+
+        return row;
+    }
+
+    private VBox buildEmptyState() {
+        VBox emptyBox = new VBox(12);
+        emptyBox.setAlignment(Pos.CENTER);
+        emptyBox.setPadding(new Insets(50, 40, 50, 40));
+        emptyBox.setStyle(CARD_STYLE);
+
+        StackPane radarIcon = new StackPane();
+        radarIcon.setPrefSize(56, 56);
+        radarIcon.setStyle("-fx-background-color: " + VERY_LIGHT_BEIGE + "; -fx-background-radius: 28px; -fx-border-color: " + BORDER + "; -fx-border-radius: 28px;");
+        Label rIcon = new Label("📡");
+        rIcon.setStyle("-fx-font-size: 24px;");
+        radarIcon.getChildren().add(rIcon);
+
+        Text noDataTitle = new Text("No Ambulance Records Found");
+        noDataTitle.setStyle(FONT_FAMILY + "-fx-font-size: 16px; -fx-font-weight: 800; -fx-fill: " + PRIMARY_TEXT + ";");
+
+        Text noDataSub = new Text("No transit records match your current search query or date filter.");
+        noDataSub.setStyle(FONT_FAMILY + "-fx-font-size: 13px; -fx-fill: " + SEC_TEXT + ";");
+
+        Button resetBtn = new Button("Reset All Filters");
+        resetBtn.setStyle(FONT_FAMILY + "-fx-background-color: " + BROWN_DARK + "; -fx-text-fill: white; -fx-font-size: 12.5px; -fx-font-weight: bold; -fx-padding: 8 18; -fx-background-radius: 10px; -fx-cursor: hand;");
+        addSpringHoverEffect(resetBtn, BROWN_DARK, ACCENT_TERRACOTTA, "#FFFFFF", "#FFFFFF");
+        resetBtn.setOnAction(e -> {
+            searchField.clear();
+            datePicker.setValue(null);
+        });
+
+        emptyBox.getChildren().addAll(radarIcon, noDataTitle, noDataSub, resetBtn);
+        return emptyBox;
+    }
+
+    // =========================================================
+    // 6. BUTTON INTERACTIVE SPRING MICRO-ANIMATIONS
+    // =========================================================
+    private void addSpringHoverEffect(Button btn, String bgNormal, String bgHover, String textNormal, String textHover) {
+        btn.setOnMouseEntered(e -> {
+            btn.setStyle(FONT_FAMILY + "-fx-background-color: " + bgHover + "; -fx-text-fill: " + textHover + "; -fx-font-size: 12.5px; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-cursor: hand;");
+            ScaleTransition st = new ScaleTransition(Duration.millis(120), btn);
+            st.setToX(1.03);
+            st.setToY(1.03);
+            st.play();
+        });
+
+        btn.setOnMouseExited(e -> {
+            btn.setStyle(FONT_FAMILY + "-fx-background-color: " + bgNormal + "; -fx-text-fill: " + textNormal + "; -fx-font-size: 12.5px; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-cursor: hand;");
+            ScaleTransition st = new ScaleTransition(Duration.millis(120), btn);
+            st.setToX(1.0);
+            st.setToY(1.0);
+            st.play();
+        });
+
+        btn.setOnMousePressed(e -> {
+            ScaleTransition st = new ScaleTransition(Duration.millis(80), btn);
+            st.setToX(0.96);
+            st.setToY(0.96);
+            st.play();
+        });
+
+        btn.setOnMouseReleased(e -> {
+            ScaleTransition st = new ScaleTransition(Duration.millis(80), btn);
+            st.setToX(1.03);
+            st.setToY(1.03);
+            st.play();
+        });
     }
 }

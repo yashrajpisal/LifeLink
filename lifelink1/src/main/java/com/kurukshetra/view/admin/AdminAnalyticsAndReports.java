@@ -889,6 +889,8 @@
 
 package com.kurukshetra.view.admin;
 
+import com.kurukshetra.view.util.ShimmerLoader;
+import com.kurukshetra.view.util.ShimmerLoader.ShimmerPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -1957,6 +1959,7 @@ public class AdminAnalyticsAndReports {
 //         );
 
 //         ScrollPane scrollPane = new ScrollPane(mainBox);
+//         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 //         scrollPane.setFitToWidth(true);
 //         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 //         scrollPane.setStyle("-fx-background-color: transparent;" + "-fx-background: transparent;");

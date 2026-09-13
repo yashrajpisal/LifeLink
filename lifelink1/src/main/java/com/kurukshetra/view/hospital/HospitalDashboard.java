@@ -1,1201 +1,435 @@
-// package com.kurukshetra.view.hospital;
-
-// import javafx.application.Application;
-// import javafx.geometry.Insets;
-// import javafx.geometry.Pos;
-// import javafx.scene.Scene;
-// import javafx.scene.control.Button;
-// import javafx.scene.control.ComboBox;
-// import javafx.scene.control.ScrollPane;
-// import javafx.scene.control.TextField;
-// import javafx.scene.layout.BorderPane;
-// import javafx.scene.layout.HBox;
-// import javafx.scene.layout.Priority;
-// import javafx.scene.layout.Region;
-// import javafx.scene.layout.StackPane;
-// import javafx.scene.layout.VBox;
-// import javafx.scene.text.Text;
-// import javafx.stage.Stage;
-
-// public class HospitalDashboard extends Application {
-
-//     public static Stage dashboardStage;
-//     private Scene dashboardScene;
-
-//     @Override
-//     public void start(Stage stage) throws Exception {
-
-//         dashboardStage = stage;
-
-//         BorderPane borderPane = new BorderPane();
-//         borderPane.setStyle("-fx-background-color: #faf8ff;");
-
-//         // =============================================================
-//         // LEFT MENU
-//         // =============================================================
-
-//         VBox leftMenu = new VBox(8);
-//         leftMenu.setPadding(new Insets(25, 15, 20, 15));
-//         leftMenu.setPrefWidth(240);
-//         leftMenu.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-width: 0px 1px 0px 0px;");
-
-//         Text lifeLinkText = new Text("LifeLink");
-//         lifeLinkText.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         Text hospitalText = new Text("Hospital Management");
-//         hospitalText.setStyle("-fx-font-size: 13px; -fx-fill: #434655;");
-
-//         VBox profileBox = new VBox(5);
-//         profileBox.setPadding(new Insets(0, 10, 25, 10));
-//         profileBox.getChildren().addAll(lifeLinkText, hospitalText);
-
-//         Button dashboardButton = new Button("Dashboard");
-//         dashboardButton.setPrefWidth(220);
-//         dashboardButton.setPrefHeight(45);
-//         dashboardButton.setStyle("-fx-background-color: #dbe1ff; -fx-text-fill: #004ac6; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-border-color: #004ac6; -fx-border-width: 0px 2px 0px 0px;");
-
-//         Button emergencyButton = new Button("Emergency Requests");
-//         emergencyButton.setPrefWidth(220);
-//         emergencyButton.setPrefHeight(45);
-//         emergencyButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 14px; -fx-background-radius: 10px;");
-
-//         Button resourceButton = new Button("Resource Management");
-//         resourceButton.setPrefWidth(220);
-//         resourceButton.setPrefHeight(45);
-//         resourceButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 14px; -fx-background-radius: 10px;");
-
-//         Button doctorButton = new Button("Doctor Management");
-//         doctorButton.setPrefWidth(220);
-//         doctorButton.setPrefHeight(45);
-//         doctorButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 14px; -fx-background-radius: 10px;");
-
-//         Button otButton = new Button("Operation Theatre");
-//         otButton.setPrefWidth(220);
-//         otButton.setPrefHeight(45);
-//         otButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 14px; -fx-background-radius: 10px;");
-
-//         Button patientButton = new Button("Patient Records");
-//         patientButton.setPrefWidth(220);
-//         patientButton.setPrefHeight(45);
-//         patientButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 14px; -fx-background-radius: 10px;");
-
-//         Button ambulanceButton = new Button("Ambulance Tracking");
-//         ambulanceButton.setPrefWidth(220);
-//         ambulanceButton.setPrefHeight(45);
-//         ambulanceButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 14px; -fx-background-radius: 10px;");
-
-//         Button notificationButton = new Button("Notifications");
-//         notificationButton.setPrefWidth(220);
-//         notificationButton.setPrefHeight(45);
-//         notificationButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 14px; -fx-background-radius: 10px;");
-
-//         Button analyticsButton = new Button("Analytics");
-//         analyticsButton.setPrefWidth(220);
-//         analyticsButton.setPrefHeight(45);
-//         analyticsButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 14px; -fx-background-radius: 10px;");
-
-//         Button settingsButton = new Button("Settings");
-//         settingsButton.setPrefWidth(220);
-//         settingsButton.setPrefHeight(45);
-//         settingsButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 14px; -fx-background-radius: 10px;");
-
-//         Region menuSpacer = new Region();
-//         VBox.setVgrow(menuSpacer, Priority.ALWAYS);
-
-//         Button logoutButton = new Button("Logout");
-//         logoutButton.setPrefWidth(220);
-//         logoutButton.setPrefHeight(45);
-//         logoutButton.setStyle("-fx-background-color: #fff1f2; -fx-text-fill: #dc2626; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10px;");
-
-//         leftMenu.getChildren().addAll(profileBox, dashboardButton, emergencyButton, resourceButton, doctorButton, otButton, patientButton, ambulanceButton, notificationButton, analyticsButton, settingsButton, menuSpacer, logoutButton);
-
-//         borderPane.setLeft(leftMenu);
-
-//         // =============================================================
-//         // MAIN CONTENT
-//         // =============================================================
-
-//         VBox mainContent = new VBox(24);
-//         mainContent.setPadding(new Insets(25));
-//         mainContent.setStyle("-fx-background-color: #faf8ff;");
-
-//         Text pageTitle = new Text("Dashboard Overview");
-//         pageTitle.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text pageSubtitle = new Text("Real-time status of LifeLink Hospital resources and emergencies.");
-//         pageSubtitle.setStyle("-fx-font-size: 14px; -fx-fill: #434655;");
-
-//         VBox titleBox = new VBox(5);
-//         titleBox.getChildren().addAll(pageTitle, pageSubtitle);
-
-//         TextField searchField = new TextField();
-//         searchField.setPromptText("Search patient, doctor, or resource...");
-//         searchField.setPrefWidth(400);
-//         searchField.setPrefHeight(38);
-//         searchField.setStyle("-fx-background-color: #f3f3fe; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-padding: 0px 18px; -fx-font-size: 13px;");
-
-//         HBox pageButtons = new HBox(10);
-//         pageButtons.setAlignment(Pos.CENTER_RIGHT);
-//         pageButtons.getChildren().addAll(searchField);
-
-//         Region pageSpacer = new Region();
-//         HBox.setHgrow(pageSpacer, Priority.ALWAYS);
-
-//         HBox pageHeader = new HBox(10);
-//         pageHeader.getChildren().addAll(titleBox, pageSpacer, pageButtons);
-//         pageHeader.setAlignment(Pos.CENTER_LEFT);
-
-//         // =============================================================
-//         // SUMMARY CARDS
-//         // =============================================================
-
-//         HBox summaryCards = new HBox(16);
-
-//         VBox icuCard = new VBox(8);
-//         icuCard.setPadding(new Insets(16));
-//         icuCard.setPrefHeight(125);
-//         icuCard.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
-//         HBox.setHgrow(icuCard, Priority.ALWAYS);
-
-//         Text icuIcon = new Text("▣");
-//         icuIcon.setStyle("-fx-font-size: 18px; -fx-fill: #004ac6;");
-
-//         Text icuCapacity = new Text("92% CAP");
-//         icuCapacity.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: #16a34a;");
-
-//         HBox icuTop = new HBox(10);
-//         Region icuSpacer = new Region();
-//         HBox.setHgrow(icuSpacer, Priority.ALWAYS);
-//         icuTop.getChildren().addAll(icuIcon, icuSpacer, icuCapacity);
-
-//         Text icuValue = new Text("24");
-//         icuValue.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text icuLabel = new Text("Available ICU Beds");
-//         icuLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #737686;");
-
-//         icuCard.getChildren().addAll(icuTop, icuValue, icuLabel);
-
-//         VBox emergencyBedsCard = new VBox(8);
-//         emergencyBedsCard.setPadding(new Insets(16));
-//         emergencyBedsCard.setPrefHeight(125);
-//         emergencyBedsCard.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
-//         HBox.setHgrow(emergencyBedsCard, Priority.ALWAYS);
-
-//         Text emergencyBedsIcon = new Text("!");
-//         emergencyBedsIcon.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #ba1a1a;");
-
-//         Text emergencyLow = new Text("LOW");
-//         emergencyLow.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: #ba1a1a;");
-
-//         HBox emergencyBedsTop = new HBox(10);
-//         Region emergencyBedsSpacer = new Region();
-//         HBox.setHgrow(emergencyBedsSpacer, Priority.ALWAYS);
-//         emergencyBedsTop.getChildren().addAll(emergencyBedsIcon, emergencyBedsSpacer, emergencyLow);
-
-//         Text emergencyBedsValue = new Text("12");
-//         emergencyBedsValue.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text emergencyBedsLabel = new Text("Emergency Beds");
-//         emergencyBedsLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #737686;");
-
-//         emergencyBedsCard.getChildren().addAll(emergencyBedsTop, emergencyBedsValue, emergencyBedsLabel);
-
-//         VBox doctorsCard = new VBox(8);
-//         doctorsCard.setPadding(new Insets(16));
-//         doctorsCard.setPrefHeight(125);
-//         doctorsCard.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
-//         HBox.setHgrow(doctorsCard, Priority.ALWAYS);
-
-//         Text doctorsIcon = new Text("✚");
-//         doctorsIcon.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         Text doctorsValue = new Text("48");
-//         doctorsValue.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text doctorsLabel = new Text("Doctors Active");
-//         doctorsLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #737686;");
-
-//         doctorsCard.getChildren().addAll(doctorsIcon, doctorsValue, doctorsLabel);
-
-//         VBox otCard = new VBox(8);
-//         otCard.setPadding(new Insets(16));
-//         otCard.setPrefHeight(125);
-//         otCard.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
-//         HBox.setHgrow(otCard, Priority.ALWAYS);
-
-//         Text otIcon = new Text("OT");
-//         otIcon.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         Text otValue = new Text("03");
-//         otValue.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text otLabel = new Text("OTs Available");
-//         otLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #737686;");
-
-//         otCard.getChildren().addAll(otIcon, otValue, otLabel);
-
-//         VBox ambulanceCard = new VBox(8);
-//         ambulanceCard.setPadding(new Insets(16));
-//         ambulanceCard.setPrefHeight(125);
-//         ambulanceCard.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
-//         HBox.setHgrow(ambulanceCard, Priority.ALWAYS);
-
-//         Text ambulanceIcon = new Text("A");
-//         ambulanceIcon.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         Text ambulanceValue = new Text("15");
-//         ambulanceValue.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text ambulanceLabel = new Text("Active Ambulances");
-//         ambulanceLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #737686;");
-
-//         ambulanceCard.getChildren().addAll(ambulanceIcon, ambulanceValue, ambulanceLabel);
-
-//         VBox incomingCard = new VBox(8);
-//         incomingCard.setPadding(new Insets(16));
-//         incomingCard.setPrefHeight(125);
-//         incomingCard.setStyle("-fx-background-color: #fff1f2; -fx-border-color: #fecdd3; -fx-border-radius: 12px; -fx-background-radius: 12px;");
-//         HBox.setHgrow(incomingCard, Priority.ALWAYS);
-
-//         Text incomingIcon = new Text("!");
-//         incomingIcon.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #ba1a1a;");
-
-//         Text incomingValue = new Text("08");
-//         incomingValue.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: #ba1a1a;");
-
-//         Text incomingLabel = new Text("Incoming Alerts");
-//         incomingLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #ba1a1a;");
-
-//         incomingCard.getChildren().addAll(incomingIcon, incomingValue, incomingLabel);
-
-//         summaryCards.getChildren().addAll(icuCard, emergencyBedsCard, doctorsCard, otCard, ambulanceCard, incomingCard);
-
-//         // =============================================================
-//         // RESOURCE UTILIZATION
-//         // =============================================================
-
-//         HBox upperContent = new HBox(24);
-
-//         VBox utilizationCard = new VBox(18);
-//         utilizationCard.setPadding(new Insets(20));
-//         utilizationCard.setPrefHeight(400);
-//         utilizationCard.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
-//         HBox.setHgrow(utilizationCard, Priority.ALWAYS);
-
-//         Text utilizationTitle = new Text("Resource Utilization Trends");
-//         utilizationTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         ComboBox<String> periodCombo = new ComboBox<>();
-//         periodCombo.getItems().addAll("Last 24 Hours", "Last 7 Days");
-//         periodCombo.setValue("Last 24 Hours");
-//         periodCombo.setPrefHeight(32);
-
-//         HBox utilizationHeader = new HBox(10);
-//         Region utilizationSpacer = new Region();
-//         HBox.setHgrow(utilizationSpacer, Priority.ALWAYS);
-//         utilizationHeader.getChildren().addAll(utilizationTitle, utilizationSpacer, periodCombo);
-
-//         HBox chart = new HBox(15);
-//         chart.setAlignment(Pos.BOTTOM_CENTER);
-//         chart.setPrefHeight(260);
-
-//         Region chartBar1 = new Region();
-//         chartBar1.setPrefWidth(35);
-//         chartBar1.setPrefHeight(100);
-//         chartBar1.setStyle("-fx-background-color: #b4c5ff; -fx-background-radius: 6px 6px 0px 0px;");
-
-//         Region chartBar2 = new Region();
-//         chartBar2.setPrefWidth(35);
-//         chartBar2.setPrefHeight(145);
-//         chartBar2.setStyle("-fx-background-color: #8da8ed; -fx-background-radius: 6px 6px 0px 0px;");
-
-//         Region chartBar3 = new Region();
-//         chartBar3.setPrefWidth(35);
-//         chartBar3.setPrefHeight(120);
-//         chartBar3.setStyle("-fx-background-color: #7899e2; -fx-background-radius: 6px 6px 0px 0px;");
-
-//         Region chartBar4 = new Region();
-//         chartBar4.setPrefWidth(35);
-//         chartBar4.setPrefHeight(190);
-//         chartBar4.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 6px 6px 0px 0px;");
-
-//         Region chartBar5 = new Region();
-//         chartBar5.setPrefWidth(35);
-//         chartBar5.setPrefHeight(155);
-//         chartBar5.setStyle("-fx-background-color: #6689d8; -fx-background-radius: 6px 6px 0px 0px;");
-
-//         Region chartBar6 = new Region();
-//         chartBar6.setPrefWidth(35);
-//         chartBar6.setPrefHeight(215);
-//         chartBar6.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 6px 6px 0px 0px;");
-
-//         Region chartBar7 = new Region();
-//         chartBar7.setPrefWidth(35);
-//         chartBar7.setPrefHeight(180);
-//         chartBar7.setStyle("-fx-background-color: #5278ce; -fx-background-radius: 6px 6px 0px 0px;");
-
-//         chart.getChildren().addAll(chartBar1, chartBar2, chartBar3, chartBar4, chartBar5, chartBar6, chartBar7);
-
-//         HBox chartLabels = new HBox(15);
-//         chartLabels.setAlignment(Pos.CENTER);
-
-//         Text time1 = new Text("00:00");
-//         Text time2 = new Text("04:00");
-//         Text time3 = new Text("08:00");
-//         Text time4 = new Text("12:00");
-//         Text time5 = new Text("16:00");
-//         Text time6 = new Text("20:00");
-//         Text time7 = new Text("Current");
-
-//         time1.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-//         time2.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-//         time3.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-//         time4.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-//         time5.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-//         time6.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-//         time7.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         chartLabels.getChildren().addAll(time1, time2, time3, time4, time5, time6, time7);
-
-//         utilizationCard.getChildren().addAll(utilizationHeader, chart, chartLabels);
-
-//         // =============================================================
-//         // LIVE EMERGENCY FEED
-//         // =============================================================
-
-//         VBox emergencyFeedCard = new VBox(12);
-//         emergencyFeedCard.setPadding(new Insets(20));
-//         emergencyFeedCard.setPrefWidth(420);
-//         emergencyFeedCard.setPrefHeight(400);
-//         emergencyFeedCard.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
-
-//         Text feedTitle = new Text("●  Live Emergency Feed");
-//         feedTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         VBox feed1 = new VBox(5);
-//         feed1.setPadding(new Insets(10));
-//         feed1.setStyle("-fx-background-color: #fff1f2; -fx-border-color: #ba1a1a; -fx-border-width: 0px 0px 0px 4px; -fx-background-radius: 0px 8px 8px 0px;");
-
-//         Text feed1Title = new Text("Cardiac Arrest - Zone 4");
-//         feed1Title.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text feed1Time = new Text("2m ago");
-//         feed1Time.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         Text feed1Text = new Text("Ambulance #A12 arriving in 4 mins.");
-//         feed1Text.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         feed1.getChildren().addAll(feed1Title, feed1Time, feed1Text);
-
-//         VBox feed2 = new VBox(5);
-//         feed2.setPadding(new Insets(10));
-//         feed2.setStyle("-fx-background-color: #fff1f2; -fx-border-color: #ba1a1a; -fx-border-width: 0px 0px 0px 4px; -fx-background-radius: 0px 8px 8px 0px;");
-
-//         Text feed2Title = new Text("Trauma Case - Highway 102");
-//         feed2Title.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text feed2Time = new Text("5m ago");
-//         feed2Time.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         Text feed2Text = new Text("Multiple casualties. OT-02 reserved.");
-//         feed2Text.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         feed2.getChildren().addAll(feed2Title, feed2Time, feed2Text);
-
-//         VBox feed3 = new VBox(5);
-//         feed3.setPadding(new Insets(10));
-//         feed3.setStyle("-fx-background-color: #fff7ed; -fx-border-color: #f97316; -fx-border-width: 0px 0px 0px 4px; -fx-background-radius: 0px 8px 8px 0px;");
-
-//         Text feed3Title = new Text("Critical Lab Report");
-//         feed3Title.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text feed3Time = new Text("12m ago");
-//         feed3Time.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         Text feed3Text = new Text("Patient ID #8829 - Dr. Smith notified.");
-//         feed3Text.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         feed3.getChildren().addAll(feed3Title, feed3Time, feed3Text);
-
-//         VBox feed4 = new VBox(5);
-//         feed4.setPadding(new Insets(10));
-//         feed4.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-width: 0px 0px 0px 4px; -fx-background-radius: 0px 8px 8px 0px;");
-
-//         Text feed4Title = new Text("ICU-04 Patient Transfer");
-//         feed4Title.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text feed4Time = new Text("22m ago");
-//         feed4Time.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         Text feed4Text = new Text("Completed. Bed available for sanitization.");
-//         feed4Text.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         feed4.getChildren().addAll(feed4Title, feed4Time, feed4Text);
-
-//         Button viewEmergencyButton = new Button("View All Emergency Requests");
-//         viewEmergencyButton.setMaxWidth(Double.MAX_VALUE);
-//         viewEmergencyButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #004ac6; -fx-font-size: 12px; -fx-font-weight: bold;");
-
-//         emergencyFeedCard.getChildren().addAll(feedTitle, feed1, feed2, feed3, feed4, viewEmergencyButton);
-
-//         upperContent.getChildren().addAll(utilizationCard, emergencyFeedCard);
-
-//         // =============================================================
-//         // LOWER CONTENT
-//         // =============================================================
-
-//         HBox lowerContent = new HBox(24);
-
-//         VBox ambulanceTrackingCard = new VBox(18);
-//         ambulanceTrackingCard.setPadding(new Insets(20));
-//         ambulanceTrackingCard.setPrefWidth(500);
-//         ambulanceTrackingCard.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
-//         HBox.setHgrow(ambulanceTrackingCard, Priority.ALWAYS);
-
-//         Text incomingTitle = new Text("Incoming Ambulances");
-//         incomingTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         VBox ambulance1 = new VBox(6);
-//         ambulance1.setPadding(new Insets(8));
-
-//         Text ambulance1Name = new Text("AMB-104 (Cardiac)");
-//         ambulance1Name.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text ambulance1Status = new Text("On Route");
-//         ambulance1Status.setStyle("-fx-font-size: 11px; -fx-fill: #004ac6;");
-
-//         Text ambulance1Route = new Text("Central Station → North Wing");
-//         ambulance1Route.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         Text ambulance1Eta = new Text("ETA: 09:42");
-//         ambulance1Eta.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         Region ambulance1Background = new Region();
-//         ambulance1Background.setPrefHeight(7);
-//         ambulance1Background.setStyle("-fx-background-color: #e1e2ed; -fx-background-radius: 10px;");
-
-//         Region ambulance1Progress = new Region();
-//         ambulance1Progress.setPrefHeight(7);
-//         ambulance1Progress.setPrefWidth(300);
-//         ambulance1Progress.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 10px;");
-
-//         StackPane ambulance1ProgressPane = new StackPane();
-//         ambulance1ProgressPane.setAlignment(Pos.CENTER_LEFT);
-//         ambulance1ProgressPane.getChildren().addAll(ambulance1Background, ambulance1Progress);
-
-//         HBox ambulance1Header = new HBox(10);
-//         Region ambulance1HeaderSpacer = new Region();
-//         HBox.setHgrow(ambulance1HeaderSpacer, Priority.ALWAYS);
-//         ambulance1Header.getChildren().addAll(ambulance1Name, ambulance1HeaderSpacer, ambulance1Status);
-
-//         HBox ambulance1Bottom = new HBox(10);
-//         Region ambulance1BottomSpacer = new Region();
-//         HBox.setHgrow(ambulance1BottomSpacer, Priority.ALWAYS);
-//         ambulance1Bottom.getChildren().addAll(ambulance1Route, ambulance1BottomSpacer, ambulance1Eta);
-
-//         ambulance1.getChildren().addAll(ambulance1Header, ambulance1ProgressPane, ambulance1Bottom);
-
-//         VBox ambulance2 = new VBox(6);
-//         ambulance2.setPadding(new Insets(8));
-
-//         Text ambulance2Name = new Text("AMB-022 (Trauma)");
-//         ambulance2Name.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text ambulance2Status = new Text("Slow Traffic");
-//         ambulance2Status.setStyle("-fx-font-size: 11px; -fx-fill: #f97316;");
-
-//         Text ambulance2Route = new Text("East Bypass → Emergency ER");
-//         ambulance2Route.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         Text ambulance2Eta = new Text("ETA: 09:47");
-//         ambulance2Eta.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #f97316;");
-
-//         Region ambulance2Background = new Region();
-//         ambulance2Background.setPrefHeight(7);
-//         ambulance2Background.setStyle("-fx-background-color: #e1e2ed; -fx-background-radius: 10px;");
-
-//         Region ambulance2Progress = new Region();
-//         ambulance2Progress.setPrefHeight(7);
-//         ambulance2Progress.setPrefWidth(160);
-//         ambulance2Progress.setStyle("-fx-background-color: #f97316; -fx-background-radius: 10px;");
-
-//         StackPane ambulance2ProgressPane = new StackPane();
-//         ambulance2ProgressPane.setAlignment(Pos.CENTER_LEFT);
-//         ambulance2ProgressPane.getChildren().addAll(ambulance2Background, ambulance2Progress);
-
-//         HBox ambulance2Header = new HBox(10);
-//         Region ambulance2HeaderSpacer = new Region();
-//         HBox.setHgrow(ambulance2HeaderSpacer, Priority.ALWAYS);
-//         ambulance2Header.getChildren().addAll(ambulance2Name, ambulance2HeaderSpacer, ambulance2Status);
-
-//         HBox ambulance2Bottom = new HBox(10);
-//         Region ambulance2BottomSpacer = new Region();
-//         HBox.setHgrow(ambulance2BottomSpacer, Priority.ALWAYS);
-//         ambulance2Bottom.getChildren().addAll(ambulance2Route, ambulance2BottomSpacer, ambulance2Eta);
-
-//         ambulance2.getChildren().addAll(ambulance2Header, ambulance2ProgressPane, ambulance2Bottom);
-
-//         VBox ambulance3 = new VBox(6);
-//         ambulance3.setPadding(new Insets(8));
-
-//         Text ambulance3Name = new Text("AMB-098 (General)");
-//         ambulance3Name.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text ambulance3Status = new Text("On Route");
-//         ambulance3Status.setStyle("-fx-font-size: 11px; -fx-fill: #004ac6;");
-
-//         Text ambulance3Route = new Text("Airport Terminal → LifeLink");
-//         ambulance3Route.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         Text ambulance3Eta = new Text("ETA: 09:50");
-//         ambulance3Eta.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         Region ambulance3Background = new Region();
-//         ambulance3Background.setPrefHeight(7);
-//         ambulance3Background.setStyle("-fx-background-color: #e1e2ed; -fx-background-radius: 10px;");
-
-//         Region ambulance3Progress = new Region();
-//         ambulance3Progress.setPrefHeight(7);
-//         ambulance3Progress.setPrefWidth(100);
-//         ambulance3Progress.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 10px;");
-
-//         StackPane ambulance3ProgressPane = new StackPane();
-//         ambulance3ProgressPane.setAlignment(Pos.CENTER_LEFT);
-//         ambulance3ProgressPane.getChildren().addAll(ambulance3Background, ambulance3Progress);
-
-//         HBox ambulance3Header = new HBox(10);
-//         Region ambulance3HeaderSpacer = new Region();
-//         HBox.setHgrow(ambulance3HeaderSpacer, Priority.ALWAYS);
-//         ambulance3Header.getChildren().addAll(ambulance3Name, ambulance3HeaderSpacer, ambulance3Status);
-
-//         HBox ambulance3Bottom = new HBox(10);
-//         Region ambulance3BottomSpacer = new Region();
-//         HBox.setHgrow(ambulance3BottomSpacer, Priority.ALWAYS);
-//         ambulance3Bottom.getChildren().addAll(ambulance3Route, ambulance3BottomSpacer, ambulance3Eta);
-
-//         ambulance3.getChildren().addAll(ambulance3Header, ambulance3ProgressPane, ambulance3Bottom);
-
-//         ambulanceTrackingCard.getChildren().addAll(incomingTitle, ambulance1, ambulance2, ambulance3);
-
-//         // =============================================================
-//         // RESOURCE STOCK
-//         // =============================================================
-
-//         VBox resourceStockCard = new VBox(18);
-//         resourceStockCard.setPadding(new Insets(20));
-//         resourceStockCard.setPrefWidth(400);
-//         resourceStockCard.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
-//         HBox.setHgrow(resourceStockCard, Priority.ALWAYS);
-
-//         Text stockTitle = new Text("Resource Stock Status");
-//         stockTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         HBox stockCircles = new HBox(25);
-//         stockCircles.setAlignment(Pos.CENTER);
-
-//         StackPane oxygenCircle = new StackPane();
-//         oxygenCircle.setPrefWidth(110);
-//         oxygenCircle.setPrefHeight(110);
-//         oxygenCircle.setStyle("-fx-background-color: #dbe1ff; -fx-background-radius: 60px; -fx-border-color: #004ac6; -fx-border-width: 8px; -fx-border-radius: 60px;");
-
-//         VBox oxygenText = new VBox(0);
-//         oxygenText.setAlignment(Pos.CENTER);
-
-//         Text oxygenValue = new Text("75%");
-//         oxygenValue.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text oxygenLabel = new Text("O2 Supply");
-//         oxygenLabel.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         oxygenText.getChildren().addAll(oxygenValue, oxygenLabel);
-//         oxygenCircle.getChildren().add(oxygenText);
-
-//         StackPane bloodCircle = new StackPane();
-//         bloodCircle.setPrefWidth(110);
-//         bloodCircle.setPrefHeight(110);
-//         bloodCircle.setStyle("-fx-background-color: #fff1f2; -fx-background-radius: 60px; -fx-border-color: #ba1a1a; -fx-border-width: 8px; -fx-border-radius: 60px;");
-
-//         VBox bloodText = new VBox(0);
-//         bloodText.setAlignment(Pos.CENTER);
-
-//         Text bloodValue = new Text("30%");
-//         bloodValue.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #ba1a1a;");
-
-//         Text bloodLabel = new Text("Blood Bank");
-//         bloodLabel.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         bloodText.getChildren().addAll(bloodValue, bloodLabel);
-//         bloodCircle.getChildren().add(bloodText);
-
-//         stockCircles.getChildren().addAll(oxygenCircle, bloodCircle);
-
-//         Text ppeLabel = new Text("Personal Protective Equipment (PPE)");
-//         ppeLabel.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         Text ppeValue = new Text("88%");
-//         ppeValue.setStyle("-fx-font-size: 11px; -fx-font-weight: bold;");
-
-//         HBox ppeHeader = new HBox(10);
-//         Region ppeHeaderSpacer = new Region();
-//         HBox.setHgrow(ppeHeaderSpacer, Priority.ALWAYS);
-//         ppeHeader.getChildren().addAll(ppeLabel, ppeHeaderSpacer, ppeValue);
-
-//         Region ppeBackground = new Region();
-//         ppeBackground.setPrefHeight(8);
-//         ppeBackground.setStyle("-fx-background-color: #e1e2ed; -fx-background-radius: 10px;");
-
-//         Region ppeProgress = new Region();
-//         ppeProgress.setPrefHeight(8);
-//         ppeProgress.setPrefWidth(300);
-//         ppeProgress.setStyle("-fx-background-color: #16a34a; -fx-background-radius: 10px;");
-
-//         StackPane ppePane = new StackPane();
-//         ppePane.setAlignment(Pos.CENTER_LEFT);
-//         ppePane.getChildren().addAll(ppeBackground, ppeProgress);
-
-//         Text surgicalLabel = new Text("Surgical Kits Availability");
-//         surgicalLabel.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         Text surgicalValue = new Text("62%");
-//         surgicalValue.setStyle("-fx-font-size: 11px; -fx-font-weight: bold;");
-
-//         HBox surgicalHeader = new HBox(10);
-//         Region surgicalHeaderSpacer = new Region();
-//         HBox.setHgrow(surgicalHeaderSpacer, Priority.ALWAYS);
-//         surgicalHeader.getChildren().addAll(surgicalLabel, surgicalHeaderSpacer, surgicalValue);
-
-//         Region surgicalBackground = new Region();
-//         surgicalBackground.setPrefHeight(8);
-//         surgicalBackground.setStyle("-fx-background-color: #e1e2ed; -fx-background-radius: 10px;");
-
-//         Region surgicalProgress = new Region();
-//         surgicalProgress.setPrefHeight(8);
-//         surgicalProgress.setPrefWidth(210);
-//         surgicalProgress.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 10px;");
-
-//         StackPane surgicalPane = new StackPane();
-//         surgicalPane.setAlignment(Pos.CENTER_LEFT);
-//         surgicalPane.getChildren().addAll(surgicalBackground, surgicalProgress);
-
-//         resourceStockCard.getChildren().addAll(stockTitle, stockCircles, ppeHeader, ppePane, surgicalHeader, surgicalPane);
-
-//         // =============================================================
-//         // PATIENT VOLUME + QUICK ACTIONS
-//         // =============================================================
-
-//         VBox rightLowerContent = new VBox(18);
-//         rightLowerContent.setPrefWidth(300);
-
-//         VBox patientVolumeCard = new VBox(12);
-//         patientVolumeCard.setPadding(new Insets(18));
-//         patientVolumeCard.setPrefHeight(180);
-//         patientVolumeCard.setStyle("-fx-background-color: #f3f3fe; -fx-border-color: #c3c6d7; -fx-border-radius: 12px; -fx-background-radius: 12px;");
-
-//         Text patientVolumeTitle = new Text("Today's Patient Vol.");
-//         patientVolumeTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         HBox patientBars = new HBox(8);
-//         patientBars.setAlignment(Pos.BOTTOM_CENTER);
-//         patientBars.setPrefHeight(80);
-
-//         Region patientBar1 = new Region();
-//         patientBar1.setPrefWidth(22);
-//         patientBar1.setPrefHeight(45);
-//         patientBar1.setStyle("-fx-background-color: #b4c5ff; -fx-background-radius: 4px 4px 0px 0px;");
-
-//         Region patientBar2 = new Region();
-//         patientBar2.setPrefWidth(22);
-//         patientBar2.setPrefHeight(30);
-//         patientBar2.setStyle("-fx-background-color: #b4c5ff; -fx-background-radius: 4px 4px 0px 0px;");
-
-//         Region patientBar3 = new Region();
-//         patientBar3.setPrefWidth(22);
-//         patientBar3.setPrefHeight(58);
-//         patientBar3.setStyle("-fx-background-color: #b4c5ff; -fx-background-radius: 4px 4px 0px 0px;");
-
-//         Region patientBar4 = new Region();
-//         patientBar4.setPrefWidth(22);
-//         patientBar4.setPrefHeight(70);
-//         patientBar4.setStyle("-fx-background-color: #8da8ed; -fx-background-radius: 4px 4px 0px 0px;");
-
-//         Region patientBar5 = new Region();
-//         patientBar5.setPrefWidth(22);
-//         patientBar5.setPrefHeight(80);
-//         patientBar5.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 4px 4px 0px 0px;");
-
-//         Region patientBar6 = new Region();
-//         patientBar6.setPrefWidth(22);
-//         patientBar6.setPrefHeight(68);
-//         patientBar6.setStyle("-fx-background-color: #b4c5ff; -fx-background-radius: 4px 4px 0px 0px;");
-
-//         Region patientBar7 = new Region();
-//         patientBar7.setPrefWidth(22);
-//         patientBar7.setPrefHeight(55);
-//         patientBar7.setStyle("-fx-background-color: #b4c5ff; -fx-background-radius: 4px 4px 0px 0px;");
-
-//         patientBars.getChildren().addAll(patientBar1, patientBar2, patientBar3, patientBar4, patientBar5, patientBar6, patientBar7);
-
-//         HBox patientDays = new HBox(12);
-//         patientDays.setAlignment(Pos.CENTER);
-
-//         Text mon = new Text("MON");
-//         Text tue = new Text("TUE");
-//         Text wed = new Text("WED");
-//         Text thu = new Text("THU");
-//         Text fri = new Text("FRI");
-//         Text sat = new Text("SAT");
-//         Text sun = new Text("SUN");
-
-//         mon.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-fill: #737686;");
-//         tue.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-fill: #737686;");
-//         wed.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-fill: #737686;");
-//         thu.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-fill: #737686;");
-//         fri.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-fill: #737686;");
-//         sat.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-fill: #737686;");
-//         sun.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-fill: #737686;");
-
-//         patientDays.getChildren().addAll(mon, tue, wed, thu, fri, sat, sun);
-
-//         patientVolumeCard.getChildren().addAll(patientVolumeTitle, patientBars, patientDays);
-
-//         HBox quickActions1 = new HBox(8);
-
-//         Button assignDoctorButton = new Button("Assign Doctor");
-//         assignDoctorButton.setPrefWidth(140);
-//         assignDoctorButton.setPrefHeight(55);
-//         assignDoctorButton.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
-
-//         Button reserveIcuButton = new Button("Reserve ICU");
-//         reserveIcuButton.setPrefWidth(140);
-//         reserveIcuButton.setPrefHeight(55);
-//         reserveIcuButton.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
-
-//         quickActions1.getChildren().addAll(assignDoctorButton, reserveIcuButton);
-
-//         HBox quickActions2 = new HBox(8);
-
-//         Button labRequestButton = new Button("Lab Request");
-//         labRequestButton.setPrefWidth(140);
-//         labRequestButton.setPrefHeight(55);
-//         labRequestButton.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
-
-//         Button printLogsButton = new Button("Print Logs");
-//         printLogsButton.setPrefWidth(140);
-//         printLogsButton.setPrefHeight(55);
-//         printLogsButton.setStyle("-fx-background-color: white; -fx-border-color: #c3c6d7; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #191b23;");
-
-//         quickActions2.getChildren().addAll(labRequestButton, printLogsButton);
-
-//         rightLowerContent.getChildren().addAll(patientVolumeCard, quickActions1, quickActions2);
-
-//         lowerContent.getChildren().addAll(ambulanceTrackingCard, resourceStockCard, rightLowerContent);
-
-//         // =============================================================
-//         // ADD MAIN CONTENT
-//         // =============================================================
-
-//         mainContent.getChildren().addAll(pageHeader, summaryCards, upperContent, lowerContent);
-
-//         // =============================================================
-//         // SCROLL PANE
-//         // =============================================================
-
-//         ScrollPane scrollPane = new ScrollPane(mainContent);
-//         scrollPane.setFitToWidth(true);
-//         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-//         scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
-
-//         VBox finalContent = new VBox(scrollPane);
-//         finalContent.setStyle("-fx-background-color: #faf8ff;");
-//         VBox.setVgrow(scrollPane, Priority.ALWAYS);
-
-//         borderPane.setCenter(finalContent);
-
-//         // =============================================================
-//         // NAVIGATION
-//         // =============================================================
-
-//         dashboardButton.setOnAction(event -> {
-
-     
-//                 dashboardButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 emergencyButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 resourceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 doctorButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 otButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 patientButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 ambulanceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 notificationButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 analyticsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-
-//         // Active button
-//                 dashboardButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
-
-//         // Show dashboard
-//                 borderPane.setCenter(finalContent);
-//         });
-
-
-//         emergencyButton.setOnAction(event -> {
-
-//         // Reset all buttons
-//                 dashboardButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 emergencyButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 resourceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 doctorButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 otButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 patientButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 ambulanceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 notificationButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 analyticsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-
-//         // Active button
-//                 emergencyButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
-
-//         // Show Emergency Requests page
-//                 HospitalEmergencyRequests emergencyRequests = new HospitalEmergencyRequests();
-//                 borderPane.setCenter(emergencyRequests.getEmergencyRequests());
-//         });
-
-
-//         resourceButton.setOnAction(event -> {
-
-//         // Reset all buttons
-//                 dashboardButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 emergencyButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 resourceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 doctorButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 otButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 patientButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 ambulanceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 notificationButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 analyticsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-
-//                 // Active button
-//                 resourceButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
-
-//                 HospitalResourceManagement resourceManagement = new HospitalResourceManagement();
-//                 borderPane.setCenter(resourceManagement.getResourceManagement());
-//         });
-
-
-//         doctorButton.setOnAction(event -> {
-
-//                 // Reset all buttons
-//                 dashboardButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 emergencyButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 resourceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 doctorButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 otButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 patientButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 ambulanceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 notificationButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 analyticsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-
-//                 // Active button
-//                 doctorButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
-
-//                 // Add your Doctor Management page here
-//                 HospitalDoctorManagement doctorManagement = new HospitalDoctorManagement();
-//                 borderPane.setCenter(doctorManagement.getDoctorManagement());
-//         });
-
-
-//         otButton.setOnAction(event -> {
-
-//                 // Reset all buttons
-//                 dashboardButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 emergencyButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 resourceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 doctorButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 otButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 patientButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 ambulanceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 notificationButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 analyticsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-
-//                 // Active button
-//                 otButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
-
-                 
-//                 HospitalOperationTheatre operationTheatre = new HospitalOperationTheatre();
-//                 borderPane.setCenter(operationTheatre.getOperationTheatre());
-//         });
-
-
-//         patientButton.setOnAction(event -> {
-
-//                 // Reset all buttons
-//                 dashboardButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 emergencyButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 resourceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 doctorButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 otButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 patientButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 ambulanceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 notificationButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 analyticsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-
-//                 // Active button
-//                 patientButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
-
-                 
-//                 HospitalPatientRecords patientRecords = new HospitalPatientRecords();
-//                 borderPane.setCenter(patientRecords.getPatientRecords());
-//         });
-
-
-//         ambulanceButton.setOnAction(event -> {
-
-//                 // Reset all buttons
-//                 dashboardButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 emergencyButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 resourceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 doctorButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 otButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 patientButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 ambulanceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 notificationButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 analyticsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-
-//                 // Active button
-//                 ambulanceButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
-
-                 
-//                 HospitalAmbulanceTracking ambulanceTracking = new HospitalAmbulanceTracking();
-//                 borderPane.setCenter(ambulanceTracking.getAmbulanceTracking());
-//         });
-
-
-//         notificationButton.setOnAction(event -> {
-
-//                 // Reset all buttons
-//                 dashboardButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 emergencyButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 resourceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 doctorButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 otButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 patientButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 ambulanceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 notificationButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 analyticsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-
-//                 // Active button
-//                 notificationButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
-
-//                 HospitalNotification notification = new HospitalNotification();
-//                 borderPane.setCenter(notification.getNotification());
-//         });
-
-
-//         analyticsButton.setOnAction(event -> {
-
-//                 // Reset all buttons
-//                 dashboardButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 emergencyButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 resourceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 doctorButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 otButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 patientButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 ambulanceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 notificationButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 analyticsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-
-//                 // Active button
-//                 analyticsButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
-
-//                 HospitalAnalytics analytics = new HospitalAnalytics();
-//                 borderPane.setCenter(analytics.getAnalytics());
-//         });
-
-
-//         settingsButton.setOnAction(event -> {
-
-//                 // Reset all buttons
-//                 dashboardButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 emergencyButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 resourceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 doctorButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 otButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 patientButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 ambulanceButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 notificationButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 analyticsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-//                 settingsButton.setStyle("-fx-background-color: transparent;" + "-fx-text-fill: #4b5563;" + "-fx-font-size: 15px;" + "-fx-background-radius: 10px;");
-
-//                 // Active button
-//                 settingsButton.setStyle("-fx-background-color: #e9edff;" + "-fx-text-fill: #3949ab;" + "-fx-font-size: 15px;" + "-fx-font-weight: bold;" + "-fx-background-radius: 10px;");
-
-//                 HospitalSettings settings = new HospitalSettings();
-//                 borderPane.setCenter(settings.getSettings());
-//         });
-
-
-//         logoutButton.setOnAction(event -> {
-//                  // Add your SignIn navigation logic here.
-//         });
-
-//         // =============================================================
-//         // SCENE
-//         // =============================================================
-
-//         dashboardScene = new Scene(borderPane, dashboardStage.getWidth(), dashboardStage.getHeight());
-
-//         dashboardStage.setScene(dashboardScene);
-//         dashboardStage.setTitle("LifeLink Hospital Dashboard");
-//         dashboardStage.setMaximized(true);
-//         dashboardStage.show();
-//     }
-// }
-
-
-
 package com.kurukshetra.view.hospital;
+
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.ListenerRegistration;
+import com.google.cloud.firestore.Firestore;
+import com.google.api.core.ApiFuture;
+import java.util.concurrent.Executors;
+
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.concurrent.Worker;
+
+import com.kurukshetra.controller.hospitalController.HospitalResourceController;
+import com.kurukshetra.model.hospitalModel.HospitalResourceModel;
+import com.kurukshetra.controller.hospitalController.OperationTheatreController;
+import com.kurukshetra.model.hospitalModel.OperationTheatreModel;
+import com.kurukshetra.view.Welcome;
+import com.kurukshetra.config.FirebaseConfig;
+import com.kurukshetra.controller.hospitalController.DoctorController;
+import com.kurukshetra.controller.hospitalController.DriverHospitalNotificationController;
+import com.kurukshetra.model.hospitalModel.DoctorModel;
+import com.kurukshetra.model.hospitalModel.DriverHospitalNotificationModel;
+import com.kurukshetra.view.util.ShimmerLoader;
+import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
+import javafx.util.Duration;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.UUID;
+import com.google.cloud.Timestamp;
+import com.google.cloud.firestore.SetOptions;
+
+import javafx.application.Platform;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.awt.Desktop;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.Locale;
+import javafx.concurrent.Worker;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class HospitalDashboard extends Application {
+
+    // =========================================================
+    // COLOR VARIABLES (GREEN THEME)
+    // =========================================================
+    // Sidebar Background: #051E1B / #072420 (Gradient)
+    // Active Nav: bg #FFFFFF, text #064E3B, border rgba(94, 234, 212, 0.65)
+    // Inactive Nav: bg transparent, text #CCFBF1
+    // Hover Nav: bg rgba(45, 212, 191, 0.22), text #FFFFFF
+    // Logout Button: bg rgba(150, 25, 35, 0.60), text #FFE4E6
+    // Content Background: #F8FAFC
+    // Primary Text: #0F172A
+    // Secondary Text: #64748B
+    // Borders: #E2E8F0
+    // PAGE_BG : #a5bdaaff
+    // =========================================================
+
+    public static String hospitalEmail = "ojas@gmail.com";
+    public static String hospitalName = "KEM Hospital Pune";
+    private static Text hospitalTextRef;
+
+    public static void fetchHospitalNameFromFirebase(String email) {
+        if (email == null || email.trim().isEmpty())
+            return;
+        try {
+            Firestore db = FirebaseConfig.getFirestore();
+            if (db == null)
+                return;
+            String cleanEmail = email.trim();
+
+            // 1. Try direct document lookup by email
+            DocumentSnapshot doc = db.collection("hospital").document(cleanEmail).get().get();
+            if (doc != null && doc.exists()) {
+                String name = doc.getString("hospitalName");
+                if (name == null || name.trim().isEmpty())
+                    name = doc.getString("name");
+                if (name != null && !name.trim().isEmpty()) {
+                    hospitalName = name.trim();
+                    System.out.println("[HospitalDashboard] Fetched Hospital Name from Doc ID (" + cleanEmail + "): "
+                            + hospitalName);
+                    updateHospitalUI();
+                    return;
+                }
+            }
+
+            // 2. Query where email == cleanEmail
+            QuerySnapshot qSnap = db.collection("hospital").whereEqualTo("email", cleanEmail).get().get();
+            if (qSnap != null && !qSnap.isEmpty()) {
+                DocumentSnapshot d = qSnap.getDocuments().get(0);
+                String name = d.getString("hospitalName");
+                if (name == null || name.trim().isEmpty())
+                    name = d.getString("name");
+                if (name != null && !name.trim().isEmpty()) {
+                    hospitalName = name.trim();
+                    System.out.println("[HospitalDashboard] Fetched Hospital Name where email=" + cleanEmail + ": "
+                            + hospitalName);
+                    updateHospitalUI();
+                    return;
+                }
+            }
+
+            // 3. Query where hospitalEmail == cleanEmail
+            QuerySnapshot qSnap2 = db.collection("hospital").whereEqualTo("hospitalEmail", cleanEmail).get().get();
+            if (qSnap2 != null && !qSnap2.isEmpty()) {
+                DocumentSnapshot d = qSnap2.getDocuments().get(0);
+                String name = d.getString("hospitalName");
+                if (name == null || name.trim().isEmpty())
+                    name = d.getString("name");
+                if (name != null && !name.trim().isEmpty()) {
+                    hospitalName = name.trim();
+                    System.out.println("[HospitalDashboard] Fetched Hospital Name where hospitalEmail=" + cleanEmail
+                            + ": " + hospitalName);
+                    updateHospitalUI();
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("[HospitalDashboard] Error fetching hospital name from Firebase: " + e.getMessage());
+        }
+    }
+
+    private static void updateHospitalUI() {
+        Platform.runLater(() -> {
+            if (hospitalTextRef != null) {
+                hospitalTextRef.setText(hospitalName);
+            }
+            if (dashboardStage != null) {
+                dashboardStage.setTitle("LifeLink Hospital Dashboard (" + hospitalName + ")");
+            }
+        });
+    }
+
+    public HospitalDashboard(String hospitalEmail) {
+        if (hospitalEmail != null && !hospitalEmail.trim().isEmpty()) {
+            HospitalDashboard.hospitalEmail = hospitalEmail.trim();
+            new Thread(() -> fetchHospitalNameFromFirebase(hospitalEmail.trim())).start();
+        }
+    }
+
+    public HospitalDashboard() {
+    }
 
     public static Stage dashboardStage;
     private Scene dashboardScene;
 
-    // =============================================================
-    // HEALTHCARE COLOR THEME CONSTANTS (SOFT TEAL PALETTE)
-    // =============================================================
-    private static final String PRIMARY_TEAL      = "#087F8C";
-    private static final String TEAL_DARK         = "#056D79";
-    private static final String TEAL_VERY_LIGHT   = "#EAF8F9";
-    private static final String TEAL_LIGHT        = "#DDF3F5";
-    private static final String TEAL_SOFT         = "#CDECEF";
-    private static final String TEAL_PALE         = "#F2FBFB";
+    private boolean mapReady = false;
 
-    private static final String PAGE_BG           = "#F7FBFC";
-    private static final String SURFACE           = "#FFFFFF";
-    private static final String BORDER_COLOR      = "#DCECEF";
-    private static final String TRACK_BG          = "#E6F0F2";
+    private String pendingPickupLocation = null;
+    private String pendingHospitalAddress = null;
 
-    private static final String TEXT_PRIMARY      = "#17252A";
-    private static final String TEXT_SECONDARY    = "#52646A";
-    private static final String TEXT_MUTED        = "#829196";
+    // =========================================================
+    // THINGSPEAK LIVE GPS TELEMETRY
+    // =========================================================
+    private static final String CHANNEL_ID = "3484394";
+    private static final String THINGSPEAK_URL = "https://api.thingspeak.com/channels/3484394/feeds.json?api_key=NGNFZNO5KV90OLMJ&results=2";
+    private static final int UPDATE_INTERVAL = 5000;
 
-    // Semantic Status Tones
-    private static final String STATUS_SUCCESS_BG   = "#E2F6EC";
-    private static final String STATUS_SUCCESS_TEXT = "#22A06B";
-    private static final String STATUS_WARN_BG      = "#FFF4D6";
-    private static final String STATUS_WARN_TEXT    = "#E8A317";
-    private static final String STATUS_DANGER_BG    = "#FCE9EC";
-    private static final String STATUS_DANGER_TEXT  = "#D96C7A";
+    private volatile boolean isTrackingRunning = true;
+    private Thread trackingThread;
+    private Double liveAmbulanceLat = null;
+    private Double liveAmbulanceLng = null;
+    private double lastLatitude = 0;
+    private double lastLongitude = 0;
+    private final HttpClient httpClient = HttpClient.newBuilder().build();
 
-    // Reusable Visual Styling Helpers
-    private static final String CARD_STYLE =
-        "-fx-background-color: " + SURFACE + ";" +
-        "-fx-border-color: " + BORDER_COLOR + ";" +
-        "-fx-border-radius: 14px;" +
-        "-fx-background-radius: 14px;" +
-        "-fx-effect: dropshadow(gaussian, rgba(8, 127, 140, 0.06), 16, 0.12, 0, 4);";
+    private WebEngine ambulanceMapEngine;
+    private boolean isMapLoaded = false;
+    private Double activeInboundDestLat = null;
+    private Double activeInboundDestLng = null;
+    private String activeInboundHospName = null;
 
-    private static final String CARD_DANGER_STYLE =
-        "-fx-background-color: " + STATUS_DANGER_BG + ";" +
-        "-fx-border-color: #F8B4BD;" +
-        "-fx-border-radius: 14px;" +
-        "-fx-background-radius: 14px;" +
-        "-fx-effect: dropshadow(gaussian, rgba(217, 108, 122, 0.08), 16, 0.12, 0, 4);";
+    private double pendingAmbulanceLat;
+    private double pendingAmbulanceLon;
+    private String pendingHospitalName;
+    private boolean pendingAmbulanceRequest = false;
 
-    private static final String INACTIVE_NAV_STYLE =
-        "-fx-background-color: transparent;" +
-        "-fx-text-fill: " + TEXT_SECONDARY + ";" +
-        "-fx-font-size: 14px;" +
-        "-fx-font-weight: normal;" +
-        "-fx-background-radius: 10px;" +
-        "-fx-alignment: CENTER_LEFT;" +
-        "-fx-padding: 0 16px;";
+    private ListenerRegistration driToHosPopupListener;
+    private final Set<String> handledDriToHosPopupDocIds = new HashSet<>();
+    private static StackPane rootStack;
+    private static VBox popupOverlayContainer;
+    private static String pendingDriToHosDocId = null;
+    private static String pendingDriToHosAmbId = null;
+    private static String pendingDriToHosPatId = null;
 
-    private static final String ACTIVE_NAV_STYLE =
-        "-fx-background-color: " + TEAL_LIGHT + ";" +
-        "-fx-text-fill: " + TEAL_DARK + ";" +
-        "-fx-font-size: 14px;" +
-        "-fx-font-weight: bold;" +
-        "-fx-background-radius: 10px;" +
-        "-fx-border-color: " + PRIMARY_TEAL + ";" +
-        "-fx-border-width: 0px 3px 0px 0px;" +
-        "-fx-alignment: CENTER_LEFT;" +
-        "-fx-padding: 0 16px;";
+    private String selectedPatientId = "PAT-2004";
+    private String selectedTripId = "MH16-104";
+    private String selectedAmbulanceId = "AMB-104";
+    private String selectedDriverEmail = "";
+    private String selectedMessage = "";
+    private String selectedStatus = "INCOMING";
+    private VBox selectedAmbulanceCardNode = null;
 
-    private Button currentActiveNavButton;
+    private static final String CARD_STYLE_DEFAULT = "-fx-background-color: #F8FAFC; " +
+            "-fx-border-color: #E2E8F0; " +
+            "-fx-border-width: 1.5px; " +
+            "-fx-border-radius: 12px; " +
+            "-fx-background-radius: 12px; " +
+            "-fx-cursor: hand;";
 
-    private void setActiveNav(Button button, Button... allButtons) {
-        for (Button b : allButtons) {
-            b.setStyle(INACTIVE_NAV_STYLE);
+    private static final String CARD_STYLE_HOVER = "-fx-background-color: #F1F5F9; " +
+            "-fx-border-color: #CBD5E1; " +
+            "-fx-border-width: 1.5px; " +
+            "-fx-border-radius: 12px; " +
+            "-fx-background-radius: 12px; " +
+            "-fx-cursor: hand;";
+
+    private static final String CARD_STYLE_SELECTED = "-fx-background-color: #EFF6FF; " +
+            "-fx-border-color: #006591; " +
+            "-fx-border-width: 2px; " +
+            "-fx-border-radius: 12px; " +
+            "-fx-background-radius: 12px; " +
+            "-fx-effect: dropshadow(three-pass-box, rgba(0,101,145,0.18), 10, 0, 0, 2); " +
+            "-fx-cursor: hand;";
+
+    // =========================================================================
+    // HOSPITAL GREEN THEME SIDEBAR CONSTANTS & HELPERS (MATCHING IMAGE SPEC)
+    // =========================================================================
+    private static final String FONT_FAMILY = "-fx-font-family: 'Segoe UI', -apple-system, system-ui, sans-serif; ";
+
+    // Green Theme Sidebar Constants matching hospitalDashboardbackground.png
+    private static final String SIDEBAR_NAV_ACTIVE = FONT_FAMILY +
+            "-fx-background-color: #FFFFFF; " +
+            "-fx-text-fill: #064E3B; " +
+            "-fx-font-size: 16px; " +
+            "-fx-font-weight: 800; " +
+            "-fx-background-radius: 11px; " +
+            "-fx-alignment: center-left; " +
+            "-fx-padding: 10px 16px; " +
+            "-fx-border-color: rgba(94, 234, 212, 0.65); " +
+            "-fx-border-radius: 11px; " +
+            "-fx-border-width: 1px; " +
+            "-fx-effect: dropshadow(three-pass-box, rgba(16, 185, 129, 0.45), 12, 0, 0, 3); " +
+            "-fx-cursor: hand;";
+
+    private static final String SIDEBAR_NAV_INACTIVE = FONT_FAMILY +
+            "-fx-background-color: transparent; " +
+            "-fx-text-fill: #CCFBF1; " +
+            "-fx-font-size: 15px; " +
+            "-fx-font-weight: 500; " +
+            "-fx-background-radius: 11px; " +
+            "-fx-alignment: center-left; " +
+            "-fx-padding: 10px 16px; " +
+            "-fx-border-color: transparent; " +
+            "-fx-border-radius: 11px; " +
+            "-fx-border-width: 1px; " +
+            "-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.35), 4, 0, 0, 1); " +
+            "-fx-cursor: hand;";
+
+    private static final String SIDEBAR_NAV_HOVER = FONT_FAMILY +
+            "-fx-background-color: rgba(45, 212, 191, 0.22); " +
+            "-fx-text-fill: #FFFFFF; " +
+            "-fx-font-size: 15px; " +
+            "-fx-font-weight: 600; " +
+            "-fx-background-radius: 11px; " +
+            "-fx-alignment: center-left; " +
+            "-fx-padding: 10px 16px; " +
+            "-fx-border-color: rgba(94, 234, 212, 0.50); " +
+            "-fx-border-radius: 11px; " +
+            "-fx-border-width: 1px; " +
+            "-fx-effect: dropshadow(three-pass-box, rgba(16, 185, 129, 0.30), 8, 0, 0, 2); " +
+            "-fx-cursor: hand;";
+
+    private static Button currentActiveNavButton;
+
+    private static void applyNavHover(Button btn) {
+        btn.setOnMouseEntered(e -> {
+            if (btn != currentActiveNavButton && !btn.getStyle().contains("#064E3B")) {
+                btn.setStyle(SIDEBAR_NAV_HOVER);
+                btn.setTranslateX(4);
+            }
+        });
+        btn.setOnMouseExited(e -> {
+            if (btn != currentActiveNavButton && !btn.getStyle().contains("#064E3B")) {
+                btn.setStyle(SIDEBAR_NAV_INACTIVE);
+                btn.setTranslateX(0);
+            }
+        });
+    }
+
+    private static void setActiveNav(Button activeBtn, Button... otherButtons) {
+        currentActiveNavButton = activeBtn;
+        activeBtn.setStyle(SIDEBAR_NAV_ACTIVE);
+        activeBtn.setTranslateX(0);
+        for (Button btn : otherButtons) {
+            btn.setStyle(SIDEBAR_NAV_INACTIVE);
+            btn.setTranslateX(0);
         }
-        button.setStyle(ACTIVE_NAV_STYLE);
-        currentActiveNavButton = button;
     }
 
-    private void applyNavHover(Button button) {
-        button.setOnMouseEntered(e -> {
-            if (button != currentActiveNavButton) {
-                button.setStyle(
-                    "-fx-background-color: " + TEAL_PALE + ";" +
-                    "-fx-text-fill: " + TEAL_DARK + ";" +
-                    "-fx-font-size: 14px;" +
-                    "-fx-background-radius: 10px;" +
-                    "-fx-alignment: CENTER_LEFT;" +
-                    "-fx-padding: 0 16px;"
-                );
+    private Image loadSafeImage(String resourcePath, String relativePath) {
+        try {
+            var res = getClass().getResource(resourcePath);
+            if (res != null) {
+                Image img = new Image(res.toExternalForm(), true);
+                if (!img.isError()) {
+                    return img;
+                }
             }
-        });
-        button.setOnMouseExited(e -> {
-            if (button != currentActiveNavButton) {
-                button.setStyle(INACTIVE_NAV_STYLE);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            File f = new File(relativePath);
+            if (f.exists()) {
+                Image img = new Image(f.toURI().toString(), true);
+                if (!img.isError()) {
+                    return img;
+                }
             }
-        });
+            File f2 = new File("lifelink1/" + relativePath);
+            if (f2.exists()) {
+                Image img = new Image(f2.toURI().toString(), true);
+                if (!img.isError()) {
+                    return img;
+                }
+            }
+            File f3 = new File("LifeLink/lifelink1/" + relativePath);
+            if (f3.exists()) {
+                Image img = new Image(f3.toURI().toString(), true);
+                if (!img.isError()) {
+                    return img;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
+        return null;
     }
 
-    private void applyQuickActionHover(Button button) {
-        button.setOnMouseEntered(e -> button.setStyle(
-            "-fx-background-color: " + TEAL_PALE + ";" +
-            "-fx-border-color: " + PRIMARY_TEAL + ";" +
-            "-fx-border-radius: 10px;" +
-            "-fx-background-radius: 10px;" +
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-text-fill: " + PRIMARY_TEAL + ";" +
-            "-fx-cursor: hand;"
-        ));
-        button.setOnMouseExited(e -> button.setStyle(
-            "-fx-background-color: " + SURFACE + ";" +
-            "-fx-border-color: " + BORDER_COLOR + ";" +
-            "-fx-border-radius: 10px;" +
-            "-fx-background-radius: 10px;" +
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-text-fill: " + TEXT_PRIMARY + ";"
-        ));
+    private static VBox createTrendingMetricCard(
+            String iconEmoji, String iconBgColor, String iconTextColor,
+            String title, Text valueNode, String badgeText, String badgeBg, String badgeTextColor) {
+        VBox card = new VBox(10);
+        card.setPadding(new Insets(16));
+        card.setPrefHeight(132);
+        card.setStyle(
+                "-fx-background-color: #FFFFFF; " +
+                        "-fx-border-color: #E2E8F0; " +
+                        "-fx-border-radius: 14px; " +
+                        "-fx-background-radius: 14px; " +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.04), 14, 0, 0, 3);");
+        HBox.setHgrow(card, Priority.ALWAYS);
+
+        card.setOnMouseEntered(e -> {
+            card.setTranslateY(-4);
+            card.setStyle(
+                    "-fx-background-color: #FFFFFF; " +
+                            "-fx-border-color: #CBD5E1; " +
+                            "-fx-border-radius: 14px; " +
+                            "-fx-background-radius: 14px; " +
+                            "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.09), 18, 0, 0, 6);");
+        });
+        card.setOnMouseExited(e -> {
+            card.setTranslateY(0);
+            card.setStyle(
+                    "-fx-background-color: #FFFFFF; " +
+                            "-fx-border-color: #E2E8F0; " +
+                            "-fx-border-radius: 14px; " +
+                            "-fx-background-radius: 14px; " +
+                            "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.04), 14, 0, 0, 3);");
+        });
+
+        HBox topRow = new HBox(8);
+        topRow.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane iconPane = new StackPane();
+        iconPane.setPrefSize(34, 34);
+        iconPane.setMinSize(34, 34);
+        iconPane.setStyle(
+                "-fx-background-color: " + iconBgColor + "; " +
+                        "-fx-background-radius: 8px;");
+        Text iconText = new Text(iconEmoji);
+        iconText.setStyle("-fx-font-size: 15px; -fx-fill: " + iconTextColor + ";");
+        iconPane.getChildren().add(iconText);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        Label badge = new Label(badgeText);
+        badge.setStyle(
+                "-fx-background-color: " + badgeBg + "; " +
+                        "-fx-text-fill: " + badgeTextColor + "; " +
+                        "-fx-font-size: 9.5px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-padding: 3px 8px; " +
+                        "-fx-background-radius: 6px; " +
+                        FONT_FAMILY);
+        topRow.getChildren().addAll(iconPane, spacer, badge);
+
+        valueNode.setStyle(FONT_FAMILY + "-fx-font-size: 28px; -fx-font-weight: 800; -fx-fill: #0F172A;");
+
+        Text labelText = new Text(title);
+        labelText.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-font-weight: 600; -fx-fill: #64748B;");
+
+        card.getChildren().addAll(topRow, valueNode, labelText);
+        return card;
     }
 
     @Override
@@ -1203,898 +437,974 @@ public class HospitalDashboard extends Application {
 
         dashboardStage = stage;
 
-        BorderPane borderPane = new BorderPane();
-        borderPane.setStyle("-fx-background-color: " + PAGE_BG + ";");
+        HospitalResourceController resourceController = new HospitalResourceController();
 
-        // =============================================================
-        // LEFT MENU (CLEAN HEALTHCARE SIDEBAR)
-        // =============================================================
+        String safeHospitalEmail = (hospitalEmail != null && !hospitalEmail.trim().isEmpty())
+                ? hospitalEmail.trim()
+                : "hospital1@lifelink.com";
+        HospitalDashboard.hospitalEmail = safeHospitalEmail;
 
-        VBox leftMenu = new VBox(6);
-        leftMenu.setPadding(new Insets(24, 14, 24, 14));
-        leftMenu.setPrefWidth(250);
-        leftMenu.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-border-width: 0px 1px 0px 0px;");
+        // Fetch hospital name from Firebase using login email
+        fetchHospitalNameFromFirebase(safeHospitalEmail);
 
-        Text lifeLinkText = new Text("LifeLink");
-        lifeLinkText.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEAL + ";");
+        HospitalResourceModel resource = resourceController.getHospitalResource(safeHospitalEmail);
 
-        Text hospitalText = new Text("Hospital Management");
-        hospitalText.setStyle("-fx-font-size: 12px; -fx-fill: " + TEXT_MUTED + "; -fx-font-weight: normal;");
+        int totalICUBeds = 0;
+        int availableICUBeds = 0;
+        int totalEmergencyBeds = 0;
+        int availableEmergencyBeds = 0;
 
-        VBox profileBox = new VBox(4);
-        profileBox.setPadding(new Insets(0, 10, 20, 10));
-        profileBox.getChildren().addAll(lifeLinkText, hospitalText);
-
-        Button dashboardButton = new Button("Dashboard");
-        dashboardButton.setPrefWidth(222);
-        dashboardButton.setPrefHeight(42);
-
-        Button emergencyButton = new Button("Emergency Requests");
-        emergencyButton.setPrefWidth(222);
-        emergencyButton.setPrefHeight(42);
-
-        Button resourceButton = new Button("Resource Management");
-        resourceButton.setPrefWidth(222);
-        resourceButton.setPrefHeight(42);
-
-        Button doctorButton = new Button("Doctor Management");
-        doctorButton.setPrefWidth(222);
-        doctorButton.setPrefHeight(42);
-
-        Button otButton = new Button("Operation Theatre");
-        otButton.setPrefWidth(222);
-        otButton.setPrefHeight(42);
-
-        Button patientButton = new Button("Patient Records");
-        patientButton.setPrefWidth(222);
-        patientButton.setPrefHeight(42);
-
-        Button ambulanceButton = new Button("Ambulance Tracking");
-        ambulanceButton.setPrefWidth(222);
-        ambulanceButton.setPrefHeight(42);
-
-        Button notificationButton = new Button("Notifications");
-        notificationButton.setPrefWidth(222);
-        notificationButton.setPrefHeight(42);
-
-        Button analyticsButton = new Button("Analytics");
-        analyticsButton.setPrefWidth(222);
-        analyticsButton.setPrefHeight(42);
-
-        Button settingsButton = new Button("Settings");
-        settingsButton.setPrefWidth(222);
-        settingsButton.setPrefHeight(42);
-
-        Button[] navButtons = new Button[] {
-            dashboardButton, emergencyButton, resourceButton, doctorButton, otButton,
-            patientButton, ambulanceButton, notificationButton, analyticsButton, settingsButton
-        };
-
-        for (Button btn : navButtons) {
-            btn.setStyle(INACTIVE_NAV_STYLE);
-            applyNavHover(btn);
+        if (resource != null) {
+            totalICUBeds = resource.getTotalICUBeds();
+            availableICUBeds = resource.getAvailableICUBeds();
+            totalEmergencyBeds = resource.getTotalEmergencyBeds();
+            availableEmergencyBeds = resource.getAvailableEmergencyBeds();
         }
 
-        // Set initial active state on Dashboard
-        dashboardButton.setStyle(ACTIVE_NAV_STYLE);
+        System.out.println("Hospital Email: " + safeHospitalEmail);
+        System.out.println("Available ICU Beds: " + availableICUBeds);
+        System.out.println("Available Emergency Beds: " + availableEmergencyBeds);
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setStyle("-fx-background-color: #a5bdaaff;");
+
+        // =============================================================
+        // LEFT MENU - HOSPITAL OPERATIONS SIDEBAR (WITH GREEN THEME BACKGROUND)
+        // =============================================================
+
+        VBox leftMenu = new VBox(10);
+        leftMenu.setPadding(new Insets(20, 14, 20, 14));
+        leftMenu.setPrefWidth(260);
+        leftMenu.setMinWidth(260);
+        leftMenu.setMaxWidth(260);
+        leftMenu.setStyle("-fx-background-color: transparent;");
+
+        // Hospital Brand Header
+        HBox brandHeader = new HBox(12);
+        brandHeader.setAlignment(Pos.CENTER_LEFT);
+        brandHeader.setPadding(new Insets(4, 8, 14, 8));
+
+        StackPane brandIconPane = new StackPane();
+        brandIconPane.setPrefSize(38, 38);
+        brandIconPane.setMinSize(38, 38);
+        brandIconPane.setMaxSize(38, 38);
+        brandIconPane.setStyle(
+                "-fx-background-color: linear-gradient(to bottom right, #10B981, #0D9488); " +
+                        "-fx-background-radius: 10px; " +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(16, 185, 129, 0.45), 10, 0, 0, 2);");
+        Text brandIcon = new Text("+");
+        brandIcon.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: white;");
+        brandIconPane.getChildren().add(brandIcon);
+
+        VBox brandTextBox = new VBox(1);
+        Text lifeLinkText = new Text("LifeLink");
+        lifeLinkText.setStyle(FONT_FAMILY
+                + "-fx-font-size: 18px; -fx-font-weight: 800; -fx-fill: #FFFFFF; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 6, 0, 0, 1);");
+
+        Text hospitalText = new Text(hospitalName);
+        hospitalText.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-font-weight: 600; -fx-fill: #99F6E4;");
+        hospitalTextRef = hospitalText;
+        brandTextBox.getChildren().addAll(lifeLinkText, hospitalText);
+        brandHeader.getChildren().addAll(brandIconPane, brandTextBox);
+
+        VBox brandBox = new VBox(10, brandHeader);
+        brandBox.setPadding(new Insets(0, 0, 10, 0));
+
+        // Category 1: CLINICAL OPERATIONS
+        Button dashboardButton = new Button("Dashboard");
+        dashboardButton.setMaxWidth(Double.MAX_VALUE);
+        dashboardButton.setPrefHeight(40);
+        dashboardButton.setStyle(SIDEBAR_NAV_ACTIVE);
         currentActiveNavButton = dashboardButton;
+
+        Button patientMonitoringButton = new Button("Patient Live Monitoring");
+        patientMonitoringButton.setMaxWidth(Double.MAX_VALUE);
+        patientMonitoringButton.setPrefHeight(40);
+        patientMonitoringButton.setStyle(SIDEBAR_NAV_INACTIVE);
+
+        Button patientButton = new Button("Patient Details");
+        patientButton.setMaxWidth(Double.MAX_VALUE);
+        patientButton.setPrefHeight(40);
+        patientButton.setStyle(SIDEBAR_NAV_INACTIVE);
+
+        Button resourceButton = new Button("Resource Management");
+        resourceButton.setMaxWidth(Double.MAX_VALUE);
+        resourceButton.setPrefHeight(40);
+        resourceButton.setStyle(SIDEBAR_NAV_INACTIVE);
+
+        Button doctorButton = new Button("Doctor Management");
+        doctorButton.setMaxWidth(Double.MAX_VALUE);
+        doctorButton.setPrefHeight(40);
+        doctorButton.setStyle(SIDEBAR_NAV_INACTIVE);
+
+        Button complaintButton = new Button("Complaints");
+        complaintButton.setMaxWidth(Double.MAX_VALUE);
+        complaintButton.setPrefHeight(40);
+        complaintButton.setStyle(SIDEBAR_NAV_INACTIVE);
+
+        Button settingsButton = new Button("Profile Settings");
+        settingsButton.setMaxWidth(Double.MAX_VALUE);
+        settingsButton.setPrefHeight(40);
+        settingsButton.setStyle(SIDEBAR_NAV_INACTIVE);
+
+        Button[] navButtons = { dashboardButton, patientMonitoringButton, resourceButton, doctorButton, patientButton,
+                complaintButton, settingsButton };
+        for (Button btn : navButtons) {
+            applyNavHover(btn);
+        }
 
         Region menuSpacer = new Region();
         VBox.setVgrow(menuSpacer, Priority.ALWAYS);
 
-        Button logoutButton = new Button("Logout");
-        logoutButton.setPrefWidth(222);
-        logoutButton.setPrefHeight(42);
+        // User Info Box
+        HBox userInfoBox = new HBox(12);
+        userInfoBox.setAlignment(Pos.CENTER_LEFT);
+        userInfoBox.setPadding(new Insets(12));
+        userInfoBox.setStyle(
+                "-fx-background-color: rgba(10, 60, 25, 0.52); " +
+                        "-fx-border-color: rgba(255, 255, 255, 0.22); " +
+                        "-fx-border-radius: 12px; " +
+                        "-fx-background-radius: 12px; " +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 8, 0, 0, 2);");
+
+        StackPane avatarPane = new StackPane();
+        avatarPane.setPrefSize(40, 40);
+        avatarPane.setMinSize(40, 40);
+        avatarPane.setStyle("-fx-background-color: #328831; -fx-background-radius: 50%;");
+        Text avatarInitials = new Text("O"); // Hospital or initials
+        avatarInitials.setStyle(
+                "-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #FFFFFF;");
+        avatarPane.getChildren().add(avatarInitials);
+
+        VBox userDetailsBox = new VBox(2);
+        Text userEmailText = new Text(safeHospitalEmail);
+        userEmailText.setStyle(
+                "-fx-font-family: 'Segoe UI'; -fx-font-size: 12.5px; -fx-font-weight: bold; -fx-fill: #FFFFFF;");
+        Text userRoleText = new Text("Hospital Administrator");
+        userRoleText.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 11px; -fx-fill: #94A3B8;");
+        userDetailsBox.getChildren().addAll(userEmailText, userRoleText);
+
+        userInfoBox.getChildren().addAll(avatarPane, userDetailsBox);
+
+        Button logoutButton = new Button("Log Out Session");
+        logoutButton.setMaxWidth(Double.MAX_VALUE);
+        logoutButton.setPrefHeight(40);
         logoutButton.setStyle(
-            "-fx-background-color: " + STATUS_DANGER_BG + ";" +
-            "-fx-text-fill: " + STATUS_DANGER_TEXT + ";" +
-            "-fx-font-size: 13px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 10px;" +
-            "-fx-cursor: hand;"
-        );
+                FONT_FAMILY +
+                        "-fx-background-color: rgba(23, 145, 60, 0.6); " +
+                        "-fx-text-fill: #FFE4E6; " +
+                        "-fx-font-size: 13px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-background-radius: 11px; " +
+                        "-fx-border-color: rgba(206, 254, 205, 0.35); " +
+                        "-fx-border-radius: 11px; " +
+                        "-fx-border-width: 1px; " +
+                        "-fx-cursor: hand;");
         logoutButton.setOnMouseEntered(e -> logoutButton.setStyle(
-            "-fx-background-color: #F8D7DC;" +
-            "-fx-text-fill: #C0394B;" +
-            "-fx-font-size: 13px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 10px;" +
-            "-fx-cursor: hand;"
-        ));
+                FONT_FAMILY +
+                        "-fx-background-color: rgba(23, 145, 60, 0.6);; " +
+                        "-fx-text-fill: #FFFFFF; " +
+                        "-fx-font-size: 13px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-background-radius: 11px; " +
+                        "-fx-border-color: rgba(255, 255, 255, 0.45); " +
+                        "-fx-border-radius: 11px; " +
+                        "-fx-border-width: 1px; " +
+                        "-fx-cursor: hand; " +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(29, 225, 62, 0.5), 12, 0, 0, 3);"));
         logoutButton.setOnMouseExited(e -> logoutButton.setStyle(
-            "-fx-background-color: " + STATUS_DANGER_BG + ";" +
-            "-fx-text-fill: " + STATUS_DANGER_TEXT + ";" +
-            "-fx-font-size: 13px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 10px;" +
-            "-fx-cursor: hand;"
-        ));
+                FONT_FAMILY +
+                        "-fx-background-color: rgba(25, 150, 100, 0.6); " +
+                        "-fx-text-fill: #FFE4E6; " +
+                        "-fx-font-size: 13px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-background-radius: 11px; " +
+                        "-fx-border-color: rgba(205, 254, 232, 0.35); " +
+                        "-fx-border-radius: 11px; " +
+                        "-fx-border-width: 1px; " +
+                        "-fx-cursor: hand;"));
+
+        Text hospitalNavText = new Text("HOSPITAL");
+        hospitalNavText.setStyle(FONT_FAMILY
+                + "-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #5EEAD4;-fx-letter-spacing: 0.6px; -fx-padding: 6 0 4 8;");
+        // navLabel.setStyle(FONT_FAMILY + "-fx-font-size: 20px; -fx-font-weight: bold;
+        // -fx-text-fill: " + SIDEBAR_TEXT_MUTED + "; -fx-letter-spacing: 0.6px;
+        // -fx-padding: 6 0 4 8;");
+
+        VBox.setMargin(hospitalNavText, new Insets(10, 0, 5, 10));
 
         leftMenu.getChildren().addAll(
-            profileBox, dashboardButton, emergencyButton, resourceButton, doctorButton,
-            otButton, patientButton, ambulanceButton, notificationButton, analyticsButton,
-            settingsButton, menuSpacer, logoutButton
-        );
+                brandBox,
+                hospitalNavText,
+                dashboardButton, patientMonitoringButton, patientButton,
+                resourceButton, doctorButton,
+                complaintButton, settingsButton,
+                menuSpacer,
+                userInfoBox,
+                logoutButton);
 
-        borderPane.setLeft(leftMenu);
+        // ---- Background image layer wrapped in StackPane ----
+        StackPane sidebarStack = new StackPane();
+        sidebarStack.setPrefWidth(260);
+        sidebarStack.setMinWidth(260);
+        sidebarStack.setMaxWidth(260);
+        sidebarStack.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(4, 28, 24, 0.35), 18, 0, 4, 0);");
+
+        // Background image
+        Image sidebarBg = loadSafeImage("/assets/Images/hospitalDashboardbackground.png",
+                "src/main/resources/assets/Images/hospitalDashboardbackground.png");
+        if (sidebarBg != null && !sidebarBg.isError()) {
+            ImageView bgImageView = new ImageView(sidebarBg);
+            bgImageView.setPreserveRatio(false);
+            bgImageView.setSmooth(true);
+            bgImageView.fitWidthProperty().bind(sidebarStack.widthProperty());
+            bgImageView.fitHeightProperty().bind(sidebarStack.heightProperty());
+            sidebarStack.getChildren().add(bgImageView);
+        } else {
+            Pane fallbackBg = new Pane();
+            fallbackBg.setStyle("-fx-background-color: linear-gradient(to bottom, #0A2E2A, #0D3E38, #07221F);");
+            sidebarStack.getChildren().add(fallbackBg);
+        }
+
+        // Dark gradient overlay for text readability preserving artwork vibrancy
+        Pane gradientOverlay = new Pane();
+        gradientOverlay.setStyle(
+                "-fx-background-color: linear-gradient(" +
+                        "to bottom, " +
+                        "rgba(5, 30, 27, 0.40) 0%, " +
+                        "rgba(7, 36, 32, 0.20) 35%, " +
+                        "rgba(4, 22, 20, 0.55) 100%" +
+                        ");");
+
+        // Right edge separator glow
+        Pane edgeGlow = new Pane();
+        edgeGlow.setStyle(
+                "-fx-background-color: linear-gradient(" +
+                        "to bottom, " +
+                        "rgba(94, 234, 212, 0.35), " +
+                        "rgba(45, 212, 191, 0.15), " +
+                        "transparent" +
+                        "); " +
+                        "-fx-max-width: 2px; " +
+                        "-fx-pref-width: 2px;");
+        StackPane.setAlignment(edgeGlow, Pos.CENTER_RIGHT);
+
+        sidebarStack.getChildren().addAll(gradientOverlay, leftMenu, edgeGlow);
+
+        borderPane.setLeft(sidebarStack);
 
         // =============================================================
-        // MAIN CONTENT
+        // MAIN CONTENT - OPERATIONS DASHBOARD
         // =============================================================
 
-        VBox mainContent = new VBox(22);
-        mainContent.setPadding(new Insets(24, 28, 28, 28));
-        mainContent.setStyle("-fx-background-color: " + PAGE_BG + ";");
+        VBox mainContent = new VBox(14);
+        mainContent.setPadding(new Insets(16, 22, 16, 22));
+        mainContent.setStyle("-fx-background-color: #a5bdaaff;");
+        mainContent.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(mainContent, Priority.ALWAYS);
 
-        Text pageTitle = new Text("Dashboard Overview");
-        pageTitle.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        Text pageTitle = new Text("Emergency Operations Center");
+        pageTitle.setStyle(FONT_FAMILY + "-fx-font-size: 24px; -fx-font-weight: 800; -fx-fill: #0F172A;");
 
-        Text pageSubtitle = new Text("Real-time status of LifeLink Hospital resources and emergencies.");
-        pageSubtitle.setStyle("-fx-font-size: 13px; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        VBox titleBox = new VBox(4);
-        titleBox.getChildren().addAll(pageTitle, pageSubtitle);
-
-        TextField searchField = new TextField();
-        searchField.setPromptText("Search patient, doctor, or resource...");
-        searchField.setPrefWidth(380);
-        searchField.setPrefHeight(38);
-        searchField.setStyle(
-            "-fx-background-color: " + SURFACE + ";" +
-            "-fx-border-color: " + BORDER_COLOR + ";" +
-            "-fx-background-radius: 20px;" +
-            "-fx-border-radius: 20px;" +
-            "-fx-padding: 0px 18px;" +
-            "-fx-font-size: 13px;" +
-            "-fx-text-fill: " + TEXT_PRIMARY + ";" +
-            "-fx-prompt-text-fill: " + TEXT_MUTED + ";"
-        );
-        searchField.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                searchField.setStyle(
-                    "-fx-background-color: " + SURFACE + ";" +
-                    "-fx-border-color: " + PRIMARY_TEAL + ";" +
-                    "-fx-background-radius: 20px;" +
-                    "-fx-border-radius: 20px;" +
-                    "-fx-padding: 0px 18px;" +
-                    "-fx-font-size: 13px;" +
-                    "-fx-text-fill: " + TEXT_PRIMARY + ";" +
-                    "-fx-prompt-text-fill: " + TEXT_MUTED + ";" +
-                    "-fx-effect: dropshadow(gaussian, rgba(8, 127, 140, 0.15), 8, 0.1, 0, 0);"
-                );
-            } else {
-                searchField.setStyle(
-                    "-fx-background-color: " + SURFACE + ";" +
-                    "-fx-border-color: " + BORDER_COLOR + ";" +
-                    "-fx-background-radius: 20px;" +
-                    "-fx-border-radius: 20px;" +
-                    "-fx-padding: 0px 18px;" +
-                    "-fx-font-size: 13px;" +
-                    "-fx-text-fill: " + TEXT_PRIMARY + ";" +
-                    "-fx-prompt-text-fill: " + TEXT_MUTED + ";"
-                );
-            }
-        });
-
-        HBox pageButtons = new HBox(10);
-        pageButtons.setAlignment(Pos.CENTER_RIGHT);
-        pageButtons.getChildren().addAll(searchField);
+        VBox titleBox = new VBox(3);
+        titleBox.getChildren().addAll(pageTitle);
 
         Region pageSpacer = new Region();
         HBox.setHgrow(pageSpacer, Priority.ALWAYS);
 
-        HBox pageHeader = new HBox(10);
-        pageHeader.getChildren().addAll(titleBox, pageSpacer, pageButtons);
+        HBox pageHeader = new HBox(12);
+        pageHeader.getChildren().addAll(titleBox, pageSpacer);
         pageHeader.setAlignment(Pos.CENTER_LEFT);
+        pageHeader.setMaxWidth(Double.MAX_VALUE);
 
         // =============================================================
-        // SUMMARY CARDS
+        // SUMMARY CARDS - TRENDING MEDTECH KPI METRICS
         // =============================================================
 
         HBox summaryCards = new HBox(14);
+        summaryCards.setMaxWidth(Double.MAX_VALUE);
 
-        // ICU Card
-        VBox icuCard = new VBox(8);
-        icuCard.setPadding(new Insets(16));
-        icuCard.setPrefHeight(125);
-        icuCard.setStyle(CARD_STYLE);
-        HBox.setHgrow(icuCard, Priority.ALWAYS);
+        Text icuValue = new Text(String.valueOf(availableICUBeds));
+        VBox icuCard = createTrendingMetricCard("🏥", "#EFF6FF", "#0284C7", "Available ICU Beds", icuValue, "92% CAP",
+                "#D1FAE5", "#065F46");
 
-        Text icuIcon = new Text("▣");
-        icuIcon.setStyle("-fx-font-size: 18px; -fx-fill: " + PRIMARY_TEAL + ";");
+        Text emergencyBedsValue = new Text(String.valueOf(availableEmergencyBeds));
+        VBox emergencyBedsCard = createTrendingMetricCard("🚨", "#FFF1F2", "#EF4444", "Emergency Beds",
+                emergencyBedsValue, "CRITICAL", "#FEE2E2", "#991B1B");
 
-        Text icuCapacity = new Text("92% CAP");
-        icuCapacity.setStyle(
-            "-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + STATUS_SUCCESS_TEXT + ";"
-        );
+        // Realtime Resource listener code
+        resourceController.listenToHospitalResource(
+                safeHospitalEmail,
+                updatedResource -> {
+                    if (updatedResource != null) {
+                        Platform.runLater(() -> {
+                            icuValue.setText(String.valueOf(updatedResource.getAvailableICUBeds()));
+                            emergencyBedsValue.setText(String.valueOf(updatedResource.getAvailableEmergencyBeds()));
+                        });
+                    }
+                });
 
-        HBox icuTop = new HBox(10);
-        Region icuSpacer = new Region();
-        HBox.setHgrow(icuSpacer, Priority.ALWAYS);
-        icuTop.getChildren().addAll(icuIcon, icuSpacer, icuCapacity);
+        Text doctorsValue = new Text("0");
+        VBox doctorsCard = createTrendingMetricCard("👨‍⚕️", "#ECFDF5", "#10B981", "Active Physicians", doctorsValue,
+                "ON DUTY", "#D1FAE5", "#065F46");
 
-        Text icuValue = new Text("24");
-        icuValue.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        DoctorController doctorController = new DoctorController();
+        List<DoctorModel> doctors = doctorController.getDoctors(safeHospitalEmail);
 
-        Text icuLabel = new Text("Available ICU Beds");
-        icuLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + TEXT_SECONDARY + ";");
+        int activeDoctorCount = 0;
+        if (doctors != null) {
+            for (DoctorModel doctor : doctors) {
+                if (doctor != null && "AVAILABLE".equalsIgnoreCase(doctor.getStatus())) {
+                    activeDoctorCount++;
+                }
+            }
+        }
+        doctorsValue.setText(String.valueOf(activeDoctorCount));
 
-        icuCard.getChildren().addAll(icuTop, icuValue, icuLabel);
+        // LIVE DOCTOR COUNT LISTENER
+        doctorController.listenToDoctors(
+                safeHospitalEmail,
+                updatedDoctors -> {
+                    Platform.runLater(() -> {
+                        int availableDoctorCount = 0;
+                        if (updatedDoctors != null) {
+                            for (DoctorModel doctor : updatedDoctors) {
+                                if (doctor != null && "AVAILABLE".equalsIgnoreCase(doctor.getStatus())) {
+                                    availableDoctorCount++;
+                                }
+                            }
+                        }
+                        doctorsValue.setText(String.valueOf(availableDoctorCount));
+                    });
+                });
 
-        // Emergency Beds Card
-        VBox emergencyBedsCard = new VBox(8);
-        emergencyBedsCard.setPadding(new Insets(16));
-        emergencyBedsCard.setPrefHeight(125);
-        emergencyBedsCard.setStyle(CARD_STYLE);
-        HBox.setHgrow(emergencyBedsCard, Priority.ALWAYS);
+        Text otValue = new Text("0");
+        VBox otCard = createTrendingMetricCard("🔬", "#EEF2FF", "#6366F1", "Operating Theatres", otValue, "STERILIZED",
+                "#E0E7FF", "#3730A3");
 
-        Text emergencyBedsIcon = new Text("!");
-        emergencyBedsIcon.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: " + STATUS_DANGER_TEXT + ";");
+        OperationTheatreController operationTheatreController = new OperationTheatreController();
+        String[] otIds = { "OT-01", "OT-02", "OT-03" };
 
-        Text emergencyLow = new Text("LOW");
-        emergencyLow.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + STATUS_DANGER_TEXT + ";");
+        int availableOTCount = 0;
+        for (String otId : otIds) {
+            OperationTheatreModel ot = operationTheatreController.getOperationTheatre(safeHospitalEmail, otId);
+            if (ot == null || !"RESERVED".equalsIgnoreCase(ot.getStatus())) {
+                availableOTCount++;
+            }
+        }
+        otValue.setText(String.valueOf(availableOTCount));
 
-        HBox emergencyBedsTop = new HBox(10);
-        Region emergencyBedsSpacer = new Region();
-        HBox.setHgrow(emergencyBedsSpacer, Priority.ALWAYS);
-        emergencyBedsTop.getChildren().addAll(emergencyBedsIcon, emergencyBedsSpacer, emergencyLow);
-
-        Text emergencyBedsValue = new Text("12");
-        emergencyBedsValue.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text emergencyBedsLabel = new Text("Emergency Beds");
-        emergencyBedsLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        emergencyBedsCard.getChildren().addAll(emergencyBedsTop, emergencyBedsValue, emergencyBedsLabel);
-
-        // Doctors Card
-        VBox doctorsCard = new VBox(8);
-        doctorsCard.setPadding(new Insets(16));
-        doctorsCard.setPrefHeight(125);
-        doctorsCard.setStyle(CARD_STYLE);
-        HBox.setHgrow(doctorsCard, Priority.ALWAYS);
-
-        Text doctorsIcon = new Text("✚");
-        doctorsIcon.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEAL + ";");
-
-        Text doctorsValue = new Text("48");
-        doctorsValue.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text doctorsLabel = new Text("Doctors Active");
-        doctorsLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        doctorsCard.getChildren().addAll(doctorsIcon, doctorsValue, doctorsLabel);
-
-        // OT Card
-        VBox otCard = new VBox(8);
-        otCard.setPadding(new Insets(16));
-        otCard.setPrefHeight(125);
-        otCard.setStyle(CARD_STYLE);
-        HBox.setHgrow(otCard, Priority.ALWAYS);
-
-        Text otIcon = new Text("OT");
-        otIcon.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEAL + ";");
-
-        Text otValue = new Text("03");
-        otValue.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text otLabel = new Text("OTs Available");
-        otLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        otCard.getChildren().addAll(otIcon, otValue, otLabel);
-
-        // Ambulance Card
-        VBox ambulanceCard = new VBox(8);
-        ambulanceCard.setPadding(new Insets(16));
-        ambulanceCard.setPrefHeight(125);
-        ambulanceCard.setStyle(CARD_STYLE);
-        HBox.setHgrow(ambulanceCard, Priority.ALWAYS);
-
-        Text ambulanceIcon = new Text("A");
-        ambulanceIcon.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEAL + ";");
-
-        Text ambulanceValue = new Text("15");
-        ambulanceValue.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text ambulanceLabel = new Text("Active Ambulances");
-        ambulanceLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        ambulanceCard.getChildren().addAll(ambulanceIcon, ambulanceValue, ambulanceLabel);
-
-        // Incoming Card (Soft Danger Tint)
-        VBox incomingCard = new VBox(8);
-        incomingCard.setPadding(new Insets(16));
-        incomingCard.setPrefHeight(125);
-        incomingCard.setStyle(CARD_DANGER_STYLE);
-        HBox.setHgrow(incomingCard, Priority.ALWAYS);
-
-        Text incomingIcon = new Text("!");
-        incomingIcon.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: " + STATUS_DANGER_TEXT + ";");
+        for (String otId : otIds) {
+            operationTheatreController.listenToOperationTheatre(
+                    safeHospitalEmail,
+                    otId,
+                    updatedOT -> {
+                        Platform.runLater(() -> {
+                            int availableCount = 0;
+                            for (String id : otIds) {
+                                OperationTheatreModel currentOT = operationTheatreController
+                                        .getOperationTheatre(safeHospitalEmail, id);
+                                if (currentOT == null || !"RESERVED".equalsIgnoreCase(currentOT.getStatus())) {
+                                    availableCount++;
+                                }
+                            }
+                            otValue.setText(String.valueOf(availableCount));
+                        });
+                    });
+        }
 
         Text incomingValue = new Text("08");
-        incomingValue.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-fill: " + STATUS_DANGER_TEXT + ";");
+        VBox incomingCard = createTrendingMetricCard("⚡", "#FFF1F2", "#F43F5E", "Emergency Alerts", incomingValue,
+                "PRIORITY 1", "#FFE4E6", "#9F1239");
 
-        Text incomingLabel = new Text("Incoming Alerts");
-        incomingLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + STATUS_DANGER_TEXT + ";");
-
-        incomingCard.getChildren().addAll(incomingIcon, incomingValue, incomingLabel);
-
-        summaryCards.getChildren().addAll(icuCard, emergencyBedsCard, doctorsCard, otCard, ambulanceCard, incomingCard);
+        summaryCards.getChildren().addAll(icuCard, emergencyBedsCard, doctorsCard, otCard, incomingCard);
 
         // =============================================================
-        // RESOURCE UTILIZATION
+        // INCOMING AMBULANCE ALERT + INCOMING AMBULANCES
         // =============================================================
 
-        HBox upperContent = new HBox(20);
+        HBox upperContent = new HBox(24);
+        upperContent.setMaxWidth(Double.MAX_VALUE);
+        upperContent.setPrefHeight(0);
+        upperContent.setMinHeight(0);
+        VBox.setVgrow(upperContent, Priority.ALWAYS);
 
-        VBox utilizationCard = new VBox(18);
-        utilizationCard.setPadding(new Insets(20));
-        utilizationCard.setPrefHeight(400);
-        utilizationCard.setStyle(CARD_STYLE);
-        HBox.setHgrow(utilizationCard, Priority.ALWAYS);
+        VBox incomingAlertCard = new VBox(15);
+        incomingAlertCard.setPadding(new Insets(20));
+        incomingAlertCard.setPrefHeight(0);
+        incomingAlertCard.setMinHeight(0);
+        incomingAlertCard.setMinWidth(600);
+        incomingAlertCard.setStyle(
+                "-fx-background-color: #FFFFFF; " +
+                        "-fx-border-color: #E2E8F0; " +
+                        "-fx-border-radius: 16px; " +
+                        "-fx-background-radius: 16px; " +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.04), 16, 0, 0, 4);");
+        HBox.setHgrow(incomingAlertCard, Priority.ALWAYS);
 
-        Text utilizationTitle = new Text("Resource Utilization Trends");
-        utilizationTitle.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        Text incomingAlertTitle = new Text("Incoming Ambulance Live Radar & Triage");
+        incomingAlertTitle.setStyle(FONT_FAMILY + "-fx-font-size: 16.5px; -fx-font-weight: bold; -fx-fill: #0F172A;");
 
-        ComboBox<String> periodCombo = new ComboBox<>();
-        periodCombo.getItems().addAll("Last 24 Hours", "Last 7 Days");
-        periodCombo.setValue("Last 24 Hours");
-        periodCombo.setPrefHeight(32);
-        periodCombo.setStyle(
-            "-fx-background-color: " + SURFACE + ";" +
-            "-fx-border-color: " + BORDER_COLOR + ";" +
-            "-fx-border-radius: 8px;" +
-            "-fx-background-radius: 8px;" +
-            "-fx-font-size: 12px;" +
-            "-fx-text-fill: " + TEXT_PRIMARY + ";"
-        );
+        Label alertStatus = new Label("●  LIVE RADAR STREAM");
+        alertStatus.setStyle(
+                "-fx-background-color: #ECFDF5; " +
+                        "-fx-text-fill: #065F46; " +
+                        "-fx-border-color: #A7F3D0; " +
+                        "-fx-border-radius: 12px; " +
+                        "-fx-background-radius: 12px; " +
+                        "-fx-font-size: 10px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-padding: 3px 9px; " +
+                        FONT_FAMILY);
 
-        HBox utilizationHeader = new HBox(10);
-        Region utilizationSpacer = new Region();
-        HBox.setHgrow(utilizationSpacer, Priority.ALWAYS);
-        utilizationHeader.getChildren().addAll(utilizationTitle, utilizationSpacer, periodCombo);
+        HBox alertHeader = new HBox(10);
+        Region alertHeaderSpacer = new Region();
+        HBox.setHgrow(alertHeaderSpacer, Priority.ALWAYS);
+        alertHeader.getChildren().addAll(incomingAlertTitle, alertHeaderSpacer, alertStatus);
 
-        HBox chart = new HBox(15);
-        chart.setAlignment(Pos.BOTTOM_CENTER);
-        chart.setPrefHeight(260);
+        StackPane ambulanceMapPlaceholder = new StackPane();
+        ambulanceMapPlaceholder.setMinHeight(280);
+        ambulanceMapPlaceholder.setPrefHeight(320);
+        ambulanceMapPlaceholder.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(ambulanceMapPlaceholder, Priority.ALWAYS);
+        ambulanceMapPlaceholder.setStyle(
+                "-fx-background-color: #F8FAFC;" +
+                        "-fx-border-color: #E2E8F0;" +
+                        "-fx-border-width: 1px;" +
+                        "-fx-border-radius: 12px;" +
+                        "-fx-background-radius: 12px;");
 
-        Region chartBar1 = new Region();
-        chartBar1.setPrefWidth(35);
-        chartBar1.setPrefHeight(100);
-        chartBar1.setStyle("-fx-background-color: " + TEAL_SOFT + "; -fx-background-radius: 6px 6px 0px 0px;");
+        WebView ambulanceMapWebView = new WebView();
+        ambulanceMapEngine = ambulanceMapWebView.getEngine();
+        ambulanceMapWebView.setMaxWidth(Double.MAX_VALUE);
+        ambulanceMapWebView.setMaxHeight(Double.MAX_VALUE);
+        ambulanceMapWebView.setOpacity(0.0);
 
-        Region chartBar2 = new Region();
-        chartBar2.setPrefWidth(35);
-        chartBar2.setPrefHeight(145);
-        chartBar2.setStyle("-fx-background-color: #8CC4CA; -fx-background-radius: 6px 6px 0px 0px;");
+        ShimmerLoader.ShimmerPane mapShimmer = ShimmerLoader.createMapSkeleton(650, 320);
+        mapShimmer.setMaxWidth(Double.MAX_VALUE);
+        mapShimmer.setMaxHeight(Double.MAX_VALUE);
+        ambulanceMapPlaceholder.getChildren().addAll(ambulanceMapWebView, mapShimmer);
 
-        Region chartBar3 = new Region();
-        chartBar3.setPrefWidth(35);
-        chartBar3.setPrefHeight(120);
-        chartBar3.setStyle("-fx-background-color: #72B8BF; -fx-background-radius: 6px 6px 0px 0px;");
+        ambulanceMapEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            if (newState == Worker.State.SUCCEEDED) {
+                isMapLoaded = true;
+                Platform.runLater(() -> {
+                    FadeTransition ft = new FadeTransition(javafx.util.Duration.millis(350), ambulanceMapWebView);
+                    ft.setFromValue(0.0);
+                    ft.setToValue(1.0);
+                    ft.play();
+                    mapShimmer.stop();
+                    ambulanceMapPlaceholder.getChildren().remove(mapShimmer);
+                });
+                if (liveAmbulanceLat != null && liveAmbulanceLat != 0.0) {
+                    String targetHosp = (activeInboundHospName != null && !activeInboundHospName.isEmpty())
+                            ? activeInboundHospName
+                            : hospitalName;
+                    if (targetHosp == null)
+                        targetHosp = "Hospital";
+                    String safeDest = targetHosp.replace("'", "\\'");
+                    if (activeInboundDestLat != null && activeInboundDestLng != null && activeInboundDestLat != 0.0) {
+                        String js = String.format(Locale.US,
+                                "if (typeof setRouteWithCoordinates === 'function') { setRouteWithCoordinates(%f, %f, %f, %f, '%s'); } else { setRouteFromCurrentLocation(%f, %f, '%s'); }",
+                                liveAmbulanceLat, liveAmbulanceLng, activeInboundDestLat, activeInboundDestLng,
+                                safeDest,
+                                liveAmbulanceLat, liveAmbulanceLng, safeDest);
+                        ambulanceMapEngine.executeScript(js);
+                    } else {
+                        String js = String.format(Locale.US,
+                                "if (typeof setRouteFromCurrentLocation === 'function') { setRouteFromCurrentLocation(%f, %f, '%s'); } else if (typeof updateAmbulance === 'function') { updateAmbulance(%f, %f); }",
+                                liveAmbulanceLat, liveAmbulanceLng, safeDest, liveAmbulanceLat, liveAmbulanceLng);
+                        ambulanceMapEngine.executeScript(js);
+                    }
+                }
+            }
+        });
 
-        Region chartBar4 = new Region();
-        chartBar4.setPrefWidth(35);
-        chartBar4.setPrefHeight(190);
-        chartBar4.setStyle("-fx-background-color: #2F9AA7; -fx-background-radius: 6px 6px 0px 0px;");
+        var mapUrl = getClass().getResource("/driver_map.html");
+        if (mapUrl != null) {
+            ambulanceMapEngine.load(mapUrl.toExternalForm());
+        }
 
-        Region chartBar5 = new Region();
-        chartBar5.setPrefWidth(35);
-        chartBar5.setPrefHeight(155);
-        chartBar5.setStyle("-fx-background-color: #55ACB6; -fx-background-radius: 6px 6px 0px 0px;");
+        VBox alertMessageBox = new VBox(8);
+        alertMessageBox.setPadding(new Insets(14));
+        alertMessageBox.setStyle(
+                "-fx-background-color: #FFF1F2;" +
+                        "-fx-border-color: #EF4444;" +
+                        "-fx-border-width: 0px 0px 0px 4px;" +
+                        "-fx-background-radius: 0px 12px 12px 0px;");
 
-        Region chartBar6 = new Region();
-        chartBar6.setPrefWidth(35);
-        chartBar6.setPrefHeight(215);
-        chartBar6.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-background-radius: 6px 6px 0px 0px;");
+        HBox alertIdRow = new HBox(8);
+        alertIdRow.setAlignment(Pos.CENTER_LEFT);
 
-        Region chartBar7 = new Region();
-        chartBar7.setPrefWidth(35);
-        chartBar7.setPrefHeight(180);
-        chartBar7.setStyle("-fx-background-color: #1B8D99; -fx-background-radius: 6px 6px 0px 0px;");
+        Text ambulanceAlertId = new Text("AMB-104");
+        ambulanceAlertId.setStyle(FONT_FAMILY + "-fx-font-size: 15px; -fx-font-weight: 800; -fx-fill: #0F172A;");
 
-        chart.getChildren().addAll(chartBar1, chartBar2, chartBar3, chartBar4, chartBar5, chartBar6, chartBar7);
+        Label emergencyAlertType = new Label("CARDIAC EMERGENCY • CRITICAL");
+        emergencyAlertType.setStyle(
+                "-fx-background-color: #FEE2E2; -fx-text-fill: #991B1B; -fx-font-size: 9.5px; -fx-font-weight: bold; -fx-padding: 3px 8px; -fx-background-radius: 6px; "
+                        + FONT_FAMILY);
+        alertIdRow.getChildren().addAll(ambulanceAlertId, emergencyAlertType);
 
-        HBox chartLabels = new HBox(15);
-        chartLabels.setAlignment(Pos.CENTER);
+        Text patientAlertName = new Text("Patient: Rahul Sharma (Age 52, Male) • Pre-admission Triage");
+        patientAlertName.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-font-weight: 600; -fx-fill: #334155;");
 
-        Text time1 = new Text("00:00");
-        Text time2 = new Text("04:00");
-        Text time3 = new Text("08:00");
-        Text time4 = new Text("12:00");
-        Text time5 = new Text("16:00");
-        Text time6 = new Text("20:00");
-        Text time7 = new Text("Current");
+        Text driverAlertMessage = new Text(
+                "Inbound to Emergency Bay 1. Patient has acute chest pain with ST-elevation. Pre-allocate ICU bed and alert cardiology team.");
+        driverAlertMessage.setWrappingWidth(600);
+        driverAlertMessage.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-fill: #475569;");
 
-        String timeLabelStyle = "-fx-font-size: 11px; -fx-fill: " + TEXT_MUTED + ";";
-        time1.setStyle(timeLabelStyle);
-        time2.setStyle(timeLabelStyle);
-        time3.setStyle(timeLabelStyle);
-        time4.setStyle(timeLabelStyle);
-        time5.setStyle(timeLabelStyle);
-        time6.setStyle(timeLabelStyle);
-        time7.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEAL + ";");
+        Text alertTime = new Text("Telemetry connected just now • In transit via Shivaji Road corridor");
+        alertTime.setStyle(FONT_FAMILY + "-fx-font-size: 10.5px; -fx-fill: #94A3B8;");
 
-        chartLabels.getChildren().addAll(time1, time2, time3, time4, time5, time6, time7);
+        alertMessageBox.getChildren().addAll(alertIdRow, patientAlertName, driverAlertMessage, alertTime);
 
-        utilizationCard.getChildren().addAll(utilizationHeader, chart, chartLabels);
+        HBox alertButtons = new HBox(12);
+        alertButtons.setAlignment(Pos.CENTER);
+
+        Button confirmAlertButton = new Button("Confirm");
+        confirmAlertButton.setPrefWidth(200);
+        confirmAlertButton.setPrefHeight(44);
+        confirmAlertButton.setStyle(
+                "-fx-background-color: #10B981; " +
+                        "-fx-text-fill: white; " +
+                        "-fx-font-size: 13px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-background-radius: 10px; " +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(16,185,129,0.25), 8, 0, 0, 2); " +
+                        "-fx-cursor: hand; " +
+                        FONT_FAMILY);
+        confirmAlertButton.setOnMouseEntered(e -> confirmAlertButton.setStyle(
+                "-fx-background-color: #059669; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(16,185,129,0.35), 10, 0, 0, 3); -fx-cursor: hand; "
+                        + FONT_FAMILY));
+        confirmAlertButton.setOnMouseExited(e -> confirmAlertButton.setStyle(
+                "-fx-background-color: #10B981; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(16,185,129,0.25), 8, 0, 0, 2); -fx-cursor: hand; "
+                        + FONT_FAMILY));
+
+        confirmAlertButton.setOnAction(event -> {
+            double lat = (liveAmbulanceLat != null && liveAmbulanceLat != 0.0) ? liveAmbulanceLat : pendingAmbulanceLat;
+            double lng = (liveAmbulanceLng != null && liveAmbulanceLng != 0.0) ? liveAmbulanceLng : pendingAmbulanceLon;
+            String targetHosp = (pendingHospitalName != null && !pendingHospitalName.isEmpty()) ? pendingHospitalName
+                    : hospitalName;
+            if (targetHosp == null)
+                targetHosp = "Hospital";
+
+            if (ambulanceMapEngine != null && isMapLoaded) {
+                String safeDest = targetHosp.replace("'", "\\'");
+                if (activeInboundDestLat != null && activeInboundDestLng != null && activeInboundDestLat != 0.0) {
+                    String js = String.format(Locale.US,
+                            "if (typeof setRouteWithCoordinates === 'function') { setRouteWithCoordinates(%f, %f, %f, %f, '%s'); } else { setRouteFromCurrentLocation(%f, %f, '%s'); }",
+                            lat, lng, activeInboundDestLat, activeInboundDestLng, safeDest,
+                            lat, lng, safeDest);
+                    ambulanceMapEngine.executeScript(js);
+                } else {
+                    String js = String.format(Locale.US,
+                            "if (typeof setRouteFromCurrentLocation === 'function') { setRouteFromCurrentLocation(%f, %f, '%s'); }",
+                            lat, lng, safeDest);
+                    ambulanceMapEngine.executeScript(js);
+                }
+            }
+            pendingAmbulanceRequest = false;
+        });
+
+        Button bookResourceButton = new Button("Reserve OT");
+        bookResourceButton.setPrefWidth(200);
+        bookResourceButton.setPrefHeight(44);
+        bookResourceButton.setStyle(
+                "-fx-background-color: #006591; " +
+                        "-fx-text-fill: white; " +
+                        "-fx-font-size: 13px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-background-radius: 10px; " +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,101,145,0.25), 8, 0, 0, 2); " +
+                        "-fx-cursor: hand; " +
+                        FONT_FAMILY);
+        bookResourceButton.setOnMouseEntered(e -> bookResourceButton.setStyle(
+                "-fx-background-color: #004D70; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,101,145,0.35), 10, 0, 0, 3); -fx-cursor: hand; "
+                        + FONT_FAMILY));
+        bookResourceButton.setOnMouseExited(e -> bookResourceButton.setStyle(
+                "-fx-background-color: #006591; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,101,145,0.25), 8, 0, 0, 2); -fx-cursor: hand; "
+                        + FONT_FAMILY));
+
+        Button viewDetailsButton = new Button("Patient Details");
+        viewDetailsButton.setPrefWidth(200);
+        viewDetailsButton.setPrefHeight(44);
+        viewDetailsButton.setStyle(
+                "-fx-background-color: #FFFFFF; " +
+                        "-fx-text-fill: #006591; " +
+                        "-fx-font-size: 13px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-border-color: #CBD5E1; " +
+                        "-fx-border-radius: 10px; " +
+                        "-fx-background-radius: 10px; " +
+                        "-fx-cursor: hand; " +
+                        FONT_FAMILY);
+        viewDetailsButton.setOnMouseEntered(e -> viewDetailsButton.setStyle(
+                "-fx-background-color: #F8FAFC; -fx-text-fill: #004D70; -fx-font-size: 13px; -fx-font-weight: bold; -fx-border-color: #94A3B8; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-cursor: hand; "
+                        + FONT_FAMILY));
+        viewDetailsButton.setOnMouseExited(e -> viewDetailsButton.setStyle(
+                "-fx-background-color: #FFFFFF; -fx-text-fill: #006591; -fx-font-size: 13px; -fx-font-weight: bold; -fx-border-color: #CBD5E1; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-cursor: hand; "
+                        + FONT_FAMILY));
+
+        alertButtons.getChildren().addAll(bookResourceButton, viewDetailsButton);
+
+        incomingAlertCard.getChildren().addAll(alertHeader, ambulanceMapPlaceholder, alertMessageBox, alertButtons);
 
         // =============================================================
-        // LIVE EMERGENCY FEED
+        // DYNAMIC INCOMING AMBULANCES LIST WITH DRIVER EMAIL LOOKUP
         // =============================================================
-
-        VBox emergencyFeedCard = new VBox(12);
-        emergencyFeedCard.setPadding(new Insets(20));
-        emergencyFeedCard.setPrefWidth(420);
-        emergencyFeedCard.setPrefHeight(400);
-        emergencyFeedCard.setStyle(CARD_STYLE);
-
-        Text feedTitle = new Text("●  Live Emergency Feed");
-        feedTitle.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        VBox feed1 = new VBox(4);
-        feed1.setPadding(new Insets(10, 12, 10, 12));
-        feed1.setStyle("-fx-background-color: " + STATUS_DANGER_BG + "; -fx-border-color: " + STATUS_DANGER_TEXT + "; -fx-border-width: 0px 0px 0px 4px; -fx-background-radius: 0px 8px 8px 0px;");
-
-        Text feed1Title = new Text("Cardiac Arrest - Zone 4");
-        feed1Title.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text feed1Time = new Text("2m ago");
-        feed1Time.setStyle("-fx-font-size: 10px; -fx-fill: " + TEXT_MUTED + ";");
-
-        Text feed1Text = new Text("Ambulance #A12 arriving in 4 mins.");
-        feed1Text.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        feed1.getChildren().addAll(feed1Title, feed1Time, feed1Text);
-
-        VBox feed2 = new VBox(4);
-        feed2.setPadding(new Insets(10, 12, 10, 12));
-        feed2.setStyle("-fx-background-color: " + STATUS_DANGER_BG + "; -fx-border-color: " + STATUS_DANGER_TEXT + "; -fx-border-width: 0px 0px 0px 4px; -fx-background-radius: 0px 8px 8px 0px;");
-
-        Text feed2Title = new Text("Trauma Case - Highway 102");
-        feed2Title.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text feed2Time = new Text("5m ago");
-        feed2Time.setStyle("-fx-font-size: 10px; -fx-fill: " + TEXT_MUTED + ";");
-
-        Text feed2Text = new Text("Multiple casualties. OT-02 reserved.");
-        feed2Text.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        feed2.getChildren().addAll(feed2Title, feed2Time, feed2Text);
-
-        VBox feed3 = new VBox(4);
-        feed3.setPadding(new Insets(10, 12, 10, 12));
-        feed3.setStyle("-fx-background-color: " + STATUS_WARN_BG + "; -fx-border-color: " + STATUS_WARN_TEXT + "; -fx-border-width: 0px 0px 0px 4px; -fx-background-radius: 0px 8px 8px 0px;");
-
-        Text feed3Title = new Text("Critical Lab Report");
-        feed3Title.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text feed3Time = new Text("12m ago");
-        feed3Time.setStyle("-fx-font-size: 10px; -fx-fill: " + TEXT_MUTED + ";");
-
-        Text feed3Text = new Text("Patient ID #8829 - Dr. Smith notified.");
-        feed3Text.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        feed3.getChildren().addAll(feed3Title, feed3Time, feed3Text);
-
-        VBox feed4 = new VBox(4);
-        feed4.setPadding(new Insets(10, 12, 10, 12));
-        feed4.setStyle("-fx-background-color: " + TEAL_PALE + "; -fx-border-color: " + PRIMARY_TEAL + "; -fx-border-width: 0px 0px 0px 4px; -fx-background-radius: 0px 8px 8px 0px;");
-
-        Text feed4Title = new Text("ICU-04 Patient Transfer");
-        feed4Title.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text feed4Time = new Text("22m ago");
-        feed4Time.setStyle("-fx-font-size: 10px; -fx-fill: " + TEXT_MUTED + ";");
-
-        Text feed4Text = new Text("Completed. Bed available for sanitization.");
-        feed4Text.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        feed4.getChildren().addAll(feed4Title, feed4Time, feed4Text);
-
-        Button viewEmergencyButton = new Button("View All Emergency Requests");
-        viewEmergencyButton.setMaxWidth(Double.MAX_VALUE);
-        viewEmergencyButton.setStyle(
-            "-fx-background-color: transparent;" +
-            "-fx-text-fill: " + PRIMARY_TEAL + ";" +
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-cursor: hand;"
-        );
-        viewEmergencyButton.setOnMouseEntered(e -> viewEmergencyButton.setStyle(
-            "-fx-background-color: " + TEAL_VERY_LIGHT + ";" +
-            "-fx-text-fill: " + TEAL_DARK + ";" +
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 6px;" +
-            "-fx-cursor: hand;"
-        ));
-        viewEmergencyButton.setOnMouseExited(e -> viewEmergencyButton.setStyle(
-            "-fx-background-color: transparent;" +
-            "-fx-text-fill: " + PRIMARY_TEAL + ";" +
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-cursor: hand;"
-        ));
-
-        emergencyFeedCard.getChildren().addAll(feedTitle, feed1, feed2, feed3, feed4, viewEmergencyButton);
-
-        upperContent.getChildren().addAll(utilizationCard, emergencyFeedCard);
-
-        // =============================================================
-        // LOWER CONTENT
-        // =============================================================
-
-        HBox lowerContent = new HBox(20);
-
-        // Ambulance Tracking Card
-        VBox ambulanceTrackingCard = new VBox(16);
-        ambulanceTrackingCard.setPadding(new Insets(20));
-        ambulanceTrackingCard.setPrefWidth(500);
-        ambulanceTrackingCard.setStyle(CARD_STYLE);
-        HBox.setHgrow(ambulanceTrackingCard, Priority.ALWAYS);
-
-        Text incomingTitle = new Text("Incoming Ambulances");
-        incomingTitle.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        // Ambulance 1
-        VBox ambulance1 = new VBox(6);
-        ambulance1.setPadding(new Insets(6, 4, 6, 4));
-
-        Text ambulance1Name = new Text("AMB-104 (Cardiac)");
-        ambulance1Name.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text ambulance1Status = new Text("On Route");
-        ambulance1Status.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEAL + ";");
-
-        Text ambulance1Route = new Text("Central Station → North Wing");
-        ambulance1Route.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_MUTED + ";");
-
-        Text ambulance1Eta = new Text("ETA: 09:42");
-        ambulance1Eta.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + TEAL_DARK + ";");
-
-        Region ambulance1Background = new Region();
-        ambulance1Background.setPrefHeight(6);
-        ambulance1Background.setStyle("-fx-background-color: " + TRACK_BG + "; -fx-background-radius: 10px;");
-
-        Region ambulance1Progress = new Region();
-        ambulance1Progress.setPrefHeight(6);
-        ambulance1Progress.setPrefWidth(300);
-        ambulance1Progress.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-background-radius: 10px;");
-
-        StackPane ambulance1ProgressPane = new StackPane();
-        ambulance1ProgressPane.setAlignment(Pos.CENTER_LEFT);
-        ambulance1ProgressPane.getChildren().addAll(ambulance1Background, ambulance1Progress);
-
-        HBox ambulance1Header = new HBox(10);
-        Region ambulance1HeaderSpacer = new Region();
-        HBox.setHgrow(ambulance1HeaderSpacer, Priority.ALWAYS);
-        ambulance1Header.getChildren().addAll(ambulance1Name, ambulance1HeaderSpacer, ambulance1Status);
-
-        HBox ambulance1Bottom = new HBox(10);
-        Region ambulance1BottomSpacer = new Region();
-        HBox.setHgrow(ambulance1BottomSpacer, Priority.ALWAYS);
-        ambulance1Bottom.getChildren().addAll(ambulance1Route, ambulance1BottomSpacer, ambulance1Eta);
-
-        ambulance1.getChildren().addAll(ambulance1Header, ambulance1ProgressPane, ambulance1Bottom);
-
-        // Ambulance 2
-        VBox ambulance2 = new VBox(6);
-        ambulance2.setPadding(new Insets(6, 4, 6, 4));
-
-        Text ambulance2Name = new Text("AMB-022 (Trauma)");
-        ambulance2Name.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text ambulance2Status = new Text("Slow Traffic");
-        ambulance2Status.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + STATUS_WARN_TEXT + ";");
-
-        Text ambulance2Route = new Text("East Bypass → Emergency ER");
-        ambulance2Route.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_MUTED + ";");
-
-        Text ambulance2Eta = new Text("ETA: 09:47");
-        ambulance2Eta.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + STATUS_WARN_TEXT + ";");
-
-        Region ambulance2Background = new Region();
-        ambulance2Background.setPrefHeight(6);
-        ambulance2Background.setStyle("-fx-background-color: " + TRACK_BG + "; -fx-background-radius: 10px;");
-
-        Region ambulance2Progress = new Region();
-        ambulance2Progress.setPrefHeight(6);
-        ambulance2Progress.setPrefWidth(160);
-        ambulance2Progress.setStyle("-fx-background-color: " + STATUS_WARN_TEXT + "; -fx-background-radius: 10px;");
-
-        StackPane ambulance2ProgressPane = new StackPane();
-        ambulance2ProgressPane.setAlignment(Pos.CENTER_LEFT);
-        ambulance2ProgressPane.getChildren().addAll(ambulance2Background, ambulance2Progress);
-
-        HBox ambulance2Header = new HBox(10);
-        Region ambulance2HeaderSpacer = new Region();
-        HBox.setHgrow(ambulance2HeaderSpacer, Priority.ALWAYS);
-        ambulance2Header.getChildren().addAll(ambulance2Name, ambulance2HeaderSpacer, ambulance2Status);
-
-        HBox ambulance2Bottom = new HBox(10);
-        Region ambulance2BottomSpacer = new Region();
-        HBox.setHgrow(ambulance2BottomSpacer, Priority.ALWAYS);
-        ambulance2Bottom.getChildren().addAll(ambulance2Route, ambulance2BottomSpacer, ambulance2Eta);
-
-        ambulance2.getChildren().addAll(ambulance2Header, ambulance2ProgressPane, ambulance2Bottom);
-
-        // Ambulance 3
-        VBox ambulance3 = new VBox(6);
-        ambulance3.setPadding(new Insets(6, 4, 6, 4));
-
-        Text ambulance3Name = new Text("AMB-098 (General)");
-        ambulance3Name.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text ambulance3Status = new Text("On Route");
-        ambulance3Status.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEAL + ";");
-
-        Text ambulance3Route = new Text("Airport Terminal → LifeLink");
-        ambulance3Route.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_MUTED + ";");
-
-        Text ambulance3Eta = new Text("ETA: 09:50");
-        ambulance3Eta.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + TEAL_DARK + ";");
-
-        Region ambulance3Background = new Region();
-        ambulance3Background.setPrefHeight(6);
-        ambulance3Background.setStyle("-fx-background-color: " + TRACK_BG + "; -fx-background-radius: 10px;");
-
-        Region ambulance3Progress = new Region();
-        ambulance3Progress.setPrefHeight(6);
-        ambulance3Progress.setPrefWidth(100);
-        ambulance3Progress.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-background-radius: 10px;");
-
-        StackPane ambulance3ProgressPane = new StackPane();
-        ambulance3ProgressPane.setAlignment(Pos.CENTER_LEFT);
-        ambulance3ProgressPane.getChildren().addAll(ambulance3Background, ambulance3Progress);
-
-        HBox ambulance3Header = new HBox(10);
-        Region ambulance3HeaderSpacer = new Region();
-        HBox.setHgrow(ambulance3HeaderSpacer, Priority.ALWAYS);
-        ambulance3Header.getChildren().addAll(ambulance3Name, ambulance3HeaderSpacer, ambulance3Status);
-
-        HBox ambulance3Bottom = new HBox(10);
-        Region ambulance3BottomSpacer = new Region();
-        HBox.setHgrow(ambulance3BottomSpacer, Priority.ALWAYS);
-        ambulance3Bottom.getChildren().addAll(ambulance3Route, ambulance3BottomSpacer, ambulance3Eta);
-
-        ambulance3.getChildren().addAll(ambulance3Header, ambulance3ProgressPane, ambulance3Bottom);
-
-        ambulanceTrackingCard.getChildren().addAll(incomingTitle, ambulance1, ambulance2, ambulance3);
-
-        // =============================================================
-        // RESOURCE STOCK
-        // =============================================================
-
-        VBox resourceStockCard = new VBox(16);
-        resourceStockCard.setPadding(new Insets(20));
-        resourceStockCard.setPrefWidth(400);
-        resourceStockCard.setStyle(CARD_STYLE);
-        HBox.setHgrow(resourceStockCard, Priority.ALWAYS);
-
-        Text stockTitle = new Text("Resource Stock Status");
-        stockTitle.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        HBox stockCircles = new HBox(25);
-        stockCircles.setAlignment(Pos.CENTER);
-
-        StackPane oxygenCircle = new StackPane();
-        oxygenCircle.setPrefWidth(100);
-        oxygenCircle.setPrefHeight(100);
-        oxygenCircle.setStyle("-fx-background-color: " + TEAL_VERY_LIGHT + "; -fx-background-radius: 55px; -fx-border-color: " + PRIMARY_TEAL + "; -fx-border-width: 6px; -fx-border-radius: 55px;");
-
-        VBox oxygenText = new VBox(0);
-        oxygenText.setAlignment(Pos.CENTER);
-
-        Text oxygenValue = new Text("75%");
-        oxygenValue.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: " + TEAL_DARK + ";");
-
-        Text oxygenLabel = new Text("O2 Supply");
-        oxygenLabel.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        oxygenText.getChildren().addAll(oxygenValue, oxygenLabel);
-        oxygenCircle.getChildren().add(oxygenText);
-
-        StackPane bloodCircle = new StackPane();
-        bloodCircle.setPrefWidth(100);
-        bloodCircle.setPrefHeight(100);
-        bloodCircle.setStyle("-fx-background-color: " + STATUS_DANGER_BG + "; -fx-background-radius: 55px; -fx-border-color: " + STATUS_DANGER_TEXT + "; -fx-border-width: 6px; -fx-border-radius: 55px;");
-
-        VBox bloodText = new VBox(0);
-        bloodText.setAlignment(Pos.CENTER);
-
-        Text bloodValue = new Text("30%");
-        bloodValue.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: " + STATUS_DANGER_TEXT + ";");
-
-        Text bloodLabel = new Text("Blood Bank");
-        bloodLabel.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + STATUS_DANGER_TEXT + ";");
-
-        bloodText.getChildren().addAll(bloodValue, bloodLabel);
-        bloodCircle.getChildren().add(bloodText);
-
-        stockCircles.getChildren().addAll(oxygenCircle, bloodCircle);
-
-        Text ppeLabel = new Text("Personal Protective Equipment (PPE)");
-        ppeLabel.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        Text ppeValue = new Text("88%");
-        ppeValue.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + STATUS_SUCCESS_TEXT + ";");
-
-        HBox ppeHeader = new HBox(10);
-        Region ppeHeaderSpacer = new Region();
-        HBox.setHgrow(ppeHeaderSpacer, Priority.ALWAYS);
-        ppeHeader.getChildren().addAll(ppeLabel, ppeHeaderSpacer, ppeValue);
-
-        Region ppeBackground = new Region();
-        ppeBackground.setPrefHeight(7);
-        ppeBackground.setStyle("-fx-background-color: " + TRACK_BG + "; -fx-background-radius: 10px;");
-
-        Region ppeProgress = new Region();
-        ppeProgress.setPrefHeight(7);
-        ppeProgress.setPrefWidth(300);
-        ppeProgress.setStyle("-fx-background-color: " + STATUS_SUCCESS_TEXT + "; -fx-background-radius: 10px;");
-
-        StackPane ppePane = new StackPane();
-        ppePane.setAlignment(Pos.CENTER_LEFT);
-        ppePane.getChildren().addAll(ppeBackground, ppeProgress);
-
-        Text surgicalLabel = new Text("Surgical Kits Availability");
-        surgicalLabel.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        Text surgicalValue = new Text("62%");
-        surgicalValue.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEAL + ";");
-
-        HBox surgicalHeader = new HBox(10);
-        Region surgicalHeaderSpacer = new Region();
-        HBox.setHgrow(surgicalHeaderSpacer, Priority.ALWAYS);
-        surgicalHeader.getChildren().addAll(surgicalLabel, surgicalHeaderSpacer, surgicalValue);
-
-        Region surgicalBackground = new Region();
-        surgicalBackground.setPrefHeight(7);
-        surgicalBackground.setStyle("-fx-background-color: " + TRACK_BG + "; -fx-background-radius: 10px;");
-
-        Region surgicalProgress = new Region();
-        surgicalProgress.setPrefHeight(7);
-        surgicalProgress.setPrefWidth(210);
-        surgicalProgress.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-background-radius: 10px;");
-
-        StackPane surgicalPane = new StackPane();
-        surgicalPane.setAlignment(Pos.CENTER_LEFT);
-        surgicalPane.getChildren().addAll(surgicalBackground, surgicalProgress);
-
-        resourceStockCard.getChildren().addAll(stockTitle, stockCircles, ppeHeader, ppePane, surgicalHeader, surgicalPane);
-
-        // =============================================================
-        // PATIENT VOLUME + QUICK ACTIONS
-        // =============================================================
-
-        VBox rightLowerContent = new VBox(16);
-        rightLowerContent.setPrefWidth(300);
-
-        VBox patientVolumeCard = new VBox(12);
-        patientVolumeCard.setPadding(new Insets(18));
-        patientVolumeCard.setPrefHeight(180);
-        patientVolumeCard.setStyle(CARD_STYLE);
-
-        Text patientVolumeTitle = new Text("Today's Patient Vol.");
-        patientVolumeTitle.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        HBox patientBars = new HBox(8);
-        patientBars.setAlignment(Pos.BOTTOM_CENTER);
-        patientBars.setPrefHeight(80);
-
-        Region patientBar1 = new Region();
-        patientBar1.setPrefWidth(22);
-        patientBar1.setPrefHeight(45);
-        patientBar1.setStyle("-fx-background-color: " + TEAL_SOFT + "; -fx-background-radius: 4px 4px 0px 0px;");
-
-        Region patientBar2 = new Region();
-        patientBar2.setPrefWidth(22);
-        patientBar2.setPrefHeight(30);
-        patientBar2.setStyle("-fx-background-color: " + TEAL_SOFT + "; -fx-background-radius: 4px 4px 0px 0px;");
-
-        Region patientBar3 = new Region();
-        patientBar3.setPrefWidth(22);
-        patientBar3.setPrefHeight(58);
-        patientBar3.setStyle("-fx-background-color: " + TEAL_SOFT + "; -fx-background-radius: 4px 4px 0px 0px;");
-
-        Region patientBar4 = new Region();
-        patientBar4.setPrefWidth(22);
-        patientBar4.setPrefHeight(70);
-        patientBar4.setStyle("-fx-background-color: #8CC4CA; -fx-background-radius: 4px 4px 0px 0px;");
-
-        Region patientBar5 = new Region();
-        patientBar5.setPrefWidth(22);
-        patientBar5.setPrefHeight(80);
-        patientBar5.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-background-radius: 4px 4px 0px 0px;");
-
-        Region patientBar6 = new Region();
-        patientBar6.setPrefWidth(22);
-        patientBar6.setPrefHeight(68);
-        patientBar6.setStyle("-fx-background-color: " + TEAL_SOFT + "; -fx-background-radius: 4px 4px 0px 0px;");
-
-        Region patientBar7 = new Region();
-        patientBar7.setPrefWidth(22);
-        patientBar7.setPrefHeight(55);
-        patientBar7.setStyle("-fx-background-color: " + TEAL_SOFT + "; -fx-background-radius: 4px 4px 0px 0px;");
-
-        patientBars.getChildren().addAll(patientBar1, patientBar2, patientBar3, patientBar4, patientBar5, patientBar6, patientBar7);
-
-        HBox patientDays = new HBox(12);
-        patientDays.setAlignment(Pos.CENTER);
-
-        Text mon = new Text("MON");
-        Text tue = new Text("TUE");
-        Text wed = new Text("WED");
-        Text thu = new Text("THU");
-        Text fri = new Text("FRI");
-        Text sat = new Text("SAT");
-        Text sun = new Text("SUN");
-
-        String dayLabelStyle = "-fx-font-size: 9px; -fx-font-weight: bold; -fx-fill: " + TEXT_MUTED + ";";
-        mon.setStyle(dayLabelStyle);
-        tue.setStyle(dayLabelStyle);
-        wed.setStyle(dayLabelStyle);
-        thu.setStyle(dayLabelStyle);
-        fri.setStyle(dayLabelStyle);
-        sat.setStyle(dayLabelStyle);
-        sun.setStyle(dayLabelStyle);
-
-        patientDays.getChildren().addAll(mon, tue, wed, thu, fri, sat, sun);
-
-        patientVolumeCard.getChildren().addAll(patientVolumeTitle, patientBars, patientDays);
-
-        String quickBtnStyle =
-            "-fx-background-color: " + SURFACE + ";" +
-            "-fx-border-color: " + BORDER_COLOR + ";" +
-            "-fx-border-radius: 10px;" +
-            "-fx-background-radius: 10px;" +
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-text-fill: " + TEXT_PRIMARY + ";" +
-            "-fx-effect: dropshadow(gaussian, rgba(8, 127, 140, 0.04), 8, 0.1, 0, 2);";
-
-        HBox quickActions1 = new HBox(8);
-
-        Button assignDoctorButton = new Button("Assign Doctor");
-        assignDoctorButton.setPrefWidth(140);
-        assignDoctorButton.setPrefHeight(50);
-        assignDoctorButton.setStyle(quickBtnStyle);
-        applyQuickActionHover(assignDoctorButton);
-
-        Button reserveIcuButton = new Button("Reserve ICU");
-        reserveIcuButton.setPrefWidth(140);
-        reserveIcuButton.setPrefHeight(50);
-        reserveIcuButton.setStyle(quickBtnStyle);
-        applyQuickActionHover(reserveIcuButton);
-
-        quickActions1.getChildren().addAll(assignDoctorButton, reserveIcuButton);
-
-        HBox quickActions2 = new HBox(8);
-
-        Button labRequestButton = new Button("Lab Request");
-        labRequestButton.setPrefWidth(140);
-        labRequestButton.setPrefHeight(50);
-        labRequestButton.setStyle(quickBtnStyle);
-        applyQuickActionHover(labRequestButton);
-
-        Button printLogsButton = new Button("Print Logs");
-        printLogsButton.setPrefWidth(140);
-        printLogsButton.setPrefHeight(50);
-        printLogsButton.setStyle(quickBtnStyle);
-        applyQuickActionHover(printLogsButton);
-
-        quickActions2.getChildren().addAll(labRequestButton, printLogsButton);
-
-        rightLowerContent.getChildren().addAll(patientVolumeCard, quickActions1, quickActions2);
-
-        lowerContent.getChildren().addAll(ambulanceTrackingCard, resourceStockCard, rightLowerContent);
-
-        // =============================================================
-        // ADD MAIN CONTENT
-        // =============================================================
-
-        mainContent.getChildren().addAll(pageHeader, summaryCards, upperContent, lowerContent);
+        VBox incomingAmbulanceList = new VBox(10);
+        VBox.setVgrow(incomingAmbulanceList, Priority.ALWAYS);
+
+        ShimmerLoader.ShimmerPane inboundShimmer = ShimmerLoader.createHospitalInboundListSkeleton(380, 3);
+        incomingAmbulanceList.getChildren().add(inboundShimmer);
+
+        VBox incomingAmbulancesCard = new VBox(14);
+        incomingAmbulancesCard.setPadding(new Insets(20));
+        incomingAmbulancesCard.setPrefHeight(0);
+        incomingAmbulancesCard.setMinHeight(0);
+        incomingAmbulancesCard.setPrefWidth(420);
+        incomingAmbulancesCard.setStyle(
+                "-fx-background-color: #FFFFFF; " +
+                        "-fx-border-color: #E2E8F0; " +
+                        "-fx-border-radius: 16px; " +
+                        "-fx-background-radius: 16px; " +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.04), 16, 0, 0, 4);");
+        HBox.setHgrow(incomingAmbulancesCard, Priority.NEVER);
+
+        Text incomingAmbulancesTitle = new Text("Inbound Fleet Tracker");
+        incomingAmbulancesTitle
+                .setStyle(FONT_FAMILY + "-fx-font-size: 16.5px; -fx-font-weight: bold; -fx-fill: #0F172A;");
+
+        Label incomingAmbulancesCount = new Label("0 EN ROUTE");
+        incomingAmbulancesCount.setStyle(
+                "-fx-background-color: #EFF6FF; " +
+                        "-fx-text-fill: #0284C7; " +
+                        "-fx-font-size: 10px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-padding: 3px 9px; " +
+                        "-fx-background-radius: 12px; " +
+                        FONT_FAMILY);
+
+        HBox ambulancesHeader = new HBox(10);
+        Region ambulancesHeaderSpacer = new Region();
+        HBox.setHgrow(ambulancesHeaderSpacer, Priority.ALWAYS);
+        ambulancesHeader.getChildren().addAll(incomingAmbulancesTitle, ambulancesHeaderSpacer, incomingAmbulancesCount);
+
+        ScrollPane incomingScroll = new ScrollPane(incomingAmbulanceList);
+        incomingScroll.setFitToWidth(true);
+        incomingScroll.setPrefHeight(420);
+        incomingScroll.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
+        incomingScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        incomingScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        Button viewAllAmbulancesButton = new Button("View Full Emergency Fleet Schedule →");
+        viewAllAmbulancesButton.setMaxWidth(Double.MAX_VALUE);
+        viewAllAmbulancesButton.setPrefHeight(38);
+        viewAllAmbulancesButton.setStyle(
+                "-fx-background-color: #F8FAFC; " +
+                        "-fx-text-fill: #006591; " +
+                        "-fx-font-size: 12px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-border-color: #E2E8F0; " +
+                        "-fx-border-radius: 8px; " +
+                        "-fx-background-radius: 8px; " +
+                        "-fx-cursor: hand; " +
+                        FONT_FAMILY);
+
+        incomingAmbulancesCard.getChildren().addAll(ambulancesHeader, incomingScroll, viewAllAmbulancesButton);
+
+        upperContent.getChildren().addAll(incomingAlertCard, incomingAmbulancesCard);
+
+        mainContent.getChildren().addAll(pageHeader, summaryCards, upperContent);
+
+        // Real-time listener for driverToHospitalNotify matching logged in hospital
+        Firestore firestoreDb = FirebaseConfig.getFirestore();
+        if (firestoreDb != null) {
+            firestoreDb.collection("driverToHospitalNotify")
+                    .addSnapshotListener((snapshots, error) -> {
+                        if (error != null) {
+                            System.err.println("[HospitalDashboard] Error listening to driverToHospitalNotify: "
+                                    + error.getMessage());
+                            return;
+                        }
+                        if (snapshots == null)
+                            return;
+
+                        List<DocumentSnapshot> documents = new ArrayList<>();
+                        for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                            String docHospEmail = doc.getString("hospitalEmail");
+                            if (docHospEmail == null)
+                                docHospEmail = doc.getString("hospitalemail");
+                            if (docHospEmail == null)
+                                docHospEmail = doc.getString("hospitalId");
+
+                            String hName = doc.getString("hospitalName");
+                            if (hName == null)
+                                hName = doc.getString("hospitalAddress");
+
+                            // Filter email-oriented for logged in hospital (with dynamic hospital name
+                            // fallback)
+                            boolean emailMatch = (docHospEmail != null && safeHospitalEmail != null
+                                    && docHospEmail.trim().equalsIgnoreCase(safeHospitalEmail.trim()));
+                            boolean nameMatch = (hName != null && hospitalName != null
+                                    && hName.trim().equalsIgnoreCase(hospitalName.trim()));
+
+                            if (emailMatch || nameMatch) {
+                                documents.add(doc);
+                            }
+                        }
+
+                        // Sort newest-first by Firestore timestamp
+                        documents.sort((a, b) -> {
+                            Timestamp ta = a.getTimestamp("timestamp");
+                            Timestamp tb = b.getTimestamp("timestamp");
+
+                            if (ta == null && tb == null)
+                                return 0;
+                            if (ta == null)
+                                return 1;
+                            if (tb == null)
+                                return -1;
+
+                            return tb.compareTo(ta);
+                        });
+
+                        Platform.runLater(() -> {
+                            if (inboundShimmer != null) {
+                                inboundShimmer.stop();
+                            }
+                            incomingAmbulanceList.getChildren().clear();
+                            int matchCount = documents.size();
+
+                            incomingAmbulancesCount.setText(matchCount + " EN ROUTE");
+                            incomingValue.setText(String.format("%02d", matchCount));
+
+                            if (documents.isEmpty()) {
+                                ambulanceAlertId.setText("No Incoming Ambulance");
+                                emergencyAlertType.setText("WAITING FOR REQUEST");
+                                patientAlertName.setText("Patient: --");
+                                driverAlertMessage.setText("No ambulance is currently coming to this hospital.");
+                                alertTime.setText("Waiting for incoming request");
+                                alertStatus.setText("●  NO ALERT");
+                                alertStatus.setStyle(
+                                        "-fx-background-color: #F1F5F9; -fx-text-fill: #64748B; -fx-border-color: #CBD5E1; "
+                                                +
+                                                "-fx-border-radius: 12px; -fx-background-radius: 12px; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 3px 9px; "
+                                                + FONT_FAMILY);
+                                pendingAmbulanceRequest = false;
+
+                                Label emptyLbl = new Label("No incoming ambulances found for " + hospitalName);
+                                emptyLbl.setStyle(FONT_FAMILY
+                                        + "-fx-font-size: 12.5px; -fx-text-fill: #94A3B8; -fx-font-style: italic; -fx-padding: 16px;");
+                                incomingAmbulanceList.getChildren().add(emptyLbl);
+                                return;
+                            }
+
+                            for (int i = 0; i < documents.size(); i++) {
+                                DocumentSnapshot doc = documents.get(i);
+
+                                String tripId = doc.getString("tripID");
+                                if (tripId == null)
+                                    tripId = doc.getString("TripID");
+                                if (tripId == null)
+                                    tripId = doc.getString("tripId");
+                                if (tripId == null)
+                                    tripId = "AMB-TRIP";
+
+                                String patId = doc.getString("patientID");
+                                if (patId == null)
+                                    patId = doc.getString("patID");
+                                if (patId == null)
+                                    patId = doc.getString("patientId");
+                                if (patId == null)
+                                    patId = "PAT-UNKNOWN";
+
+                                String ambId = doc.getString("ambulanceId");
+                                if (ambId == null)
+                                    ambId = doc.getString("ambulanceID");
+                                if (ambId == null)
+                                    ambId = "AMB-101";
+
+                                String driverEmail = doc.getString("driverID");
+                                if (driverEmail == null)
+                                    driverEmail = doc.getString("driveremail");
+                                if (driverEmail == null)
+                                    driverEmail = doc.getString("driverEmail");
+                                if (driverEmail == null)
+                                    driverEmail = doc.getString("email");
+                                if (driverEmail == null)
+                                    driverEmail = "--";
+
+                                String msg = doc.getString("message");
+                                if (msg == null || msg.trim().isEmpty()) {
+                                    msg = "Emergency Case En Route • Priority Corridor";
+                                }
+
+                                String status = doc.getString("status");
+                                if (status == null || status.trim().isEmpty()) {
+                                    status = "EN_ROUTE_TO_HOSPITAL";
+                                }
+
+                                String pickupLocation = doc.getString("pickupLocation");
+                                if (pickupLocation == null)
+                                    pickupLocation = doc.getString("source");
+                                if (pickupLocation == null)
+                                    pickupLocation = "--";
+
+                                String hName = doc.getString("hospitalName");
+                                if (hName == null)
+                                    hName = doc.getString("hospitalAddress");
+                                if (hName == null)
+                                    hName = hospitalName;
+
+                                Double dLat = doc.getDouble("destLat");
+                                Double dLng = doc.getDouble("destLng");
+                                Double pLat = doc.getDouble("pickupLat");
+                                if (pLat == null)
+                                    pLat = doc.getDouble("srcLat");
+                                Double pLng = doc.getDouble("pickupLng");
+                                if (pLng == null)
+                                    pLng = doc.getDouble("srcLng");
+                                Timestamp ts = doc.getTimestamp("timestamp");
+
+                                // Build Card UI
+                                VBox ambCard = new VBox(7);
+                                ambCard.setPadding(new Insets(12));
+                                ambCard.setMaxWidth(Double.MAX_VALUE);
+                                ambCard.setStyle(CARD_STYLE_DEFAULT);
+
+                                // Header row
+                                HBox ambHead = new HBox(8);
+                                ambHead.setAlignment(Pos.CENTER_LEFT);
+
+                                Text cardAmbIcon = new Text("🚑");
+                                cardAmbIcon.setStyle("-fx-font-size: 15px;");
+
+                                VBox ambTitleBox = new VBox(1);
+                                Text ambIdText = new Text(ambId);
+                                ambIdText.setStyle(
+                                        FONT_FAMILY + "-fx-font-size: 13px; -fx-font-weight: 800; -fx-fill: #0F172A;");
+                                Text cardIncomingLabel = new Text("INCOMING AMBULANCE");
+                                cardIncomingLabel.setStyle(
+                                        FONT_FAMILY + "-fx-font-size: 8px; -fx-font-weight: bold; -fx-fill: #64748B;");
+                                ambTitleBox.getChildren().addAll(ambIdText, cardIncomingLabel);
+
+                                Region ambSp = new Region();
+                                HBox.setHgrow(ambSp, Priority.ALWAYS);
+
+                                Label tIdTag = new Label(tripId);
+                                tIdTag.setStyle(FONT_FAMILY
+                                        + "-fx-background-color: #EFF6FF; -fx-text-fill: #0284C7; -fx-font-size: 9.5px; -fx-font-weight: bold; -fx-padding: 2px 7px; -fx-background-radius: 6px;");
+
+                                Label statusBadge = new Label(status.replace("_", " "));
+                                statusBadge.setStyle(FONT_FAMILY
+                                        + "-fx-background-color: #DCFCE7; -fx-text-fill: #16A34A; -fx-font-size: 9px; -fx-font-weight: bold; -fx-padding: 3px 8px; -fx-background-radius: 12px;");
+
+                                ambHead.getChildren().addAll(cardAmbIcon, ambTitleBox, ambSp, tIdTag, statusBadge);
+
+                                // Divider
+                                Region divider = new Region();
+                                divider.setPrefHeight(1);
+                                divider.setStyle("-fx-background-color: #E2E8F0;");
+
+                                // Patient & Driver Row
+                                HBox patientDriverRow = new HBox(12);
+                                VBox pBox = new VBox(2);
+                                HBox.setHgrow(pBox, Priority.ALWAYS);
+                                Text pCaption = new Text("PATIENT");
+                                pCaption.setStyle(
+                                        FONT_FAMILY + "-fx-font-size: 8px; -fx-font-weight: bold; -fx-fill: #94A3B8;");
+                                Text pText = new Text(patId);
+                                pText.setStyle(
+                                        FONT_FAMILY + "-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #334155;");
+                                pBox.getChildren().addAll(pCaption, pText);
+
+                                VBox dBox = new VBox(2);
+                                HBox.setHgrow(dBox, Priority.ALWAYS);
+                                Text dCaption = new Text("DRIVER");
+                                dCaption.setStyle(
+                                        FONT_FAMILY + "-fx-font-size: 8px; -fx-font-weight: bold; -fx-fill: #94A3B8;");
+                                Text dText = new Text(driverEmail);
+                                dText.setStyle(FONT_FAMILY + "-fx-font-size: 10px; -fx-fill: #334155;");
+                                dBox.getChildren().addAll(dCaption, dText);
+                                patientDriverRow.getChildren().addAll(pBox, dBox);
+
+                                // Route Row
+                                HBox routeBox = new HBox(6);
+                                routeBox.setAlignment(Pos.CENTER_LEFT);
+                                Text rIcon = new Text("📍");
+                                rIcon.setStyle("-fx-font-size: 11px;");
+                                VBox rDetails = new VBox(1);
+                                Text rCaption = new Text("PICKUP LOCATION");
+                                rCaption.setStyle(
+                                        FONT_FAMILY + "-fx-font-size: 8px; -fx-font-weight: bold; -fx-fill: #94A3B8;");
+                                Text rText = new Text(pickupLocation);
+                                rText.setWrappingWidth(300);
+                                rText.setStyle(FONT_FAMILY + "-fx-font-size: 10.5px; -fx-fill: #475569;");
+                                rDetails.getChildren().addAll(rCaption, rText);
+                                routeBox.getChildren().addAll(rIcon, rDetails);
+
+                                // Message Text
+                                Text msgText = new Text(msg);
+                                msgText.setWrappingWidth(320);
+                                msgText.setStyle(
+                                        FONT_FAMILY + "-fx-font-size: 11px; -fx-fill: #DC2626; -fx-font-weight: 600;");
+
+                                ambCard.getChildren().addAll(ambHead, divider, patientDriverRow, routeBox, msgText);
+                                incomingAmbulanceList.getChildren().add(ambCard);
+
+                                final VBox thisCard = ambCard;
+                                final String fAmbId = ambId;
+                                final String fPatId = patId;
+                                final String fTripId = tripId;
+                                final String fDriverId = driverEmail;
+                                final String fStatus = status;
+                                final String fPickup = pickupLocation;
+                                final String fMsg = msg;
+                                final Double fPLat = pLat;
+                                final Double fPLng = pLng;
+                                final Double fDLat = dLat;
+                                final Double fDLng = dLng;
+                                final String fHosp = hName;
+                                final Timestamp fTs = ts;
+
+                                // Interactive hover and click
+                                ambCard.setOnMouseEntered(e -> {
+                                    if (thisCard != selectedAmbulanceCardNode) {
+                                        thisCard.setStyle(CARD_STYLE_HOVER);
+                                    }
+                                });
+                                ambCard.setOnMouseExited(e -> {
+                                    if (thisCard != selectedAmbulanceCardNode) {
+                                        thisCard.setStyle(CARD_STYLE_DEFAULT);
+                                    }
+                                });
+                                ambCard.setOnMouseClicked(e -> {
+                                    selectAmbulanceRequest(
+                                            thisCard,
+                                            fAmbId, fPatId, fTripId, fDriverId,
+                                            fStatus, fPickup, fMsg,
+                                            fPLat, fPLng, fDLat, fDLng,
+                                            fHosp, fTs,
+                                            ambulanceAlertId, emergencyAlertType, patientAlertName,
+                                            driverAlertMessage, alertTime, alertStatus);
+                                });
+
+                                // Select first request on initial load or if matching
+                                if (i == 0) {
+                                    selectAmbulanceRequest(
+                                            thisCard,
+                                            fAmbId, fPatId, fTripId, fDriverId,
+                                            fStatus, fPickup, fMsg,
+                                            fPLat, fPLng, fDLat, fDLng,
+                                            fHosp, fTs,
+                                            ambulanceAlertId, emergencyAlertType, patientAlertName,
+                                            driverAlertMessage, alertTime, alertStatus);
+                                }
+                            }
+                        });
+                    });
+        }
 
         // =============================================================
         // SCROLL PANE
@@ -2102,91 +1412,669 @@ public class HospitalDashboard extends Application {
 
         ScrollPane scrollPane = new ScrollPane(mainContent);
         scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
 
         VBox finalContent = new VBox(scrollPane);
-        finalContent.setStyle("-fx-background-color: " + PAGE_BG + ";");
+        finalContent.setStyle("-fx-background-color: #a5bdaaff;");
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
 
         borderPane.setCenter(finalContent);
 
         // =============================================================
-        // NAVIGATION HANDLERS (PRESERVED FUNCTIONALITY & EVENT ACTIONS)
+        // NAVIGATION ACTIONS (WITH CLEAN ACTIVE/INACTIVE SWITCHING)
         // =============================================================
 
         dashboardButton.setOnAction(event -> {
-            setActiveNav(dashboardButton, navButtons);
+            setActiveNav(dashboardButton, patientMonitoringButton, resourceButton, doctorButton, patientButton,
+                    settingsButton, complaintButton);
             borderPane.setCenter(finalContent);
         });
 
-        emergencyButton.setOnAction(event -> {
-            setActiveNav(emergencyButton, navButtons);
-            HospitalEmergencyRequests emergencyRequests = new HospitalEmergencyRequests();
-            borderPane.setCenter(emergencyRequests.getEmergencyRequests());
+        patientMonitoringButton.setOnAction(event -> {
+            setActiveNav(patientMonitoringButton, dashboardButton, resourceButton, doctorButton, patientButton,
+                    settingsButton, complaintButton);
+            HospitalPatientMonitoring monitoring = new HospitalPatientMonitoring(selectedPatientId, selectedTripId,
+                    hospitalName);
+            borderPane.setCenter(monitoring.getPatientMonitoring());
         });
 
         resourceButton.setOnAction(event -> {
-            setActiveNav(resourceButton, navButtons);
-            HospitalResourceManagement resourceManagement = new HospitalResourceManagement();
+            setActiveNav(resourceButton, dashboardButton, patientMonitoringButton, doctorButton, patientButton,
+                    settingsButton, complaintButton);
+            HospitalResourceManagement resourceManagement = new HospitalResourceManagement(safeHospitalEmail);
             borderPane.setCenter(resourceManagement.getResourceManagement());
         });
 
         doctorButton.setOnAction(event -> {
-            setActiveNav(doctorButton, navButtons);
-            HospitalDoctorManagement doctorManagement = new HospitalDoctorManagement();
+            setActiveNav(doctorButton, dashboardButton, patientMonitoringButton, resourceButton, patientButton,
+                    settingsButton, complaintButton);
+            HospitalDoctorManagement doctorManagement = new HospitalDoctorManagement(safeHospitalEmail);
             borderPane.setCenter(doctorManagement.getDoctorManagement());
         });
 
-        otButton.setOnAction(event -> {
-            setActiveNav(otButton, navButtons);
-            HospitalOperationTheatre operationTheatre = new HospitalOperationTheatre();
-            borderPane.setCenter(operationTheatre.getOperationTheatre());
-        });
-
         patientButton.setOnAction(event -> {
-            setActiveNav(patientButton, navButtons);
-            HospitalPatientRecords patientRecords = new HospitalPatientRecords();
-            borderPane.setCenter(patientRecords.getPatientRecords());
+            setActiveNav(patientButton, dashboardButton, patientMonitoringButton, resourceButton, doctorButton,
+                    settingsButton, complaintButton);
+            HospitalPatientEmergencyRecords patientRecords = new HospitalPatientEmergencyRecords(safeHospitalEmail);
+            borderPane.setCenter(patientRecords.getPatientEmergencyRecords());
         });
 
-        ambulanceButton.setOnAction(event -> {
-            setActiveNav(ambulanceButton, navButtons);
-            HospitalAmbulanceTracking ambulanceTracking = new HospitalAmbulanceTracking();
-            borderPane.setCenter(ambulanceTracking.getAmbulanceTracking());
-        });
-
-        notificationButton.setOnAction(event -> {
-            setActiveNav(notificationButton, navButtons);
-            HospitalNotification notification = new HospitalNotification();
-            borderPane.setCenter(notification.getNotification());
-        });
-
-        analyticsButton.setOnAction(event -> {
-            setActiveNav(analyticsButton, navButtons);
-            HospitalAnalytics analytics = new HospitalAnalytics();
-            borderPane.setCenter(analytics.getAnalytics());
+        complaintButton.setOnAction(event -> {
+            setActiveNav(complaintButton, dashboardButton, patientMonitoringButton, resourceButton, doctorButton,
+                    patientButton, settingsButton);
+            HospitalComplaints complaints = new HospitalComplaints();
+            borderPane.setCenter(complaints.getComplaintSection());
         });
 
         settingsButton.setOnAction(event -> {
-            setActiveNav(settingsButton, navButtons);
-            HospitalSettings settings = new HospitalSettings();
+            setActiveNav(settingsButton, dashboardButton, patientMonitoringButton, resourceButton, doctorButton,
+                    patientButton, complaintButton);
+            HospitalSettings settings = new HospitalSettings(safeHospitalEmail);
             borderPane.setCenter(settings.getSettings());
         });
 
+        bookResourceButton.setOnAction(event -> {
+            setActiveNav(resourceButton, dashboardButton, patientMonitoringButton, doctorButton, patientButton,
+                    settingsButton, complaintButton);
+            HospitalResourceManagement resourceManagement = new HospitalResourceManagement(safeHospitalEmail);
+            borderPane.setCenter(resourceManagement.getResourceManagement());
+        });
+
+        viewDetailsButton.setOnAction(event -> {
+            setActiveNav(patientMonitoringButton, dashboardButton, resourceButton, doctorButton, patientButton,
+                    settingsButton, complaintButton);
+            HospitalPatientMonitoring monitoring = new HospitalPatientMonitoring(selectedPatientId, selectedTripId,
+                    hospitalName);
+            borderPane.setCenter(monitoring.getPatientMonitoring());
+        });
+
         logoutButton.setOnAction(event -> {
-            // Add your SignIn navigation logic here.
+            isTrackingRunning = false;
+            if (driToHosPopupListener != null)
+                driToHosPopupListener.remove();
+            try {
+                Welcome welcome = new Welcome();
+                welcome.start(dashboardStage);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         });
 
         // =============================================================
-        // SCENE
+        // FULL SCREEN RESOLUTION FIX (SCREEN BOUNDS ALIGNMENT)
         // =============================================================
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
 
-        dashboardScene = new Scene(borderPane, dashboardStage.getWidth(), dashboardStage.getHeight());
+        rootStack = new StackPane(borderPane);
+        rootStack.setStyle("-fx-background-color: #a5bdaaff;");
+
+        popupOverlayContainer = new VBox(12);
+        popupOverlayContainer.setAlignment(Pos.TOP_RIGHT);
+        popupOverlayContainer.setPickOnBounds(false);
+        popupOverlayContainer.setMaxWidth(420);
+        popupOverlayContainer.setPadding(new Insets(20, 24, 0, 0));
+        StackPane.setAlignment(popupOverlayContainer, Pos.TOP_RIGHT);
+        rootStack.getChildren().add(popupOverlayContainer);
+
+        dashboardScene = new Scene(rootStack, visualBounds.getWidth(), visualBounds.getHeight());
+        try {
+            dashboardScene.getStylesheets()
+                    .add(getClass().getResource("/css/modern-hospital-theme.css").toExternalForm());
+        } catch (Exception ignored) {
+        }
+
+        dashboardStage.setX(visualBounds.getMinX());
+        dashboardStage.setY(visualBounds.getMinY());
+        dashboardStage.setWidth(visualBounds.getWidth());
+        dashboardStage.setHeight(visualBounds.getHeight());
 
         dashboardStage.setScene(dashboardScene);
-        dashboardStage.setTitle("LifeLink Hospital Dashboard");
+        dashboardStage.setTitle("LifeLink Hospital Dashboard (" + hospitalName + ")");
         dashboardStage.setMaximized(true);
         dashboardStage.show();
+
+        startLiveTracking();
+
+        dashboardStage.setOnCloseRequest(e -> {
+            isTrackingRunning = false;
+            if (driToHosPopupListener != null)
+                driToHosPopupListener.remove();
+            dashboardStage.close();
+        });
+
+        listenForDriToHosPopup();
+        checkAndShowPendingDriToHosPopup();
+    }
+
+    // =========================================================
+    // INCOMING REQUEST SELECTION & TELEMETRY SYNCHRONIZATION
+    // =========================================================
+    private void selectAmbulanceRequest(
+            VBox cardNode,
+            String ambId, String patId, String tripId, String driverId,
+            String status, String pickupLoc, String msg,
+            Double pLat, Double pLng, Double dLat, Double dLng,
+            String hosp, Timestamp ts,
+            Text ambulanceAlertId, Label emergencyAlertType, Text patientAlertName,
+            Text driverAlertMessage, Text alertTime, Label alertStatus) {
+        this.selectedPatientId = (patId != null && !patId.trim().isEmpty()) ? patId.trim() : "PAT-UNKNOWN";
+        this.selectedTripId = (tripId != null && !tripId.trim().isEmpty()) ? tripId.trim() : "TRIP-AUTO";
+        this.selectedAmbulanceId = (ambId != null && !ambId.trim().isEmpty()) ? ambId.trim() : "AMB-101";
+        this.selectedDriverEmail = (driverId != null) ? driverId.trim() : "";
+        this.selectedMessage = (msg != null) ? msg.trim() : "";
+        this.selectedStatus = (status != null) ? status.trim() : "INCOMING";
+
+        if (selectedAmbulanceCardNode != null) {
+            selectedAmbulanceCardNode.setStyle(CARD_STYLE_DEFAULT);
+        }
+        selectedAmbulanceCardNode = cardNode;
+        if (cardNode != null) {
+            cardNode.setStyle(CARD_STYLE_SELECTED);
+        }
+
+        ambulanceAlertId.setText(selectedAmbulanceId);
+        emergencyAlertType.setText(selectedStatus.replace("_", " "));
+        patientAlertName.setText("Patient: " + selectedPatientId + " • Pre-admission Triage");
+        driverAlertMessage.setText((msg != null && !msg.trim().isEmpty()) ? msg : "Ambulance is en route to hospital.");
+        if (ts != null) {
+            alertTime.setText(
+                    "Received: " + ts.toDate().toString() + " • Destination: " + (hosp != null ? hosp : hospitalName));
+        } else {
+            alertTime.setText(
+                    "Live Dispatch • In transit via active GPS corridor to " + (hosp != null ? hosp : hospitalName));
+        }
+        alertStatus.setText("●  SELECTED ALERT");
+        alertStatus.setStyle(
+                "-fx-background-color: #EFF6FF; " +
+                        "-fx-text-fill: #1D4ED8; " +
+                        "-fx-border-color: #BFDBFE; " +
+                        "-fx-border-radius: 12px; " +
+                        "-fx-background-radius: 12px; " +
+                        "-fx-font-size: 10px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-padding: 3px 9px; " +
+                        FONT_FAMILY);
+
+        if (pLat != null && pLng != null) {
+            pendingAmbulanceLat = pLat;
+            pendingAmbulanceLon = pLng;
+        } else if (pickupLoc != null && !pickupLoc.trim().isEmpty()) {
+            pendingAmbulanceLat = getLatitude(pickupLoc);
+            pendingAmbulanceLon = getLongitude(pickupLoc);
+        }
+        if (dLat != null && dLng != null) {
+            activeInboundDestLat = dLat;
+            activeInboundDestLng = dLng;
+        }
+        pendingHospitalName = (hosp != null && !hosp.isEmpty()) ? hosp : hospitalName;
+        activeInboundHospName = pendingHospitalName;
+        pendingAmbulanceRequest = true;
+
+        if (ambulanceMapEngine != null && isMapLoaded) {
+            double effLat = (liveAmbulanceLat != null && liveAmbulanceLat != 0.0) ? liveAmbulanceLat
+                    : pendingAmbulanceLat;
+            double effLng = (liveAmbulanceLng != null && liveAmbulanceLng != 0.0) ? liveAmbulanceLng
+                    : pendingAmbulanceLon;
+            String safeDest = pendingHospitalName.replace("'", "\\'");
+
+            if (activeInboundDestLat != null && activeInboundDestLng != null && activeInboundDestLat != 0.0) {
+                String js = String.format(Locale.US,
+                        "if (typeof setRouteWithCoordinates === 'function') { setRouteWithCoordinates(%f, %f, %f, %f, '%s'); } else { setRouteFromCurrentLocation(%f, %f, '%s'); }",
+                        effLat, effLng, activeInboundDestLat, activeInboundDestLng, safeDest,
+                        effLat, effLng, safeDest);
+                ambulanceMapEngine.executeScript(js);
+            } else {
+                String js = String.format(Locale.US,
+                        "if (typeof setRouteFromCurrentLocation === 'function') { setRouteFromCurrentLocation(%f, %f, '%s'); } else if (typeof updateAmbulance === 'function') { updateAmbulance(%f, %f); }",
+                        effLat, effLng, safeDest, effLat, effLng);
+                ambulanceMapEngine.executeScript(js);
+            }
+        }
+        System.out.println("[HospitalDashboard] Selected incoming request: Ambulance=" + selectedAmbulanceId
+                + ", Patient=" + selectedPatientId + ", Trip=" + selectedTripId);
+    }
+
+    // =========================================================
+    // DRITOHOSPOPUP REAL-TIME LISTENER & CONFIRMATION MODAL
+    // =========================================================
+    private void listenForDriToHosPopup() {
+        try {
+            Firestore db = FirebaseConfig.getFirestore();
+            if (db == null) {
+                System.err.println("[DriToHosPopup] Firestore is not initialized.");
+                return;
+            }
+
+            if (driToHosPopupListener != null) {
+                driToHosPopupListener.remove();
+            }
+
+            System.out.println("[DriToHosPopup] Starting listener for hospital: " + hospitalEmail);
+
+            driToHosPopupListener = db.collection("DriToHosPopup")
+                    .addSnapshotListener((snapshots, error) -> {
+                        if (error != null) {
+                            System.err.println("[DriToHosPopup] Error: " + error.getMessage());
+                            return;
+                        }
+                        if (snapshots == null)
+                            return;
+
+                        String currentHospEmail = (hospitalEmail != null) ? hospitalEmail.trim() : "";
+                        String currentHospName = (hospitalName != null) ? hospitalName.trim() : "";
+
+                        for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                            String docHospEmail = doc.getString("hospitalemail");
+                            if (docHospEmail == null) docHospEmail = doc.getString("hospitalEmail");
+                            if (docHospEmail == null) docHospEmail = doc.getString("email");
+
+                            String docHospName = doc.getString("hospitalName");
+
+                            boolean isEmailTarget = (docHospEmail != null && !currentHospEmail.isEmpty()
+                                    && docHospEmail.trim().equalsIgnoreCase(currentHospEmail));
+                            boolean isNameTarget = (docHospName != null && !currentHospName.isEmpty()
+                                    && docHospName.trim().equalsIgnoreCase(currentHospName));
+
+                            if (!isEmailTarget && !isNameTarget) {
+                                continue;
+                            }
+
+                            String status = doc.getString("status");
+                            if (status == null || !status.trim().equalsIgnoreCase("not confirm")) {
+                                continue;
+                            }
+
+                            String docId = doc.getId();
+                            if (handledDriToHosPopupDocIds.contains(docId)) {
+                                continue;
+                            }
+                            handledDriToHosPopupDocIds.add(docId);
+
+                            String ambId = doc.getString("ambulanceId");
+                            if (ambId == null || ambId.trim().isEmpty()) ambId = doc.getString("ambulanceID");
+                            if (ambId == null || ambId.trim().isEmpty()) ambId = doc.getString("ambulance_id");
+                            if (ambId == null || ambId.trim().isEmpty()) ambId = doc.getString("driverID");
+                            if (ambId == null || ambId.trim().isEmpty()) ambId = "AMB-101";
+
+                            String patId = doc.getString("patID");
+                            if (patId == null || patId.trim().isEmpty()) patId = doc.getString("patientID");
+                            if (patId == null || patId.trim().isEmpty()) patId = doc.getString("patientId");
+                            if (patId == null || patId.trim().isEmpty()) patId = doc.getString("patId");
+                            if (patId == null || patId.trim().isEmpty()) patId = doc.getString("TripID");
+                            if (patId == null || patId.trim().isEmpty()) patId = doc.getString("tripID");
+                            if (patId == null || patId.trim().isEmpty()) patId = "PAT-101";
+
+                            final String finalDocId = docId;
+                            final String finalAmbId = ambId;
+                            final String finalPatId = patId;
+
+                            Platform.runLater(() -> {
+                                if (dashboardStage != null && dashboardStage.isShowing() && popupOverlayContainer != null) {
+                                    showDriToHosPopupDialog(finalDocId, finalAmbId, finalPatId);
+                                } else {
+                                    pendingDriToHosDocId = finalDocId;
+                                    pendingDriToHosAmbId = finalAmbId;
+                                    pendingDriToHosPatId = finalPatId;
+                                }
+                            });
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkAndShowPendingDriToHosPopup() {
+        if (pendingDriToHosDocId != null && popupOverlayContainer != null) {
+            final String dId = pendingDriToHosDocId;
+            final String aId = pendingDriToHosAmbId;
+            final String pId = pendingDriToHosPatId;
+            pendingDriToHosDocId = null;
+            pendingDriToHosAmbId = null;
+            pendingDriToHosPatId = null;
+            Platform.runLater(() -> showDriToHosPopupDialog(dId, aId, pId));
+        }
+    }
+
+    private void showDriToHosPopupDialog(String docId, String ambulanceId, String patId) {
+        if (popupOverlayContainer == null) {
+            pendingDriToHosDocId = docId;
+            pendingDriToHosAmbId = ambulanceId;
+            pendingDriToHosPatId = patId;
+            return;
+        }
+
+        popupOverlayContainer.getChildren().clear();
+
+        VBox card = new VBox(12);
+        card.setMaxWidth(390);
+        card.setMinWidth(350);
+        card.setPadding(new Insets(16, 18, 16, 18));
+        card.setStyle(
+                "-fx-background-color: #FFFFFF; " +
+                "-fx-background-radius: 16px; " +
+                "-fx-border-color: #0D9488; " +
+                "-fx-border-width: 2px; " +
+                "-fx-border-radius: 16px; " +
+                "-fx-effect: dropshadow(three-pass-box, rgba(13, 148, 136, 0.35), 24, 0, 0, 8);"
+        );
+
+        // Header Row with Live Badge and Close Button
+        HBox headerRow = new HBox(8);
+        headerRow.setAlignment(Pos.CENTER_LEFT);
+
+        HBox badgePill = new HBox(6);
+        badgePill.setAlignment(Pos.CENTER);
+        badgePill.setPadding(new Insets(4, 10, 4, 10));
+        badgePill.setStyle("-fx-background-color: #FEF2F2; -fx-border-color: #FECDD3; -fx-border-radius: 12; -fx-background-radius: 12;");
+
+        Circle pulseDot = new Circle(4, Color.web("#EF4444"));
+        FadeTransition ftPulse = new FadeTransition(Duration.millis(700), pulseDot);
+        ftPulse.setFromValue(1.0);
+        ftPulse.setToValue(0.25);
+        ftPulse.setAutoReverse(true);
+        ftPulse.setCycleCount(FadeTransition.INDEFINITE);
+        ftPulse.play();
+
+        Label badgeText = new Label("INBOUND AMBULANCE");
+        badgeText.setStyle(FONT_FAMILY + "-fx-font-size: 10px; -fx-font-weight: 800; -fx-text-fill: #BE123C; -fx-letter-spacing: 0.5px;");
+        badgePill.getChildren().addAll(pulseDot, badgeText);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        Button dismissBtn = new Button("✕");
+        dismissBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #94A3B8; -fx-font-size: 12px; -fx-cursor: hand; -fx-padding: 0 4;");
+        dismissBtn.setOnMouseEntered(e -> dismissBtn.setStyle("-fx-background-color: #F1F5F9; -fx-text-fill: #334155; -fx-font-size: 12px; -fx-cursor: hand; -fx-padding: 0 4; -fx-background-radius: 4;"));
+        dismissBtn.setOnMouseExited(e -> dismissBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #94A3B8; -fx-font-size: 12px; -fx-cursor: hand; -fx-padding: 0 4;"));
+        dismissBtn.setOnAction(e -> dismissNotificationCard(card));
+
+        headerRow.getChildren().addAll(badgePill, spacer, dismissBtn);
+
+        // Details Row: Ambulance ID and PatID only
+        HBox detailsRow = new HBox(10);
+        detailsRow.setAlignment(Pos.CENTER);
+        detailsRow.setMaxWidth(Double.MAX_VALUE);
+
+        VBox ambBox = new VBox(2);
+        ambBox.setAlignment(Pos.CENTER);
+        ambBox.setPadding(new Insets(8, 12, 8, 12));
+        ambBox.setStyle("-fx-background-color: #F8FAFC; -fx-border-color: #E2E8F0; -fx-border-radius: 10px; -fx-background-radius: 10px;");
+        HBox.setHgrow(ambBox, Priority.ALWAYS);
+
+        Label ambLabel = new Label("AMBULANCE ID");
+        ambLabel.setStyle(FONT_FAMILY + "-fx-font-size: 9px; -fx-font-weight: 700; -fx-text-fill: #64748B;");
+        Text ambValue = new Text(ambulanceId);
+        ambValue.setStyle(FONT_FAMILY + "-fx-font-size: 14px; -fx-font-weight: 800; -fx-fill: #006591;");
+        ambBox.getChildren().addAll(ambLabel, ambValue);
+
+        VBox patBox = new VBox(2);
+        patBox.setAlignment(Pos.CENTER);
+        patBox.setPadding(new Insets(8, 12, 8, 12));
+        patBox.setStyle("-fx-background-color: #F8FAFC; -fx-border-color: #E2E8F0; -fx-border-radius: 10px; -fx-background-radius: 10px;");
+        HBox.setHgrow(patBox, Priority.ALWAYS);
+
+        Label patLabel = new Label("PATIENT ID (PatID)");
+        patLabel.setStyle(FONT_FAMILY + "-fx-font-size: 9px; -fx-font-weight: 700; -fx-text-fill: #64748B;");
+        Text patValue = new Text(patId);
+        patValue.setStyle(FONT_FAMILY + "-fx-font-size: 14px; -fx-font-weight: 800; -fx-fill: #BE123C;");
+        patBox.getChildren().addAll(patLabel, patValue);
+
+        detailsRow.getChildren().addAll(ambBox, patBox);
+
+        // Compulsory message Box: "Your all resourses are updated or not ?"
+        VBox messageBox = new VBox(4);
+        messageBox.setAlignment(Pos.CENTER);
+        messageBox.setPadding(new Insets(10, 12, 10, 12));
+        messageBox.setStyle("-fx-background-color: #FEF3C7; -fx-border-color: #FCD34D; -fx-border-radius: 10px; -fx-background-radius: 10px;");
+
+        Text compulsoryMessage = new Text("Your all resourses are updated or not ?");
+        compulsoryMessage.setStyle(FONT_FAMILY + "-fx-font-size: 13px; -fx-font-weight: 800; -fx-fill: #92400E;");
+        messageBox.getChildren().add(compulsoryMessage);
+
+        // Action Buttons: Confirm and Deny
+        HBox actionsRow = new HBox(12);
+        actionsRow.setAlignment(Pos.CENTER);
+
+        Button denyBtn = new Button("✕ Deny");
+        denyBtn.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(denyBtn, Priority.ALWAYS);
+        denyBtn.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: #EF4444; " +
+                "-fx-text-fill: white; " +
+                "-fx-font-weight: bold; " +
+                "-fx-font-size: 12px; " +
+                "-fx-padding: 8 16; " +
+                "-fx-background-radius: 8px; " +
+                "-fx-cursor: hand; " +
+                "-fx-effect: dropshadow(three-pass-box, rgba(239, 68, 68, 0.35), 6, 0, 0, 2);"
+        );
+
+        Button confirmBtn = new Button("✓ Confirm");
+        confirmBtn.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(confirmBtn, Priority.ALWAYS);
+        confirmBtn.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: #10B981; " +
+                "-fx-text-fill: white; " +
+                "-fx-font-weight: bold; " +
+                "-fx-font-size: 12px; " +
+                "-fx-padding: 8 16; " +
+                "-fx-background-radius: 8px; " +
+                "-fx-cursor: hand; " +
+                "-fx-effect: dropshadow(three-pass-box, rgba(16, 185, 129, 0.35), 6, 0, 0, 2);"
+        );
+
+        denyBtn.setOnAction(e -> {
+            updateDriToHosStatus(docId, "deny");
+            dismissNotificationCard(card);
+        });
+
+        confirmBtn.setOnAction(e -> {
+            updateDriToHosStatus(docId, "confirm");
+            dismissNotificationCard(card);
+        });
+
+        actionsRow.getChildren().addAll(denyBtn, confirmBtn);
+
+        card.getChildren().addAll(headerRow, detailsRow, messageBox, actionsRow);
+
+        card.setOpacity(0.0);
+        card.setTranslateX(40.0);
+        popupOverlayContainer.getChildren().add(card);
+
+        TranslateTransition tt = new TranslateTransition(Duration.millis(250), card);
+        tt.setToX(0.0);
+        FadeTransition ft = new FadeTransition(Duration.millis(250), card);
+        ft.setToValue(1.0);
+        tt.play();
+        ft.play();
+    }
+
+    private void dismissNotificationCard(VBox card) {
+        if (card == null || popupOverlayContainer == null) return;
+        TranslateTransition tt = new TranslateTransition(Duration.millis(200), card);
+        tt.setToX(60.0);
+        FadeTransition ft = new FadeTransition(Duration.millis(200), card);
+        ft.setToValue(0.0);
+        tt.setOnFinished(e -> popupOverlayContainer.getChildren().remove(card));
+        tt.play();
+        ft.play();
+    }
+
+    private void updateDriToHosStatus(String docId, String status) {
+        new Thread(() -> {
+            try {
+                Firestore db = FirebaseConfig.getFirestore();
+                if (db != null && docId != null && !docId.trim().isEmpty()) {
+                    Map<String, Object> update = new HashMap<>();
+                    update.put("status", status);
+                    update.put("respondedAt", Timestamp.now());
+                    update.put("respondedHospitalEmail", (hospitalEmail != null) ? hospitalEmail.trim() : "");
+                    db.collection("DriToHosPopup").document(docId).set(update, SetOptions.merge()).get();
+                    System.out.println("[DriToHosPopup] Updated doc " + docId + " status to: " + status);
+                }
+            } catch (Exception ex) {
+                System.err.println("[DriToHosPopup] Failed to update status: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
+    // =========================================================
+    // THINGSPEAK LIVE TRACKING LOGIC
+    // =========================================================
+    private synchronized void startLiveTracking() {
+        if (trackingThread != null && trackingThread.isAlive()) {
+            return;
+        }
+        isTrackingRunning = true;
+        trackingThread = new Thread(() -> {
+            while (isTrackingRunning) {
+                fetchThingSpeakLocation();
+                try {
+                    Thread.sleep(UPDATE_INTERVAL);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+        });
+        trackingThread.setDaemon(true);
+        trackingThread.setName("HospitalLiveTrackingThread");
+        trackingThread.start();
+    }
+
+    private void fetchThingSpeakLocation() {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(THINGSPEAK_URL))
+                    .header("User-Agent", "LifeLink-JavaFX")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                return;
+            }
+
+            JSONObject json = new JSONObject(response.body());
+            JSONArray feeds = json.optJSONArray("feeds");
+            if (feeds == null || feeds.length() == 0) {
+                return;
+            }
+
+            JSONObject latestFeed = feeds.getJSONObject(feeds.length() - 1);
+            String latitudeText = latestFeed.optString("field1", "");
+            String longitudeText = latestFeed.optString("field2", "");
+
+            if (latitudeText.isEmpty() || longitudeText.isEmpty()) {
+                return;
+            }
+
+            double latitude = Double.parseDouble(latitudeText);
+            double longitude = Double.parseDouble(longitudeText);
+
+            if (latitude == 0 || longitude == 0 || Double.isNaN(latitude) || Double.isNaN(longitude)) {
+                return;
+            }
+
+            if (latitude == lastLatitude && longitude == lastLongitude) {
+                return;
+            }
+
+            lastLatitude = latitude;
+            lastLongitude = longitude;
+            liveAmbulanceLat = latitude;
+            liveAmbulanceLng = longitude;
+
+            System.out.println("========================================");
+            System.out.println("[HospitalDashboard] LIVE AMBULANCE GPS TELEMETRY");
+            System.out.println("Latitude  : " + latitude);
+            System.out.println("Longitude : " + longitude);
+            System.out.println("========================================");
+
+            Platform.runLater(() -> {
+                if (isMapLoaded && ambulanceMapEngine != null) {
+                    String targetHosp = (activeInboundHospName != null && !activeInboundHospName.isEmpty())
+                            ? activeInboundHospName
+                            : hospitalName;
+                    if (targetHosp == null)
+                        targetHosp = "Hospital";
+                    String safeHospName = targetHosp.replace("'", "\\'");
+
+                    if (activeInboundDestLat != null && activeInboundDestLng != null && activeInboundDestLat != 0.0) {
+                        String js = String.format(Locale.US,
+                                "if (typeof updateAmbulanceLive === 'function') { " +
+                                        "  updateAmbulanceLive(%f, %f, %f, %f, '%s'); " +
+                                        "} else if (typeof updateAmbulance === 'function') { " +
+                                        "  updateAmbulance(%f, %f); " +
+                                        "}",
+                                latitude, longitude, activeInboundDestLat, activeInboundDestLng, safeHospName, latitude,
+                                longitude);
+                        ambulanceMapEngine.executeScript(js);
+                    } else if (pendingAmbulanceRequest || activeInboundHospName != null) {
+                        String js = String.format(Locale.US,
+                                "if (typeof updateAmbulanceLive === 'function') { " +
+                                        "  updateAmbulanceLive(%f, %f, null, null, '%s'); " +
+                                        "} else if (typeof updateAmbulance === 'function') { " +
+                                        "  updateAmbulance(%f, %f); " +
+                                        "}",
+                                latitude, longitude, safeHospName, latitude, longitude);
+                        ambulanceMapEngine.executeScript(js);
+                    } else {
+                        String js = String.format(Locale.US,
+                                "if (typeof updateAmbulance === 'function') { updateAmbulance(%f, %f); }",
+                                latitude, longitude);
+                        ambulanceMapEngine.executeScript(js);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            System.err.println("[HospitalDashboard] ThingSpeak fetch error: " + e.getMessage());
+        }
+    }
+
+    private double getLatitude(String pickupLocation) {
+        if (pickupLocation == null) {
+            return 18.5018;
+        }
+        if (pickupLocation.toLowerCase().contains("katraj")) {
+            return 18.4575;
+        }
+        if (pickupLocation.toLowerCase().contains("swargate")) {
+            return 18.5018;
+        }
+        if (pickupLocation.toLowerCase().contains("narhe")) {
+            return 18.4852;
+        }
+        return 18.5018;
+    }
+
+    private double getLongitude(String pickupLocation) {
+        if (pickupLocation == null) {
+            return 73.8636;
+        }
+        if (pickupLocation.toLowerCase().contains("katraj")) {
+            return 73.8677;
+        }
+        if (pickupLocation.toLowerCase().contains("swargate")) {
+            return 73.8636;
+        }
+        if (pickupLocation.toLowerCase().contains("narhe")) {
+            return 73.8166;
+        }
+        return 73.8636;
+    }
+
+    @Override
+    public void stop() throws Exception {
+        isTrackingRunning = false;
+        if (driToHosPopupListener != null)
+            driToHosPopupListener.remove();
+        super.stop();
     }
 }

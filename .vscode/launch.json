@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "DriverLauncher",
+            "request": "launch",
+            "mainClass": "com.kurukshetra.view.driver.DriverLauncher",
+            "projectName": "lifelink1"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "com.kurukshetra.Main",

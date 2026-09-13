@@ -1,12 +1,20 @@
 // package com.kurukshetra.view.hospital;
 
+// import com.kurukshetra.controller.hospitalController.DoctorController;
+// import com.kurukshetra.model.hospitalModel.DoctorModel;
+// import com.kurukshetra.view.util.ShimmerLoader;
+
+// import javafx.application.Platform;
 // import javafx.geometry.Insets;
 // import javafx.geometry.Pos;
+// import javafx.scene.Scene;
 // import javafx.scene.control.Button;
 // import javafx.scene.control.ComboBox;
 // import javafx.scene.control.Label;
 // import javafx.scene.control.ScrollPane;
 // import javafx.scene.control.TextField;
+// import javafx.scene.effect.DropShadow;
+// import javafx.scene.layout.GridPane;
 // import javafx.scene.layout.HBox;
 // import javafx.scene.layout.Priority;
 // import javafx.scene.layout.Region;
@@ -15,922 +23,991 @@
 // import javafx.scene.paint.Color;
 // import javafx.scene.shape.Circle;
 // import javafx.scene.text.Text;
+// import javafx.stage.Modality;
+// import javafx.stage.Stage;
+
+// import java.util.ArrayList;
+// import java.util.List;
+// import java.util.UUID;
+// import java.util.stream.Collectors;
 
 // public class HospitalDoctorManagement {
 
+//     // =========================================================================
+//     // DESIGN SYSTEM CONSTANTS (MATCHING HospitalDashboard.java)
+//     // =========================================================================
+//     private static final String FONT_FAMILY = "-fx-font-family: 'Segoe UI', -apple-system, system-ui, sans-serif; ";
+//     private static final String PRIMARY_TEAL = "#006591";
+//     private static final String TEAL_HOVER = "#004F72";
+//     private static final String PAGE_BG = "#a5bdaaff ";
+//     private static final String SURFACE = "#FFFFFF";
+//     private static final String BORDER_COLOR = "#E2E8F0";
+//     private static final String TEXT_PRIMARY = "#0F172A";
+//     private static final String TEXT_SECONDARY = "#475569";
+//     private static final String TEXT_MUTED = "#64748B";
+
+//     private static final String SUCCESS_BG = "#ECFDF5";
+//     private static final String SUCCESS_TEXT = "#059669";
+//     private static final String SUCCESS_BORDER = "#A7F3D0";
+
+//     private static final String DANGER_BG = "#FEF2F2";
+//     private static final String DANGER_TEXT = "#DC2626";
+//     private static final String DANGER_BORDER = "#FECDD3";
+
+//     private static final String WARNING_BG = "#FFFBEB";
+//     private static final String WARNING_TEXT = "#D97706";
+//     private static final String WARNING_BORDER = "#FDE68A";
+
+//     private static final String INFO_BG = "#E0F2FE";
+//     private static final String INFO_TEXT = "#0369A1";
+//     private static final String INFO_BORDER = "#BAE6FD";
+
+//     private static final String INDIGO_BG = "#EEF2FF";
+//     private static final String INDIGO_TEXT = "#4F46E5";
+//     private static final String INDIGO_BORDER = "#C7D2FE";
+
+//     private static final String CARD_STYLE =
+//             "-fx-background-color: " + SURFACE + "; " +
+//             "-fx-border-color: " + BORDER_COLOR + "; " +
+//             "-fx-border-radius: 14px; " +
+//             "-fx-background-radius: 14px; " +
+//             "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.04), 14, 0, 0, 3);";
+
+//     private final String hospitalId;
+//     private final DoctorController doctorController = new DoctorController();
+//     private final List<String> selectedDoctors = new ArrayList<>();
+//     private final List<DoctorModel> cachedDoctorsList = new ArrayList<>();
+
+//     // UI references
+//     private VBox doctorGridContainer;
+//     private ShimmerLoader.ShimmerPane doctorGridShimmer;
+//     private Text availableValue;
+//     private Text busyValue;
+//     private Text leaveValue;
+//     private Text selectedValue;
+
+//     private Label doctorCountLabel;
+//     private Button selectedButton;
+//     private Label selectedCount;
+//     private HBox selectedNamesBox;
+
+//     private TextField searchField;
+//     private ComboBox<String> statusFilterBox;
+
+//     public HospitalDoctorManagement(String hospitalId) {
+//         this.hospitalId = hospitalId;
+//     }
+
 //     public VBox getDoctorManagement() {
 
-//         // Main content container
-//         VBox mainContent = new VBox(20);
-//         mainContent.setPadding(new Insets(25));
-//         mainContent.setStyle("-fx-background-color: #faf8ff;");
+//         VBox mainContent = new VBox(22);
+//         mainContent.setPadding(new Insets(26, 32, 36, 32));
+//         mainContent.setStyle("-fx-background-color: " + PAGE_BG + "; " + FONT_FAMILY);
 
-//         // Page heading
-//         Text heading = new Text("Medical Staff Oversight");
-//         heading.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #191b23;");
+//         // =====================================================================
+//         // 1. TOP HEADER (TITLE & ACTION BUTTONS)
+//         // =====================================================================
+//         HBox header = new HBox(16);
+//         header.setAlignment(Pos.CENTER_LEFT);
 
-//         Text subHeading = new Text("Manage specialized practitioners and monitor real-time availability across hospital wings.");
-//         subHeading.setStyle("-fx-font-size: 14px; -fx-fill: #434655;");
-
-//         VBox headingBox = new VBox(5);
-//         headingBox.getChildren().addAll(
-//                 heading,
-//                 subHeading
-//         );
-
-//         // Add doctor button
-//         Button addDoctorButton = new Button("+   Add Doctor");
-//         addDoctorButton.setPrefWidth(125);
-//         addDoctorButton.setPrefHeight(42);
-//         addDoctorButton.setStyle("-fx-background-color: #004ac6; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 9px;");
-
-//         // Assign emergency button
-//         Button assignEmergencyButton = new Button("⚕   Assign Emergency");
-//         assignEmergencyButton.setPrefWidth(155);
-//         assignEmergencyButton.setPrefHeight(42);
-//         assignEmergencyButton.setStyle("-fx-background-color: #ffffff; -fx-text-fill: #191b23; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: #c3c6d7; -fx-border-radius: 9px; -fx-background-radius: 9px;");
-
-//         HBox headerButtons = new HBox(10);
-//         headerButtons.setAlignment(Pos.CENTER_RIGHT);
-//         headerButtons.getChildren().addAll(
-//                 addDoctorButton,
-//                 assignEmergencyButton
-//         );
+//         VBox headingBox = new VBox(4);
+//         Text heading = new Text("Doctors & Surgical Specialists");
+//         heading.setStyle(FONT_FAMILY + "-fx-font-size: 26px; -fx-font-weight: 800; -fx-fill: " + TEXT_PRIMARY + ";");
+//         headingBox.getChildren().addAll(heading);
 
 //         Region headerSpacer = new Region();
 //         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
 
-//         HBox header = new HBox(
-//                 headingBox,
-//                 headerSpacer,
-//                 headerButtons
-//         );
-//         header.setAlignment(Pos.CENTER_LEFT);
-
-//         // Statistics cards
-//         HBox statsRow = new HBox(15);
-//         statsRow.setAlignment(Pos.CENTER);
-
-//         VBox activeSurgeonBox = new VBox(5);
-//         activeSurgeonBox.setPadding(new Insets(15));
-//         activeSurgeonBox.setPrefHeight(105);
-//         activeSurgeonBox.setStyle("-fx-background-color: #f3f3fe; -fx-background-radius: 12px; -fx-border-color: #c3c6d7; -fx-border-radius: 12px;");
-
-//         Circle surgeonCircle = new Circle(25);
-//         surgeonCircle.setFill(Color.web("#dbe1ff"));
-
-//         Text surgeonIcon = new Text("⚕");
-//         surgeonIcon.setStyle("-fx-font-size: 20px; -fx-fill: #004ac6;");
-
-//         StackPane surgeonIconPane = new StackPane();
-//         surgeonIconPane.setPrefSize(50, 50);
-//         surgeonIconPane.getChildren().addAll(
-//                 surgeonCircle,
-//                 surgeonIcon
+//         // Selected Counter Button
+//         selectedButton = new Button("Selected Roster (0)");
+//         selectedButton.setPrefHeight(42);
+//         selectedButton.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: " + INFO_BG + "; " +
+//                 "-fx-text-fill: " + INFO_TEXT + "; " +
+//                 "-fx-font-size: 12.5px; " +
+//                 "-fx-font-weight: bold; " +
+//                 "-fx-background-radius: 10px; " +
+//                 "-fx-border-color: " + INFO_BORDER + "; " +
+//                 "-fx-border-radius: 10px; " +
+//                 "-fx-padding: 0 16; " +
+//                 "-fx-cursor: hand;"
 //         );
 
-//         Text surgeonTitle = new Text("ACTIVE SURGEONS");
-//         surgeonTitle.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #737686;");
+//         // Add Doctor Button
+//         Button addDoctorButton = new Button("+ Add Specialist");
+//         addDoctorButton.setPrefHeight(42);
+//         addDoctorButton.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: " + PRIMARY_TEAL + "; " +
+//                 "-fx-text-fill: #FFFFFF; " +
+//                 "-fx-font-size: 12.5px; " +
+//                 "-fx-font-weight: bold; " +
+//                 "-fx-background-radius: 10px; " +
+//                 "-fx-padding: 0 18; " +
+//                 "-fx-cursor: hand;"
+//         );
+//         addDoctorButton.setEffect(new DropShadow(10, 0, 2, Color.rgb(0, 101, 145, 0.25)));
 
-//         Text surgeonValue = new Text("12");
-//         surgeonValue.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #191b23;");
+//         addDoctorButton.setOnMouseEntered(e -> {
+//             addDoctorButton.setStyle(
+//                     FONT_FAMILY +
+//                     "-fx-background-color: " + TEAL_HOVER + "; " +
+//                     "-fx-text-fill: #FFFFFF; " +
+//                     "-fx-font-size: 12.5px; " +
+//                     "-fx-font-weight: bold; " +
+//                     "-fx-background-radius: 10px; " +
+//                     "-fx-padding: 0 18; " +
+//                     "-fx-cursor: hand;"
+//             );
+//             addDoctorButton.setTranslateY(-2);
+//         });
+//         addDoctorButton.setOnMouseExited(e -> {
+//             addDoctorButton.setStyle(
+//                     FONT_FAMILY +
+//                     "-fx-background-color: " + PRIMARY_TEAL + "; " +
+//                     "-fx-text-fill: #FFFFFF; " +
+//                     "-fx-font-size: 12.5px; " +
+//                     "-fx-font-weight: bold; " +
+//                     "-fx-background-radius: 10px; " +
+//                     "-fx-padding: 0 18; " +
+//                     "-fx-cursor: hand;"
+//             );
+//             addDoctorButton.setTranslateY(0);
+//         });
 
-//         Text surgeonInfo = new Text("4 in surgery");
-//         surgeonInfo.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: #004ac6;");
+//         addDoctorButton.setOnAction(e -> showAddDoctorDialog());
 
-//         VBox surgeonTextBox = new VBox(2);
-//         surgeonTextBox.getChildren().addAll(
-//                 surgeonTitle,
-//                 surgeonValue,
-//                 surgeonInfo
+//         header.getChildren().addAll(headingBox, headerSpacer, selectedButton, addDoctorButton);
+
+//         // =====================================================================
+//         // 2. SELECTED DOCTORS BANNER
+//         // =====================================================================
+//         VBox selectedDoctorsBox = new VBox(10);
+//         selectedDoctorsBox.setPadding(new Insets(16, 20, 16, 20));
+//         selectedDoctorsBox.setStyle(
+//                 "-fx-background-color: #FFFFFF; " +
+//                 "-fx-background-radius: 14px; " +
+//                 "-fx-border-color: " + INFO_BORDER + "; " +
+//                 "-fx-border-radius: 14px; " +
+//                 "-fx-effect: dropshadow(three-pass-box, rgba(3,105,161,0.06), 14, 0, 0, 3);"
 //         );
 
-//         HBox surgeonContent = new HBox(15);
-//         surgeonContent.setAlignment(Pos.CENTER_LEFT);
-//         surgeonContent.getChildren().addAll(
-//                 surgeonIconPane,
-//                 surgeonTextBox
+//         HBox selectedHeader = new HBox(10);
+//         selectedHeader.setAlignment(Pos.CENTER_LEFT);
+
+//         StackPane selIconHolder = new StackPane();
+//         selIconHolder.setPrefSize(28, 28);
+//         selIconHolder.setStyle("-fx-background-color: " + INFO_BG + "; -fx-background-radius: 7px;");
+//         Label selIcon = new Label("📋");
+//         selIcon.setStyle("-fx-font-size: 13px;");
+//         selIconHolder.getChildren().add(selIcon);
+
+//         Text selectedTitle = new Text("Active Surgical & Duty Roster Selection");
+//         selectedTitle.setStyle(FONT_FAMILY + "-fx-font-size: 14.5px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+
+//         Region selectedSpacer = new Region();
+//         HBox.setHgrow(selectedSpacer, Priority.ALWAYS);
+
+//         selectedCount = new Label("0 Selected");
+//         selectedCount.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: " + INFO_BG + "; " +
+//                 "-fx-text-fill: " + INFO_TEXT + "; " +
+//                 "-fx-font-size: 11px; " +
+//                 "-fx-font-weight: bold; " +
+//                 "-fx-padding: 4px 10px; " +
+//                 "-fx-background-radius: 6px;"
 //         );
 
-//         activeSurgeonBox.getChildren().add(surgeonContent);
+//         selectedHeader.getChildren().addAll(selIconHolder, selectedTitle, selectedSpacer, selectedCount);
 
-//         VBox doctorsDutyBox = new VBox(5);
-//         doctorsDutyBox.setPadding(new Insets(15));
-//         doctorsDutyBox.setPrefHeight(105);
-//         doctorsDutyBox.setStyle("-fx-background-color: #f3f3fe; -fx-background-radius: 12px; -fx-border-color: #c3c6d7; -fx-border-radius: 12px;");
+//         selectedNamesBox = new HBox(8);
+//         selectedNamesBox.setAlignment(Pos.CENTER_LEFT);
 
-//         Circle dutyCircle = new Circle(25);
-//         dutyCircle.setFill(Color.web("#d0e1fb"));
+//         Label emptySelection = new Label("No specialists selected for current procedure yet. Click '+ Select' on available doctors below.");
+//         emptySelection.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_MUTED + ";");
+//         selectedNamesBox.getChildren().add(emptySelection);
 
-//         Text dutyIcon = new Text("✚");
-//         dutyIcon.setStyle("-fx-font-size: 20px; -fx-fill: #505f76;");
+//         selectedDoctorsBox.getChildren().addAll(selectedHeader, selectedNamesBox);
 
-//         StackPane dutyIconPane = new StackPane();
-//         dutyIconPane.setPrefSize(50, 50);
-//         dutyIconPane.getChildren().addAll(
-//                 dutyCircle,
-//                 dutyIcon
+//         // =====================================================================
+//         // 3. 4-CARD SUMMARY METRIC STRIP (MATCHING HospitalDashboard.java)
+//         // =====================================================================
+//         HBox summaryRow = new HBox(16);
+
+//         availableValue = new Text("0");
+//         VBox availableBox = createMetricCard("✓", SUCCESS_TEXT, SUCCESS_BG, "AVAILABLE DOCTORS", availableValue, "READY FOR DUTY", SUCCESS_BG, SUCCESS_TEXT);
+
+//         busyValue = new Text("0");
+//         VBox busyBox = createMetricCard("⚡", DANGER_TEXT, DANGER_BG, "BUSY / IN SURGERY", busyValue, "OCCUPIED", DANGER_BG, DANGER_TEXT);
+
+//         leaveValue = new Text("0");
+//         VBox leaveBox = createMetricCard("🏖", WARNING_TEXT, WARNING_BG, "ON LEAVE", leaveValue, "OFF DUTY", WARNING_BG, WARNING_TEXT);
+
+//         selectedValue = new Text("0");
+//         VBox selectedSummaryBox = createMetricCard("📋", INFO_TEXT, INFO_BG, "SELECTED FOR DUTY", selectedValue, "ASSIGNED", INFO_BG, INFO_TEXT);
+
+//         summaryRow.getChildren().addAll(availableBox, busyBox, leaveBox, selectedSummaryBox);
+
+//         // =====================================================================
+//         // 4. SECTION DIRECTORY HEADER WITH SEARCH & STATUS FILTER
+//         // =====================================================================
+//         VBox directorySection = new VBox(14);
+
+//         HBox directoryHeader = new HBox(14);
+//         directoryHeader.setAlignment(Pos.CENTER_LEFT);
+
+//         Text doctorsTitle = new Text("Medical Specialists Directory");
+//         doctorsTitle.setStyle(FONT_FAMILY + "-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+
+//         doctorCountLabel = new Label("0 Specialists");
+//         doctorCountLabel.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: #F1F5F9; " +
+//                 "-fx-text-fill: " + TEXT_MUTED + "; " +
+//                 "-fx-font-size: 11px; " +
+//                 "-fx-font-weight: bold; " +
+//                 "-fx-padding: 4px 10px; " +
+//                 "-fx-background-radius: 8px; " +
+//                 "-fx-border-color: " + BORDER_COLOR + "; " +
+//                 "-fx-border-radius: 8px;"
 //         );
 
-//         Text dutyTitle = new Text("DOCTORS ON DUTY");
-//         dutyTitle.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #737686;");
+//         Region doctorSpacer = new Region();
+//         HBox.setHgrow(doctorSpacer, Priority.ALWAYS);
 
-//         Text dutyValue = new Text("48");
-//         dutyValue.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text dutyInfo = new Text("Across 8 departments");
-//         dutyInfo.setStyle("-fx-font-size: 10px; -fx-fill: #434655;");
-
-//         VBox dutyTextBox = new VBox(2);
-//         dutyTextBox.getChildren().addAll(
-//                 dutyTitle,
-//                 dutyValue,
-//                 dutyInfo
+//         // Search Field
+//         HBox searchContainer = new HBox(10);
+//         searchContainer.setAlignment(Pos.CENTER_LEFT);
+//         searchContainer.setPadding(new Insets(0, 16, 0, 16));
+//         searchContainer.setPrefHeight(42);
+//         searchContainer.setPrefWidth(320);
+//         searchContainer.setStyle(
+//                 "-fx-background-color: #F8FAFC; " +
+//                 "-fx-border-color: #CBD5E1; " +
+//                 "-fx-border-radius: 20px; " +
+//                 "-fx-background-radius: 20px; " +
+//                 "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.03), 4, 0, 0, 2);"
 //         );
 
-//         HBox dutyContent = new HBox(15);
-//         dutyContent.setAlignment(Pos.CENTER_LEFT);
-//         dutyContent.getChildren().addAll(
-//                 dutyIconPane,
-//                 dutyTextBox
+//         Label searchIcon = new Label("🔍");
+//         searchIcon.setStyle("-fx-font-size: 14px; -fx-text-fill: " + TEXT_MUTED + ";");
+
+//         searchField = new TextField();
+//         searchField.setPromptText("Search name, specialization, ID...");
+//         searchField.setStyle(FONT_FAMILY + "-fx-background-color: transparent; -fx-font-size: 13.5px; -fx-text-fill: " + TEXT_PRIMARY + "; -fx-prompt-text-fill: " + TEXT_MUTED + "; -fx-padding: 0;");
+//         HBox.setHgrow(searchField, Priority.ALWAYS);
+
+//         searchField.focusedProperty().addListener((obs, oldV, isFocused) -> {
+//             if (isFocused) {
+//                 searchContainer.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: " + PRIMARY_TEAL + "; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-border-width: 1.5px; -fx-effect: dropshadow(three-pass-box, rgba(0,101,145,0.1), 8, 0, 0, 2);");
+//             } else {
+//                 searchContainer.setStyle("-fx-background-color: #F8FAFC; -fx-border-color: #CBD5E1; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.03), 4, 0, 0, 2);");
+//             }
+//         });
+
+//         searchContainer.getChildren().addAll(searchIcon, searchField);
+
+//         // searchField.focusedProperty().addListener((obs, oldV, isFocused) -> {
+//         //     if (isFocused) {
+//         //         searchContainer.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: " + PRIMARY_TEAL + "; -fx-border-radius: 8px; -fx-background-radius: 8px;");
+//         //     } else {
+//         //         searchContainer.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px;");
+//         //     }
+//         // });
+
+//         searchField.textProperty().addListener((obs, oldV, newV) -> filterAndRenderGrid());
+
+//         // Status Filter Dropdown
+//         statusFilterBox = new ComboBox<>();
+//         statusFilterBox.getItems().addAll("All Statuses", "Available", "Busy", "On Leave");
+//         statusFilterBox.setValue("All Statuses");
+//         statusFilterBox.setPrefHeight(38);
+//         statusFilterBox.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: #FFFFFF; " +
+//                 "-fx-border-color: " + BORDER_COLOR + "; " +
+//                 "-fx-border-radius: 8px; " +
+//                 "-fx-background-radius: 8px; " +
+//                 "-fx-font-size: 12px;"
 //         );
+//         statusFilterBox.valueProperty().addListener((obs, oldV, newV) -> filterAndRenderGrid());
 
-//         doctorsDutyBox.getChildren().add(dutyContent);
+//         directoryHeader.getChildren().addAll(doctorsTitle, doctorCountLabel, doctorSpacer, searchContainer, statusFilterBox);
 
-//         VBox capacityBox = new VBox(5);
-//         capacityBox.setPadding(new Insets(15));
-//         capacityBox.setPrefHeight(105);
-//         capacityBox.setStyle("-fx-background-color: #f3f3fe; -fx-background-radius: 12px; -fx-border-color: #c3c6d7; -fx-border-radius: 12px;");
+//         // 5. DOCTOR GRID CONTAINER
+//         doctorGridContainer = new VBox(16);
+//         doctorGridShimmer = ShimmerLoader.createDoctorGridSkeleton(1100, 6);
+//         doctorGridContainer.getChildren().add(doctorGridShimmer);
 
-//         Circle capacityCircle = new Circle(25);
-//         capacityCircle.setFill(Color.web("#ffdbcd"));
+//         directorySection.getChildren().addAll(directoryHeader, doctorGridContainer);
 
-//         Text capacityIcon = new Text("♟");
-//         capacityIcon.setStyle("-fx-font-size: 20px; -fx-fill: #943700;");
-
-//         StackPane capacityIconPane = new StackPane();
-//         capacityIconPane.setPrefSize(50, 50);
-//         capacityIconPane.getChildren().addAll(
-//                 capacityCircle,
-//                 capacityIcon
-//         );
-
-//         Text capacityTitle = new Text("STAFF CAPACITY");
-//         capacityTitle.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #737686;");
-
-//         Text capacityValue = new Text("85%");
-//         capacityValue.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text capacityChange = new Text("↗ +2%");
-//         capacityChange.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: #ba1a1a;");
-
-//         HBox capacityValueBox = new HBox(15);
-//         capacityValueBox.setAlignment(Pos.CENTER_LEFT);
-//         capacityValueBox.getChildren().addAll(
-//                 capacityValue,
-//                 capacityChange
-//         );
-
-//         Region capacityBackground = new Region();
-//         capacityBackground.setPrefHeight(6);
-//         capacityBackground.setPrefWidth(150);
-//         capacityBackground.setStyle("-fx-background-color: #e7e7f3; -fx-background-radius: 10px;");
-
-//         Region capacityProgress = new Region();
-//         capacityProgress.setPrefHeight(6);
-//         capacityProgress.setPrefWidth(128);
-//         capacityProgress.setStyle("-fx-background-color: #004ac6; -fx-background-radius: 10px;");
-
-//         StackPane capacityProgressPane = new StackPane();
-//         capacityProgressPane.setAlignment(Pos.CENTER_LEFT);
-//         capacityProgressPane.getChildren().addAll(
-//                 capacityBackground,
-//                 capacityProgress
-//         );
-
-//         VBox capacityTextBox = new VBox(2);
-//         capacityTextBox.getChildren().addAll(
-//                 capacityTitle,
-//                 capacityValueBox,
-//                 capacityProgressPane
-//         );
-
-//         HBox capacityContent = new HBox(15);
-//         capacityContent.setAlignment(Pos.CENTER_LEFT);
-//         capacityContent.getChildren().addAll(
-//                 capacityIconPane,
-//                 capacityTextBox
-//         );
-
-//         capacityBox.getChildren().add(capacityContent);
-
-//         HBox.setHgrow(activeSurgeonBox, Priority.ALWAYS);
-//         HBox.setHgrow(doctorsDutyBox, Priority.ALWAYS);
-//         HBox.setHgrow(capacityBox, Priority.ALWAYS);
-
-//         statsRow.getChildren().addAll(
-//                 activeSurgeonBox,
-//                 doctorsDutyBox,
-//                 capacityBox
-//         );
-
-//         // Table filters
-//         HBox filterBox = new HBox(12);
-//         filterBox.setPadding(new Insets(15));
-//         filterBox.setAlignment(Pos.CENTER_LEFT);
-//         filterBox.setStyle("-fx-background-color: #f3f3fe; -fx-background-radius: 12px; -fx-border-color: #c3c6d7; -fx-border-radius: 12px;");
-
-//         ComboBox<String> departmentCombo = new ComboBox<>();
-//         departmentCombo.getItems().addAll(
-//                 "Department: All",
-//                 "Cardiology",
-//                 "Orthopedics",
-//                 "Pediatrics",
-//                 "Oncology",
-//                 "Neurology"
-//         );
-//         departmentCombo.setValue("Department: All");
-//         departmentCombo.setPrefHeight(40);
-//         departmentCombo.setPrefWidth(175);
-
-//         ComboBox<String> availabilityCombo = new ComboBox<>();
-//         availabilityCombo.getItems().addAll(
-//                 "Availability: Available",
-//                 "Available",
-//                 "In Surgery",
-//                 "On Break"
-//         );
-//         availabilityCombo.setValue("Availability: Available");
-//         availabilityCombo.setPrefHeight(40);
-//         availabilityCombo.setPrefWidth(185);
-
-//         Region filterSpacer = new Region();
-//         HBox.setHgrow(filterSpacer, Priority.ALWAYS);
-
-//         Button filterButton = new Button("☷");
-//         filterButton.setPrefSize(40, 38);
-//         filterButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 17px;");
-
-//         Button downloadButton = new Button("↓");
-//         downloadButton.setPrefSize(40, 38);
-//         downloadButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 17px;");
-
-//         filterBox.getChildren().addAll(
-//                 departmentCombo,
-//                 availabilityCombo,
-//                 filterSpacer,
-//                 filterButton,
-//                 downloadButton
-//         );
-
-//         // Doctor table card
-//         VBox doctorCard = new VBox();
-//         doctorCard.setStyle("-fx-background-color: #f3f3fe; -fx-background-radius: 15px; -fx-border-color: #c3c6d7; -fx-border-radius: 15px;");
-
-//         // Table header
-//         HBox tableHeader = new HBox(10);
-//         tableHeader.setPadding(new Insets(12, 15, 12, 15));
-//         tableHeader.setAlignment(Pos.CENTER_LEFT);
-//         tableHeader.setStyle("-fx-background-color: #f1f5f9;");
-
-//         Label doctorNameHeader = new Label("DOCTOR NAME");
-//         doctorNameHeader.setPrefWidth(190);
-//         doctorNameHeader.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
-
-//         Label departmentHeader = new Label("DEPARTMENT");
-//         departmentHeader.setPrefWidth(115);
-//         departmentHeader.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
-
-//         Label specializationHeader = new Label("SPECIALIZATION");
-//         specializationHeader.setPrefWidth(160);
-//         specializationHeader.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
-
-//         Label shiftHeader = new Label("SHIFT");
-//         shiftHeader.setPrefWidth(70);
-//         shiftHeader.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
-
-//         Label availabilityHeader = new Label("AVAILABILITY");
-//         availabilityHeader.setPrefWidth(125);
-//         availabilityHeader.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
-
-//         Label statusHeader = new Label("STATUS");
-//         statusHeader.setPrefWidth(125);
-//         statusHeader.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
-
-//         Label actionHeader = new Label("ACTIONS");
-//         actionHeader.setPrefWidth(85);
-//         actionHeader.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #737686;");
-
-//         // Add table headers
-//         tableHeader.getChildren().addAll(
-//                 doctorNameHeader,
-//                 departmentHeader,
-//                 specializationHeader,
-//                 shiftHeader,
-//                 availabilityHeader,
-//                 statusHeader,
-//                 actionHeader
-//         );
-
-//         // Doctor row 1
-//         HBox doctorRow1 = new HBox(10);
-//         doctorRow1.setPadding(new Insets(14, 15, 14, 15));
-//         doctorRow1.setAlignment(Pos.CENTER_LEFT);
-//         doctorRow1.setStyle("-fx-background-color: #ffffff; -fx-border-color: transparent transparent #c3c6d7 transparent; -fx-border-width: 0px 0px 1px 0px;");
-
-//         Circle doctorCircle1 = new Circle(20);
-//         doctorCircle1.setFill(Color.web("#dbe1ff"));
-
-//         Text doctorInitial1 = new Text("JW");
-//         doctorInitial1.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         StackPane doctorImagePane1 = new StackPane();
-//         doctorImagePane1.setPrefSize(40, 40);
-//         doctorImagePane1.getChildren().addAll(
-//                 doctorCircle1,
-//                 doctorInitial1
-//         );
-
-//         Text doctorName1 = new Text("Dr. James Wilson");
-//         doctorName1.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text doctorId1 = new Text("ID: LL-9021");
-//         doctorId1.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         VBox doctorInfo1 = new VBox(2);
-//         doctorInfo1.getChildren().addAll(
-//                 doctorName1,
-//                 doctorId1
-//         );
-
-//         HBox doctorNameBox1 = new HBox(10);
-//         doctorNameBox1.setPrefWidth(190);
-//         doctorNameBox1.setAlignment(Pos.CENTER_LEFT);
-//         doctorNameBox1.getChildren().addAll(
-//                 doctorImagePane1,
-//                 doctorInfo1
-//         );
-
-//         Text department1 = new Text("Cardiology");
-//         department1.setStyle("-fx-font-size: 12px; -fx-fill: #191b23;");
-
-//         HBox departmentBox1 = new HBox(department1);
-//         departmentBox1.setPrefWidth(115);
-//         departmentBox1.setAlignment(Pos.CENTER_LEFT);
-
-//         Text specialization1 = new Text("Interventional Cardiology");
-//         specialization1.setStyle("-fx-font-size: 12px; -fx-fill: #434655;");
-
-//         HBox specializationBox1 = new HBox(specialization1);
-//         specializationBox1.setPrefWidth(160);
-//         specializationBox1.setAlignment(Pos.CENTER_LEFT);
-
-//         Label shift1 = new Label("AM");
-//         shift1.setStyle("-fx-background-color: #e7e7f3; -fx-text-fill: #191b23; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 5px 9px;");
-
-//         HBox shiftBox1 = new HBox(shift1);
-//         shiftBox1.setPrefWidth(70);
-//         shiftBox1.setAlignment(Pos.CENTER_LEFT);
-
-//         Label availability1 = new Label("●  Available");
-//         availability1.setStyle("-fx-background-color: #dcfce7; -fx-text-fill: #15803d; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 7px; -fx-padding: 5px 8px;");
-
-//         HBox availabilityBox1 = new HBox(availability1);
-//         availabilityBox1.setPrefWidth(125);
-//         availabilityBox1.setAlignment(Pos.CENTER_LEFT);
-
-//         Text status1 = new Text("On Duty");
-//         status1.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         HBox statusBox1 = new HBox(status1);
-//         statusBox1.setPrefWidth(125);
-//         statusBox1.setAlignment(Pos.CENTER_LEFT);
-
-//         Button edit1 = new Button("✎");
-//         edit1.setPrefSize(32, 32);
-//         edit1.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 16px;");
-
-//         Button delete1 = new Button("⌫");
-//         delete1.setPrefSize(32, 32);
-//         delete1.setStyle("-fx-background-color: transparent; -fx-text-fill: #ba1a1a; -fx-font-size: 15px;");
-
-//         HBox actions1 = new HBox(3);
-//         actions1.setPrefWidth(85);
-//         actions1.setAlignment(Pos.CENTER_RIGHT);
-//         actions1.getChildren().addAll(
-//                 edit1,
-//                 delete1
-//         );
-
-//         doctorRow1.getChildren().addAll(
-//                 doctorNameBox1,
-//                 departmentBox1,
-//                 specializationBox1,
-//                 shiftBox1,
-//                 availabilityBox1,
-//                 statusBox1,
-//                 actions1
-//         );
-
-//         // Doctor row 2
-//         HBox doctorRow2 = new HBox(10);
-//         doctorRow2.setPadding(new Insets(14, 15, 14, 15));
-//         doctorRow2.setAlignment(Pos.CENTER_LEFT);
-//         doctorRow2.setStyle("-fx-background-color: #ffffff; -fx-border-color: transparent transparent #c3c6d7 transparent; -fx-border-width: 0px 0px 1px 0px;");
-
-//         Circle doctorCircle2 = new Circle(20);
-//         doctorCircle2.setFill(Color.web("#dbe1ff"));
-
-//         Text doctorInitial2 = new Text("ER");
-//         doctorInitial2.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         StackPane doctorImagePane2 = new StackPane();
-//         doctorImagePane2.setPrefSize(40, 40);
-//         doctorImagePane2.getChildren().addAll(
-//                 doctorCircle2,
-//                 doctorInitial2
-//         );
-
-//         Text doctorName2 = new Text("Dr. Elena Rodriguez");
-//         doctorName2.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text doctorId2 = new Text("ID: LL-4432");
-//         doctorId2.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         VBox doctorInfo2 = new VBox(2);
-//         doctorInfo2.getChildren().addAll(
-//                 doctorName2,
-//                 doctorId2
-//         );
-
-//         HBox doctorNameBox2 = new HBox(10);
-//         doctorNameBox2.setPrefWidth(190);
-//         doctorNameBox2.setAlignment(Pos.CENTER_LEFT);
-//         doctorNameBox2.getChildren().addAll(
-//                 doctorImagePane2,
-//                 doctorInfo2
-//         );
-
-//         Text department2 = new Text("Orthopedics");
-//         department2.setStyle("-fx-font-size: 12px; -fx-fill: #191b23;");
-
-//         HBox departmentBox2 = new HBox(department2);
-//         departmentBox2.setPrefWidth(115);
-//         departmentBox2.setAlignment(Pos.CENTER_LEFT);
-
-//         Text specialization2 = new Text("Spinal Surgery");
-//         specialization2.setStyle("-fx-font-size: 12px; -fx-fill: #434655;");
-
-//         HBox specializationBox2 = new HBox(specialization2);
-//         specializationBox2.setPrefWidth(160);
-//         specializationBox2.setAlignment(Pos.CENTER_LEFT);
-
-//         Label shift2 = new Label("AM");
-//         shift2.setStyle("-fx-background-color: #e7e7f3; -fx-text-fill: #191b23; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 5px 9px;");
-
-//         HBox shiftBox2 = new HBox(shift2);
-//         shiftBox2.setPrefWidth(70);
-//         shiftBox2.setAlignment(Pos.CENTER_LEFT);
-
-//         Label availability2 = new Label("●  In Surgery");
-//         availability2.setStyle("-fx-background-color: #fee2e2; -fx-text-fill: #b91c1c; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 7px; -fx-padding: 5px 8px;");
-
-//         HBox availabilityBox2 = new HBox(availability2);
-//         availabilityBox2.setPrefWidth(125);
-//         availabilityBox2.setAlignment(Pos.CENTER_LEFT);
-
-//         Text status2 = new Text("On Duty");
-//         status2.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         HBox statusBox2 = new HBox(status2);
-//         statusBox2.setPrefWidth(125);
-//         statusBox2.setAlignment(Pos.CENTER_LEFT);
-
-//         Button edit2 = new Button("✎");
-//         edit2.setPrefSize(32, 32);
-//         edit2.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 16px;");
-
-//         Button delete2 = new Button("⌫");
-//         delete2.setPrefSize(32, 32);
-//         delete2.setStyle("-fx-background-color: transparent; -fx-text-fill: #ba1a1a; -fx-font-size: 15px;");
-
-//         HBox actions2 = new HBox(3);
-//         actions2.setPrefWidth(85);
-//         actions2.setAlignment(Pos.CENTER_RIGHT);
-//         actions2.getChildren().addAll(
-//                 edit2,
-//                 delete2
-//         );
-
-//         doctorRow2.getChildren().addAll(
-//                 doctorNameBox2,
-//                 departmentBox2,
-//                 specializationBox2,
-//                 shiftBox2,
-//                 availabilityBox2,
-//                 statusBox2,
-//                 actions2
-//         );
-
-//         // Doctor row 3
-//         HBox doctorRow3 = new HBox(10);
-//         doctorRow3.setPadding(new Insets(14, 15, 14, 15));
-//         doctorRow3.setAlignment(Pos.CENTER_LEFT);
-//         doctorRow3.setStyle("-fx-background-color: #ffffff; -fx-border-color: transparent transparent #c3c6d7 transparent; -fx-border-width: 0px 0px 1px 0px;");
-
-//         Circle doctorCircle3 = new Circle(20);
-//         doctorCircle3.setFill(Color.web("#dbe1ff"));
-
-//         Text doctorInitial3 = new Text("MC");
-//         doctorInitial3.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         StackPane doctorImagePane3 = new StackPane();
-//         doctorImagePane3.setPrefSize(40, 40);
-//         doctorImagePane3.getChildren().addAll(
-//                 doctorCircle3,
-//                 doctorInitial3
-//         );
-
-//         Text doctorName3 = new Text("Dr. Michael Chen");
-//         doctorName3.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text doctorId3 = new Text("ID: LL-2188");
-//         doctorId3.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         VBox doctorInfo3 = new VBox(2);
-//         doctorInfo3.getChildren().addAll(
-//                 doctorName3,
-//                 doctorId3
-//         );
-
-//         HBox doctorNameBox3 = new HBox(10);
-//         doctorNameBox3.setPrefWidth(190);
-//         doctorNameBox3.setAlignment(Pos.CENTER_LEFT);
-//         doctorNameBox3.getChildren().addAll(
-//                 doctorImagePane3,
-//                 doctorInfo3
-//         );
-
-//         Text department3 = new Text("Pediatrics");
-//         department3.setStyle("-fx-font-size: 12px; -fx-fill: #191b23;");
-
-//         HBox departmentBox3 = new HBox(department3);
-//         departmentBox3.setPrefWidth(115);
-//         departmentBox3.setAlignment(Pos.CENTER_LEFT);
-
-//         Text specialization3 = new Text("Child Neurology");
-//         specialization3.setStyle("-fx-font-size: 12px; -fx-fill: #434655;");
-
-//         HBox specializationBox3 = new HBox(specialization3);
-//         specializationBox3.setPrefWidth(160);
-//         specializationBox3.setAlignment(Pos.CENTER_LEFT);
-
-//         Label shift3 = new Label("PM");
-//         shift3.setStyle("-fx-background-color: #e7e7f3; -fx-text-fill: #191b23; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 5px 9px;");
-
-//         HBox shiftBox3 = new HBox(shift3);
-//         shiftBox3.setPrefWidth(70);
-//         shiftBox3.setAlignment(Pos.CENTER_LEFT);
-
-//         Label availability3 = new Label("●  On Break");
-//         availability3.setStyle("-fx-background-color: #fef3c7; -fx-text-fill: #b45309; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 7px; -fx-padding: 5px 8px;");
-
-//         HBox availabilityBox3 = new HBox(availability3);
-//         availabilityBox3.setPrefWidth(125);
-//         availabilityBox3.setAlignment(Pos.CENTER_LEFT);
-
-//         Text status3 = new Text("Shift Start (14:00)");
-//         status3.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: #737686;");
-
-//         HBox statusBox3 = new HBox(status3);
-//         statusBox3.setPrefWidth(125);
-//         statusBox3.setAlignment(Pos.CENTER_LEFT);
-
-//         Button edit3 = new Button("✎");
-//         edit3.setPrefSize(32, 32);
-//         edit3.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 16px;");
-
-//         Button delete3 = new Button("⌫");
-//         delete3.setPrefSize(32, 32);
-//         delete3.setStyle("-fx-background-color: transparent; -fx-text-fill: #ba1a1a; -fx-font-size: 15px;");
-
-//         HBox actions3 = new HBox(3);
-//         actions3.setPrefWidth(85);
-//         actions3.setAlignment(Pos.CENTER_RIGHT);
-//         actions3.getChildren().addAll(
-//                 edit3,
-//                 delete3
-//         );
-
-//         doctorRow3.getChildren().addAll(
-//                 doctorNameBox3,
-//                 departmentBox3,
-//                 specializationBox3,
-//                 shiftBox3,
-//                 availabilityBox3,
-//                 statusBox3,
-//                 actions3
-//         );
-
-//         // Doctor row 4
-//         HBox doctorRow4 = new HBox(10);
-//         doctorRow4.setPadding(new Insets(14, 15, 14, 15));
-//         doctorRow4.setAlignment(Pos.CENTER_LEFT);
-//         doctorRow4.setStyle("-fx-background-color: #ffffff; -fx-border-color: transparent transparent #c3c6d7 transparent; -fx-border-width: 0px 0px 1px 0px;");
-
-//         Circle doctorCircle4 = new Circle(20);
-//         doctorCircle4.setFill(Color.web("#dbe1ff"));
-
-//         Text doctorInitial4 = new Text("ST");
-//         doctorInitial4.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         StackPane doctorImagePane4 = new StackPane();
-//         doctorImagePane4.setPrefSize(40, 40);
-//         doctorImagePane4.getChildren().addAll(
-//                 doctorCircle4,
-//                 doctorInitial4
-//         );
-
-//         Text doctorName4 = new Text("Dr. Sarah Thompson");
-//         doctorName4.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text doctorId4 = new Text("ID: LL-1055");
-//         doctorId4.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         VBox doctorInfo4 = new VBox(2);
-//         doctorInfo4.getChildren().addAll(
-//                 doctorName4,
-//                 doctorId4
-//         );
-
-//         HBox doctorNameBox4 = new HBox(10);
-//         doctorNameBox4.setPrefWidth(190);
-//         doctorNameBox4.setAlignment(Pos.CENTER_LEFT);
-//         doctorNameBox4.getChildren().addAll(
-//                 doctorImagePane4,
-//                 doctorInfo4
-//         );
-
-//         Text department4 = new Text("Oncology");
-//         department4.setStyle("-fx-font-size: 12px; -fx-fill: #191b23;");
-
-//         HBox departmentBox4 = new HBox(department4);
-//         departmentBox4.setPrefWidth(115);
-//         departmentBox4.setAlignment(Pos.CENTER_LEFT);
-
-//         Text specialization4 = new Text("Radiotherapy");
-//         specialization4.setStyle("-fx-font-size: 12px; -fx-fill: #434655;");
-
-//         HBox specializationBox4 = new HBox(specialization4);
-//         specializationBox4.setPrefWidth(160);
-//         specializationBox4.setAlignment(Pos.CENTER_LEFT);
-
-//         Label shift4 = new Label("AM");
-//         shift4.setStyle("-fx-background-color: #e7e7f3; -fx-text-fill: #191b23; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 5px 9px;");
-
-//         HBox shiftBox4 = new HBox(shift4);
-//         shiftBox4.setPrefWidth(70);
-//         shiftBox4.setAlignment(Pos.CENTER_LEFT);
-
-//         Label availability4 = new Label("●  Available");
-//         availability4.setStyle("-fx-background-color: #dcfce7; -fx-text-fill: #15803d; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 7px; -fx-padding: 5px 8px;");
-
-//         HBox availabilityBox4 = new HBox(availability4);
-//         availabilityBox4.setPrefWidth(125);
-//         availabilityBox4.setAlignment(Pos.CENTER_LEFT);
-
-//         Text status4 = new Text("On Duty");
-//         status4.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         HBox statusBox4 = new HBox(status4);
-//         statusBox4.setPrefWidth(125);
-//         statusBox4.setAlignment(Pos.CENTER_LEFT);
-
-//         Button edit4 = new Button("✎");
-//         edit4.setPrefSize(32, 32);
-//         edit4.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 16px;");
-
-//         Button delete4 = new Button("⌫");
-//         delete4.setPrefSize(32, 32);
-//         delete4.setStyle("-fx-background-color: transparent; -fx-text-fill: #ba1a1a; -fx-font-size: 15px;");
-
-//         HBox actions4 = new HBox(3);
-//         actions4.setPrefWidth(85);
-//         actions4.setAlignment(Pos.CENTER_RIGHT);
-//         actions4.getChildren().addAll(
-//                 edit4,
-//                 delete4
-//         );
-
-//         doctorRow4.getChildren().addAll(
-//                 doctorNameBox4,
-//                 departmentBox4,
-//                 specializationBox4,
-//                 shiftBox4,
-//                 availabilityBox4,
-//                 statusBox4,
-//                 actions4
-//         );
-
-//         // Doctor row 5
-//         HBox doctorRow5 = new HBox(10);
-//         doctorRow5.setPadding(new Insets(14, 15, 14, 15));
-//         doctorRow5.setAlignment(Pos.CENTER_LEFT);
-//         doctorRow5.setStyle("-fx-background-color: #ffffff;");
-
-//         Circle doctorCircle5 = new Circle(20);
-//         doctorCircle5.setFill(Color.web("#dbe1ff"));
-
-//         Text doctorInitial5 = new Text("RM");
-//         doctorInitial5.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         StackPane doctorImagePane5 = new StackPane();
-//         doctorImagePane5.setPrefSize(40, 40);
-//         doctorImagePane5.getChildren().addAll(
-//                 doctorCircle5,
-//                 doctorInitial5
-//         );
-
-//         Text doctorName5 = new Text("Dr. Robert Miller");
-//         doctorName5.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #191b23;");
-
-//         Text doctorId5 = new Text("ID: LL-3310");
-//         doctorId5.setStyle("-fx-font-size: 10px; -fx-fill: #737686;");
-
-//         VBox doctorInfo5 = new VBox(2);
-//         doctorInfo5.getChildren().addAll(
-//                 doctorName5,
-//                 doctorId5
-//         );
-
-//         HBox doctorNameBox5 = new HBox(10);
-//         doctorNameBox5.setPrefWidth(190);
-//         doctorNameBox5.setAlignment(Pos.CENTER_LEFT);
-//         doctorNameBox5.getChildren().addAll(
-//                 doctorImagePane5,
-//                 doctorInfo5
-//         );
-
-//         Text department5 = new Text("Neurology");
-//         department5.setStyle("-fx-font-size: 12px; -fx-fill: #191b23;");
-
-//         HBox departmentBox5 = new HBox(department5);
-//         departmentBox5.setPrefWidth(115);
-//         departmentBox5.setAlignment(Pos.CENTER_LEFT);
-
-//         Text specialization5 = new Text("Neurosurgery");
-//         specialization5.setStyle("-fx-font-size: 12px; -fx-fill: #434655;");
-
-//         HBox specializationBox5 = new HBox(specialization5);
-//         specializationBox5.setPrefWidth(160);
-//         specializationBox5.setAlignment(Pos.CENTER_LEFT);
-
-//         Label shift5 = new Label("PM");
-//         shift5.setStyle("-fx-background-color: #e7e7f3; -fx-text-fill: #191b23; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 5px 9px;");
-
-//         HBox shiftBox5 = new HBox(shift5);
-//         shiftBox5.setPrefWidth(70);
-//         shiftBox5.setAlignment(Pos.CENTER_LEFT);
-
-//         Label availability5 = new Label("●  In Surgery");
-//         availability5.setStyle("-fx-background-color: #fee2e2; -fx-text-fill: #b91c1c; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 7px; -fx-padding: 5px 8px;");
-
-//         HBox availabilityBox5 = new HBox(availability5);
-//         availabilityBox5.setPrefWidth(125);
-//         availabilityBox5.setAlignment(Pos.CENTER_LEFT);
-
-//         Text status5 = new Text("On Duty");
-//         status5.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: #004ac6;");
-
-//         HBox statusBox5 = new HBox(status5);
-//         statusBox5.setPrefWidth(125);
-//         statusBox5.setAlignment(Pos.CENTER_LEFT);
-
-//         Button edit5 = new Button("✎");
-//         edit5.setPrefSize(32, 32);
-//         edit5.setStyle("-fx-background-color: transparent; -fx-text-fill: #434655; -fx-font-size: 16px;");
-
-//         Button delete5 = new Button("⌫");
-//         delete5.setPrefSize(32, 32);
-//         delete5.setStyle("-fx-background-color: transparent; -fx-text-fill: #ba1a1a; -fx-font-size: 15px;");
-
-//         HBox actions5 = new HBox(3);
-//         actions5.setPrefWidth(85);
-//         actions5.setAlignment(Pos.CENTER_RIGHT);
-//         actions5.getChildren().addAll(
-//                 edit5,
-//                 delete5
-//         );
-
-//         doctorRow5.getChildren().addAll(
-//                 doctorNameBox5,
-//                 departmentBox5,
-//                 specializationBox5,
-//                 shiftBox5,
-//                 availabilityBox5,
-//                 statusBox5,
-//                 actions5
-//         );
-
-//         // Add all doctor rows to table
-//         doctorCard.getChildren().addAll(
-//                 tableHeader,
-//                 doctorRow1,
-//                 doctorRow2,
-//                 doctorRow3,
-//                 doctorRow4,
-//                 doctorRow5
-//         );
-
-//         // Pagination
-//         Text showingText = new Text("Showing 1-5 of 48 Doctors");
-//         showingText.setStyle("-fx-font-size: 12px; -fx-fill: #737686;");
-
-//         Region paginationSpacer = new Region();
-//         HBox.setHgrow(paginationSpacer, Priority.ALWAYS);
-
-//         Button previousButton = new Button("‹");
-//         previousButton.setPrefSize(38, 35);
-//         previousButton.setStyle("-fx-background-color: #ffffff; -fx-border-color: #c3c6d7; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-font-size: 17px;");
-
-//         Button pageOne = new Button("1");
-//         pageOne.setPrefSize(38, 35);
-//         pageOne.setStyle("-fx-background-color: #004ac6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px;");
-
-//         Button pageTwo = new Button("2");
-//         pageTwo.setPrefSize(38, 35);
-//         pageTwo.setStyle("-fx-background-color: #ffffff; -fx-border-color: #c3c6d7; -fx-background-radius: 8px; -fx-border-radius: 8px;");
-
-//         Button pageThree = new Button("3");
-//         pageThree.setPrefSize(38, 35);
-//         pageThree.setStyle("-fx-background-color: #ffffff; -fx-border-color: #c3c6d7; -fx-background-radius: 8px; -fx-border-radius: 8px;");
-
-//         Text dots = new Text("...");
-//         dots.setStyle("-fx-font-size: 13px; -fx-fill: #737686;");
-
-//         Button pageTen = new Button("10");
-//         pageTen.setPrefSize(38, 35);
-//         pageTen.setStyle("-fx-background-color: #ffffff; -fx-border-color: #c3c6d7; -fx-background-radius: 8px; -fx-border-radius: 8px;");
-
-//         Button nextButton = new Button("›");
-//         nextButton.setPrefSize(38, 35);
-//         nextButton.setStyle("-fx-background-color: #ffffff; -fx-border-color: #c3c6d7; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-font-size: 17px;");
-
-//         HBox paginationButtons = new HBox(8);
-//         paginationButtons.setAlignment(Pos.CENTER_RIGHT);
-//         paginationButtons.getChildren().addAll(
-//                 previousButton,
-//                 pageOne,
-//                 pageTwo,
-//                 pageThree,
-//                 dots,
-//                 pageTen,
-//                 nextButton
-//         );
-
-//         HBox pagination = new HBox(10);
-//         pagination.setPadding(new Insets(12, 0, 0, 0));
-//         pagination.setAlignment(Pos.CENTER_LEFT);
-//         pagination.getChildren().addAll(
-//                 showingText,
-//                 paginationSpacer,
-//                 paginationButtons
-//         );
-
-//         // Add complete content to main container
 //         mainContent.getChildren().addAll(
 //                 header,
-//                 statsRow,
-//                 filterBox,
-//                 doctorCard,
-//                 pagination
+//                 selectedDoctorsBox,
+//                 summaryRow,
+//                 directorySection
 //         );
 
-//         // Scroll page vertically
 //         ScrollPane scrollPane = new ScrollPane(mainContent);
 //         scrollPane.setFitToWidth(true);
 //         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-//         scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
+//         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+//         scrollPane.setStyle("-fx-background-color: transparent; -fx-background: " + PAGE_BG + "; -fx-border-color: transparent;");
 
 //         VBox finalContent = new VBox(scrollPane);
-//         finalContent.setStyle("-fx-background-color: #faf8ff;");
-
+//         finalContent.setStyle("-fx-background-color: " + PAGE_BG + ";");
 //         VBox.setVgrow(scrollPane, Priority.ALWAYS);
 
+//         loadDoctors();
+
 //         return finalContent;
+//     }
+
+//     private VBox createMetricCard(String iconEmoji, String iconTextColor, String iconBgColor,
+//                                   String title, Text valueNode, String badgeText,
+//                                   String badgeBg, String badgeTextColor) {
+//         VBox card = new VBox(10);
+//         card.setPadding(new Insets(16, 20, 16, 20));
+//         card.setPrefHeight(125);
+//         card.setStyle(CARD_STYLE);
+//         HBox.setHgrow(card, Priority.ALWAYS);
+
+//         card.setOnMouseEntered(e -> {
+//             card.setTranslateY(-3);
+//             card.setStyle(
+//                 "-fx-background-color: #FFFFFF; " +
+//                 "-fx-border-color: #CBD5E1; " +
+//                 "-fx-border-radius: 14px; " +
+//                 "-fx-background-radius: 14px; " +
+//                 "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.09), 18, 0, 0, 6);"
+//             );
+//         });
+//         card.setOnMouseExited(e -> {
+//             card.setTranslateY(0);
+//             card.setStyle(CARD_STYLE);
+//         });
+
+//         HBox topRow = new HBox(8);
+//         topRow.setAlignment(Pos.CENTER_LEFT);
+
+//         StackPane iconPane = new StackPane();
+//         iconPane.setPrefSize(34, 34);
+//         iconPane.setMinSize(34, 34);
+//         iconPane.setStyle("-fx-background-color: " + iconBgColor + "; -fx-background-radius: 8px;");
+//         Text iconText = new Text(iconEmoji);
+//         iconText.setStyle("-fx-font-size: 15px; -fx-fill: " + iconTextColor + "; -fx-font-weight: bold;");
+//         iconPane.getChildren().add(iconText);
+
+//         Region spacer = new Region();
+//         HBox.setHgrow(spacer, Priority.ALWAYS);
+
+//         Label badge = new Label(badgeText);
+//         badge.setStyle(
+//             FONT_FAMILY +
+//             "-fx-background-color: " + badgeBg + "; " +
+//             "-fx-text-fill: " + badgeTextColor + "; " +
+//             "-fx-font-size: 9.5px; " +
+//             "-fx-font-weight: bold; " +
+//             "-fx-padding: 3px 8px; " +
+//             "-fx-background-radius: 6px;"
+//         );
+//         topRow.getChildren().addAll(iconPane, spacer, badge);
+
+//         valueNode.setStyle(FONT_FAMILY + "-fx-font-size: 26px; -fx-font-weight: 800; -fx-fill: " + TEXT_PRIMARY + ";");
+
+//         Text labelText = new Text(title);
+//         labelText.setStyle(FONT_FAMILY + "-fx-font-size: 11px; -fx-font-weight: 600; -fx-fill: " + TEXT_MUTED + "; -fx-letter-spacing: 0.4px;");
+
+//         card.getChildren().addAll(topRow, valueNode, labelText);
+//         return card;
+//     }
+
+//     private void loadDoctors() {
+//         doctorController.listenToDoctors(hospitalId, doctors -> {
+//             Platform.runLater(() -> {
+//                 cachedDoctorsList.clear();
+//                 if (doctors != null) {
+//                     cachedDoctorsList.addAll(doctors);
+//                 }
+
+//                 int available = 0;
+//                 int busy = 0;
+//                 int leave = 0;
+
+//                 for (DoctorModel doc : cachedDoctorsList) {
+//                     String st = doc.getStatus();
+//                     if ("Available".equalsIgnoreCase(st)) {
+//                         available++;
+//                     } else if ("Busy".equalsIgnoreCase(st) || "In Surgery".equalsIgnoreCase(st) || "Assigned".equalsIgnoreCase(st)) {
+//                         busy++;
+//                     } else if ("On Leave".equalsIgnoreCase(st)) {
+//                         leave++;
+//                     }
+//                 }
+
+//                 doctorCountLabel.setText(cachedDoctorsList.size() + " Specialists");
+//                 availableValue.setText(String.valueOf(available));
+//                 busyValue.setText(String.valueOf(busy));
+//                 leaveValue.setText(String.valueOf(leave));
+
+//                 filterAndRenderGrid();
+//             });
+//         });
+//     }
+
+//     private void filterAndRenderGrid() {
+//         if (doctorGridContainer == null) return;
+//         if (doctorGridShimmer != null) {
+//             doctorGridShimmer.stop();
+//             doctorGridShimmer = null;
+//         }
+//         doctorGridContainer.getChildren().clear();
+
+//         String query = (searchField != null && searchField.getText() != null)
+//                 ? searchField.getText().trim().toLowerCase() : "";
+//         String statusFilter = (statusFilterBox != null && statusFilterBox.getValue() != null)
+//                 ? statusFilterBox.getValue() : "All Statuses";
+
+//         List<DoctorModel> filtered = cachedDoctorsList.stream().filter(doc -> {
+//             boolean matchesQuery = query.isEmpty()
+//                     || (doc.getDoctorName() != null && doc.getDoctorName().toLowerCase().contains(query))
+//                     || (doc.getDoctorId() != null && doc.getDoctorId().toLowerCase().contains(query))
+//                     || (doc.getSpecialization() != null && doc.getSpecialization().toLowerCase().contains(query));
+
+//             boolean matchesStatus = "All Statuses".equalsIgnoreCase(statusFilter)
+//                     || (doc.getStatus() != null && doc.getStatus().equalsIgnoreCase(statusFilter))
+//                     || ("Busy".equalsIgnoreCase(statusFilter) && ("In Surgery".equalsIgnoreCase(doc.getStatus()) || "Assigned".equalsIgnoreCase(doc.getStatus())));
+
+//             return matchesQuery && matchesStatus;
+//         }).collect(Collectors.toList());
+
+//         if (filtered.isEmpty()) {
+//             VBox emptyBox = new VBox(10);
+//             emptyBox.setAlignment(Pos.CENTER);
+//             emptyBox.setPadding(new Insets(40));
+//             emptyBox.setStyle(CARD_STYLE);
+
+//             Label emptyLbl = new Label("No doctors match the selected search and filter criteria.");
+//             emptyLbl.setStyle(FONT_FAMILY + "-fx-font-size: 13.5px; -fx-text-fill: " + TEXT_MUTED + ";");
+//             emptyBox.getChildren().add(emptyLbl);
+//             doctorGridContainer.getChildren().add(emptyBox);
+//             return;
+//         }
+
+//         GridPane grid = new GridPane();
+//         grid.setHgap(18);
+//         grid.setVgap(18);
+
+//         for (int i = 0; i < filtered.size(); i++) {
+//             DoctorModel doctor = filtered.get(i);
+//             VBox card = createDoctorCard(doctor);
+//             grid.add(card, i % 3, i / 3);
+//         }
+
+//         doctorGridContainer.getChildren().add(grid);
+//     }
+
+//     // =========================================================================
+//     // ELEVATED DOCTOR PROFILE CARD (3-COLUMN GRID ITEM)
+//     // =========================================================================
+//     private VBox createDoctorCard(DoctorModel doctor) {
+//         boolean available = "Available".equalsIgnoreCase(doctor.getStatus());
+//         boolean isSelected = selectedDoctors.contains(doctor.getDoctorId());
+
+//         VBox card = new VBox(14);
+//         card.setPadding(new Insets(20));
+//         card.setPrefWidth(340);
+//         card.setPrefHeight(275);
+//         card.setMinHeight(275);
+//         card.setMaxHeight(275);
+//         card.setStyle(CARD_STYLE);
+
+//         card.setOnMouseEntered(e -> {
+//             card.setTranslateY(-3);
+//             card.setStyle(
+//                 "-fx-background-color: #FFFFFF; " +
+//                 "-fx-border-color: #CBD5E1; " +
+//                 "-fx-border-radius: 14px; " +
+//                 "-fx-background-radius: 14px; " +
+//                 "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.09), 18, 0, 0, 6);"
+//             );
+//         });
+//         card.setOnMouseExited(e -> {
+//             card.setTranslateY(0);
+//             card.setStyle(CARD_STYLE);
+//         });
+
+//         // Top Row: Avatar + Name + Status Badge
+//         HBox top = new HBox(12);
+//         top.setAlignment(Pos.CENTER_LEFT);
+
+//         String initials = getInitials(doctor.getDoctorName());
+//         StackPane avatarPane = new StackPane();
+//         avatarPane.setPrefSize(44, 44);
+//         avatarPane.setStyle("-fx-background-color: " + INFO_BG + "; -fx-background-radius: 12px; -fx-border-color: " + INFO_BORDER + "; -fx-border-radius: 12px;");
+
+//         Text initialsText = new Text(initials);
+//         initialsText.setStyle(FONT_FAMILY + "-fx-font-size: 13.5px; -fx-font-weight: 800; -fx-fill: " + PRIMARY_TEAL + ";");
+//         avatarPane.getChildren().add(initialsText);
+
+//         VBox nameBox = new VBox(2);
+//         Text nameText = new Text(doctor.getDoctorName() != null ? doctor.getDoctorName() : "Doctor");
+//         nameText.setStyle(FONT_FAMILY + "-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+
+//         Label specBadge = new Label(doctor.getSpecialization() != null ? doctor.getSpecialization() : "General Medicine");
+//         specBadge.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: " + INDIGO_BG + "; " +
+//                 "-fx-text-fill: " + INDIGO_TEXT + "; " +
+//                 "-fx-font-size: 10.5px; " +
+//                 "-fx-font-weight: bold; " +
+//                 "-fx-padding: 2px 8px; " +
+//                 "-fx-background-radius: 6px;"
+//         );
+//         nameBox.getChildren().addAll(nameText, specBadge);
+
+//         Region topSpacer = new Region();
+//         HBox.setHgrow(topSpacer, Priority.ALWAYS);
+
+//         Label statusLabel = new Label("● " + (doctor.getStatus() != null ? doctor.getStatus() : "Available"));
+//         applyStatusStyle(statusLabel, doctor.getStatus());
+
+//         top.getChildren().addAll(avatarPane, nameBox, topSpacer, statusLabel);
+
+//         // Middle Section: ID & Shift details
+//         HBox detailsGrid = new HBox(14);
+//         detailsGrid.setPadding(new Insets(10, 12, 10, 12));
+//         detailsGrid.setStyle("-fx-background-color: #F8FAFC; -fx-background-radius: 10px; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 10px;");
+
+//         VBox idBox = new VBox(2);
+//         Text idTitle = new Text("DOCTOR ID");
+//         idTitle.setStyle(FONT_FAMILY + "-fx-font-size: 9.5px; -fx-font-weight: bold; -fx-fill: " + TEXT_MUTED + "; -fx-letter-spacing: 0.4px;");
+//         Text idText = new Text(doctor.getDoctorId());
+//         idText.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-font-weight: 600; -fx-fill: " + TEXT_PRIMARY + ";");
+//         idBox.getChildren().addAll(idTitle, idText);
+
+//         Region splitSpacer = new Region();
+//         HBox.setHgrow(splitSpacer, Priority.ALWAYS);
+
+//         VBox shiftBox = new VBox(2);
+//         shiftBox.setAlignment(Pos.TOP_RIGHT);
+//         Text shiftTitle = new Text("SHIFT SCHEDULE");
+//         shiftTitle.setStyle(FONT_FAMILY + "-fx-font-size: 9.5px; -fx-font-weight: bold; -fx-fill: " + TEXT_MUTED + "; -fx-letter-spacing: 0.4px;");
+//         Text shiftText = new Text("🕒 " + (doctor.getShift() != null ? doctor.getShift() : "Standard Shift"));
+//         shiftText.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-font-weight: 600; -fx-fill: " + TEXT_PRIMARY + ";");
+//         shiftBox.getChildren().addAll(shiftTitle, shiftText);
+
+//         detailsGrid.getChildren().addAll(idBox, splitSpacer, shiftBox);
+
+//         Region cardSpacer = new Region();
+//         VBox.setVgrow(cardSpacer, Priority.ALWAYS);
+
+//         // Action Buttons Row
+//         HBox buttons = new HBox(10);
+//         buttons.setAlignment(Pos.CENTER_LEFT);
+
+//         Button selectButton = new Button(isSelected ? "Selected" : "+ Select");
+//         selectButton.setPrefHeight(38);
+//         HBox.setHgrow(selectButton, Priority.ALWAYS);
+
+//         if (isSelected) {
+//             selectButton.setStyle(
+//                     FONT_FAMILY +
+//                     "-fx-background-color: " + PRIMARY_TEAL + "; " +
+//                     "-fx-text-fill: #FFFFFF; " +
+//                     "-fx-font-size: 11.5px; " +
+//                     "-fx-font-weight: bold; " +
+//                     "-fx-background-radius: 8px; " +
+//                     "-fx-cursor: hand;"
+//             );
+//         } else if (available) {
+//             selectButton.setStyle(
+//                     FONT_FAMILY +
+//                     "-fx-background-color: " + INFO_BG + "; " +
+//                     "-fx-text-fill: " + INFO_TEXT + "; " +
+//                     "-fx-font-size: 11.5px; " +
+//                     "-fx-font-weight: bold; " +
+//                     "-fx-background-radius: 8px; " +
+//                     "-fx-border-color: " + INFO_BORDER + "; " +
+//                     "-fx-border-radius: 8px; " +
+//                     "-fx-cursor: hand;"
+//             );
+//         } else {
+//             selectButton.setDisable(true);
+//             selectButton.setOpacity(0.65);
+//             selectButton.setStyle(
+//                     FONT_FAMILY +
+//                     "-fx-background-color: #F1F5F9; " +
+//                     "-fx-text-fill: " + TEXT_MUTED + "; " +
+//                     "-fx-font-size: 11.5px; " +
+//                     "-fx-font-weight: bold; " +
+//                     "-fx-background-radius: 8px;"
+//             );
+//         }
+
+//         selectButton.setOnAction(e -> {
+//             if (selectedDoctors.contains(doctor.getDoctorId())) {
+//                 selectedDoctors.remove(doctor.getDoctorId());
+//             } else {
+//                 selectedDoctors.add(doctor.getDoctorId());
+//             }
+//             updateSelectedDoctors();
+//             filterAndRenderGrid();
+//         });
+
+//         Button statusButton = new Button("Change Status");
+//         statusButton.setPrefHeight(38);
+//         HBox.setHgrow(statusButton, Priority.ALWAYS);
+//         statusButton.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: #FFFFFF; " +
+//                 "-fx-text-fill: " + TEXT_PRIMARY + "; " +
+//                 "-fx-font-size: 11.5px; " +
+//                 "-fx-font-weight: bold; " +
+//                 "-fx-background-radius: 8px; " +
+//                 "-fx-border-color: " + BORDER_COLOR + "; " +
+//                 "-fx-border-radius: 8px; " +
+//                 "-fx-cursor: hand;"
+//         );
+
+//         statusButton.setOnMouseEntered(e -> statusButton.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: #F1F5F9; " +
+//                 "-fx-text-fill: " + PRIMARY_TEAL + "; " +
+//                 "-fx-font-size: 11.5px; " +
+//                 "-fx-font-weight: bold; " +
+//                 "-fx-background-radius: 8px; " +
+//                 "-fx-border-color: #CBD5E1; " +
+//                 "-fx-border-radius: 8px; " +
+//                 "-fx-cursor: hand;"
+//         ));
+//         statusButton.setOnMouseExited(e -> statusButton.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: #FFFFFF; " +
+//                 "-fx-text-fill: " + TEXT_PRIMARY + "; " +
+//                 "-fx-font-size: 11.5px; " +
+//                 "-fx-font-weight: bold; " +
+//                 "-fx-background-radius: 8px; " +
+//                 "-fx-border-color: " + BORDER_COLOR + "; " +
+//                 "-fx-border-radius: 8px; " +
+//                 "-fx-cursor: hand;"
+//         ));
+
+//         statusButton.setOnAction(e -> showStatusOptions(doctor));
+
+//         buttons.getChildren().addAll(selectButton, statusButton);
+
+//         card.getChildren().addAll(top, detailsGrid, cardSpacer, buttons);
+//         return card;
+//     }
+
+//     // =========================================================================
+//     // MODAL: CHANGE DOCTOR STATUS
+//     // =========================================================================
+//     private void showStatusOptions(DoctorModel doctor) {
+//         Stage stage = new Stage();
+//         stage.initModality(Modality.APPLICATION_MODAL);
+//         stage.setTitle("Update Status - " + doctor.getDoctorName());
+
+//         VBox box = new VBox(16);
+//         box.setPadding(new Insets(24));
+//         box.setStyle("-fx-background-color: " + PAGE_BG + "; " + FONT_FAMILY);
+
+//         HBox header = new HBox(12);
+//         header.setAlignment(Pos.CENTER_LEFT);
+
+//         StackPane iconHolder = new StackPane();
+//         iconHolder.setPrefSize(34, 34);
+//         iconHolder.setStyle("-fx-background-color: " + INFO_BG + "; -fx-background-radius: 8px;");
+//         Label iLbl = new Label("🔄");
+//         iLbl.setStyle("-fx-font-size: 16px;");
+//         iconHolder.getChildren().add(iLbl);
+
+//         VBox titleBox = new VBox(2);
+//         Text title = new Text("Update Doctor Status");
+//         title.setStyle(FONT_FAMILY + "-fx-font-size: 16.5px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+//         Label doctorLabel = new Label(doctor.getDoctorName() + " (" + doctor.getDoctorId() + ")");
+//         doctorLabel.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-text-fill: " + PRIMARY_TEAL + "; -fx-font-weight: bold;");
+//         titleBox.getChildren().addAll(title, doctorLabel);
+
+//         header.getChildren().addAll(iconHolder, titleBox);
+
+//         VBox formCard = new VBox(12);
+//         formCard.setPadding(new Insets(16));
+//         formCard.setStyle(CARD_STYLE);
+
+//         Label comboLbl = new Label("CURRENT AVAILABILITY STATUS");
+//         comboLbl.setStyle(FONT_FAMILY + "-fx-font-size: 10.5px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_MUTED + "; -fx-letter-spacing: 0.5px;");
+
+//         ComboBox<String> statusCombo = new ComboBox<>();
+//         statusCombo.getItems().addAll("Available", "Busy", "On Leave");
+//         statusCombo.setValue(doctor.getStatus());
+//         statusCombo.setPrefHeight(40);
+//         statusCombo.setMaxWidth(Double.MAX_VALUE);
+//         statusCombo.setStyle(FONT_FAMILY + "-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 13px;");
+
+//         formCard.getChildren().addAll(comboLbl, statusCombo);
+
+//         Button updateButton = new Button("Apply Status Change");
+//         updateButton.setPrefHeight(42);
+//         updateButton.setMaxWidth(Double.MAX_VALUE);
+//         updateButton.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: " + PRIMARY_TEAL + "; " +
+//                 "-fx-text-fill: #FFFFFF; " +
+//                 "-fx-font-weight: bold; " +
+//                 "-fx-font-size: 13px; " +
+//                 "-fx-background-radius: 8px; " +
+//                 "-fx-cursor: hand;"
+//         );
+
+//         updateButton.setOnAction(e -> {
+//             doctorController.updateDoctorStatus(hospitalId, doctor.getDoctorId(), statusCombo.getValue());
+//             stage.close();
+//         });
+
+//         box.getChildren().addAll(header, formCard, updateButton);
+
+//         Scene scene = new Scene(box, 360, 260);
+//         stage.setScene(scene);
+//         stage.show();
+//     }
+
+//     // =========================================================================
+//     // MODAL: ADD NEW DOCTOR
+//     // =========================================================================
+//     private void showAddDoctorDialog() {
+//         Stage stage = new Stage();
+//         stage.initModality(Modality.APPLICATION_MODAL);
+//         stage.setTitle("Add Specialist - LifeLink Roster");
+
+//         VBox box = new VBox(16);
+//         box.setPadding(new Insets(24));
+//         box.setStyle("-fx-background-color: " + PAGE_BG + "; " + FONT_FAMILY);
+
+//         HBox header = new HBox(12);
+//         header.setAlignment(Pos.CENTER_LEFT);
+
+//         StackPane iconHolder = new StackPane();
+//         iconHolder.setPrefSize(36, 36);
+//         iconHolder.setStyle("-fx-background-color: " + INFO_BG + "; -fx-background-radius: 10px;");
+//         Label dIcon = new Label("🩺");
+//         dIcon.setStyle("-fx-font-size: 18px;");
+//         iconHolder.getChildren().add(dIcon);
+
+//         VBox titleBox = new VBox(2);
+//         Text title = new Text("Register Medical Specialist");
+//         title.setStyle(FONT_FAMILY + "-fx-font-size: 17px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+//         Text subTitle = new Text("Enlist doctor into active hospital emergency directory.");
+//         subTitle.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-fill: " + TEXT_MUTED + ";");
+//         titleBox.getChildren().addAll(title, subTitle);
+
+//         header.getChildren().addAll(iconHolder, titleBox);
+
+//         VBox formCard = new VBox(12);
+//         formCard.setPadding(new Insets(18));
+//         formCard.setStyle(CARD_STYLE);
+
+//         TextField nameField = new TextField();
+//         nameField.setPromptText("Doctor Full Name (e.g. Dr. Rajesh Kulkarni)");
+//         nameField.setPrefHeight(40);
+//         nameField.setStyle(FONT_FAMILY + "-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12.5px;");
+
+//         TextField specializationField = new TextField();
+//         specializationField.setPromptText("Specialization (e.g. Trauma Surgery, Cardiology)");
+//         specializationField.setPrefHeight(40);
+//         specializationField.setStyle(FONT_FAMILY + "-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12.5px;");
+
+//         ComboBox<String> shiftCombo = new ComboBox<>();
+//         shiftCombo.getItems().addAll(
+//                 "09:00 AM - 05:00 PM",
+//                 "08:00 AM - 04:00 PM",
+//                 "10:00 AM - 06:00 PM",
+//                 "06:00 AM - 02:00 PM",
+//                 "02:00 PM - 10:00 PM",
+//                 "10:00 PM - 06:00 AM"
+//         );
+//         shiftCombo.setPromptText("Select Duty Shift Schedule");
+//         shiftCombo.setPrefHeight(40);
+//         shiftCombo.setMaxWidth(Double.MAX_VALUE);
+//         shiftCombo.setStyle(FONT_FAMILY + "-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12.5px;");
+
+//         ComboBox<String> statusCombo = new ComboBox<>();
+//         statusCombo.getItems().addAll("Available", "Busy", "On Leave");
+//         statusCombo.setValue("Available");
+//         statusCombo.setPrefHeight(40);
+//         statusCombo.setMaxWidth(Double.MAX_VALUE);
+//         statusCombo.setStyle(FONT_FAMILY + "-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12.5px;");
+
+//         Label message = new Label();
+//         message.setStyle(FONT_FAMILY + "-fx-text-fill: " + DANGER_TEXT + "; -fx-font-size: 11.5px;");
+
+//         formCard.getChildren().addAll(nameField, specializationField, shiftCombo, statusCombo, message);
+
+//         Button addButton = new Button("Enlist Specialist to Roster");
+//         addButton.setPrefHeight(42);
+//         addButton.setMaxWidth(Double.MAX_VALUE);
+//         addButton.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: " + PRIMARY_TEAL + "; " +
+//                 "-fx-text-fill: #FFFFFF; " +
+//                 "-fx-font-size: 13px; " +
+//                 "-fx-font-weight: bold; " +
+//                 "-fx-background-radius: 8px; " +
+//                 "-fx-cursor: hand;"
+//         );
+
+//         addButton.setOnAction(e -> {
+//             String name = nameField.getText().trim();
+//             String specialization = specializationField.getText().trim();
+//             String shift = shiftCombo.getValue();
+
+//             if (name.isEmpty() || specialization.isEmpty()) {
+//                 message.setText("Please enter both doctor name and medical specialization.");
+//                 return;
+//             }
+
+//             if (shift == null || shift.isEmpty()) {
+//                 message.setText("Please select a valid duty shift.");
+//                 return;
+//             }
+
+//             String doctorId = "DOC-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+//             DoctorModel doctor = new DoctorModel(doctorId, name, specialization, shift, statusCombo.getValue());
+
+//             doctorController.saveDoctor(hospitalId, doctor);
+//             stage.close();
+//         });
+
+//         box.getChildren().addAll(header, formCard, addButton);
+
+//         Scene scene = new Scene(box, 380, 420);
+//         stage.setScene(scene);
+//         stage.show();
+//     }
+
+//     private void updateSelectedDoctors() {
+//         int count = selectedDoctors.size();
+//         selectedButton.setText("Selected Roster (" + count + ")");
+//         selectedCount.setText(count + " Selected");
+//         selectedValue.setText(String.valueOf(count));
+
+//         selectedNamesBox.getChildren().clear();
+
+//         if (selectedDoctors.isEmpty()) {
+//             Label emptyLabel = new Label("No specialists selected for current procedure yet. Click '+ Select' on available doctors below.");
+//             emptyLabel.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_MUTED + ";");
+//             selectedNamesBox.getChildren().add(emptyLabel);
+//             return;
+//         }
+
+//         for (String doctorId : selectedDoctors) {
+//             Label doctorLabel = new Label("✓  " + doctorId);
+//             doctorLabel.setStyle(
+//                     FONT_FAMILY +
+//                     "-fx-background-color: " + INFO_BG + "; " +
+//                     "-fx-text-fill: " + PRIMARY_TEAL + "; " +
+//                     "-fx-font-size: 11px; " +
+//                     "-fx-font-weight: bold; " +
+//                     "-fx-padding: 5px 10px; " +
+//                     "-fx-background-radius: 6px; " +
+//                     "-fx-border-color: " + INFO_BORDER + "; " +
+//                     "-fx-border-radius: 6px;"
+//             );
+//             selectedNamesBox.getChildren().add(doctorLabel);
+//         }
+
+//         Button clearAllBtn = new Button("Clear Selection");
+//         clearAllBtn.setStyle(
+//                 FONT_FAMILY +
+//                 "-fx-background-color: transparent; " +
+//                 "-fx-text-fill: " + DANGER_TEXT + "; " +
+//                 "-fx-font-size: 11px; " +
+//                 "-fx-font-weight: bold; " +
+//                 "-fx-cursor: hand;"
+//         );
+//         clearAllBtn.setOnAction(e -> {
+//             selectedDoctors.clear();
+//             updateSelectedDoctors();
+//             filterAndRenderGrid();
+//         });
+//         selectedNamesBox.getChildren().add(clearAllBtn);
+//     }
+
+//     private String getInitials(String name) {
+//         if (name == null || name.trim().isEmpty()) {
+//             return "DR";
+//         }
+//         String clean = name.replace("Dr.", "").replace("Dr", "").trim();
+//         String[] parts = clean.split("\\s+");
+//         if (parts.length == 0 || parts[0].isEmpty()) return "DR";
+//         if (parts.length == 1) {
+//             return parts[0].substring(0, Math.min(2, parts[0].length())).toUpperCase();
+//         }
+//         return (parts[0].charAt(0) + "" + parts[parts.length - 1].charAt(0)).toUpperCase();
+//     }
+
+//     private void applyStatusStyle(Label label, String status) {
+//         if ("Available".equalsIgnoreCase(status)) {
+//             label.setStyle(
+//                     FONT_FAMILY +
+//                     "-fx-background-color: " + SUCCESS_BG + "; " +
+//                     "-fx-text-fill: " + SUCCESS_TEXT + "; " +
+//                     "-fx-font-size: 10.5px; " +
+//                     "-fx-font-weight: bold; " +
+//                     "-fx-padding: 4px 9px; " +
+//                     "-fx-background-radius: 8px; " +
+//                     "-fx-border-color: " + SUCCESS_BORDER + "; " +
+//                     "-fx-border-radius: 8px;"
+//             );
+//         } else if ("Busy".equalsIgnoreCase(status) || "In Surgery".equalsIgnoreCase(status) || "Assigned".equalsIgnoreCase(status)) {
+//             label.setStyle(
+//                     FONT_FAMILY +
+//                     "-fx-background-color: " + DANGER_BG + "; " +
+//                     "-fx-text-fill: " + DANGER_TEXT + "; " +
+//                     "-fx-font-size: 10.5px; " +
+//                     "-fx-font-weight: bold; " +
+//                     "-fx-padding: 4px 9px; " +
+//                     "-fx-background-radius: 8px; " +
+//                     "-fx-border-color: " + DANGER_BORDER + "; " +
+//                     "-fx-border-radius: 8px;"
+//             );
+//         } else {
+//             label.setStyle(
+//                     FONT_FAMILY +
+//                     "-fx-background-color: " + WARNING_BG + "; " +
+//                     "-fx-text-fill: " + WARNING_TEXT + "; " +
+//                     "-fx-font-size: 10.5px; " +
+//                     "-fx-font-weight: bold; " +
+//                     "-fx-padding: 4px 9px; " +
+//                     "-fx-background-radius: 8px; " +
+//                     "-fx-border-color: " + WARNING_BORDER + "; " +
+//                     "-fx-border-radius: 8px;"
+//             );
+//         }
 //     }
 // }
 
 
-
 package com.kurukshetra.view.hospital;
 
+import com.kurukshetra.controller.hospitalController.DoctorController;
+import com.kurukshetra.model.hospitalModel.DoctorModel;
+import com.kurukshetra.view.util.ShimmerLoader;
+
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -939,368 +1016,988 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class HospitalDoctorManagement {
 
-    private static final String PRIMARY_TEAL    = "#087F8C";
-    private static final String TEAL_DARK       = "#056D79";
-    private static final String TEAL_VERY_LIGHT = "#EAF8F9";
-    private static final String TEAL_LIGHT      = "#DDF3F5";
-    private static final String TEAL_SOFT       = "#CDECEF";
-    private static final String TEAL_PALE       = "#F2FBFB";
+    // =========================================================================
+    // DESIGN SYSTEM CONSTANTS (MATCHING HospitalDashboard.java)
+    // =========================================================================
+    private static final String FONT_FAMILY = "-fx-font-family: 'Segoe UI', -apple-system, system-ui, sans-serif; ";
+    private static final String PRIMARY_TEAL = "#006591";
+    private static final String TEAL_HOVER = "#004F72";
+    private static final String PAGE_BG = "#a5bdaaff ";
+    private static final String SURFACE = "#FFFFFF";
+    private static final String BORDER_COLOR = "#E2E8F0";
+    private static final String TEXT_PRIMARY = "#0F172A";
+    private static final String TEXT_SECONDARY = "#475569";
+    private static final String TEXT_MUTED = "#64748B";
 
-    private static final String PAGE_BG         = "#F7FBFC";
-    private static final String SURFACE         = "#FFFFFF";
-    private static final String BORDER_COLOR    = "#DCECEF";
-    private static final String TRACK_BG        = "#E6F0F2";
+    private static final String SUCCESS_BG = "#ECFDF5";
+    private static final String SUCCESS_TEXT = "#059669";
+    private static final String SUCCESS_BORDER = "#A7F3D0";
 
-    private static final String TEXT_PRIMARY    = "#17252A";
-    private static final String TEXT_SECONDARY  = "#52646A";
-    private static final String TEXT_MUTED      = "#829196";
+    private static final String DANGER_BG = "#FEF2F2";
+    private static final String DANGER_TEXT = "#DC2626";
+    private static final String DANGER_BORDER = "#FECDD3";
 
-    private static final String STATUS_SUCCESS_BG   = "#E2F6EC";
-    private static final String STATUS_SUCCESS_TEXT = "#22A06B";
-    private static final String STATUS_WARN_BG      = "#FFF4D6";
-    private static final String STATUS_WARN_TEXT    = "#E8A317";
-    private static final String STATUS_DANGER_BG    = "#FCE9EC";
-    private static final String STATUS_DANGER_TEXT  = "#D96C7A";
+    private static final String WARNING_BG = "#FFFBEB";
+    private static final String WARNING_TEXT = "#D97706";
+    private static final String WARNING_BORDER = "#FDE68A";
+
+    private static final String INFO_BG = "#E0F2FE";
+    private static final String INFO_TEXT = "#0369A1";
+    private static final String INFO_BORDER = "#BAE6FD";
+
+    private static final String INDIGO_BG = "#EEF2FF";
+    private static final String INDIGO_TEXT = "#4F46E5";
+    private static final String INDIGO_BORDER = "#C7D2FE";
 
     private static final String CARD_STYLE =
-        "-fx-background-color: " + SURFACE + ";" +
-        "-fx-border-color: " + BORDER_COLOR + ";" +
-        "-fx-border-radius: 14px;" +
-        "-fx-background-radius: 14px;" +
-        "-fx-effect: dropshadow(gaussian, rgba(8, 127, 140, 0.06), 16, 0.12, 0, 4);";
+            "-fx-background-color: " + SURFACE + "; " +
+            "-fx-border-color: " + BORDER_COLOR + "; " +
+            "-fx-border-radius: 14px; " +
+            "-fx-background-radius: 14px; " +
+            "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.04), 14, 0, 0, 3);";
+
+    private final String hospitalId;
+    private final DoctorController doctorController = new DoctorController();
+    private final List<String> selectedDoctors = new ArrayList<>();
+    private final List<DoctorModel> cachedDoctorsList = new ArrayList<>();
+
+    // UI references
+    private VBox doctorGridContainer;
+    private ShimmerLoader.ShimmerPane doctorGridShimmer;
+    private Text availableValue;
+    private Text busyValue;
+    private Text leaveValue;
+    private Text selectedValue;
+
+    private Label doctorCountLabel;
+    private Button selectedButton;
+    private Label selectedCount;
+    private HBox selectedNamesBox;
+
+    private TextField searchField;
+    private ComboBox<String> statusFilterBox;
+
+    public HospitalDoctorManagement(String hospitalId) {
+        this.hospitalId = hospitalId;
+    }
 
     public VBox getDoctorManagement() {
 
-        VBox mainContent = new VBox(20);
-        mainContent.setPadding(new Insets(25));
-        mainContent.setStyle("-fx-background-color: " + PAGE_BG + ";");
+        VBox mainContent = new VBox(22);
+        mainContent.setPadding(new Insets(26, 32, 36, 32));
+        mainContent.setStyle("-fx-background-color: " + PAGE_BG + "; " + FONT_FAMILY);
 
-        // Page heading
-        Text heading = new Text("Medical Staff Oversight");
-        heading.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        // =====================================================================
+        // 1. TOP HEADER (TITLE & ACTION BUTTONS)
+        // =====================================================================
+        HBox header = new HBox(16);
+        header.setAlignment(Pos.CENTER_LEFT);
 
-        Text subHeading = new Text("Manage specialized practitioners and monitor real-time availability across hospital wings.");
-        subHeading.setStyle("-fx-font-size: 13px; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        VBox headingBox = new VBox(4, heading, subHeading);
-
-        Button addDoctorButton = new Button("+   Add Doctor");
-        addDoctorButton.setPrefWidth(125);
-        addDoctorButton.setPrefHeight(40);
-        addDoctorButton.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 9px; -fx-cursor: hand;");
-        addDoctorButton.setOnMouseEntered(e -> addDoctorButton.setStyle("-fx-background-color: " + TEAL_DARK + "; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 9px; -fx-cursor: hand;"));
-        addDoctorButton.setOnMouseExited(e -> addDoctorButton.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 9px; -fx-cursor: hand;"));
-
-        Button assignEmergencyButton = new Button("⚕   Assign Emergency");
-        assignEmergencyButton.setPrefWidth(155);
-        assignEmergencyButton.setPrefHeight(40);
-        assignEmergencyButton.setStyle("-fx-background-color: " + SURFACE + "; -fx-text-fill: " + TEXT_PRIMARY + "; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 9px; -fx-background-radius: 9px; -fx-cursor: hand;");
-
-        HBox headerButtons = new HBox(10, addDoctorButton, assignEmergencyButton);
-        headerButtons.setAlignment(Pos.CENTER_RIGHT);
+        VBox headingBox = new VBox(4);
+        Text heading = new Text("Doctors & Surgical Specialists");
+        heading.setStyle(FONT_FAMILY + "-fx-font-size: 26px; -fx-font-weight: 800; -fx-fill: " + TEXT_PRIMARY + ";");
+        headingBox.getChildren().addAll(heading);
 
         Region headerSpacer = new Region();
         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
 
-        HBox header = new HBox(headingBox, headerSpacer, headerButtons);
-        header.setAlignment(Pos.CENTER_LEFT);
-
-        // Statistics cards
-        HBox statsRow = new HBox(14);
-        statsRow.setAlignment(Pos.CENTER);
-
-        // Active Surgeons
-        VBox activeSurgeonBox = new VBox(5);
-        activeSurgeonBox.setPadding(new Insets(15));
-        activeSurgeonBox.setPrefHeight(105);
-        activeSurgeonBox.setStyle(CARD_STYLE);
-
-        Circle surgeonCircle = new Circle(22, Color.web(TEAL_VERY_LIGHT));
-        Text surgeonIcon = new Text("⚕");
-        surgeonIcon.setStyle("-fx-font-size: 18px; -fx-fill: " + PRIMARY_TEAL + ";");
-        StackPane surgeonIconPane = new StackPane(surgeonCircle, surgeonIcon);
-        surgeonIconPane.setPrefSize(44, 44);
-
-        Text surgeonTitle = new Text("ACTIVE SURGEONS");
-        surgeonTitle.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + TEXT_MUTED + ";");
-
-        Text surgeonValue = new Text("12");
-        surgeonValue.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text surgeonInfo = new Text("4 in surgery");
-        surgeonInfo.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEAL + ";");
-
-        VBox surgeonTextBox = new VBox(2, surgeonTitle, surgeonValue, surgeonInfo);
-        HBox surgeonContent = new HBox(12, surgeonIconPane, surgeonTextBox);
-        surgeonContent.setAlignment(Pos.CENTER_LEFT);
-        activeSurgeonBox.getChildren().add(surgeonContent);
-
-        // Doctors on Duty
-        VBox doctorsDutyBox = new VBox(5);
-        doctorsDutyBox.setPadding(new Insets(15));
-        doctorsDutyBox.setPrefHeight(105);
-        doctorsDutyBox.setStyle(CARD_STYLE);
-
-        Circle dutyCircle = new Circle(22, Color.web(TEAL_LIGHT));
-        Text dutyIcon = new Text("✚");
-        dutyIcon.setStyle("-fx-font-size: 18px; -fx-fill: " + TEAL_DARK + ";");
-        StackPane dutyIconPane = new StackPane(dutyCircle, dutyIcon);
-        dutyIconPane.setPrefSize(44, 44);
-
-        Text dutyTitle = new Text("DOCTORS ON DUTY");
-        dutyTitle.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + TEXT_MUTED + ";");
-
-        Text dutyValue = new Text("48");
-        dutyValue.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text dutyInfo = new Text("Across 8 departments");
-        dutyInfo.setStyle("-fx-font-size: 10px; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        VBox dutyTextBox = new VBox(2, dutyTitle, dutyValue, dutyInfo);
-        HBox dutyContent = new HBox(12, dutyIconPane, dutyTextBox);
-        dutyContent.setAlignment(Pos.CENTER_LEFT);
-        doctorsDutyBox.getChildren().add(dutyContent);
-
-        // Staff Capacity
-        VBox capacityBox = new VBox(5);
-        capacityBox.setPadding(new Insets(15));
-        capacityBox.setPrefHeight(105);
-        capacityBox.setStyle(CARD_STYLE);
-
-        Circle capacityCircle = new Circle(22, Color.web(STATUS_WARN_BG));
-        Text capacityIcon = new Text("♟");
-        capacityIcon.setStyle("-fx-font-size: 18px; -fx-fill: " + STATUS_WARN_TEXT + ";");
-        StackPane capacityIconPane = new StackPane(capacityCircle, capacityIcon);
-        capacityIconPane.setPrefSize(44, 44);
-
-        Text capacityTitle = new Text("STAFF CAPACITY");
-        capacityTitle.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + TEXT_MUTED + ";");
-
-        Text capacityValue = new Text("85%");
-        capacityValue.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text capacityChange = new Text("↗ +2%");
-        capacityChange.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + STATUS_DANGER_TEXT + ";");
-
-        HBox capacityValueBox = new HBox(12, capacityValue, capacityChange);
-        capacityValueBox.setAlignment(Pos.CENTER_LEFT);
-
-        Region capacityBackground = new Region();
-        capacityBackground.setPrefHeight(5);
-        capacityBackground.setPrefWidth(140);
-        capacityBackground.setStyle("-fx-background-color: " + TRACK_BG + "; -fx-background-radius: 10px;");
-
-        Region capacityProgress = new Region();
-        capacityProgress.setPrefHeight(5);
-        capacityProgress.setPrefWidth(120);
-        capacityProgress.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-background-radius: 10px;");
-
-        StackPane capacityProgressPane = new StackPane(capacityBackground, capacityProgress);
-        capacityProgressPane.setAlignment(Pos.CENTER_LEFT);
-
-        VBox capacityTextBox = new VBox(2, capacityTitle, capacityValueBox, capacityProgressPane);
-        HBox capacityContent = new HBox(12, capacityIconPane, capacityTextBox);
-        capacityContent.setAlignment(Pos.CENTER_LEFT);
-        capacityBox.getChildren().add(capacityContent);
-
-        HBox.setHgrow(activeSurgeonBox, Priority.ALWAYS);
-        HBox.setHgrow(doctorsDutyBox, Priority.ALWAYS);
-        HBox.setHgrow(capacityBox, Priority.ALWAYS);
-
-        statsRow.getChildren().addAll(activeSurgeonBox, doctorsDutyBox, capacityBox);
-
-        // Table filters
-        HBox filterBox = new HBox(12);
-        filterBox.setPadding(new Insets(12, 16, 12, 16));
-        filterBox.setAlignment(Pos.CENTER_LEFT);
-        filterBox.setStyle(CARD_STYLE);
-
-        ComboBox<String> departmentCombo = new ComboBox<>();
-        departmentCombo.getItems().addAll("Department: All", "Cardiology", "Orthopedics", "Pediatrics", "Oncology", "Neurology");
-        departmentCombo.setValue("Department: All");
-        departmentCombo.setPrefHeight(38);
-        departmentCombo.setPrefWidth(175);
-        departmentCombo.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12px;");
-
-        ComboBox<String> availabilityCombo = new ComboBox<>();
-        availabilityCombo.getItems().addAll("Availability: Available", "Available", "In Surgery", "On Break");
-        availabilityCombo.setValue("Availability: Available");
-        availabilityCombo.setPrefHeight(38);
-        availabilityCombo.setPrefWidth(185);
-        availabilityCombo.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12px;");
-
-        Region filterSpacer = new Region();
-        HBox.setHgrow(filterSpacer, Priority.ALWAYS);
-
-        Button filterButton = new Button("☷");
-        filterButton.setPrefSize(38, 36);
-        filterButton.setStyle("-fx-background-color: transparent; -fx-text-fill: " + TEXT_SECONDARY + "; -fx-font-size: 16px; -fx-cursor: hand;");
-
-        Button downloadButton = new Button("↓");
-        downloadButton.setPrefSize(38, 36);
-        downloadButton.setStyle("-fx-background-color: transparent; -fx-text-fill: " + TEXT_SECONDARY + "; -fx-font-size: 16px; -fx-cursor: hand;");
-
-        filterBox.getChildren().addAll(departmentCombo, availabilityCombo, filterSpacer, filterButton, downloadButton);
-
-        // Doctor Table Card
-        VBox doctorCard = new VBox();
-        doctorCard.setStyle(CARD_STYLE);
-
-        HBox tableHeader = new HBox(10);
-        tableHeader.setPadding(new Insets(12, 16, 12, 16));
-        tableHeader.setAlignment(Pos.CENTER_LEFT);
-        tableHeader.setStyle("-fx-background-color: " + TEAL_VERY_LIGHT + "; -fx-background-radius: 14px 14px 0px 0px;");
-
-        tableHeader.getChildren().addAll(
-            createHeaderLabel("DOCTOR NAME", 190),
-            createHeaderLabel("DEPARTMENT", 115),
-            createHeaderLabel("SPECIALIZATION", 160),
-            createHeaderLabel("SHIFT", 70),
-            createHeaderLabel("AVAILABILITY", 125),
-            createHeaderLabel("STATUS", 125),
-            createHeaderLabel("ACTIONS", 85)
+        // Selected Counter Button
+        selectedButton = new Button("Selected Roster (0)");
+        selectedButton.setPrefHeight(42);
+        selectedButton.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: " + INFO_BG + "; " +
+                "-fx-text-fill: " + INFO_TEXT + "; " +
+                "-fx-font-size: 12.5px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-background-radius: 10px; " +
+                "-fx-border-color: " + INFO_BORDER + "; " +
+                "-fx-border-radius: 10px; " +
+                "-fx-padding: 0 16; " +
+                "-fx-cursor: hand;"
         );
 
-        HBox doctorRow1 = createDoctorRow("JW", "Dr. James Wilson", "ID: LL-9021", "Cardiology", "Interventional Cardiology", "AM", "●  Available", STATUS_SUCCESS_BG, STATUS_SUCCESS_TEXT, "On Duty", PRIMARY_TEAL, true);
-        HBox doctorRow2 = createDoctorRow("ER", "Dr. Elena Rodriguez", "ID: LL-4432", "Orthopedics", "Spinal Surgery", "AM", "●  In Surgery", STATUS_DANGER_BG, STATUS_DANGER_TEXT, "On Duty", PRIMARY_TEAL, false);
-        HBox doctorRow3 = createDoctorRow("MC", "Dr. Michael Chen", "ID: LL-2188", "Pediatrics", "Child Neurology", "PM", "●  On Break", STATUS_WARN_BG, STATUS_WARN_TEXT, "Shift Start (14:00)", TEXT_MUTED, true);
-        HBox doctorRow4 = createDoctorRow("ST", "Dr. Sarah Thompson", "ID: LL-1055", "Oncology", "Radiotherapy", "AM", "●  Available", STATUS_SUCCESS_BG, STATUS_SUCCESS_TEXT, "On Duty", PRIMARY_TEAL, false);
-        HBox doctorRow5 = createDoctorRow("RM", "Dr. Robert Miller", "ID: LL-3310", "Neurology", "Neurosurgery", "PM", "●  In Surgery", STATUS_DANGER_BG, STATUS_DANGER_TEXT, "On Duty", PRIMARY_TEAL, true);
+        // Add Doctor Button
+        Button addDoctorButton = new Button("+ Add Specialist");
+        addDoctorButton.setPrefHeight(42);
+        addDoctorButton.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: " + PRIMARY_TEAL + "; " +
+                "-fx-text-fill: #FFFFFF; " +
+                "-fx-font-size: 12.5px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-background-radius: 10px; " +
+                "-fx-padding: 0 18; " +
+                "-fx-cursor: hand;"
+        );
+        addDoctorButton.setEffect(new DropShadow(10, 0, 2, Color.rgb(0, 101, 145, 0.25)));
 
-        doctorCard.getChildren().addAll(tableHeader, doctorRow1, doctorRow2, doctorRow3, doctorRow4, doctorRow5);
+        addDoctorButton.setOnMouseEntered(e -> {
+            addDoctorButton.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: " + TEAL_HOVER + "; " +
+                    "-fx-text-fill: #FFFFFF; " +
+                    "-fx-font-size: 12.5px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-radius: 10px; " +
+                    "-fx-padding: 0 18; " +
+                    "-fx-cursor: hand;"
+            );
+            addDoctorButton.setTranslateY(-2);
+        });
+        addDoctorButton.setOnMouseExited(e -> {
+            addDoctorButton.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: " + PRIMARY_TEAL + "; " +
+                    "-fx-text-fill: #FFFFFF; " +
+                    "-fx-font-size: 12.5px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-radius: 10px; " +
+                    "-fx-padding: 0 18; " +
+                    "-fx-cursor: hand;"
+            );
+            addDoctorButton.setTranslateY(0);
+        });
 
-        // Pagination
-        Text showingText = new Text("Showing 1-5 of 48 Doctors");
-        showingText.setStyle("-fx-font-size: 12px; -fx-fill: " + TEXT_MUTED + ";");
+        addDoctorButton.setOnAction(e -> showAddDoctorDialog());
 
-        Region paginationSpacer = new Region();
-        HBox.setHgrow(paginationSpacer, Priority.ALWAYS);
+        header.getChildren().addAll(headingBox, headerSpacer, selectedButton, addDoctorButton);
 
-        Button previousButton = new Button("‹");
-        previousButton.setPrefSize(36, 34);
-        previousButton.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-font-size: 16px; -fx-cursor: hand;");
+        // =====================================================================
+        // 2. SELECTED DOCTORS BANNER
+        // =====================================================================
+        VBox selectedDoctorsBox = new VBox(10);
+        selectedDoctorsBox.setPadding(new Insets(16, 20, 16, 20));
+        selectedDoctorsBox.setStyle(
+                "-fx-background-color: #FFFFFF; " +
+                "-fx-background-radius: 14px; " +
+                "-fx-border-color: " + INFO_BORDER + "; " +
+                "-fx-border-radius: 14px; " +
+                "-fx-effect: dropshadow(three-pass-box, rgba(3,105,161,0.06), 14, 0, 0, 3);"
+        );
 
-        Button pageOne = new Button("1");
-        pageOne.setPrefSize(36, 34);
-        pageOne.setStyle("-fx-background-color: " + PRIMARY_TEAL + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-cursor: hand;");
+        HBox selectedHeader = new HBox(10);
+        selectedHeader.setAlignment(Pos.CENTER_LEFT);
 
-        Button pageTwo = new Button("2");
-        pageTwo.setPrefSize(36, 34);
-        pageTwo.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-cursor: hand;");
+        StackPane selIconHolder = new StackPane();
+        selIconHolder.setPrefSize(28, 28);
+        selIconHolder.setStyle("-fx-background-color: " + INFO_BG + "; -fx-background-radius: 7px;");
+        Label selIcon = new Label("📋");
+        selIcon.setStyle("-fx-font-size: 13px;");
+        selIconHolder.getChildren().add(selIcon);
 
-        Button pageThree = new Button("3");
-        pageThree.setPrefSize(36, 34);
-        pageThree.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-cursor: hand;");
+        Text selectedTitle = new Text("Active Surgical & Duty Roster Selection");
+        selectedTitle.setStyle(FONT_FAMILY + "-fx-font-size: 14.5px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
 
-        Text dots = new Text("...");
-        dots.setStyle("-fx-font-size: 13px; -fx-fill: " + TEXT_MUTED + ";");
+        Region selectedSpacer = new Region();
+        HBox.setHgrow(selectedSpacer, Priority.ALWAYS);
 
-        Button pageTen = new Button("10");
-        pageTen.setPrefSize(36, 34);
-        pageTen.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-cursor: hand;");
+        selectedCount = new Label("0 Selected");
+        selectedCount.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: " + INFO_BG + "; " +
+                "-fx-text-fill: " + INFO_TEXT + "; " +
+                "-fx-font-size: 11px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-padding: 4px 10px; " +
+                "-fx-background-radius: 6px;"
+        );
 
-        Button nextButton = new Button("›");
-        nextButton.setPrefSize(36, 34);
-        nextButton.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-font-size: 16px; -fx-cursor: hand;");
+        selectedHeader.getChildren().addAll(selIconHolder, selectedTitle, selectedSpacer, selectedCount);
 
-        HBox paginationButtons = new HBox(8, previousButton, pageOne, pageTwo, pageThree, dots, pageTen, nextButton);
-        paginationButtons.setAlignment(Pos.CENTER_RIGHT);
+        selectedNamesBox = new HBox(8);
+        selectedNamesBox.setAlignment(Pos.CENTER_LEFT);
 
-        HBox pagination = new HBox(10, showingText, paginationSpacer, paginationButtons);
-        pagination.setPadding(new Insets(10, 0, 0, 0));
-        pagination.setAlignment(Pos.CENTER_LEFT);
+        Label emptySelection = new Label("No specialists selected for current procedure yet. Click '+ Select' on available doctors below.");
+        emptySelection.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_MUTED + ";");
+        selectedNamesBox.getChildren().add(emptySelection);
 
-        mainContent.getChildren().addAll(header, statsRow, filterBox, doctorCard, pagination);
+        selectedDoctorsBox.getChildren().addAll(selectedHeader, selectedNamesBox);
+
+        // =====================================================================
+        // 3. 4-CARD SUMMARY METRIC STRIP (MATCHING HospitalDashboard.java)
+        // =====================================================================
+        HBox summaryRow = new HBox(16);
+
+        availableValue = new Text("0");
+        VBox availableBox = createMetricCard("✓", SUCCESS_TEXT, SUCCESS_BG, "AVAILABLE DOCTORS", availableValue, "READY FOR DUTY", SUCCESS_BG, SUCCESS_TEXT);
+
+        busyValue = new Text("0");
+        VBox busyBox = createMetricCard("⚡", DANGER_TEXT, DANGER_BG, "BUSY / IN SURGERY", busyValue, "OCCUPIED", DANGER_BG, DANGER_TEXT);
+
+        leaveValue = new Text("0");
+        VBox leaveBox = createMetricCard("🏖", WARNING_TEXT, WARNING_BG, "ON LEAVE", leaveValue, "OFF DUTY", WARNING_BG, WARNING_TEXT);
+
+        selectedValue = new Text("0");
+        VBox selectedSummaryBox = createMetricCard("📋", INFO_TEXT, INFO_BG, "SELECTED FOR DUTY", selectedValue, "ASSIGNED", INFO_BG, INFO_TEXT);
+
+        summaryRow.getChildren().addAll(availableBox, busyBox, leaveBox, selectedSummaryBox);
+
+        // =====================================================================
+        // 4. SECTION DIRECTORY HEADER WITH SEARCH & STATUS FILTER
+        // =====================================================================
+        VBox directorySection = new VBox(14);
+
+        HBox directoryHeader = new HBox(14);
+        directoryHeader.setAlignment(Pos.CENTER_LEFT);
+
+        Text doctorsTitle = new Text("Medical Specialists Directory");
+        doctorsTitle.setStyle(FONT_FAMILY + "-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+
+        doctorCountLabel = new Label("0 Specialists");
+        doctorCountLabel.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: #F1F5F9; " +
+                "-fx-text-fill: " + TEXT_MUTED + "; " +
+                "-fx-font-size: 11px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-padding: 4px 10px; " +
+                "-fx-background-radius: 8px; " +
+                "-fx-border-color: " + BORDER_COLOR + "; " +
+                "-fx-border-radius: 8px;"
+        );
+
+        Region doctorSpacer = new Region();
+        HBox.setHgrow(doctorSpacer, Priority.ALWAYS);
+
+        // Search Field
+        HBox searchContainer = new HBox(10);
+        searchContainer.setAlignment(Pos.CENTER_LEFT);
+        searchContainer.setPadding(new Insets(0, 16, 0, 16));
+        searchContainer.setPrefHeight(42);
+        searchContainer.setPrefWidth(320);
+        searchContainer.setStyle(
+                "-fx-background-color: #F8FAFC; " +
+                "-fx-border-color: #CBD5E1; " +
+                "-fx-border-radius: 20px; " +
+                "-fx-background-radius: 20px; " +
+                "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.03), 4, 0, 0, 2);"
+        );
+
+        Label searchIcon = new Label("🔍");
+        searchIcon.setStyle("-fx-font-size: 14px; -fx-text-fill: " + TEXT_MUTED + ";");
+
+        searchField = new TextField();
+        searchField.setPromptText("Search name, specialization, ID...");
+        searchField.setStyle(FONT_FAMILY + "-fx-background-color: transparent; -fx-font-size: 13.5px; -fx-text-fill: " + TEXT_PRIMARY + "; -fx-prompt-text-fill: " + TEXT_MUTED + "; -fx-padding: 0;");
+        HBox.setHgrow(searchField, Priority.ALWAYS);
+
+        searchField.focusedProperty().addListener((obs, oldV, isFocused) -> {
+            if (isFocused) {
+                searchContainer.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: " + PRIMARY_TEAL + "; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-border-width: 1.5px; -fx-effect: dropshadow(three-pass-box, rgba(0,101,145,0.1), 8, 0, 0, 2);");
+            } else {
+                searchContainer.setStyle("-fx-background-color: #F8FAFC; -fx-border-color: #CBD5E1; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.03), 4, 0, 0, 2);");
+            }
+        });
+
+        searchContainer.getChildren().addAll(searchIcon, searchField);
+
+        // searchField.focusedProperty().addListener((obs, oldV, isFocused) -> {
+        //     if (isFocused) {
+        //         searchContainer.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: " + PRIMARY_TEAL + "; -fx-border-radius: 8px; -fx-background-radius: 8px;");
+        //     } else {
+        //         searchContainer.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px;");
+        //     }
+        // });
+
+        searchField.textProperty().addListener((obs, oldV, newV) -> filterAndRenderGrid());
+
+        // Status Filter Dropdown
+        statusFilterBox = new ComboBox<>();
+        statusFilterBox.getItems().addAll("All Statuses", "Available", "Busy", "On Leave");
+        statusFilterBox.setValue("All Statuses");
+        statusFilterBox.setPrefHeight(38);
+        statusFilterBox.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: #FFFFFF; " +
+                "-fx-border-color: " + BORDER_COLOR + "; " +
+                "-fx-border-radius: 8px; " +
+                "-fx-background-radius: 8px; " +
+                "-fx-font-size: 12px;"
+        );
+        statusFilterBox.valueProperty().addListener((obs, oldV, newV) -> filterAndRenderGrid());
+
+        directoryHeader.getChildren().addAll(doctorsTitle, doctorCountLabel, doctorSpacer, searchContainer, statusFilterBox);
+
+        // 5. DOCTOR GRID CONTAINER
+        doctorGridContainer = new VBox(16);
+        doctorGridShimmer = ShimmerLoader.createDoctorGridSkeleton(1100, 6);
+        doctorGridContainer.getChildren().add(doctorGridShimmer);
+
+        directorySection.getChildren().addAll(directoryHeader, doctorGridContainer);
+
+        mainContent.getChildren().addAll(
+                header,
+                selectedDoctorsBox,
+                summaryRow,
+                directorySection
+        );
 
         ScrollPane scrollPane = new ScrollPane(mainContent);
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-background: " + PAGE_BG + "; -fx-border-color: transparent;");
 
         VBox finalContent = new VBox(scrollPane);
         finalContent.setStyle("-fx-background-color: " + PAGE_BG + ";");
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
 
+        loadDoctors();
+
         return finalContent;
     }
 
-    private Label createHeaderLabel(String text, double width) {
-        Label l = new Label(text);
-        l.setPrefWidth(width);
-        l.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: " + TEAL_DARK + ";");
-        return l;
+    private VBox createMetricCard(String iconEmoji, String iconTextColor, String iconBgColor,
+                                  String title, Text valueNode, String badgeText,
+                                  String badgeBg, String badgeTextColor) {
+        VBox card = new VBox(10);
+        card.setPadding(new Insets(16, 20, 16, 20));
+        card.setPrefHeight(125);
+        card.setStyle(CARD_STYLE);
+        HBox.setHgrow(card, Priority.ALWAYS);
+
+        card.setOnMouseEntered(e -> {
+            card.setTranslateY(-3);
+            card.setStyle(
+                "-fx-background-color: #FFFFFF; " +
+                "-fx-border-color: #CBD5E1; " +
+                "-fx-border-radius: 14px; " +
+                "-fx-background-radius: 14px; " +
+                "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.09), 18, 0, 0, 6);"
+            );
+        });
+        card.setOnMouseExited(e -> {
+            card.setTranslateY(0);
+            card.setStyle(CARD_STYLE);
+        });
+
+        HBox topRow = new HBox(8);
+        topRow.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane iconPane = new StackPane();
+        iconPane.setPrefSize(34, 34);
+        iconPane.setMinSize(34, 34);
+        iconPane.setStyle("-fx-background-color: " + iconBgColor + "; -fx-background-radius: 8px;");
+        Text iconText = new Text(iconEmoji);
+        iconText.setStyle("-fx-font-size: 15px; -fx-fill: " + iconTextColor + "; -fx-font-weight: bold;");
+        iconPane.getChildren().add(iconText);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        Label badge = new Label(badgeText);
+        badge.setStyle(
+            FONT_FAMILY +
+            "-fx-background-color: " + badgeBg + "; " +
+            "-fx-text-fill: " + badgeTextColor + "; " +
+            "-fx-font-size: 9.5px; " +
+            "-fx-font-weight: bold; " +
+            "-fx-padding: 3px 8px; " +
+            "-fx-background-radius: 6px;"
+        );
+        topRow.getChildren().addAll(iconPane, spacer, badge);
+
+        valueNode.setStyle(FONT_FAMILY + "-fx-font-size: 26px; -fx-font-weight: 800; -fx-fill: " + TEXT_PRIMARY + ";");
+
+        Text labelText = new Text(title);
+        labelText.setStyle(FONT_FAMILY + "-fx-font-size: 11px; -fx-font-weight: 600; -fx-fill: " + TEXT_MUTED + "; -fx-letter-spacing: 0.4px;");
+
+        card.getChildren().addAll(topRow, valueNode, labelText);
+        return card;
     }
 
-    private HBox createDoctorRow(String initials, String name, String id, String dept, String spec, String shift, String availText, String availBg, String availColor, String statusText, String statusColor, boolean alternate) {
-        HBox row = new HBox(10);
-        row.setPadding(new Insets(13, 16, 13, 16));
-        row.setAlignment(Pos.CENTER_LEFT);
-        row.setStyle("-fx-background-color: " + (alternate ? SURFACE : "#F8FCFC") + "; -fx-border-color: transparent transparent " + BORDER_COLOR + " transparent; -fx-border-width: 0px 0px 1px 0px;");
+    private void loadDoctors() {
+        doctorController.listenToDoctors(hospitalId, doctors -> {
+            Platform.runLater(() -> {
+                cachedDoctorsList.clear();
+                if (doctors != null) {
+                    cachedDoctorsList.addAll(doctors);
+                }
 
-        Circle doctorCircle = new Circle(18, Color.web(TEAL_VERY_LIGHT));
-        Text doctorInitial = new Text(initials);
-        doctorInitial.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + PRIMARY_TEAL + ";");
+                int available = 0;
+                int busy = 0;
+                int leave = 0;
 
-        StackPane imgPane = new StackPane(doctorCircle, doctorInitial);
-        imgPane.setPrefSize(36, 36);
+                for (DoctorModel doc : cachedDoctorsList) {
+                    String st = doc.getStatus();
+                    if ("Available".equalsIgnoreCase(st)) {
+                        available++;
+                    } else if ("Busy".equalsIgnoreCase(st) || "In Surgery".equalsIgnoreCase(st) || "Assigned".equalsIgnoreCase(st)) {
+                        busy++;
+                    } else if ("On Leave".equalsIgnoreCase(st)) {
+                        leave++;
+                    }
+                }
 
-        Text dName = new Text(name);
-        dName.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+                doctorCountLabel.setText(cachedDoctorsList.size() + " Specialists");
+                availableValue.setText(String.valueOf(available));
+                busyValue.setText(String.valueOf(busy));
+                leaveValue.setText(String.valueOf(leave));
 
-        Text dId = new Text(id);
-        dId.setStyle("-fx-font-size: 10px; -fx-fill: " + TEXT_MUTED + ";");
+                filterAndRenderGrid();
+            });
+        });
+    }
 
-        VBox dInfo = new VBox(2, dName, dId);
-        HBox dNameBox = new HBox(10, imgPane, dInfo);
-        dNameBox.setPrefWidth(190);
-        dNameBox.setAlignment(Pos.CENTER_LEFT);
+    private void filterAndRenderGrid() {
+        if (doctorGridContainer == null) return;
+        if (doctorGridShimmer != null) {
+            doctorGridShimmer.stop();
+            doctorGridShimmer = null;
+        }
+        doctorGridContainer.getChildren().clear();
 
-        Text dDept = new Text(dept);
-        dDept.setStyle("-fx-font-size: 12px; -fx-fill: " + TEXT_PRIMARY + ";");
-        HBox deptBox = new HBox(dDept);
-        deptBox.setPrefWidth(115);
-        deptBox.setAlignment(Pos.CENTER_LEFT);
+        String query = (searchField != null && searchField.getText() != null)
+                ? searchField.getText().trim().toLowerCase() : "";
+        String statusFilter = (statusFilterBox != null && statusFilterBox.getValue() != null)
+                ? statusFilterBox.getValue() : "All Statuses";
 
-        Text dSpec = new Text(spec);
-        dSpec.setStyle("-fx-font-size: 12px; -fx-fill: " + TEXT_SECONDARY + ";");
-        HBox specBox = new HBox(dSpec);
-        specBox.setPrefWidth(160);
-        specBox.setAlignment(Pos.CENTER_LEFT);
+        List<DoctorModel> filtered = cachedDoctorsList.stream().filter(doc -> {
+            boolean matchesQuery = query.isEmpty()
+                    || (doc.getDoctorName() != null && doc.getDoctorName().toLowerCase().contains(query))
+                    || (doc.getDoctorId() != null && doc.getDoctorId().toLowerCase().contains(query))
+                    || (doc.getSpecialization() != null && doc.getSpecialization().toLowerCase().contains(query));
 
-        Label shiftLabel = new Label(shift);
-        shiftLabel.setStyle("-fx-background-color: " + TEAL_PALE + "; -fx-text-fill: " + TEAL_DARK + "; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 4px 8px; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 5px;");
-        HBox shiftBox = new HBox(shiftLabel);
-        shiftBox.setPrefWidth(70);
-        shiftBox.setAlignment(Pos.CENTER_LEFT);
+            boolean matchesStatus = "All Statuses".equalsIgnoreCase(statusFilter)
+                    || (doc.getStatus() != null && doc.getStatus().equalsIgnoreCase(statusFilter))
+                    || ("Busy".equalsIgnoreCase(statusFilter) && ("In Surgery".equalsIgnoreCase(doc.getStatus()) || "Assigned".equalsIgnoreCase(doc.getStatus())));
 
-        Label availLabel = new Label(availText);
-        availLabel.setStyle("-fx-background-color: " + availBg + "; -fx-text-fill: " + availColor + "; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-padding: 4px 8px;");
-        HBox availBox = new HBox(availLabel);
-        availBox.setPrefWidth(125);
-        availBox.setAlignment(Pos.CENTER_LEFT);
+            return matchesQuery && matchesStatus;
+        }).collect(Collectors.toList());
 
-        Text status = new Text(statusText);
-        status.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-fill: " + statusColor + ";");
-        HBox statusBox = new HBox(status);
-        statusBox.setPrefWidth(125);
-        statusBox.setAlignment(Pos.CENTER_LEFT);
+        if (filtered.isEmpty()) {
+            VBox emptyBox = new VBox(10);
+            emptyBox.setAlignment(Pos.CENTER);
+            emptyBox.setPadding(new Insets(40));
+            emptyBox.setStyle(CARD_STYLE);
 
-        Button edit = new Button("✎");
-        edit.setPrefSize(30, 30);
-        edit.setStyle("-fx-background-color: transparent; -fx-text-fill: " + TEXT_SECONDARY + "; -fx-font-size: 15px; -fx-cursor: hand;");
+            Label emptyLbl = new Label("No doctors match the selected search and filter criteria.");
+            emptyLbl.setStyle(FONT_FAMILY + "-fx-font-size: 13.5px; -fx-text-fill: " + TEXT_MUTED + ";");
+            emptyBox.getChildren().add(emptyLbl);
+            doctorGridContainer.getChildren().add(emptyBox);
+            return;
+        }
 
-        Button delete = new Button("⌫");
-        delete.setPrefSize(30, 30);
-        delete.setStyle("-fx-background-color: transparent; -fx-text-fill: " + STATUS_DANGER_TEXT + "; -fx-font-size: 14px; -fx-cursor: hand;");
+        GridPane grid = new GridPane();
+        grid.setHgap(18);
+        grid.setVgap(18);
 
-        HBox actions = new HBox(2, edit, delete);
-        actions.setPrefWidth(85);
-        actions.setAlignment(Pos.CENTER_RIGHT);
+        for (int i = 0; i < filtered.size(); i++) {
+            DoctorModel doctor = filtered.get(i);
+            VBox card = createDoctorCard(doctor);
+            grid.add(card, i % 3, i / 3);
+        }
 
-        row.getChildren().addAll(dNameBox, deptBox, specBox, shiftBox, availBox, statusBox, actions);
-        return row;
+        doctorGridContainer.getChildren().add(grid);
+    }
+
+    // =========================================================================
+    // ELEVATED DOCTOR PROFILE CARD (3-COLUMN GRID ITEM)
+    // =========================================================================
+    private VBox createDoctorCard(DoctorModel doctor) {
+        boolean available = "Available".equalsIgnoreCase(doctor.getStatus());
+        boolean isSelected = selectedDoctors.contains(doctor.getDoctorId());
+
+        VBox card = new VBox(14);
+        card.setPadding(new Insets(20));
+        card.setPrefWidth(340);
+        card.setPrefHeight(275);
+        card.setMinHeight(275);
+        card.setMaxHeight(275);
+        card.setStyle(CARD_STYLE);
+
+        card.setOnMouseEntered(e -> {
+            card.setTranslateY(-3);
+            card.setStyle(
+                "-fx-background-color: #FFFFFF; " +
+                "-fx-border-color: #CBD5E1; " +
+                "-fx-border-radius: 14px; " +
+                "-fx-background-radius: 14px; " +
+                "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.09), 18, 0, 0, 6);"
+            );
+        });
+        card.setOnMouseExited(e -> {
+            card.setTranslateY(0);
+            card.setStyle(CARD_STYLE);
+        });
+
+        // Top Row: Avatar + Name + Status Badge
+        HBox top = new HBox(12);
+        top.setAlignment(Pos.CENTER_LEFT);
+
+        String initials = getInitials(doctor.getDoctorName());
+        StackPane avatarPane = new StackPane();
+        avatarPane.setPrefSize(44, 44);
+        avatarPane.setStyle("-fx-background-color: " + INFO_BG + "; -fx-background-radius: 12px; -fx-border-color: " + INFO_BORDER + "; -fx-border-radius: 12px;");
+
+        Text initialsText = new Text(initials);
+        initialsText.setStyle(FONT_FAMILY + "-fx-font-size: 13.5px; -fx-font-weight: 800; -fx-fill: " + PRIMARY_TEAL + ";");
+        avatarPane.getChildren().add(initialsText);
+
+        VBox nameBox = new VBox(2);
+        Text nameText = new Text(doctor.getDoctorName() != null ? doctor.getDoctorName() : "Doctor");
+        nameText.setStyle(FONT_FAMILY + "-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+
+        Label specBadge = new Label(doctor.getSpecialization() != null ? doctor.getSpecialization() : "General Medicine");
+        specBadge.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: " + INDIGO_BG + "; " +
+                "-fx-text-fill: " + INDIGO_TEXT + "; " +
+                "-fx-font-size: 10.5px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-padding: 2px 8px; " +
+                "-fx-background-radius: 6px;"
+        );
+        nameBox.getChildren().addAll(nameText, specBadge);
+
+        Region topSpacer = new Region();
+        HBox.setHgrow(topSpacer, Priority.ALWAYS);
+
+        Label statusLabel = new Label("● " + (doctor.getStatus() != null ? doctor.getStatus() : "Available"));
+        applyStatusStyle(statusLabel, doctor.getStatus());
+
+        top.getChildren().addAll(avatarPane, nameBox, topSpacer, statusLabel);
+
+        // Middle Section: ID & Shift details
+        HBox detailsGrid = new HBox(14);
+        detailsGrid.setPadding(new Insets(10, 12, 10, 12));
+        detailsGrid.setStyle("-fx-background-color: #F8FAFC; -fx-background-radius: 10px; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 10px;");
+
+        VBox idBox = new VBox(2);
+        Text idTitle = new Text("DOCTOR ID");
+        idTitle.setStyle(FONT_FAMILY + "-fx-font-size: 9.5px; -fx-font-weight: bold; -fx-fill: " + TEXT_MUTED + "; -fx-letter-spacing: 0.4px;");
+        Text idText = new Text(doctor.getDoctorId());
+        idText.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-font-weight: 600; -fx-fill: " + TEXT_PRIMARY + ";");
+        idBox.getChildren().addAll(idTitle, idText);
+
+        Region splitSpacer = new Region();
+        HBox.setHgrow(splitSpacer, Priority.ALWAYS);
+
+        VBox shiftBox = new VBox(2);
+        shiftBox.setAlignment(Pos.TOP_RIGHT);
+        Text shiftTitle = new Text("SHIFT SCHEDULE");
+        shiftTitle.setStyle(FONT_FAMILY + "-fx-font-size: 9.5px; -fx-font-weight: bold; -fx-fill: " + TEXT_MUTED + "; -fx-letter-spacing: 0.4px;");
+        Text shiftText = new Text("🕒 " + (doctor.getShift() != null ? doctor.getShift() : "Standard Shift"));
+        shiftText.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-font-weight: 600; -fx-fill: " + TEXT_PRIMARY + ";");
+        shiftBox.getChildren().addAll(shiftTitle, shiftText);
+
+        detailsGrid.getChildren().addAll(idBox, splitSpacer, shiftBox);
+
+        Region cardSpacer = new Region();
+        VBox.setVgrow(cardSpacer, Priority.ALWAYS);
+
+        // Action Buttons Row
+        HBox buttons = new HBox(10);
+        buttons.setAlignment(Pos.CENTER_LEFT);
+
+        Button selectButton = new Button(isSelected ? "Selected" : "+ Select");
+        selectButton.setPrefHeight(38);
+        HBox.setHgrow(selectButton, Priority.ALWAYS);
+
+        if (isSelected) {
+            selectButton.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: " + PRIMARY_TEAL + "; " +
+                    "-fx-text-fill: #FFFFFF; " +
+                    "-fx-font-size: 11.5px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-radius: 8px; " +
+                    "-fx-cursor: hand;"
+            );
+        } else if (available) {
+            selectButton.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: " + INFO_BG + "; " +
+                    "-fx-text-fill: " + INFO_TEXT + "; " +
+                    "-fx-font-size: 11.5px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-radius: 8px; " +
+                    "-fx-border-color: " + INFO_BORDER + "; " +
+                    "-fx-border-radius: 8px; " +
+                    "-fx-cursor: hand;"
+            );
+        } else {
+            selectButton.setDisable(true);
+            selectButton.setOpacity(0.65);
+            selectButton.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: #F1F5F9; " +
+                    "-fx-text-fill: " + TEXT_MUTED + "; " +
+                    "-fx-font-size: 11.5px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-radius: 8px;"
+            );
+        }
+
+        selectButton.setOnAction(e -> {
+            if (selectedDoctors.contains(doctor.getDoctorId())) {
+                selectedDoctors.remove(doctor.getDoctorId());
+            } else {
+                selectedDoctors.add(doctor.getDoctorId());
+            }
+            updateSelectedDoctors();
+            filterAndRenderGrid();
+        });
+
+        Button statusButton = new Button("Change Status");
+        statusButton.setPrefHeight(38);
+        HBox.setHgrow(statusButton, Priority.ALWAYS);
+        statusButton.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: #FFFFFF; " +
+                "-fx-text-fill: " + TEXT_PRIMARY + "; " +
+                "-fx-font-size: 11.5px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-background-radius: 8px; " +
+                "-fx-border-color: " + BORDER_COLOR + "; " +
+                "-fx-border-radius: 8px; " +
+                "-fx-cursor: hand;"
+        );
+
+        statusButton.setOnMouseEntered(e -> statusButton.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: #F1F5F9; " +
+                "-fx-text-fill: " + PRIMARY_TEAL + "; " +
+                "-fx-font-size: 11.5px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-background-radius: 8px; " +
+                "-fx-border-color: #CBD5E1; " +
+                "-fx-border-radius: 8px; " +
+                "-fx-cursor: hand;"
+        ));
+        statusButton.setOnMouseExited(e -> statusButton.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: #FFFFFF; " +
+                "-fx-text-fill: " + TEXT_PRIMARY + "; " +
+                "-fx-font-size: 11.5px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-background-radius: 8px; " +
+                "-fx-border-color: " + BORDER_COLOR + "; " +
+                "-fx-border-radius: 8px; " +
+                "-fx-cursor: hand;"
+        ));
+
+        statusButton.setOnAction(e -> showStatusOptions(doctor));
+
+        buttons.getChildren().addAll(selectButton, statusButton);
+
+        card.getChildren().addAll(top, detailsGrid, cardSpacer, buttons);
+        return card;
+    }
+
+    // =========================================================================
+    // MODAL: CHANGE DOCTOR STATUS
+    // =========================================================================
+    private void showStatusOptions(DoctorModel doctor) {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Update Status - " + doctor.getDoctorName());
+
+        VBox box = new VBox(16);
+        box.setPadding(new Insets(24));
+        box.setStyle("-fx-background-color: " + PAGE_BG + "; " + FONT_FAMILY);
+
+        HBox header = new HBox(12);
+        header.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane iconHolder = new StackPane();
+        iconHolder.setPrefSize(34, 34);
+        iconHolder.setStyle("-fx-background-color: " + INFO_BG + "; -fx-background-radius: 8px;");
+        Label iLbl = new Label("🔄");
+        iLbl.setStyle("-fx-font-size: 16px;");
+        iconHolder.getChildren().add(iLbl);
+
+        VBox titleBox = new VBox(2);
+        Text title = new Text("Update Doctor Status");
+        title.setStyle(FONT_FAMILY + "-fx-font-size: 16.5px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        Label doctorLabel = new Label(doctor.getDoctorName() + " (" + doctor.getDoctorId() + ")");
+        doctorLabel.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-text-fill: " + PRIMARY_TEAL + "; -fx-font-weight: bold;");
+        titleBox.getChildren().addAll(title, doctorLabel);
+
+        header.getChildren().addAll(iconHolder, titleBox);
+
+        VBox formCard = new VBox(12);
+        formCard.setPadding(new Insets(16));
+        formCard.setStyle(CARD_STYLE);
+
+        Label comboLbl = new Label("CURRENT AVAILABILITY STATUS");
+        comboLbl.setStyle(FONT_FAMILY + "-fx-font-size: 10.5px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_MUTED + "; -fx-letter-spacing: 0.5px;");
+
+        ComboBox<String> statusCombo = new ComboBox<>();
+        statusCombo.getItems().addAll("Available", "Busy", "On Leave");
+        statusCombo.setValue(doctor.getStatus());
+        statusCombo.setPrefHeight(40);
+        statusCombo.setMaxWidth(Double.MAX_VALUE);
+        statusCombo.setStyle(FONT_FAMILY + "-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 13px;");
+
+        formCard.getChildren().addAll(comboLbl, statusCombo);
+
+        Button updateButton = new Button("Apply Status Change");
+        updateButton.setPrefHeight(42);
+        updateButton.setMaxWidth(Double.MAX_VALUE);
+        updateButton.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: " + PRIMARY_TEAL + "; " +
+                "-fx-text-fill: #FFFFFF; " +
+                "-fx-font-weight: bold; " +
+                "-fx-font-size: 13px; " +
+                "-fx-background-radius: 8px; " +
+                "-fx-cursor: hand;"
+        );
+
+        updateButton.setOnAction(e -> {
+            try {
+                if ("UNAVAILABLE".equalsIgnoreCase(doctor.getStatus())) {
+                    throw new com.kurukshetra.exception.DoctorUnavailableException(
+                        "Oops! This doctor is currently UNAVAILABLE.\n" +
+                        "You can't change their status right now. 😄"
+                    );
+                }
+                if ("BUSY".equalsIgnoreCase(doctor.getStatus()) && !statusCombo.getValue().equalsIgnoreCase(doctor.getStatus())) {
+                    throw new com.kurukshetra.exception.DoctorBusyException(
+                        "Doctor is busy in the Operation Theatre! Let them finish the surgery first. 😄"
+                    );
+                }
+                doctorController.updateDoctorStatus(hospitalId, doctor.getDoctorId(), statusCombo.getValue());
+                stage.close();
+            } catch (com.kurukshetra.exception.DoctorUnavailableException | com.kurukshetra.exception.DoctorBusyException ex) {
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+                alert.setTitle(ex instanceof com.kurukshetra.exception.DoctorBusyException ? "⚠ Doctor In Surgery" : "⚠ Doctor Unavailable");
+                alert.setHeaderText(null);
+                alert.setContentText(ex.getMessage());
+                alert.showAndWait();
+            }
+        });
+
+        box.getChildren().addAll(header, formCard, updateButton);
+
+        Scene scene = new Scene(box, 360, 260);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    // =========================================================================
+    // MODAL: ADD NEW DOCTOR
+    // =========================================================================
+    private void showAddDoctorDialog() {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Add Specialist - LifeLink Roster");
+
+        VBox box = new VBox(16);
+        box.setPadding(new Insets(24));
+        box.setStyle("-fx-background-color: " + PAGE_BG + "; " + FONT_FAMILY);
+
+        HBox header = new HBox(12);
+        header.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane iconHolder = new StackPane();
+        iconHolder.setPrefSize(36, 36);
+        iconHolder.setStyle("-fx-background-color: " + INFO_BG + "; -fx-background-radius: 10px;");
+        Label dIcon = new Label("🩺");
+        dIcon.setStyle("-fx-font-size: 18px;");
+        iconHolder.getChildren().add(dIcon);
+
+        VBox titleBox = new VBox(2);
+        Text title = new Text("Register Medical Specialist");
+        title.setStyle(FONT_FAMILY + "-fx-font-size: 17px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        Text subTitle = new Text("Enlist doctor into active hospital emergency directory.");
+        subTitle.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-fill: " + TEXT_MUTED + ";");
+        titleBox.getChildren().addAll(title, subTitle);
+
+        header.getChildren().addAll(iconHolder, titleBox);
+
+        VBox formCard = new VBox(12);
+        formCard.setPadding(new Insets(18));
+        formCard.setStyle(CARD_STYLE);
+
+        TextField nameField = new TextField();
+        nameField.setPromptText("Doctor Full Name (e.g. Dr. Rajesh Kulkarni)");
+        nameField.setPrefHeight(40);
+        nameField.setStyle(FONT_FAMILY + "-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12.5px;");
+
+        TextField specializationField = new TextField();
+        specializationField.setPromptText("Specialization (e.g. Trauma Surgery, Cardiology)");
+        specializationField.setPrefHeight(40);
+        specializationField.setStyle(FONT_FAMILY + "-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12.5px;");
+
+        ComboBox<String> shiftCombo = new ComboBox<>();
+        shiftCombo.getItems().addAll(
+                "09:00 AM - 05:00 PM",
+                "08:00 AM - 04:00 PM",
+                "10:00 AM - 06:00 PM",
+                "06:00 AM - 02:00 PM",
+                "02:00 PM - 10:00 PM",
+                "10:00 PM - 06:00 AM"
+        );
+        shiftCombo.setPromptText("Select Duty Shift Schedule");
+        shiftCombo.setPrefHeight(40);
+        shiftCombo.setMaxWidth(Double.MAX_VALUE);
+        shiftCombo.setStyle(FONT_FAMILY + "-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12.5px;");
+
+        ComboBox<String> statusCombo = new ComboBox<>();
+        statusCombo.getItems().addAll("Available", "Busy", "On Leave");
+        statusCombo.setValue("Available");
+        statusCombo.setPrefHeight(40);
+        statusCombo.setMaxWidth(Double.MAX_VALUE);
+        statusCombo.setStyle(FONT_FAMILY + "-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12.5px;");
+
+        Label message = new Label();
+        message.setStyle(FONT_FAMILY + "-fx-text-fill: " + DANGER_TEXT + "; -fx-font-size: 11.5px;");
+
+        formCard.getChildren().addAll(nameField, specializationField, shiftCombo, statusCombo, message);
+
+        Button addButton = new Button("Enlist Specialist to Roster");
+        addButton.setPrefHeight(42);
+        addButton.setMaxWidth(Double.MAX_VALUE);
+        addButton.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: " + PRIMARY_TEAL + "; " +
+                "-fx-text-fill: #FFFFFF; " +
+                "-fx-font-size: 13px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-background-radius: 8px; " +
+                "-fx-cursor: hand;"
+        );
+
+        addButton.setOnAction(e -> {
+            String name = nameField.getText().trim();
+            String specialization = specializationField.getText().trim();
+            String shift = shiftCombo.getValue();
+
+            if (name.isEmpty() || specialization.isEmpty()) {
+                message.setText("Please enter both doctor name and medical specialization.");
+                return;
+            }
+
+            if (shift == null || shift.isEmpty()) {
+                message.setText("Please select a valid duty shift.");
+                return;
+            }
+
+            String doctorId = "DOC-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+            DoctorModel doctor = new DoctorModel(doctorId, name, specialization, shift, statusCombo.getValue());
+
+            doctorController.saveDoctor(hospitalId, doctor);
+            stage.close();
+        });
+
+        box.getChildren().addAll(header, formCard, addButton);
+
+        Scene scene = new Scene(box, 380, 420);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void updateSelectedDoctors() {
+        int count = selectedDoctors.size();
+        selectedButton.setText("Selected Roster (" + count + ")");
+        selectedCount.setText(count + " Selected");
+        selectedValue.setText(String.valueOf(count));
+
+        selectedNamesBox.getChildren().clear();
+
+        if (selectedDoctors.isEmpty()) {
+            Label emptyLabel = new Label("No specialists selected for current procedure yet. Click '+ Select' on available doctors below.");
+            emptyLabel.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-text-fill: " + TEXT_MUTED + ";");
+            selectedNamesBox.getChildren().add(emptyLabel);
+            return;
+        }
+
+        for (String doctorId : selectedDoctors) {
+            Label doctorLabel = new Label("✓  " + doctorId);
+            doctorLabel.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: " + INFO_BG + "; " +
+                    "-fx-text-fill: " + PRIMARY_TEAL + "; " +
+                    "-fx-font-size: 11px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-padding: 5px 10px; " +
+                    "-fx-background-radius: 6px; " +
+                    "-fx-border-color: " + INFO_BORDER + "; " +
+                    "-fx-border-radius: 6px;"
+            );
+            selectedNamesBox.getChildren().add(doctorLabel);
+        }
+
+        Button clearAllBtn = new Button("Clear Selection");
+        clearAllBtn.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: transparent; " +
+                "-fx-text-fill: " + DANGER_TEXT + "; " +
+                "-fx-font-size: 11px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-cursor: hand;"
+        );
+        clearAllBtn.setOnAction(e -> {
+            selectedDoctors.clear();
+            updateSelectedDoctors();
+            filterAndRenderGrid();
+        });
+        selectedNamesBox.getChildren().add(clearAllBtn);
+    }
+
+    private String getInitials(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return "DR";
+        }
+        String clean = name.replace("Dr.", "").replace("Dr", "").trim();
+        String[] parts = clean.split("\\s+");
+        if (parts.length == 0 || parts[0].isEmpty()) return "DR";
+        if (parts.length == 1) {
+            return parts[0].substring(0, Math.min(2, parts[0].length())).toUpperCase();
+        }
+        return (parts[0].charAt(0) + "" + parts[parts.length - 1].charAt(0)).toUpperCase();
+    }
+
+    private void applyStatusStyle(Label label, String status) {
+        if ("Available".equalsIgnoreCase(status)) {
+            label.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: " + SUCCESS_BG + "; " +
+                    "-fx-text-fill: " + SUCCESS_TEXT + "; " +
+                    "-fx-font-size: 10.5px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-padding: 4px 9px; " +
+                    "-fx-background-radius: 8px; " +
+                    "-fx-border-color: " + SUCCESS_BORDER + "; " +
+                    "-fx-border-radius: 8px;"
+            );
+        } else if ("Busy".equalsIgnoreCase(status) || "In Surgery".equalsIgnoreCase(status) || "Assigned".equalsIgnoreCase(status)) {
+            label.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: " + DANGER_BG + "; " +
+                    "-fx-text-fill: " + DANGER_TEXT + "; " +
+                    "-fx-font-size: 10.5px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-padding: 4px 9px; " +
+                    "-fx-background-radius: 8px; " +
+                    "-fx-border-color: " + DANGER_BORDER + "; " +
+                    "-fx-border-radius: 8px;"
+            );
+        } else {
+            label.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: " + WARNING_BG + "; " +
+                    "-fx-text-fill: " + WARNING_TEXT + "; " +
+                    "-fx-font-size: 10.5px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-padding: 4px 9px; " +
+                    "-fx-background-radius: 8px; " +
+                    "-fx-border-color: " + WARNING_BORDER + "; " +
+                    "-fx-border-radius: 8px;"
+            );
+        }
     }
 }

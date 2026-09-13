@@ -4,6 +4,7 @@ import com.kurukshetra.controller.UserAuthController;
 import com.kurukshetra.controller.UserController;
 import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.admin.AdminDashboard;
+import com.kurukshetra.view.util.ModernAuthLoader;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -40,7 +41,7 @@ public class AdminLoginPage {
 
     private static final String WHITE = "#FFFFFF";
     private static final String BLACK = "#111111";
-    private static final String GRAY_BG = "#777775";
+    private static final String GRAY_BG = "#0B1329";
     private static final String BORDER = "#D7DBDF";
     private static final String PLACEHOLDER = "#A7A9AC";
 
@@ -700,57 +701,30 @@ public class AdminLoginPage {
                 return;
             }
 
-            try {
+            ModernAuthLoader.runAsyncAuth(
+                    loginButton,
+                    card,
+                    "Authenticating...",
+                    () -> {
+                        return userAuthController.signIn(emailValue, passwordValue);
+                    },
+                    isSuccess -> {
+                        if (isSuccess) {
+                            System.out.println("Admin: Admin Data");
+                            System.out.println("Username: " + emailValue);
+                            System.out.println("Login successful.");
 
-                boolean isSuccess =
-                        userAuthController.signIn(
-                                emailValue,
-                                passwordValue
-                        );
-
-                if (isSuccess) {
-
-                    System.out.println(
-                            "Admin: Admin Data"
-                    );
-
-                    System.out.println(
-                            "Username: " + emailValue
-                    );
-
-                    System.out.println(
-                            "Login successful."
-                    );
-
-                    AdminDashboard adminDashboard =
-                            new AdminDashboard();
-
-                    try {
-
-                        adminDashboard.start(
-                                Welcome.WelcomeStage
-                        );
-
-                    } catch (Exception ex) {
-
-                        ex.printStackTrace();
-                    }
-
-                } else {
-
-                    System.out.println(
-                            "Invalid username or password."
-                    );
-                }
-
-            } catch (Exception ex) {
-
-                ex.printStackTrace();
-
-                System.out.println(
-                        "Login failed. Please try again."
-                );
-            }
+                            AdminDashboard adminDashboard = new AdminDashboard();
+                            try {
+                                adminDashboard.start(Welcome.WelcomeStage);
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    },
+                    username,
+                    passwordBox
+            );
         });
 
         // =====================================================
@@ -982,68 +956,28 @@ public class AdminLoginPage {
                 return;
             }
 
-            try {
-
-                boolean isSuccess =
-                        userAuthController.signUp(
-                                nameValue,
-                                emailValue,
-                                passwordValue
-                        );
-
-                if (isSuccess) {
-
-                    System.out.println(
-                            "API Hit Successfully (SignUp)"
-                    );
-
-                    UserController userController =
-                            new UserController();
-
-                    userController.passToAdminModel(
-                            nameValue,
-                            emailValue
-                    );
-
-                    System.out.println(
-                            "========== SIGN UP =========="
-                    );
-
-                    System.out.println(
-                            "Name: " + nameValue
-                    );
-
-                    System.out.println(
-                            "Email: " + emailValue
-                    );
-
-                    System.out.println(
-                            "Password: " + passwordValue
-                    );
-
-                    System.out.println(
-                            "Sign Up successful."
-                    );
-
-                    System.out.println(
-                            "============================="
-                    );
-
-                } else {
-
-                    System.out.println(
-                            "Sign up failed. Please try again."
-                    );
-                }
-
-            } catch (Exception ex) {
-
-                ex.printStackTrace();
-
-                System.out.println(
-                        "Unable to create account."
-                );
-            }
+            ModernAuthLoader.runAsyncAuth(
+                    signUpButton,
+                    card,
+                    "Creating...",
+                    () -> {
+                        boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+                        if (isSuccess) {
+                            UserController userController = new UserController();
+                            userController.passToAdminModel(nameValue, emailValue);
+                        }
+                        return isSuccess;
+                    },
+                    isSuccess -> {
+                        if (isSuccess) {
+                            System.out.println("Sign Up successful.");
+                            showLoginForm(card);
+                        }
+                    },
+                    name,
+                    email,
+                    passwordBox
+            );
         });
 
         // =====================================================

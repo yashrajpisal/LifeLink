@@ -595,6 +595,8 @@
 
 package com.kurukshetra.view.admin;
 
+import com.kurukshetra.view.util.ShimmerLoader;
+import com.kurukshetra.view.util.ShimmerLoader.ShimmerPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -1006,6 +1008,7 @@ public class AdminSettings {
         );
 
         ScrollPane scrollPane = new ScrollPane(mainContent);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");

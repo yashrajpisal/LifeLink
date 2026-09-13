@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Clean Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            width: 100%; height: 100%; margin: 0; padding: 0;
+            overflow: hidden; background-color: #f8fafc;
+            font-family: 'Segoe UI', -apple-system, sans-serif;
+        }
+        #map { width: 100%; height: 100%; display: block; background: #f8fafc; }
+        .leaflet-container { width: 100% !important; height: 100% !important; background: #f8fafc !important; }
+        .leaflet-tile { visibility: visible !important; }
+        .leaflet-tile-container img { width: 256.5px !important; height: 256.5px !important; }
+
+        /* Badges */
+        .badge-pickup {
+            background: #ef4444 !important;
+            color: #ffffff !important;
+            border: 2px solid #ffffff !important;
+            border-radius: 6px !important;
+            font-weight: 800 !important;
+            font-size: 11px !important;
+            padding: 4px 8px !important;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35) !important;
+        }
+        .badge-destination {
+            background: #0284c7 !important;
+            color: #ffffff !important;
+            border: 2px solid #ffffff !important;
+            border-radius: 6px !important;
+            font-weight: 800 !important;
+            font-size: 11px !important;
+            padding: 4px 8px !important;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35) !important;
+        }
+        .marker-amb {
+            width: 38px; height: 38px; background: #ffffff;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .marker-dest-pin {
+            width: 34px; height: 34px; background: #0284c7;
+            border: 2.5px solid #ffffff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; color: white; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    L.Browser.any3d = false;
+
+    let map, destMarker, ambulanceMarker, corridorCasing, corridorCore;
+    let routeCoords = [];
+    let currentDestLoc = null;
+
+    const ambIcon = L.divIcon({ className: '', html: '<div class="marker-amb">&#128657;</div>', iconSize: [38, 38], iconAnchor: [19, 19] });
+    const destIcon = L.divIcon({ className: '', html: '<div class="marker-dest-pin">&#127973;</div>', iconSize: [34, 34], iconAnchor: [17, 17] });
+
+    function initMap() {
+        if (map) return;
+        map = L.map('map', { 
+            zoomControl: false, 
+            attributionControl: false,
+            zoomAnimation: false, 
+            fadeAnimation: false 
+        }).setView([18.4800, 73.8600], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            tileSize: 256
+        }).addTo(map);
+
+        const resizeObserver = new ResizeObserver(() => {
+            if (map) map.invalidateSize(true);
+        });
+        resizeObserver.observe(document.getElementById('map'));
+    }
+
+    async function geocodeLocation(nameStr) {
+        const query = (nameStr || '').trim().toLowerCase();
+        
+        if (query.includes("swargate")) return { lat: 18.5018, lng: 73.8636, name: "Swargate" };
+        if (query.includes("katraj")) return { lat: 18.4575, lng: 73.8677, name: "Katraj" };
+        if (query.includes("core2web") || query.includes("narhe")) return { lat: 18.4852, lng: 73.8166, name: "Core2web" };
+        if (query.includes("ruby") || query.includes("sassoon")) return { lat: 18.5308, lng: 73.8778, name: "Ruby Hall Clinic" };
+        if (query.includes("hadapsar") || query.includes("nobel")) return { lat: 18.5089, lng: 73.9259, name: "Nobel Hospital" };
+        if (query.includes("kem")) return { lat: 18.5204, lng: 73.8720, name: "KEM Hospital" };
+
+        const url = 'https://nominatim.openstreetmap.org/search?format=json&countrycodes=in&limit=1&q=' + encodeURIComponent(nameStr + ', Pune');
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data && data.length > 0) {
+                return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon), name: data[0].display_name.split(',')[0] };
+            }
+        } catch (e) {}
+
+        return { lat: 18.5018, lng: 73.8636, name: nameStr };
+    }
+
+    let hasInitialBoundsSet = false;
+
+    async function fetchAndDrawRoute(startLat, startLng, destLat, destLng, shouldFitBounds = false) {
+        if (!map) return;
+        const url = 'https://router.project-osrm.org/route/v1/driving/' + startLng + ',' + startLat + ';' + destLng + ',' + destLat + '?overview=full&geometries=geojson';
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.routes && data.routes[0]) {
+                const route = data.routes[0];
+                routeCoords = route.geometry.coordinates.map(p => [p[1], p[0]]);
+
+                // Smoothly update polyline without recreating layers or flickering
+                if (!corridorCasing) {
+                    corridorCasing = L.polyline(routeCoords, { color: '#005a9e', weight: 8, opacity: 0.85 }).addTo(map);
+                } else {
+                    corridorCasing.setLatLngs(routeCoords);
+                }
+
+                if (!corridorCore) {
+                    corridorCore = L.polyline(routeCoords, { color: '#08a1e5', weight: 4.5, opacity: 1.0 }).addTo(map);
+                } else {
+                    corridorCore.setLatLngs(routeCoords);
+                }
+
+                // Fit bounds ONLY on initial load or explicit navigation request, never on live GPS ticks
+                if (shouldFitBounds || !hasInitialBoundsSet) {
+                    hasInitialBoundsSet = true;
+                    map.fitBounds(L.latLngBounds(routeCoords), {
+                        paddingTopLeft: [30, 60],
+                        paddingBottomRight: [30, 60]
+                    });
+                }
+
+                // Send live telemetry (distance and ETA) to Java bridge if available
+                if (window.javaControlRoom && typeof window.javaControlRoom.updateDistanceETA === 'function') {
+                    const distKm = (route.distance / 1000).toFixed(1) + " km";
+                    const etaMin = Math.round(route.duration / 60) + " mins";
+                    window.javaControlRoom.updateDistanceETA(distKm, etaMin);
+                }
+            }
+        } catch (err) {
+            console.log("OSRM routing error:", err);
+        }
+    }
+
+    function updateAmbulance(latitude, longitude) {
+        if (!map) initMap();
+        latitude = parseFloat(latitude);
+        longitude = parseFloat(longitude);
+        if (isNaN(latitude) || isNaN(longitude) || latitude === 0 || longitude === 0) {
+            return;
+        }
+
+        if (!ambulanceMarker) {
+            ambulanceMarker = L.marker([latitude, longitude], { icon: ambIcon, zIndexOffset: 3000 }).addTo(map);
+            ambulanceMarker.bindTooltip("&#128657; Ambulance (Live Location)", {
+                permanent: true,
+                direction: "top",
+                className: "badge-pickup",
+                offset: [0, -14]
+            }).openTooltip();
+            if (!currentDestLoc) {
+                map.setView([latitude, longitude], 15);
+            }
+        } else {
+            // Smoothly move marker to new GPS coordinate without touching map camera/zoom
+            ambulanceMarker.setLatLng([latitude, longitude]);
+        }
+
+        // Update the blue corridor line to current location without resetting zoom
+        if (currentDestLoc && currentDestLoc.lat && currentDestLoc.lng) {
+            fetchAndDrawRoute(latitude, longitude, currentDestLoc.lat, currentDestLoc.lng, false);
+        }
+    }
+
+    async function setDestination(destLat, destLng, destName) {
+        if (!map) initMap();
+        destLat = parseFloat(destLat);
+        destLng = parseFloat(destLng);
+        if (isNaN(destLat) || isNaN(destLng) || destLat === 0 || destLng === 0) return;
+
+        currentDestLoc = { lat: destLat, lng: destLng, name: destName || "Emergency Destination" };
+
+        if (destMarker) map.removeLayer(destMarker);
+        destMarker = L.marker([destLat, destLng], { icon: destIcon }).addTo(map);
+        destMarker.bindTooltip("&#127973; " + (destName || "Emergency Destination"), {
+            permanent: true,
+            direction: "top",
+            className: "badge-destination",
+            offset: [0, -16]
+        }).openTooltip();
+
+        if (ambulanceMarker) {
+            const ambPos = ambulanceMarker.getLatLng();
+            await fetchAndDrawRoute(ambPos.lat, ambPos.lng, destLat, destLng, true);
+        }
+    }
+
+    async function updateAmbulanceLive(currLat, currLng, destLat, destLng, destName) {
+        if (!map) initMap();
+        currLat = parseFloat(currLat);
+        currLng = parseFloat(currLng);
+
+        if (!isNaN(currLat) && !isNaN(currLng) && currLat !== 0 && currLng !== 0) {
+            if (!ambulanceMarker) {
+                ambulanceMarker = L.marker([currLat, currLng], { icon: ambIcon, zIndexOffset: 3000 }).addTo(map);
+                ambulanceMarker.bindTooltip("&#128657; Ambulance (Live Location)", {
+                    permanent: true,
+                    direction: "top",
+                    className: "badge-pickup",
+                    offset: [0, -14]
+                }).openTooltip();
+            } else {
+                ambulanceMarker.setLatLng([currLat, currLng]);
+            }
+        }
+
+        if (destLat !== null && destLat !== undefined && destLng !== null && destLng !== undefined && !isNaN(destLat) && !isNaN(destLng) && parseFloat(destLat) !== 0) {
+            const parsedDLat = parseFloat(destLat);
+            const parsedDLng = parseFloat(destLng);
+            if (!currentDestLoc || currentDestLoc.lat !== parsedDLat || currentDestLoc.lng !== parsedDLng) {
+                currentDestLoc = { lat: parsedDLat, lng: parsedDLng, name: destName || "Emergency Destination" };
+                if (destMarker) map.removeLayer(destMarker);
+                destMarker = L.marker([currentDestLoc.lat, currentDestLoc.lng], { icon: destIcon }).addTo(map);
+                destMarker.bindTooltip("&#127973; " + (currentDestLoc.name || "Emergency Destination"), {
+                    permanent: true,
+                    direction: "top",
+                    className: "badge-destination",
+                    offset: [0, -16]
+                }).openTooltip();
+            }
+        }
+
+        if (ambulanceMarker && currentDestLoc && currentDestLoc.lat && currentDestLoc.lng) {
+            const ambPos = ambulanceMarker.getLatLng();
+            await fetchAndDrawRoute(ambPos.lat, ambPos.lng, currentDestLoc.lat, currentDestLoc.lng, false);
+        }
+    }
+
+    async function setRouteFromCurrentLocation(currLat, currLng, destName) {
+        await setRouteWithCoordinates(currLat, currLng, null, null, destName);
+    }
+
+    async function setRouteWithCoordinates(currLat, currLng, destLat, destLng, destName) {
+        if (!map) initMap();
+        map.invalidateSize(true);
+
+        let destLoc;
+        if (destLat !== null && destLat !== undefined && destLng !== null && destLng !== undefined && !isNaN(destLat) && !isNaN(destLng) && parseFloat(destLat) !== 0) {
+            destLoc = { lat: parseFloat(destLat), lng: parseFloat(destLng), name: destName || "Emergency Destination" };
+        } else {
+            destLoc = await geocodeLocation(destName);
+        }
+        currentDestLoc = destLoc;
+
+        if (destMarker) map.removeLayer(destMarker);
+        destMarker = L.marker([destLoc.lat, destLoc.lng], { icon: destIcon }).addTo(map)
+            .bindTooltip("&#127973; " + (destLoc.name || "Emergency Destination"), { permanent: true, direction: "top", className: "badge-destination", offset: [0, -16] });
+        destMarker.openTooltip();
+
+        if (!ambulanceMarker) {
+            ambulanceMarker = L.marker([currLat, currLng], { icon: ambIcon, zIndexOffset: 3000 }).addTo(map)
+                .bindTooltip("&#128657; Ambulance (Live Location)", { permanent: true, direction: "top", className: "badge-pickup", offset: [0, -14] });
+            ambulanceMarker.openTooltip();
+        } else if (currLat && currLng && !isNaN(currLat) && !isNaN(currLng) && currLat !== 0) {
+            ambulanceMarker.setLatLng([currLat, currLng]);
+        }
+
+        const ambPos = ambulanceMarker.getLatLng();
+        await fetchAndDrawRoute(ambPos.lat, ambPos.lng, destLoc.lat, destLoc.lng, true);
+
+        setTimeout(() => { if (map) map.invalidateSize(true); }, 150);
+    }
+
+    window.onload = function () {
+        initMap();
+    };
+</script>
+</body>
+</html>

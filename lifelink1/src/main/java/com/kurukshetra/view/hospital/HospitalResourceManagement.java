@@ -1,1600 +1,34 @@
-// package com.kurukshetra.view.hospital;
-
-// import javafx.geometry.Insets;
-// import javafx.geometry.Pos;
-// import javafx.scene.control.Button;
-// import javafx.scene.control.ComboBox;
-// import javafx.scene.control.Label;
-// import javafx.scene.control.ScrollPane;
-// import javafx.scene.control.TextField;
-// import javafx.scene.layout.HBox;
-// import javafx.scene.layout.Priority;
-// import javafx.scene.layout.Region;
-// import javafx.scene.layout.StackPane;
-// import javafx.scene.layout.VBox;
-// import javafx.scene.paint.Color;
-// import javafx.scene.shape.Circle;
-// import javafx.scene.text.Text;
-
-// public class HospitalResourceManagement {
-
-//     public VBox getResourceManagement() {
-
-//         VBox mainContent = new VBox(20);
-//         mainContent.setPadding(new Insets(25));
-//         mainContent.setStyle("-fx-background-color: #faf8ff;");
-
-//         /* =========================================================
-//          * PAGE HEADER
-//          * ========================================================= */
-
-//         Text heading = new Text("Resource Management");
-//         heading.setStyle(
-//                 "-fx-font-size: 28px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #004ac6;"
-//         );
-
-//         Text subHeading = new Text(
-//                 "Real-time status and allocation tracking for hospital critical assets."
-//         );
-//         subHeading.setStyle(
-//                 "-fx-font-size: 14px;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         VBox headingBox = new VBox(5);
-//         headingBox.getChildren().addAll(
-//                 heading,
-//                 subHeading
-//         );
-
-//         Button historyButton = new Button("↺   View History");
-//         historyButton.setPrefWidth(125);
-//         historyButton.setPrefHeight(40);
-//         historyButton.setStyle(
-//                 "-fx-background-color: #ffffff;" +
-//                 "-fx-text-fill: #505f76;" +
-//                 "-fx-font-size: 11px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-border-color: #c3c6d7;" +
-//                 "-fx-border-radius: 8px;" +
-//                 "-fx-background-radius: 8px;"
-//         );
-
-//         Button updateButton = new Button("↻   Update Availability");
-//         updateButton.setPrefWidth(155);
-//         updateButton.setPrefHeight(40);
-//         updateButton.setStyle(
-//                 "-fx-background-color: #ffffff;" +
-//                 "-fx-text-fill: #505f76;" +
-//                 "-fx-font-size: 11px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-border-color: #c3c6d7;" +
-//                 "-fx-border-radius: 8px;" +
-//                 "-fx-background-radius: 8px;"
-//         );
-
-//         Button addResourceButton = new Button("+   Add Resource");
-//         addResourceButton.setPrefWidth(135);
-//         addResourceButton.setPrefHeight(40);
-//         addResourceButton.setStyle(
-//                 "-fx-background-color: #004ac6;" +
-//                 "-fx-text-fill: white;" +
-//                 "-fx-font-size: 11px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-background-radius: 8px;"
-//         );
-
-//         HBox headerButtons = new HBox(10);
-//         headerButtons.setAlignment(Pos.CENTER_RIGHT);
-//         headerButtons.getChildren().addAll(
-//                 historyButton,
-//                 updateButton,
-//                 addResourceButton
-//         );
-
-//         Region headerSpacer = new Region();
-//         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
-
-//         HBox header = new HBox(
-//                 headingBox,
-//                 headerSpacer,
-//                 headerButtons
-//         );
-
-//         header.setAlignment(Pos.CENTER_LEFT);
-
-//         /* =========================================================
-//          * CRITICAL INVENTORY TITLE
-//          * ========================================================= */
-
-//         Text inventoryStatusTitle = new Text("CRITICAL INVENTORY STATUS");
-//         inventoryStatusTitle.setStyle(
-//                 "-fx-font-size: 11px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         Text lastSync = new Text("Last sync: 2 mins ago");
-//         lastSync.setStyle(
-//                 "-fx-font-size: 11px;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         Region inventoryTitleSpacer = new Region();
-//         HBox.setHgrow(inventoryTitleSpacer, Priority.ALWAYS);
-
-//         HBox inventoryTitleRow = new HBox(
-//                 inventoryStatusTitle,
-//                 inventoryTitleSpacer,
-//                 lastSync
-//         );
-
-//         inventoryTitleRow.setAlignment(Pos.CENTER_LEFT);
-
-//         /* =========================================================
-//          * ICU BED CARD
-//          * ========================================================= */
-
-//         VBox icuCard = new VBox(8);
-//         icuCard.setPadding(new Insets(15));
-//         icuCard.setPrefHeight(160);
-//         icuCard.setStyle(
-//                 "-fx-background-color: #f8fafc;" +
-//                 "-fx-border-color: #e2e8f0;" +
-//                 "-fx-border-radius: 12px;" +
-//                 "-fx-background-radius: 12px;"
-//         );
-
-//         Circle icuCircle = new Circle(20);
-//         icuCircle.setFill(Color.web("#e9efff"));
-
-//         Text icuIcon = new Text("▣");
-//         icuIcon.setStyle(
-//                 "-fx-font-size: 17px;" +
-//                 "-fx-fill: #004ac6;"
-//         );
-
-//         StackPane icuIconPane = new StackPane(
-//                 icuCircle,
-//                 icuIcon
-//         );
-//         icuIconPane.setPrefSize(40, 40);
-
-//         Label icuStatus = new Label("LOW STOCK");
-//         icuStatus.setStyle(
-//                 "-fx-background-color: #fee2e2;" +
-//                 "-fx-text-fill: #ba1a1a;" +
-//                 "-fx-font-size: 9px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-background-radius: 5px;" +
-//                 "-fx-padding: 5px 7px;"
-//         );
-
-//         Region icuTopSpacer = new Region();
-//         HBox.setHgrow(icuTopSpacer, Priority.ALWAYS);
-
-//         HBox icuTop = new HBox(
-//                 icuIconPane,
-//                 icuTopSpacer,
-//                 icuStatus
-//         );
-//         icuTop.setAlignment(Pos.CENTER_LEFT);
-
-//         Text icuTitle = new Text("ICU Beds");
-//         icuTitle.setStyle(
-//                 "-fx-font-size: 13px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text icuValue = new Text("42");
-//         icuValue.setStyle(
-//                 "-fx-font-size: 28px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text icuTotal = new Text(" / 50 available");
-//         icuTotal.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         HBox icuValueBox = new HBox(
-//                 icuValue,
-//                 icuTotal
-//         );
-//         icuValueBox.setAlignment(Pos.BASELINE_LEFT);
-
-//         Region icuProgressBackground = new Region();
-//         icuProgressBackground.setPrefHeight(5);
-//         icuProgressBackground.setStyle(
-//                 "-fx-background-color: #e1e2ed;" +
-//                 "-fx-background-radius: 5px;"
-//         );
-
-//         Region icuProgress = new Region();
-//         icuProgress.setPrefHeight(5);
-//         icuProgress.setPrefWidth(84);
-//         icuProgress.setStyle(
-//                 "-fx-background-color: #004ac6;" +
-//                 "-fx-background-radius: 5px;"
-//         );
-
-//         StackPane icuProgressPane = new StackPane(
-//                 icuProgressBackground,
-//                 icuProgress
-//         );
-//         icuProgressPane.setAlignment(Pos.CENTER_LEFT);
-
-//         icuCard.getChildren().addAll(
-//                 icuTop,
-//                 icuTitle,
-//                 icuValueBox,
-//                 icuProgressPane
-//         );
-
-//         /* =========================================================
-//          * EMERGENCY BED CARD
-//          * ========================================================= */
-
-//         VBox emergencyCard = new VBox(8);
-//         emergencyCard.setPadding(new Insets(15));
-//         emergencyCard.setPrefHeight(160);
-//         emergencyCard.setStyle(
-//                 "-fx-background-color: #f8fafc;" +
-//                 "-fx-border-color: #e2e8f0;" +
-//                 "-fx-border-radius: 12px;" +
-//                 "-fx-background-radius: 12px;"
-//         );
-
-//         Circle emergencyCircle = new Circle(20);
-//         emergencyCircle.setFill(Color.web("#fff0e8"));
-
-//         Text emergencyIcon = new Text("!");
-//         emergencyIcon.setStyle(
-//                 "-fx-font-size: 18px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #bc4800;"
-//         );
-
-//         StackPane emergencyIconPane = new StackPane(
-//                 emergencyCircle,
-//                 emergencyIcon
-//         );
-//         emergencyIconPane.setPrefSize(40, 40);
-
-//         Label emergencyStatus = new Label("WARNING");
-//         emergencyStatus.setStyle(
-//                 "-fx-background-color: #ffedd5;" +
-//                 "-fx-text-fill: #c2410c;" +
-//                 "-fx-font-size: 9px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-background-radius: 5px;" +
-//                 "-fx-padding: 5px 7px;"
-//         );
-
-//         Region emergencyTopSpacer = new Region();
-//         HBox.setHgrow(emergencyTopSpacer, Priority.ALWAYS);
-
-//         HBox emergencyTop = new HBox(
-//                 emergencyIconPane,
-//                 emergencyTopSpacer,
-//                 emergencyStatus
-//         );
-//         emergencyTop.setAlignment(Pos.CENTER_LEFT);
-
-//         Text emergencyTitle = new Text("Emergency Beds");
-//         emergencyTitle.setStyle(
-//                 "-fx-font-size: 13px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text emergencyValue = new Text("18");
-//         emergencyValue.setStyle(
-//                 "-fx-font-size: 28px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text emergencyTotal = new Text(" / 30 available");
-//         emergencyTotal.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         HBox emergencyValueBox = new HBox(
-//                 emergencyValue,
-//                 emergencyTotal
-//         );
-//         emergencyValueBox.setAlignment(Pos.BASELINE_LEFT);
-
-//         Region emergencyProgressBackground = new Region();
-//         emergencyProgressBackground.setPrefHeight(5);
-//         emergencyProgressBackground.setStyle(
-//                 "-fx-background-color: #e1e2ed;" +
-//                 "-fx-background-radius: 5px;"
-//         );
-
-//         Region emergencyProgress = new Region();
-//         emergencyProgress.setPrefHeight(5);
-//         emergencyProgress.setPrefWidth(60);
-//         emergencyProgress.setStyle(
-//                 "-fx-background-color: #bc4800;" +
-//                 "-fx-background-radius: 5px;"
-//         );
-
-//         StackPane emergencyProgressPane = new StackPane(
-//                 emergencyProgressBackground,
-//                 emergencyProgress
-//         );
-//         emergencyProgressPane.setAlignment(Pos.CENTER_LEFT);
-
-//         emergencyCard.getChildren().addAll(
-//                 emergencyTop,
-//                 emergencyTitle,
-//                 emergencyValueBox,
-//                 emergencyProgressPane
-//         );
-
-//         /* =========================================================
-//          * GENERAL BED CARD
-//          * ========================================================= */
-
-//         VBox generalCard = new VBox(8);
-//         generalCard.setPadding(new Insets(15));
-//         generalCard.setPrefHeight(160);
-//         generalCard.setStyle(
-//                 "-fx-background-color: #f8fafc;" +
-//                 "-fx-border-color: #e2e8f0;" +
-//                 "-fx-border-radius: 12px;" +
-//                 "-fx-background-radius: 12px;"
-//         );
-
-//         Circle generalCircle = new Circle(20);
-//         generalCircle.setFill(Color.web("#e7edf5"));
-
-//         Text generalIcon = new Text("▣");
-//         generalIcon.setStyle(
-//                 "-fx-font-size: 17px;" +
-//                 "-fx-fill: #505f76;"
-//         );
-
-//         StackPane generalIconPane = new StackPane(
-//                 generalCircle,
-//                 generalIcon
-//         );
-//         generalIconPane.setPrefSize(40, 40);
-
-//         Label generalStatus = new Label("OPTIMAL");
-//         generalStatus.setStyle(
-//                 "-fx-background-color: #dcfce7;" +
-//                 "-fx-text-fill: #15803d;" +
-//                 "-fx-font-size: 9px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-background-radius: 5px;" +
-//                 "-fx-padding: 5px 7px;"
-//         );
-
-//         Region generalTopSpacer = new Region();
-//         HBox.setHgrow(generalTopSpacer, Priority.ALWAYS);
-
-//         HBox generalTop = new HBox(
-//                 generalIconPane,
-//                 generalTopSpacer,
-//                 generalStatus
-//         );
-//         generalTop.setAlignment(Pos.CENTER_LEFT);
-
-//         Text generalTitle = new Text("General Beds");
-//         generalTitle.setStyle(
-//                 "-fx-font-size: 13px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text generalValue = new Text("312");
-//         generalValue.setStyle(
-//                 "-fx-font-size: 28px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text generalTotal = new Text(" / 400 available");
-//         generalTotal.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         HBox generalValueBox = new HBox(
-//                 generalValue,
-//                 generalTotal
-//         );
-//         generalValueBox.setAlignment(Pos.BASELINE_LEFT);
-
-//         Region generalProgressBackground = new Region();
-//         generalProgressBackground.setPrefHeight(5);
-//         generalProgressBackground.setStyle(
-//                 "-fx-background-color: #e1e2ed;" +
-//                 "-fx-background-radius: 5px;"
-//         );
-
-//         Region generalProgress = new Region();
-//         generalProgress.setPrefHeight(5);
-//         generalProgress.setPrefWidth(78);
-//         generalProgress.setStyle(
-//                 "-fx-background-color: #505f76;" +
-//                 "-fx-background-radius: 5px;"
-//         );
-
-//         StackPane generalProgressPane = new StackPane(
-//                 generalProgressBackground,
-//                 generalProgress
-//         );
-//         generalProgressPane.setAlignment(Pos.CENTER_LEFT);
-
-//         generalCard.getChildren().addAll(
-//                 generalTop,
-//                 generalTitle,
-//                 generalValueBox,
-//                 generalProgressPane
-//         );
-
-//         /* =========================================================
-//          * VENTILATOR CARD
-//          * ========================================================= */
-
-//         VBox ventilatorCard = new VBox(8);
-//         ventilatorCard.setPadding(new Insets(15));
-//         ventilatorCard.setPrefHeight(160);
-//         ventilatorCard.setStyle(
-//                 "-fx-background-color: #f8fafc;" +
-//                 "-fx-border-color: #e2e8f0;" +
-//                 "-fx-border-radius: 12px;" +
-//                 "-fx-background-radius: 12px;"
-//         );
-
-//         Circle ventilatorCircle = new Circle(20);
-//         ventilatorCircle.setFill(Color.web("#e9efff"));
-
-//         Text ventilatorIcon = new Text("≈");
-//         ventilatorIcon.setStyle(
-//                 "-fx-font-size: 20px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #004ac6;"
-//         );
-
-//         StackPane ventilatorIconPane = new StackPane(
-//                 ventilatorCircle,
-//                 ventilatorIcon
-//         );
-//         ventilatorIconPane.setPrefSize(40, 40);
-
-//         Label ventilatorStatus = new Label("OPERATIONAL");
-//         ventilatorStatus.setStyle(
-//                 "-fx-background-color: #dcfce7;" +
-//                 "-fx-text-fill: #15803d;" +
-//                 "-fx-font-size: 9px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-background-radius: 5px;" +
-//                 "-fx-padding: 5px 7px;"
-//         );
-
-//         Region ventilatorTopSpacer = new Region();
-//         HBox.setHgrow(ventilatorTopSpacer, Priority.ALWAYS);
-
-//         HBox ventilatorTop = new HBox(
-//                 ventilatorIconPane,
-//                 ventilatorTopSpacer,
-//                 ventilatorStatus
-//         );
-//         ventilatorTop.setAlignment(Pos.CENTER_LEFT);
-
-//         Text ventilatorTitle = new Text("Ventilators");
-//         ventilatorTitle.setStyle(
-//                 "-fx-font-size: 13px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text ventilatorValue = new Text("12");
-//         ventilatorValue.setStyle(
-//                 "-fx-font-size: 28px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text ventilatorTotal = new Text(" / 15 available");
-//         ventilatorTotal.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         HBox ventilatorValueBox = new HBox(
-//                 ventilatorValue,
-//                 ventilatorTotal
-//         );
-//         ventilatorValueBox.setAlignment(Pos.BASELINE_LEFT);
-
-//         Region ventilatorProgressBackground = new Region();
-//         ventilatorProgressBackground.setPrefHeight(5);
-//         ventilatorProgressBackground.setStyle(
-//                 "-fx-background-color: #e1e2ed;" +
-//                 "-fx-background-radius: 5px;"
-//         );
-
-//         Region ventilatorProgress = new Region();
-//         ventilatorProgress.setPrefHeight(5);
-//         ventilatorProgress.setPrefWidth(80);
-//         ventilatorProgress.setStyle(
-//                 "-fx-background-color: #004ac6;" +
-//                 "-fx-background-radius: 5px;"
-//         );
-
-//         StackPane ventilatorProgressPane = new StackPane(
-//                 ventilatorProgressBackground,
-//                 ventilatorProgress
-//         );
-//         ventilatorProgressPane.setAlignment(Pos.CENTER_LEFT);
-
-//         ventilatorCard.getChildren().addAll(
-//                 ventilatorTop,
-//                 ventilatorTitle,
-//                 ventilatorValueBox,
-//                 ventilatorProgressPane
-//         );
-
-//         /* =========================================================
-//          * OXYGEN CARD
-//          * ========================================================= */
-
-//         VBox oxygenCard = new VBox(8);
-//         oxygenCard.setPadding(new Insets(15));
-//         oxygenCard.setPrefHeight(160);
-//         oxygenCard.setStyle(
-//                 "-fx-background-color: #f8fafc;" +
-//                 "-fx-border-color: #e2e8f0;" +
-//                 "-fx-border-radius: 12px;" +
-//                 "-fx-background-radius: 12px;"
-//         );
-
-//         Circle oxygenCircle = new Circle(20);
-//         oxygenCircle.setFill(Color.web("#e7edf5"));
-
-//         Text oxygenIcon = new Text("O₂");
-//         oxygenIcon.setStyle(
-//                 "-fx-font-size: 14px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #505f76;"
-//         );
-
-//         StackPane oxygenIconPane = new StackPane(
-//                 oxygenCircle,
-//                 oxygenIcon
-//         );
-//         oxygenIconPane.setPrefSize(40, 40);
-
-//         Label oxygenStatus = new Label("SAFE RANGE");
-//         oxygenStatus.setStyle(
-//                 "-fx-background-color: #dcfce7;" +
-//                 "-fx-text-fill: #15803d;" +
-//                 "-fx-font-size: 9px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-background-radius: 5px;" +
-//                 "-fx-padding: 5px 7px;"
-//         );
-
-//         Region oxygenTopSpacer = new Region();
-//         HBox.setHgrow(oxygenTopSpacer, Priority.ALWAYS);
-
-//         HBox oxygenTop = new HBox(
-//                 oxygenIconPane,
-//                 oxygenTopSpacer,
-//                 oxygenStatus
-//         );
-//         oxygenTop.setAlignment(Pos.CENTER_LEFT);
-
-//         Text oxygenTitle = new Text("Oxygen Reserves");
-//         oxygenTitle.setStyle(
-//                 "-fx-font-size: 13px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text oxygenValue = new Text("98");
-//         oxygenValue.setStyle(
-//                 "-fx-font-size: 28px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text oxygenTotal = new Text(" % capacity");
-//         oxygenTotal.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         HBox oxygenValueBox = new HBox(
-//                 oxygenValue,
-//                 oxygenTotal
-//         );
-//         oxygenValueBox.setAlignment(Pos.BASELINE_LEFT);
-
-//         Region oxygenProgressBackground = new Region();
-//         oxygenProgressBackground.setPrefHeight(5);
-//         oxygenProgressBackground.setStyle(
-//                 "-fx-background-color: #e1e2ed;" +
-//                 "-fx-background-radius: 5px;"
-//         );
-
-//         Region oxygenProgress = new Region();
-//         oxygenProgress.setPrefHeight(5);
-//         oxygenProgress.setPrefWidth(98);
-//         oxygenProgress.setStyle(
-//                 "-fx-background-color: #505f76;" +
-//                 "-fx-background-radius: 5px;"
-//         );
-
-//         StackPane oxygenProgressPane = new StackPane(
-//                 oxygenProgressBackground,
-//                 oxygenProgress
-//         );
-//         oxygenProgressPane.setAlignment(Pos.CENTER_LEFT);
-
-//         oxygenCard.getChildren().addAll(
-//                 oxygenTop,
-//                 oxygenTitle,
-//                 oxygenValueBox,
-//                 oxygenProgressPane
-//         );
-
-//         /* =========================================================
-//          * BLOOD UNITS CARD
-//          * ========================================================= */
-
-//         VBox bloodCard = new VBox(8);
-//         bloodCard.setPadding(new Insets(15));
-//         bloodCard.setPrefHeight(160);
-//         bloodCard.setStyle(
-//                 "-fx-background-color: #f8fafc;" +
-//                 "-fx-border-color: #e2e8f0;" +
-//                 "-fx-border-radius: 12px;" +
-//                 "-fx-background-radius: 12px;"
-//         );
-
-//         Circle bloodCircle = new Circle(20);
-//         bloodCircle.setFill(Color.web("#fee2e2"));
-
-//         Text bloodIcon = new Text("♥");
-//         bloodIcon.setStyle(
-//                 "-fx-font-size: 17px;" +
-//                 "-fx-fill: #ba1a1a;"
-//         );
-
-//         StackPane bloodIconPane = new StackPane(
-//                 bloodCircle,
-//                 bloodIcon
-//         );
-//         bloodIconPane.setPrefSize(40, 40);
-
-//         Text bloodTitle = new Text("Blood Units");
-//         bloodTitle.setStyle(
-//                 "-fx-font-size: 13px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Region bloodSpacer = new Region();
-//         HBox.setHgrow(bloodSpacer, Priority.ALWAYS);
-
-//         HBox bloodTop = new HBox(
-//                 bloodIconPane,
-//                 bloodSpacer,
-//                 bloodTitle
-//         );
-//         bloodTop.setAlignment(Pos.CENTER_LEFT);
-
-//         HBox bloodGroups = new HBox(5);
-//         bloodGroups.setAlignment(Pos.CENTER);
-
-//         bloodGroups.getChildren().addAll(
-//                 createBloodGroup("O-", "4u", true),
-//                 createBloodGroup("A+", "22u", false),
-//                 createBloodGroup("B-", "12u", false),
-//                 createBloodGroup("AB+", "18u", false)
-//         );
-
-//         Text bloodWarning = new Text(
-//                 "O- Negative critical levels detected"
-//         );
-//         bloodWarning.setStyle(
-//                 "-fx-font-size: 10px;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         bloodCard.getChildren().addAll(
-//                 bloodTop,
-//                 bloodGroups,
-//                 bloodWarning
-//         );
-
-//         /* =========================================================
-//          * RESOURCE CARD GRID
-//          * ========================================================= */
-
-//         HBox resourceRow1 = new HBox(15);
-//         resourceRow1.getChildren().addAll(
-//                 icuCard,
-//                 emergencyCard,
-//                 generalCard
-//         );
-
-//         HBox.setHgrow(icuCard, Priority.ALWAYS);
-//         HBox.setHgrow(emergencyCard, Priority.ALWAYS);
-//         HBox.setHgrow(generalCard, Priority.ALWAYS);
-
-//         HBox resourceRow2 = new HBox(15);
-//         resourceRow2.getChildren().addAll(
-//                 ventilatorCard,
-//                 oxygenCard,
-//                 bloodCard
-//         );
-
-//         HBox.setHgrow(ventilatorCard, Priority.ALWAYS);
-//         HBox.setHgrow(oxygenCard, Priority.ALWAYS);
-//         HBox.setHgrow(bloodCard, Priority.ALWAYS);
-
-//         VBox resourceStatusSection = new VBox(12);
-//         resourceStatusSection.getChildren().addAll(
-//                 inventoryTitleRow,
-//                 resourceRow1,
-//                 resourceRow2
-//         );
-
-//         /* =========================================================
-//          * BED OCCUPANCY DISTRIBUTION
-//          * ========================================================= */
-
-//         VBox occupancyCard = new VBox(15);
-//         occupancyCard.setPadding(new Insets(20));
-//         occupancyCard.setPrefHeight(340);
-//         occupancyCard.setStyle(
-//                 "-fx-background-color: #f8fafc;" +
-//                 "-fx-border-color: #e2e8f0;" +
-//                 "-fx-border-radius: 12px;" +
-//                 "-fx-background-radius: 12px;"
-//         );
-
-//         Text occupancyTitle = new Text("Bed Occupancy Distribution");
-//         occupancyTitle.setStyle(
-//                 "-fx-font-size: 18px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         StackPane occupancyCircle = createOccupancyCircle();
-
-//         VBox occupancyChartBox = new VBox(
-//                 occupancyTitle,
-//                 occupancyCircle
-//         );
-//         occupancyChartBox.setAlignment(Pos.CENTER);
-//         occupancyChartBox.setPrefWidth(330);
-
-//         VBox occupancyDetails = new VBox(12);
-//         occupancyDetails.getChildren().addAll(
-//                 createOccupancyRow("ICU Occupancy", "84%", "#004ac6"),
-//                 createOccupancyRow("Emergency Ward", "60%", "#2563eb"),
-//                 createOccupancyRow("General Ward", "78%", "#505f76")
-//         );
-
-//         Region occupancyDetailSpacer = new Region();
-//         VBox.setVgrow(occupancyDetailSpacer, Priority.ALWAYS);
-
-//         Text occupancyMessage = new Text(
-//                 "Capacity reaching threshold in ICU. Recommended: Redirect non-critical cases."
-//         );
-//         occupancyMessage.setWrappingWidth(300);
-//         occupancyMessage.setStyle(
-//                 "-fx-font-size: 11px;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         occupancyDetails.getChildren().addAll(
-//                 occupancyDetailSpacer,
-//                 occupancyMessage
-//         );
-
-//         HBox occupancyContent = new HBox(30);
-//         occupancyContent.setAlignment(Pos.CENTER);
-//         occupancyContent.getChildren().addAll(
-//                 occupancyChartBox,
-//                 occupancyDetails
-//         );
-
-//         occupancyCard.getChildren().add(
-//                 occupancyContent
-//         );
-
-//         /* =========================================================
-//          * ICU USAGE TREND
-//          * ========================================================= */
-
-//         VBox trendCard = new VBox(15);
-//         trendCard.setPadding(new Insets(20));
-//         trendCard.setPrefHeight(516);
-//         trendCard.setStyle(
-//                 "-fx-background-color: #f8fafc;" +
-//                 "-fx-border-color: #e2e8f0;" +
-//                 "-fx-border-radius: 12px;" +
-//                 "-fx-background-radius: 12px;"
-//         );
-
-//         Text trendTitle = new Text("ICU Usage Trend (7D)");
-//         trendTitle.setStyle(
-//                 "-fx-font-size: 18px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         ComboBox<String> trendCombo = new ComboBox<>();
-//         trendCombo.getItems().addAll(
-//                 "Weekly",
-//                 "Monthly"
-//         );
-//         trendCombo.setValue("Weekly");
-//         trendCombo.setPrefWidth(100);
-//         trendCombo.setPrefHeight(32);
-
-//         Region trendHeaderSpacer = new Region();
-//         HBox.setHgrow(trendHeaderSpacer, Priority.ALWAYS);
-
-//         HBox trendHeader = new HBox(
-//                 trendTitle,
-//                 trendHeaderSpacer,
-//                 trendCombo
-//         );
-//         trendHeader.setAlignment(Pos.CENTER_LEFT);
-
-//         HBox trendBars = new HBox(10);
-//         trendBars.setAlignment(Pos.BOTTOM_CENTER);
-//         trendBars.setPrefHeight(260);
-
-//         trendBars.getChildren().addAll(
-//                 createTrendBar("MON", 40),
-//                 createTrendBar("TUE", 65),
-//                 createTrendBar("WED", 55),
-//                 createTrendBar("THU", 88),
-//                 createTrendBar("FRI", 92),
-//                 createTrendBar("SAT", 70),
-//                 createTrendBar("SUN", 84)
-//         );
-
-//         VBox trendStatistics = new VBox(12);
-
-//         Text averageLabel = new Text("Average Occupancy");
-//         averageLabel.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         Text averageValue = new Text("76.4%");
-//         averageValue.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
-
-//         trendStatistics.getChildren().add(
-//                 createStatisticRow(averageLabel, averageValue)
-//         );
-
-//         Text peakLabel = new Text("Peak Demand Day");
-//         peakLabel.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         Text peakValue = new Text("Friday");
-//         peakValue.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #004ac6;"
-//         );
-
-//         trendStatistics.getChildren().add(
-//                 createStatisticRow(peakLabel, peakValue)
-//         );
-
-//         Text efficiencyLabel = new Text("Efficiency Delta");
-//         efficiencyLabel.setStyle("-fx-font-size: 11px; -fx-fill: #737686;");
-
-//         Text efficiencyValue = new Text("+12% vs last week");
-//         efficiencyValue.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #16a34a;"
-//         );
-
-//         trendStatistics.getChildren().add(
-//                 createStatisticRow(efficiencyLabel, efficiencyValue)
-//         );
-
-//         trendCard.getChildren().addAll(
-//                 trendHeader,
-//                 trendBars,
-//                 trendStatistics
-//         );
-
-//         /* =========================================================
-//          * RECENT ALLOCATION LOG
-//          * ========================================================= */
-
-//         VBox logCard = new VBox(15);
-//         logCard.setPadding(new Insets(20));
-//         logCard.setMinHeight(300);
-//         logCard.setStyle(
-//                 "-fx-background-color: #f8fafc;" +
-//                 "-fx-border-color: #e2e8f0;" +
-//                 "-fx-border-radius: 12px;" +
-//                 "-fx-background-radius: 12px;"
-//         );
-
-//         Text logTitle = new Text("Recent Allocation Log");
-//         logTitle.setStyle(
-//                 "-fx-font-size: 18px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         logCard.getChildren().addAll(
-//                 logTitle,
-//                 createLogRow(
-//                         "#004ac6",
-//                         "ICU Bed #12 allocated to Patient P-908",
-//                         "12:45 PM • Unit A-4"
-//                 ),
-//                 createLogRow(
-//                         "#bc4800",
-//                         "Oxygen cylinder refill requested",
-//                         "11:30 AM • Storage West"
-//                 ),
-//                 createLogRow(
-//                         "#505f76",
-//                         "General Bed #242 vacated",
-//                         "10:15 AM • Ward C"
-//                 )
-//         );
-
-//         VBox analyticsColumn = new VBox(20);
-//         analyticsColumn.getChildren().addAll(
-//                 trendCard,
-//                 logCard
-//         );
-
-//         HBox analyticsSection = new HBox(20);
-//         analyticsSection.getChildren().addAll(
-//                 resourceStatusSection,
-//                 analyticsColumn
-//         );
-
-//         HBox.setHgrow(resourceStatusSection, Priority.ALWAYS);
-//         HBox.setHgrow(analyticsColumn, Priority.ALWAYS);
-
-//         /* =========================================================
-//          * ASSET REGISTRY
-//          * ========================================================= */
-
-//         VBox assetRegistry = new VBox();
-//         assetRegistry.setStyle(
-//                 "-fx-background-color: #ffffff;" +
-//                 "-fx-background-radius: 12px;" +
-//                 "-fx-border-color: #e2e8f0;" +
-//                 "-fx-border-radius: 12px;"
-//         );
-
-//         Text assetTitle = new Text("Asset Registry");
-//         assetTitle.setStyle(
-//                 "-fx-font-size: 18px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Button filterButton = new Button("☷");
-//         filterButton.setPrefSize(38, 35);
-//         filterButton.setStyle(
-//                 "-fx-background-color: transparent;" +
-//                 "-fx-text-fill: #505f76;" +
-//                 "-fx-font-size: 16px;"
-//         );
-
-//         Button downloadButton = new Button("↓");
-//         downloadButton.setPrefSize(38, 35);
-//         downloadButton.setStyle(
-//                 "-fx-background-color: transparent;" +
-//                 "-fx-text-fill: #505f76;" +
-//                 "-fx-font-size: 16px;"
-//         );
-
-//         HBox assetActions = new HBox(5);
-//         assetActions.setAlignment(Pos.CENTER_RIGHT);
-//         assetActions.getChildren().addAll(
-//                 filterButton,
-//                 downloadButton
-//         );
-
-//         Region assetHeaderSpacer = new Region();
-//         HBox.setHgrow(assetHeaderSpacer, Priority.ALWAYS);
-
-//         HBox assetHeader = new HBox(
-//                 assetTitle,
-//                 assetHeaderSpacer,
-//                 assetActions
-//         );
-
-//         assetHeader.setPadding(new Insets(15));
-//         assetHeader.setAlignment(Pos.CENTER_LEFT);
-//         assetHeader.setStyle(
-//                 "-fx-background-color: #f3f3fe;" +
-//                 "-fx-border-color: transparent transparent #e2e8f0 transparent;" +
-//                 "-fx-border-width: 0px 0px 1px 0px;"
-//         );
-
-//         HBox assetTableHeader = new HBox(10);
-//         assetTableHeader.setPadding(new Insets(12, 15, 12, 15));
-//         assetTableHeader.setAlignment(Pos.CENTER_LEFT);
-//         assetTableHeader.setStyle(
-//                 "-fx-background-color: #f1f5f9;"
-//         );
-
-//         assetTableHeader.getChildren().addAll(
-//                 createTableHeader("RESOURCE ID", 120),
-//                 createTableHeader("CATEGORY", 145),
-//                 createTableHeader("LOCATION", 150),
-//                 createTableHeader("STATUS", 120),
-//                 createTableHeader("LAST SERVICE", 150),
-//                 createTableHeader("ACTIONS", 90)
-//         );
-
-//         HBox assetRow1 = createAssetRow(
-//                 "VT-049",
-//                 "Ventilator",
-//                 "ICU Bay 4",
-//                 "IN USE",
-//                 "Oct 12, 2023",
-//                 "#dcfce7",
-//                 "#15803d"
-//         );
-
-//         HBox assetRow2 = createAssetRow(
-//                 "IB-201",
-//                 "ICU Bed",
-//                 "ICU Bay 2",
-//                 "AVAILABLE",
-//                 "Nov 05, 2023",
-//                 "#dbeafe",
-//                 "#2563eb"
-//         );
-
-//         HBox assetRow3 = createAssetRow(
-//                 "OX-912",
-//                 "Oxygen Conc.",
-//                 "Emergency A",
-//                 "MAINTENANCE",
-//                 "Oct 28, 2023",
-//                 "#fee2e2",
-//                 "#ba1a1a"
-//         );
-
-//         assetRegistry.getChildren().addAll(
-//                 assetHeader,
-//                 assetTableHeader,
-//                 assetRow1,
-//                 assetRow2,
-//                 assetRow3
-//         );
-
-//         /* =========================================================
-//          * FINAL CONTENT
-//          * ========================================================= */
-
-//         mainContent.getChildren().addAll(
-//                 header,
-//                 analyticsSection,
-//                 occupancyCard,
-//                 assetRegistry
-//         );
-
-//         ScrollPane scrollPane = new ScrollPane(mainContent);
-//         scrollPane.setFitToWidth(true);
-//         scrollPane.setHbarPolicy(
-//                 ScrollPane.ScrollBarPolicy.NEVER
-//         );
-//         scrollPane.setStyle(
-//                 "-fx-background-color: transparent;" +
-//                 "-fx-background: transparent;"
-//         );
-
-//         VBox finalContent = new VBox(scrollPane);
-//         finalContent.setStyle(
-//                 "-fx-background-color: #faf8ff;"
-//         );
-
-//         VBox.setVgrow(
-//                 scrollPane,
-//                 Priority.ALWAYS
-//         );
-
-//         return finalContent;
-//     }
-
-//     /* =============================================================
-//      * BLOOD GROUP CARD
-//      * ============================================================= */
-
-//     private VBox createBloodGroup(
-//             String group,
-//             String units,
-//             boolean critical
-//     ) {
-
-//         VBox box = new VBox(2);
-//         box.setAlignment(Pos.CENTER);
-//         box.setPrefWidth(55);
-//         box.setPadding(new Insets(5));
-
-//         if (critical) {
-
-//             box.setStyle(
-//                     "-fx-background-color: #fee2e2;" +
-//                     "-fx-border-color: #fecaca;" +
-//                     "-fx-border-radius: 5px;" +
-//                     "-fx-background-radius: 5px;"
-//             );
-
-//         } else {
-
-//             box.setStyle(
-//                     "-fx-background-color: #ffffff;" +
-//                     "-fx-border-color: #c3c6d7;" +
-//                     "-fx-border-radius: 5px;" +
-//                     "-fx-background-radius: 5px;"
-//             );
-//         }
-
-//         Label groupLabel = new Label(group);
-//         groupLabel.setStyle(
-//                 "-fx-font-size: 9px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-text-fill: " +
-//                 (critical ? "#ba1a1a;" : "#737686;")
-//         );
-
-//         Label unitsLabel = new Label(units);
-//         unitsLabel.setStyle(
-//                 "-fx-font-size: 11px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-text-fill: " +
-//                 (critical ? "#ba1a1a;" : "#191b23;")
-//         );
-
-//         box.getChildren().addAll(
-//                 groupLabel,
-//                 unitsLabel
-//         );
-
-//         return box;
-//     }
-
-//     /* =============================================================
-//      * OCCUPANCY CIRCLE
-//      * ============================================================= */
-
-//     private StackPane createOccupancyCircle() {
-
-//         Circle backgroundCircle = new Circle(
-//                 80,
-//                 Color.TRANSPARENT
-//         );
-
-//         backgroundCircle.setStroke(
-//                 Color.web("#e1e2ed")
-//         );
-//         backgroundCircle.setStrokeWidth(20);
-
-//         Circle icuCircle = new Circle(
-//                 80,
-//                 Color.TRANSPARENT
-//         );
-
-//         icuCircle.setStroke(
-//                 Color.web("#004ac6")
-//         );
-//         icuCircle.setStrokeWidth(20);
-//         icuCircle.getStrokeDashArray().addAll(
-//                 420.0,
-//                 100.0
-//         );
-
-//         Circle emergencyCircle = new Circle(
-//                 80,
-//                 Color.TRANSPARENT
-//         );
-
-//         emergencyCircle.setStroke(
-//                 Color.web("#2563eb")
-//         );
-//         emergencyCircle.setStrokeWidth(20);
-//         emergencyCircle.getStrokeDashArray().addAll(
-//                 300.0,
-//                 220.0
-//         );
-
-//         Circle generalCircle = new Circle(
-//                 80,
-//                 Color.TRANSPARENT
-//         );
-
-//         generalCircle.setStroke(
-//                 Color.web("#505f76")
-//         );
-//         generalCircle.setStrokeWidth(20);
-//         generalCircle.getStrokeDashArray().addAll(
-//                 180.0,
-//                 340.0
-//         );
-
-//         Text percentage = new Text("82%");
-//         percentage.setStyle(
-//                 "-fx-font-size: 28px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text total = new Text("TOTAL");
-//         total.setStyle(
-//                 "-fx-font-size: 10px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         VBox centerText = new VBox(
-//                 2,
-//                 percentage,
-//                 total
-//         );
-//         centerText.setAlignment(Pos.CENTER);
-
-//         StackPane pane = new StackPane(
-//                 backgroundCircle,
-//                 icuCircle,
-//                 emergencyCircle,
-//                 generalCircle,
-//                 centerText
-//         );
-
-//         pane.setPrefSize(200, 200);
-
-//         return pane;
-//     }
-
-//     /* =============================================================
-//      * OCCUPANCY ROW
-//      * ============================================================= */
-
-//     private HBox createOccupancyRow(
-//             String name,
-//             String value,
-//             String circleColor
-//     ) {
-
-//         Circle circle = new Circle(
-//                 6,
-//                 Color.web(circleColor)
-//         );
-
-//         Label nameLabel = new Label(name);
-//         nameLabel.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-text-fill: #191b23;"
-//         );
-
-//         HBox left = new HBox(
-//                 8,
-//                 circle,
-//                 nameLabel
-//         );
-//         left.setAlignment(Pos.CENTER_LEFT);
-
-//         Label valueLabel = new Label(value);
-//         valueLabel.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-text-fill: #191b23;"
-//         );
-
-//         Region spacer = new Region();
-//         HBox.setHgrow(
-//                 spacer,
-//                 Priority.ALWAYS
-//         );
-
-//         HBox row = new HBox(
-//                 left,
-//                 spacer,
-//                 valueLabel
-//         );
-
-//         row.setPadding(
-//                 new Insets(10)
-//         );
-
-//         row.setAlignment(
-//                 Pos.CENTER_LEFT
-//         );
-
-//         row.setStyle(
-//                 "-fx-background-color: #ffffff;" +
-//                 "-fx-border-color: #c3c6d7;" +
-//                 "-fx-border-radius: 6px;" +
-//                 "-fx-background-radius: 6px;"
-//         );
-
-//         return row;
-//     }
-
-//     /* =============================================================
-//      * TREND BAR
-//      * ============================================================= */
-
-//     private VBox createTrendBar(
-//             String day,
-//             int percentage
-//     ) {
-
-//         Region background = new Region();
-//         background.setPrefWidth(25);
-//         background.setPrefHeight(180);
-//         background.setStyle(
-//                 "-fx-background-color: #e1e2ed;" +
-//                 "-fx-background-radius: 5px;"
-//         );
-
-//         Region bar = new Region();
-//         bar.setPrefWidth(25);
-//         bar.setPrefHeight(
-//                 percentage * 1.6
-//         );
-//         bar.setStyle(
-//                 "-fx-background-color: #b4c5ff;" +
-//                 "-fx-background-radius: 5px 5px 0px 0px;"
-//         );
-
-//         StackPane barPane = new StackPane(
-//                 background,
-//                 bar
-//         );
-
-//         barPane.setAlignment(
-//                 Pos.BOTTOM_CENTER
-//         );
-
-//         Label dayLabel = new Label(day);
-//         dayLabel.setStyle(
-//                 "-fx-font-size: 9px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-text-fill: #737686;"
-//         );
-
-//         VBox box = new VBox(
-//                 6,
-//                 barPane,
-//                 dayLabel
-//         );
-
-//         box.setAlignment(
-//                 Pos.BOTTOM_CENTER
-//         );
-
-//         return box;
-//     }
-
-//     /* =============================================================
-//      * STATISTIC ROW
-//      * ============================================================= */
-
-//     private HBox createStatisticRow(
-//             Text left,
-//             Text right
-//     ) {
-
-//         Region spacer = new Region();
-//         HBox.setHgrow(
-//                 spacer,
-//                 Priority.ALWAYS
-//         );
-
-//         HBox row = new HBox(
-//                 left,
-//                 spacer,
-//                 right
-//         );
-
-//         row.setAlignment(
-//                 Pos.CENTER_LEFT
-//         );
-
-//         return row;
-//     }
-
-//     /* =============================================================
-//      * LOG ROW
-//      * ============================================================= */
-
-//     private HBox createLogRow(
-//             String color,
-//             String message,
-//             String time
-//     ) {
-
-//         Circle dot = new Circle(
-//                 4,
-//                 Color.web(color)
-//         );
-
-//         VBox textBox = new VBox(3);
-
-//         Text messageText = new Text(message);
-//         messageText.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-fill: #191b23;"
-//         );
-
-//         Text timeText = new Text(time);
-//         timeText.setStyle(
-//                 "-fx-font-size: 10px;" +
-//                 "-fx-fill: #737686;"
-//         );
-
-//         textBox.getChildren().addAll(
-//                 messageText,
-//                 timeText
-//         );
-
-//         HBox row = new HBox(
-//                 10,
-//                 dot,
-//                 textBox
-//         );
-
-//         row.setAlignment(
-//                 Pos.TOP_LEFT
-//         );
-
-//         return row;
-//     }
-
-//     /* =============================================================
-//      * TABLE HEADER
-//      * ============================================================= */
-
-//     private Label createTableHeader(
-//             String text,
-//             double width
-//     ) {
-
-//         Label label = new Label(text);
-//         label.setPrefWidth(width);
-//         label.setStyle(
-//                 "-fx-font-size: 10px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-text-fill: #505f76;"
-//         );
-
-//         return label;
-//     }
-
-//     /* =============================================================
-//      * ASSET ROW
-//      * ============================================================= */
-
-//     private HBox createAssetRow(
-//             String id,
-//             String category,
-//             String location,
-//             String status,
-//             String lastService,
-//             String statusBackground,
-//             String statusColor
-//     ) {
-
-//         HBox row = new HBox(10);
-
-//         row.setPadding(
-//                 new Insets(13, 15, 13, 15)
-//         );
-
-//         row.setAlignment(
-//                 Pos.CENTER_LEFT
-//         );
-
-//         row.setStyle(
-//                 "-fx-border-color: transparent transparent #e2e8f0 transparent;" +
-//                 "-fx-border-width: 0px 0px 1px 0px;"
-//         );
-
-//         Label idLabel = new Label(id);
-//         idLabel.setPrefWidth(120);
-//         idLabel.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-text-fill: #191b23;"
-//         );
-
-//         Label categoryLabel = new Label(category);
-//         categoryLabel.setPrefWidth(145);
-//         categoryLabel.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-text-fill: #191b23;"
-//         );
-
-//         Label locationLabel = new Label(location);
-//         locationLabel.setPrefWidth(150);
-//         locationLabel.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-text-fill: #191b23;"
-//         );
-
-//         Label statusLabel = new Label(status);
-//         statusLabel.setStyle(
-//                 "-fx-background-color: " + statusBackground + ";" +
-//                 "-fx-text-fill: " + statusColor + ";" +
-//                 "-fx-font-size: 9px;" +
-//                 "-fx-font-weight: bold;" +
-//                 "-fx-background-radius: 5px;" +
-//                 "-fx-padding: 5px 8px;"
-//         );
-
-//         HBox statusBox = new HBox(statusLabel);
-//         statusBox.setPrefWidth(120);
-//         statusBox.setAlignment(Pos.CENTER_LEFT);
-
-//         Label serviceLabel = new Label(lastService);
-//         serviceLabel.setPrefWidth(150);
-//         serviceLabel.setStyle(
-//                 "-fx-font-size: 12px;" +
-//                 "-fx-text-fill: #191b23;"
-//         );
-
-//         Button detailsButton = new Button("Details");
-//         detailsButton.setStyle(
-//                 "-fx-background-color: transparent;" +
-//                 "-fx-text-fill: #004ac6;" +
-//                 "-fx-font-size: 11px;" +
-//                 "-fx-font-weight: bold;"
-//         );
-
-//         HBox actionBox = new HBox(detailsButton);
-//         actionBox.setPrefWidth(90);
-//         actionBox.setAlignment(Pos.CENTER_LEFT);
-
-//         row.getChildren().addAll(
-//                 idLabel,
-//                 categoryLabel,
-//                 locationLabel,
-//                 statusBox,
-//                 serviceLabel,
-//                 actionBox
-//         );
-
-//         return row;
-//     }
-// }
-
-
-
-
 package com.kurukshetra.view.hospital;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+
+import com.kurukshetra.controller.hospitalController.DoctorController;
+import com.kurukshetra.controller.hospitalController.HospitalResourceController;
+import com.kurukshetra.controller.hospitalController.OperationTheatreController;
+import com.kurukshetra.model.hospitalModel.DoctorModel;
+import com.kurukshetra.model.hospitalModel.HospitalResourceModel;
+import com.kurukshetra.model.hospitalModel.OperationTheatreModel;
+import com.kurukshetra.view.util.ShimmerLoader;
+
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -1603,383 +37,810 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class HospitalResourceManagement {
 
-    private static final String PRIMARY_TEAL    = "#087F8C";
-    private static final String TEAL_DARK       = "#056D79";
-    private static final String TEAL_VERY_LIGHT = "#EAF8F9";
-    private static final String TEAL_LIGHT      = "#DDF3F5";
-    private static final String TEAL_SOFT       = "#CDECEF";
-    private static final String TEAL_PALE       = "#F2FBFB";
+    // =========================================================================
+    // DESIGN SYSTEM CONSTANTS (MATCHING HospitalDashboard.java)
+    // =========================================================================
+    private static final String FONT_FAMILY = "-fx-font-family: 'Segoe UI', -apple-system, system-ui, sans-serif; ";
+    private static final String PRIMARY_TEAL = "#006591";
+    private static final String TEAL_HOVER = "#004F72";
+    private static final String PAGE_BG = "#F8FAFC";
+    private static final String PAGE_BG_green = "#a5bdaaff ";
+    private static final String SURFACE = "#FFFFFF";
+    private static final String BORDER_COLOR = "#E2E8F0";
+    private static final String TEXT_PRIMARY = "#0F172A";
+    private static final String TEXT_SECONDARY = "#475569";
+    private static final String TEXT_MUTED = "#64748B";
 
-    private static final String PAGE_BG         = "#F7FBFC";
-    private static final String SURFACE         = "#FFFFFF";
-    private static final String BORDER_COLOR    = "#DCECEF";
-    private static final String TRACK_BG        = "#E6F0F2";
+    private static final String SUCCESS_BG = "#ECFDF5";
+    private static final String SUCCESS_TEXT = "#059669";
+    private static final String SUCCESS_BORDER = "#A7F3D0";
 
-    private static final String TEXT_PRIMARY    = "#17252A";
-    private static final String TEXT_SECONDARY  = "#52646A";
-    private static final String TEXT_MUTED      = "#829196";
+    private static final String DANGER_BG = "#FEF2F2";
+    private static final String DANGER_TEXT = "#DC2626";
+    private static final String DANGER_BORDER = "#FECDD3";
 
-    private static final String STATUS_SUCCESS_BG   = "#E2F6EC";
-    private static final String STATUS_SUCCESS_TEXT = "#22A06B";
-    private static final String STATUS_WARN_BG      = "#FFF4D6";
-    private static final String STATUS_WARN_TEXT    = "#E8A317";
-    private static final String STATUS_DANGER_BG    = "#FCE9EC";
-    private static final String STATUS_DANGER_TEXT  = "#D96C7A";
+    private static final String WARNING_BG = "#FFFBEB";
+    private static final String WARNING_TEXT = "#D97706";
+    private static final String WARNING_BORDER = "#FDE68A";
+
+    private static final String INFO_BG = "#E0F2FE";
+    private static final String INFO_TEXT = "#0369A1";
+    private static final String INFO_BORDER = "#BAE6FD";
+
+    private static final String INDIGO_BG = "#EEF2FF";
+    private static final String INDIGO_TEXT = "#4F46E5";
+    private static final String INDIGO_BORDER = "#C7D2FE";
 
     private static final String CARD_STYLE =
-        "-fx-background-color: " + SURFACE + ";" +
-        "-fx-border-color: " + BORDER_COLOR + ";" +
-        "-fx-border-radius: 14px;" +
-        "-fx-background-radius: 14px;" +
-        "-fx-effect: dropshadow(gaussian, rgba(8, 127, 140, 0.06), 16, 0.12, 0, 4);";
+            "-fx-background-color: " + SURFACE + "; " +
+            "-fx-border-color: " + BORDER_COLOR + "; " +
+            "-fx-border-radius: 18px; " +
+            "-fx-background-radius: 18px; " +
+            "-fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.06), 20, 0, 0, 4);";
+
+    private final String hospitalId;
+    private final HospitalResourceController hospitalResourceController;
+
+    public HospitalResourceManagement(String hospitalId) {
+        this.hospitalId = hospitalId;
+        this.hospitalResourceController = new HospitalResourceController();
+    }
 
     public VBox getResourceManagement() {
 
-        VBox mainContent = new VBox(22);
-        mainContent.setPadding(new Insets(25));
-        mainContent.setStyle("-fx-background-color: " + PAGE_BG + ";");
+        HospitalResourceModel resource = hospitalResourceController.getHospitalResource(hospitalId);
 
-        /* =========================================================
-         * PAGE HEADER
-         * ========================================================= */
+        VBox mainContent = new VBox(24);
+        mainContent.setPadding(new Insets(26, 32, 36, 32));
+        mainContent.setStyle("-fx-background-color: " + PAGE_BG_green + "; " + FONT_FAMILY);
 
-        Text heading = new Text("Resource Management");
-        heading.setStyle(
-                "-fx-font-size: 26px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-fill: " + PRIMARY_TEAL + ";"
-        );
+        // =====================================================================
+        // 1. TOP HEADER (TITLE & ACTION BUTTONS)
+        // =====================================================================
+        HBox header = new HBox(16);
+        header.setAlignment(Pos.CENTER_LEFT);
 
-        Text subHeading = new Text(
-                "Real-time status and allocation tracking for hospital critical assets."
-        );
-        subHeading.setStyle(
-                "-fx-font-size: 13px;" +
-                "-fx-fill: " + TEXT_SECONDARY + ";"
-        );
+        VBox headingBox = new VBox(4);
+        Text heading = new Text("Critical Assets & Operation Theatres");
+        heading.setStyle(FONT_FAMILY + "-fx-font-size: 26px; -fx-font-weight: 800; -fx-fill: " + TEXT_PRIMARY + ";");
 
-        VBox headingBox = new VBox(4, heading, subHeading);
-
-        Button historyButton = new Button("↺   View History");
-        historyButton.setPrefWidth(125);
-        historyButton.setPrefHeight(38);
-        historyButton.setStyle(
-                "-fx-background-color: " + SURFACE + ";" +
-                "-fx-text-fill: " + TEXT_PRIMARY + ";" +
-                "-fx-font-size: 11px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-border-color: " + BORDER_COLOR + ";" +
-                "-fx-border-radius: 8px;" +
-                "-fx-background-radius: 8px;" +
-                "-fx-cursor: hand;"
-        );
-
-        Button updateButton = new Button("↻   Update Availability");
-        updateButton.setPrefWidth(155);
-        updateButton.setPrefHeight(38);
-        updateButton.setStyle(
-                "-fx-background-color: " + SURFACE + ";" +
-                "-fx-text-fill: " + TEXT_PRIMARY + ";" +
-                "-fx-font-size: 11px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-border-color: " + BORDER_COLOR + ";" +
-                "-fx-border-radius: 8px;" +
-                "-fx-background-radius: 8px;" +
-                "-fx-cursor: hand;"
-        );
-
-        Button addResourceButton = new Button("+   Add Resource");
-        addResourceButton.setPrefWidth(135);
-        addResourceButton.setPrefHeight(38);
-        addResourceButton.setStyle(
-                "-fx-background-color: " + PRIMARY_TEAL + ";" +
-                "-fx-text-fill: white;" +
-                "-fx-font-size: 11px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 8px;" +
-                "-fx-cursor: hand;"
-        );
-        addResourceButton.setOnMouseEntered(e -> addResourceButton.setStyle(
-                "-fx-background-color: " + TEAL_DARK + ";" +
-                "-fx-text-fill: white;" +
-                "-fx-font-size: 11px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 8px;" +
-                "-fx-cursor: hand;"
-        ));
-        addResourceButton.setOnMouseExited(e -> addResourceButton.setStyle(
-                "-fx-background-color: " + PRIMARY_TEAL + ";" +
-                "-fx-text-fill: white;" +
-                "-fx-font-size: 11px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 8px;" +
-                "-fx-cursor: hand;"
-        ));
-
-        HBox headerButtons = new HBox(10, historyButton, updateButton, addResourceButton);
-        headerButtons.setAlignment(Pos.CENTER_RIGHT);
+        headingBox.getChildren().addAll(heading);
 
         Region headerSpacer = new Region();
         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
 
-        HBox header = new HBox(headingBox, headerSpacer, headerButtons);
-        header.setAlignment(Pos.CENTER_LEFT);
-
-        /* =========================================================
-         * CRITICAL INVENTORY TITLE
-         * ========================================================= */
-
-        Text inventoryStatusTitle = new Text("CRITICAL INVENTORY STATUS");
-        inventoryStatusTitle.setStyle(
-                "-fx-font-size: 11px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-fill: " + TEXT_MUTED + ";"
+        Button updateButton = new Button("Update Inventory");
+        updateButton.setPrefHeight(42);
+        updateButton.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: " + PRIMARY_TEAL + "; " +
+                "-fx-text-fill: #FFFFFF; " +
+                "-fx-font-size: 12.5px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-background-radius: 10px; " +
+                "-fx-padding: 0 18; " +
+                "-fx-cursor: hand;"
         );
+        updateButton.setEffect(new DropShadow(10, 0, 2, Color.rgb(0, 101, 145, 0.25)));
 
-        Text lastSync = new Text("Last sync: 2 mins ago");
-        lastSync.setStyle(
-                "-fx-font-size: 11px;" +
-                "-fx-fill: " + TEXT_MUTED + ";"
-        );
+        updateButton.setOnMouseEntered(e -> {
+            updateButton.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: " + TEAL_HOVER + "; " +
+                    "-fx-text-fill: #FFFFFF; " +
+                    "-fx-font-size: 12.5px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-radius: 10px; " +
+                    "-fx-padding: 0 18; " +
+                    "-fx-cursor: hand;"
+            );
+            updateButton.setTranslateY(-2);
+        });
+        updateButton.setOnMouseExited(e -> {
+            updateButton.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: " + PRIMARY_TEAL + "; " +
+                    "-fx-text-fill: #FFFFFF; " +
+                    "-fx-font-size: 12.5px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-radius: 10px; " +
+                    "-fx-padding: 0 18; " +
+                    "-fx-cursor: hand;"
+            );
+            updateButton.setTranslateY(0);
+        });
 
-        Region inventoryTitleSpacer = new Region();
-        HBox.setHgrow(inventoryTitleSpacer, Priority.ALWAYS);
+        HBox headerButtons = new HBox(12, updateButton);
+        headerButtons.setAlignment(Pos.CENTER_RIGHT);
 
-        HBox inventoryTitleRow = new HBox(inventoryStatusTitle, inventoryTitleSpacer, lastSync);
+        header.getChildren().addAll(headingBox, headerSpacer, headerButtons);
+
+        // =====================================================================
+        // 2. CRITICAL INVENTORY & BED CAPACITY SECTION
+        // =====================================================================
+        VBox inventorySection = new VBox(14);
+
+        HBox inventoryTitleRow = new HBox(12);
         inventoryTitleRow.setAlignment(Pos.CENTER_LEFT);
 
-        /* =========================================================
-         * RESOURCE STATUS CARDS
-         * ========================================================= */
+        StackPane invIconHolder = new StackPane();
+        invIconHolder.setPrefSize(34, 34);
+        invIconHolder.setStyle("-fx-background-color: " + INFO_BG + "; -fx-background-radius: 8px;");
+        Label invIcon = new Label("🏥");
+        invIcon.setStyle("-fx-font-size: 16px;");
+        invIconHolder.getChildren().add(invIcon);
 
-        VBox icuCard = createResourceCard("▣", PRIMARY_TEAL, TEAL_VERY_LIGHT, "LOW STOCK", STATUS_DANGER_BG, STATUS_DANGER_TEXT, "ICU Beds", "42", " / 50 available", 84, PRIMARY_TEAL);
-        VBox emergencyCard = createResourceCard("!", STATUS_WARN_TEXT, STATUS_WARN_BG, "WARNING", STATUS_WARN_BG, STATUS_WARN_TEXT, "Emergency Beds", "18", " / 30 available", 60, STATUS_WARN_TEXT);
-        VBox generalCard = createResourceCard("▣", TEAL_DARK, TEAL_LIGHT, "OPTIMAL", STATUS_SUCCESS_BG, STATUS_SUCCESS_TEXT, "General Beds", "312", " / 400 available", 78, TEAL_DARK);
-        VBox ventilatorCard = createResourceCard("≈", PRIMARY_TEAL, TEAL_VERY_LIGHT, "OPERATIONAL", STATUS_SUCCESS_BG, STATUS_SUCCESS_TEXT, "Ventilators", "12", " / 15 available", 80, PRIMARY_TEAL);
-        VBox oxygenCard = createResourceCard("O₂", TEAL_DARK, TEAL_PALE, "SAFE RANGE", STATUS_SUCCESS_BG, STATUS_SUCCESS_TEXT, "Oxygen Reserves", "98", " % capacity", 98, TEAL_DARK);
-        VBox bloodCard = createBloodCard();
+        VBox invTitleBox = new VBox(2);
+        Text inventoryStatusTitle = new Text("Critical Inventory & Bed Telemetry");
+        inventoryStatusTitle.setStyle(FONT_FAMILY + "-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        invTitleBox.getChildren().addAll(inventoryStatusTitle);
 
-        HBox resourceRow1 = new HBox(14, icuCard, emergencyCard, generalCard);
-        HBox.setHgrow(icuCard, Priority.ALWAYS);
-        HBox.setHgrow(emergencyCard, Priority.ALWAYS);
-        HBox.setHgrow(generalCard, Priority.ALWAYS);
+        Region invSpacer = new Region();
+        HBox.setHgrow(invSpacer, Priority.ALWAYS);
 
-        HBox resourceRow2 = new HBox(14, ventilatorCard, oxygenCard, bloodCard);
-        HBox.setHgrow(ventilatorCard, Priority.ALWAYS);
-        HBox.setHgrow(oxygenCard, Priority.ALWAYS);
+
+        inventoryTitleRow.getChildren().addAll(invIconHolder, invTitleBox, invSpacer);
+
+        // --- ROW 1 CARDS: ICU BEDS, EMERGENCY BEDS, GENERAL BEDS ---
+        int icuAvail = (resource != null) ? resource.getAvailableICUBeds() : 0;
+        int icuTot = (resource != null) ? resource.getTotalICUBeds() : 0;
+        Text icuValue = new Text(String.valueOf(icuAvail));
+        Text icuTotal = new Text(" / " + icuTot + " available");
+        VBox icuCard = createResourceCard("🛏️", PRIMARY_TEAL, INFO_BG, "ICU Critical Beds", icuValue, icuTotal,
+                icuAvail < 5 ? "LOW STOCK" : "OPERATIONAL", icuAvail < 5 ? DANGER_BG : SUCCESS_BG, icuAvail < 5 ? DANGER_TEXT : SUCCESS_TEXT,
+                (double) icuAvail / Math.max(1, icuTot), PRIMARY_TEAL);
+
+        int emAvail = (resource != null) ? resource.getAvailableEmergencyBeds() : 0;
+        int emTot = (resource != null) ? resource.getTotalEmergencyBeds() : 0;
+        Text emergencyValue = new Text(String.valueOf(emAvail));
+        Text emergencyTotal = new Text(" / " + emTot + " available");
+        VBox emergencyCard = createResourceCard("🚨", DANGER_TEXT, DANGER_BG, "Emergency Trauma Beds", emergencyValue, emergencyTotal,
+                emAvail < 8 ? "HIGH TRAFFIC" : "AVAILABLE", emAvail < 8 ? WARNING_BG : SUCCESS_BG, emAvail < 8 ? WARNING_TEXT : SUCCESS_TEXT,
+                (double) emAvail / Math.max(1, emTot), "#EA580C");
+
+        int genAvail = (resource != null) ? resource.getAvailableGeneralBeds() : 0;
+        int genTot = (resource != null) ? resource.getTotalGeneralBeds() : 0;
+        Text generalValue = new Text(String.valueOf(genAvail));
+        Text generalTotal = new Text(" / " + genTot + " available");
+        VBox generalCard = createResourceCard("🏨", SUCCESS_TEXT, SUCCESS_BG, "General Ward Beds", generalValue, generalTotal,
+                "OPTIMAL", SUCCESS_BG, SUCCESS_TEXT,
+                (double) genAvail / Math.max(1, genTot), SUCCESS_TEXT);
+
+        icuCard.setMaxWidth(Double.MAX_VALUE);
+        emergencyCard.setMaxWidth(Double.MAX_VALUE);
+        generalCard.setMaxWidth(Double.MAX_VALUE);
+
+        // --- ROW 2 CARDS: VENTILATORS, OXYGEN, BLOOD UNITS ---
+        int ventAvail = (resource != null) ? resource.getAvailableVentilators() : 0;
+        int ventTot = (resource != null) ? resource.getTotalVentilators() : 0;
+        Text ventilatorValue = new Text(String.valueOf(ventAvail));
+        Text ventilatorTotal = new Text(" / " + ventTot + " available");
+        VBox ventilatorCard = createResourceCard("≈", "#0284C7", "#F0F9FF", "Mechanical Ventilators", ventilatorValue, ventilatorTotal,
+                "OPERATIONAL", SUCCESS_BG, SUCCESS_TEXT,
+                (double) ventAvail / Math.max(1, ventTot), "#0284C7");
+
+        int oxAvail = (resource != null) ? resource.getOxygenReserve() : 0;
+        Text oxygenValue = new Text(String.valueOf(oxAvail));
+        Text oxygenTotal = new Text(" % capacity");
+        VBox oxygenCard = createResourceCard("O₂", PRIMARY_TEAL, INFO_BG, "Oxygen Reserves", oxygenValue, oxygenTotal,
+                oxAvail > 70 ? "SAFE RANGE" : "LOW PRESSURE", oxAvail > 70 ? SUCCESS_BG : WARNING_BG, oxAvail > 70 ? SUCCESS_TEXT : WARNING_TEXT,
+                (double) oxAvail / 100.0, PRIMARY_TEAL);
+
+        // Blood Units Card
+        VBox bloodCard = new VBox(10);
+        bloodCard.setPadding(new Insets(18, 20, 18, 20));
+        bloodCard.setPrefHeight(170);
+        bloodCard.setStyle(CARD_STYLE);
         HBox.setHgrow(bloodCard, Priority.ALWAYS);
 
-        VBox resourceStatusSection = new VBox(12, inventoryTitleRow, resourceRow1, resourceRow2);
+        bloodCard.setOnMouseEntered(e -> {
+            bloodCard.setTranslateY(-4);
+            bloodCard.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #CBD5E1; -fx-border-radius: 18px; -fx-background-radius: 18px; -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.12), 24, 0, 0, 8);");
+        });
+        bloodCard.setOnMouseExited(e -> {
+            bloodCard.setTranslateY(0);
+            bloodCard.setStyle(CARD_STYLE);
+        });
 
-        /* =========================================================
-         * BED OCCUPANCY DISTRIBUTION
-         * ========================================================= */
+        HBox bloodTop = new HBox(8);
+        bloodTop.setAlignment(Pos.CENTER_LEFT);
+        StackPane bIconHolder = new StackPane();
+        bIconHolder.setPrefSize(34, 34);
+        bIconHolder.setStyle("-fx-background-color: " + DANGER_BG + "; -fx-background-radius: 8px;");
+        Text bIcon = new Text("♥");
+        bIcon.setStyle("-fx-font-size: 16px; -fx-fill: " + DANGER_TEXT + ";");
+        bIconHolder.getChildren().add(bIcon);
 
-        VBox occupancyCard = new VBox(14);
-        occupancyCard.setPadding(new Insets(18));
-        occupancyCard.setPrefHeight(340);
-        occupancyCard.setStyle(CARD_STYLE);
+        Text bloodTitle = new Text("Blood Bank Reserves");
+        bloodTitle.setStyle(FONT_FAMILY + "-fx-font-size: 13.5px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
 
-        Text occupancyTitle = new Text("Bed Occupancy Distribution");
-        occupancyTitle.setStyle(
-                "-fx-font-size: 17px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-fill: " + TEXT_PRIMARY + ";"
+        Region bSpacer = new Region();
+        HBox.setHgrow(bSpacer, Priority.ALWAYS);
+
+        Label bloodStatus = new Label("O- CRITICAL");
+        bloodStatus.setStyle(FONT_FAMILY + "-fx-background-color: " + DANGER_BG + "; -fx-text-fill: " + DANGER_TEXT + "; -fx-font-size: 9.5px; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-padding: 3px 8px;");
+        bloodTop.getChildren().addAll(bIconHolder, bloodTitle, bSpacer, bloodStatus);
+
+        HBox bloodGroups = new HBox(12);
+        bloodGroups.setAlignment(Pos.CENTER_LEFT);
+        
+        VBox oNeg = createBloodGroup("O-", "4u", true);
+        VBox aPos = createBloodGroup("A+", "22u", false);
+        VBox bNeg = createBloodGroup("B-", "12u", false);
+        VBox abPos = createBloodGroup("AB+", "18u", false);
+        
+        HBox.setHgrow(oNeg, Priority.ALWAYS);
+        HBox.setHgrow(aPos, Priority.ALWAYS);
+        HBox.setHgrow(bNeg, Priority.ALWAYS);
+        HBox.setHgrow(abPos, Priority.ALWAYS);
+        
+        bloodGroups.getChildren().addAll(oNeg, aPos, bNeg, abPos);
+
+        Text bloodWarning = new Text("⚠️ Warning: O- Negative critical reserve threshold detected.");
+        bloodWarning.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-fill: " + DANGER_TEXT + "; -fx-font-weight: 600;");
+
+        Region bloodSpacer = new Region();
+        VBox.setVgrow(bloodSpacer, Priority.ALWAYS);
+
+        bloodCard.getChildren().addAll(bloodTop, bloodSpacer, bloodGroups, bloodWarning);
+
+        ventilatorCard.setMaxWidth(Double.MAX_VALUE);
+        oxygenCard.setMaxWidth(Double.MAX_VALUE);
+        bloodCard.setMaxWidth(Double.MAX_VALUE);
+
+        javafx.scene.layout.GridPane cardGrid = new javafx.scene.layout.GridPane();
+        cardGrid.setHgap(16);
+        cardGrid.setVgap(16);
+        javafx.scene.layout.ColumnConstraints cc = new javafx.scene.layout.ColumnConstraints();
+        cc.setPercentWidth(33.333);
+        cardGrid.getColumnConstraints().addAll(cc, cc, cc);
+        
+        cardGrid.add(icuCard, 0, 0);
+        cardGrid.add(emergencyCard, 1, 0);
+        cardGrid.add(generalCard, 2, 0);
+        cardGrid.add(ventilatorCard, 0, 1);
+        cardGrid.add(oxygenCard, 1, 1);
+        cardGrid.add(bloodCard, 2, 1);
+
+        inventorySection.getChildren().addAll(inventoryTitleRow, cardGrid);
+
+        // Wire update availability button
+        updateButton.setOnAction(e -> showUpdateAvailabilityPopup(
+                icuValue, icuTotal, emergencyValue, emergencyTotal,
+                generalValue, generalTotal, ventilatorValue, ventilatorTotal,
+                oxygenValue, bloodWarning
+        ));
+
+        // =====================================================================
+        // 4. OPERATION THEATRE (OT) ALLOCATION SECTION
+        // =====================================================================
+        OperationTheatreController operationTheatreController = new OperationTheatreController();
+        DoctorController doctorController = new DoctorController();
+
+        String[] patientNames = {
+                "Rahul Patil - PAT-2026-1045",
+                "Aarav Sharma - PAT-2026-1082",
+                "Sneha Deshmukh - PAT-2026-1091",
+                "Vikram Joshi - PAT-2026-1104",
+                "Neha Kulkarni - PAT-2026-1120"
+        };
+
+        String[] procedureNames = {
+                "Cardiac Bypass Surgery",
+                "Appendectomy",
+                "Orthopedic Surgery",
+                "Gallbladder Surgery",
+                "Hernia Repair",
+                "Emergency Surgery"
+        };
+
+        String[] operationTimes = {
+                "09:00 AM",
+                "10:30 AM",
+                "12:00 PM",
+                "02:30 PM",
+                "04:00 PM",
+                "06:30 PM"
+        };
+
+        List<DoctorModel> firebaseDoctors = new ArrayList<>();
+        Map<String, Set<String>> assignedDoctors = new HashMap<>();
+        assignedDoctors.put("OT-01", new LinkedHashSet<>());
+        assignedDoctors.put("OT-02", new LinkedHashSet<>());
+        assignedDoctors.put("OT-03", new LinkedHashSet<>());
+
+        Map<String, Label> otStatusLabels = new HashMap<>();
+        Map<String, Label> otSummaryLabels = new HashMap<>();
+        Map<String, ComboBox<String>> otPatients = new HashMap<>();
+        Map<String, ComboBox<String>> otProcedures = new HashMap<>();
+        Map<String, ComboBox<String>> otTimes = new HashMap<>();
+        Map<String, VBox> otDoctorPanes = new HashMap<>();
+        Map<String, List<ToggleButton>> otDoctorButtons = new HashMap<>();
+        Map<String, Button> otReserveButtons = new HashMap<>();
+        Map<String, Button> otCompleteButtons = new HashMap<>();
+
+        HBox otHeading = new HBox(12);
+        otHeading.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane otIconHolder = new StackPane();
+        otIconHolder.setPrefSize(34, 34);
+        otIconHolder.setStyle("-fx-background-color: " + INDIGO_BG + "; -fx-background-radius: 8px;");
+        Label otIcon = new Label("🔬");
+        otIcon.setStyle("-fx-font-size: 16px;");
+        otIconHolder.getChildren().add(otIcon);
+
+        VBox otTitleBox = new VBox(2);
+        Text operationTheatreTitle = new Text("Surgical Theatres & Procedure Allocation");
+        operationTheatreTitle.setStyle(FONT_FAMILY + "-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        otTitleBox.getChildren().addAll(operationTheatreTitle);
+
+        otHeading.getChildren().addAll(otIconHolder, otTitleBox);
+
+        // Helper to create OT Cards
+        Function<String, VBox> createOTCard = otId -> {
+            VBox card = new VBox(14);
+            card.setPadding(new Insets(20));
+            card.setPrefWidth(350);
+            card.setStyle(CARD_STYLE);
+            HBox.setHgrow(card, Priority.ALWAYS);
+
+            card.setOnMouseEntered(ev -> {
+                card.setTranslateY(-3);
+                card.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #CBD5E1; -fx-border-radius: 14px; -fx-background-radius: 14px; -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.09), 18, 0, 0, 6);");
+            });
+            card.setOnMouseExited(ev -> {
+                card.setTranslateY(0);
+                card.setStyle(CARD_STYLE);
+            });
+
+            Label otLabel = new Label(otId);
+            otLabel.setStyle(FONT_FAMILY + "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
+
+            Label status = new Label("●  AVAILABLE");
+            status.setStyle(FONT_FAMILY + "-fx-background-color: " + SUCCESS_BG + "; -fx-text-fill: " + SUCCESS_TEXT + "; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 5px 10px; -fx-background-radius: 20px; -fx-border-color: " + SUCCESS_BORDER + "; -fx-border-radius: 20px;");
+            otStatusLabels.put(otId, status);
+
+            Region topSp = new Region();
+            HBox.setHgrow(topSp, Priority.ALWAYS);
+            HBox top = new HBox(otLabel, topSp, status);
+            top.setAlignment(Pos.CENTER_LEFT);
+
+            // Patient Field
+            Label patientTitle = new Label("TARGET PATIENT");
+            patientTitle.setStyle(FONT_FAMILY + "-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_MUTED + ";");
+            ComboBox<String> patient = new ComboBox<>();
+            patient.getItems().addAll(patientNames);
+            patient.setPromptText("Select patient for surgery");
+            patient.setMaxWidth(Double.MAX_VALUE);
+            patient.setPrefHeight(38);
+            patient.setStyle(FONT_FAMILY + "-fx-background-color: #F8FAFC; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12px;");
+            otPatients.put(otId, patient);
+
+            // Procedure Field
+            Label procedureTitle = new Label("SURGICAL PROCEDURE");
+            procedureTitle.setStyle(FONT_FAMILY + "-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_MUTED + ";");
+            ComboBox<String> procedure = new ComboBox<>();
+            procedure.getItems().addAll(procedureNames);
+            procedure.setPromptText("Select procedure type");
+            procedure.setMaxWidth(Double.MAX_VALUE);
+            procedure.setPrefHeight(38);
+            procedure.setStyle(FONT_FAMILY + "-fx-background-color: #F8FAFC; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12px;");
+            otProcedures.put(otId, procedure);
+
+            // Doctors Field
+            Label doctorTitle = new Label("SURGICAL SPECIALISTS TEAM");
+            doctorTitle.setStyle(FONT_FAMILY + "-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_MUTED + ";");
+            Label doctorHint = new Label("Select up to 3 medical specialists:");
+            doctorHint.setStyle(FONT_FAMILY + "-fx-font-size: 10.5px; -fx-text-fill: " + TEXT_MUTED + ";");
+
+            VBox doctorPane = new VBox(6);
+            doctorPane.setPadding(new Insets(4, 0, 4, 0));
+            ShimmerLoader.ShimmerPane docShimmer = ShimmerLoader.createMemberPillsSkeleton(280, 36);
+            doctorPane.getChildren().add(docShimmer);
+            otDoctorPanes.put(otId, doctorPane);
+            otDoctorButtons.put(otId, new ArrayList<>());
+
+            VBox doctorBox = new VBox(4, doctorTitle, doctorHint, doctorPane);
+
+            // Operation Time Field
+            Label timeTitle = new Label("SCHEDULED OPERATION TIME");
+            timeTitle.setStyle(FONT_FAMILY + "-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_MUTED + ";");
+            ComboBox<String> time = new ComboBox<>();
+            time.getItems().addAll(operationTimes);
+            time.setPromptText("Select time slot");
+            time.setMaxWidth(Double.MAX_VALUE);
+            time.setPrefHeight(38);
+            time.setStyle(FONT_FAMILY + "-fx-background-color: #F8FAFC; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12px;");
+            otTimes.put(otId, time);
+
+            // Summary Label
+            Label summaryTitle = new Label("PROCEDURE BRIEF");
+            summaryTitle.setStyle(FONT_FAMILY + "-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_MUTED + ";");
+            Label summary = new Label("No surgery currently assigned.");
+            summary.setWrapText(true);
+            summary.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-text-fill: " + TEXT_SECONDARY + ";");
+            otSummaryLabels.put(otId, summary);
+
+            VBox summaryBox = new VBox(4, summaryTitle, summary);
+            summaryBox.setPadding(new Insets(10, 12, 10, 12));
+            summaryBox.setStyle("-fx-background-color: #F8FAFC; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px;");
+
+            // Action Buttons
+            Button reserve = new Button("ASSIGN & RESERVE OT");
+            reserve.setMaxWidth(Double.MAX_VALUE);
+            reserve.setPrefHeight(40);
+            reserve.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: " + PRIMARY_TEAL + "; " +
+                    "-fx-text-fill: #FFFFFF; " +
+                    "-fx-font-size: 11px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-radius: 8px; " +
+                    "-fx-cursor: hand;"
+            );
+            otReserveButtons.put(otId, reserve);
+
+            Button complete = new Button("COMPLETE PROCEDURE");
+            complete.setMaxWidth(Double.MAX_VALUE);
+            complete.setPrefHeight(40);
+            complete.setDisable(true);
+            complete.setStyle(
+                    FONT_FAMILY +
+                    "-fx-background-color: #F1F5F9; " +
+                    "-fx-text-fill: " + TEXT_MUTED + "; " +
+                    "-fx-font-size: 11px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-radius: 8px;"
+            );
+            otCompleteButtons.put(otId, complete);
+
+            HBox buttons = new HBox(8, reserve, complete);
+            HBox.setHgrow(reserve, Priority.ALWAYS);
+            HBox.setHgrow(complete, Priority.ALWAYS);
+
+            card.getChildren().addAll(top, new VBox(4, patientTitle, patient), new VBox(4, procedureTitle, procedure), doctorBox, new VBox(4, timeTitle, time), summaryBox, buttons);
+            return card;
+        };
+
+        VBox ot1Card = createOTCard.apply("OT-01");
+        VBox ot2Card = createOTCard.apply("OT-02");
+        VBox ot3Card = createOTCard.apply("OT-03");
+
+        HBox otCards = new HBox(16, ot1Card, ot2Card, ot3Card);
+        HBox.setHgrow(ot1Card, Priority.ALWAYS);
+        HBox.setHgrow(ot2Card, Priority.ALWAYS);
+        HBox.setHgrow(ot3Card, Priority.ALWAYS);
+
+        // Doctor Name Resolvers
+        Function<String, String> getDoctorDisplayName = doctorId -> {
+            for (DoctorModel doctor : firebaseDoctors) {
+                if (doctor.getDoctorId().equals(doctorId)) {
+                    return doctor.getDoctorName() + " (" + doctor.getSpecialization() + ")";
+                }
+            }
+            return doctorId;
+        };
+
+        Function<Set<String>, String> getDoctorDisplayString = doctorIds -> {
+            List<String> names = new ArrayList<>();
+            for (String docId : doctorIds) {
+                names.add(getDoctorDisplayName.apply(docId));
+            }
+            return String.join(", ", names);
+        };
+
+        Runnable refreshDoctorAvailability = () -> {
+            Set<String> busyDoctors = new HashSet<>();
+            for (Set<String> doctors : assignedDoctors.values()) {
+                busyDoctors.addAll(doctors);
+            }
+
+            for (String otId : assignedDoctors.keySet()) {
+                Set<String> currentDoctors = assignedDoctors.get(otId);
+                List<ToggleButton> buttons = otDoctorButtons.get(otId);
+
+                for (ToggleButton button : buttons) {
+                    DoctorModel doctor = (DoctorModel) button.getUserData();
+                    String doctorId = doctor.getDoctorId();
+                    boolean selected = currentDoctors.contains(doctorId);
+                    boolean busyElsewhere = busyDoctors.contains(doctorId) && !selected;
+                    boolean firebaseBusy = "BUSY".equalsIgnoreCase(doctor.getStatus()) || "ON LEAVE".equalsIgnoreCase(doctor.getStatus());
+
+                    button.setDisable(busyElsewhere || firebaseBusy);
+                }
+            }
+        };
+
+        // Real-time Doctor Roster Listener
+        doctorController.listenToDoctors(hospitalId, doctors -> {
+            Platform.runLater(() -> {
+                firebaseDoctors.clear();
+                if (doctors != null) {
+                    firebaseDoctors.addAll(doctors);
+                }
+
+                for (String otId : assignedDoctors.keySet()) {
+                    VBox pane = otDoctorPanes.get(otId);
+                    pane.getChildren().clear();
+                    otDoctorButtons.get(otId).clear();
+
+                    for (DoctorModel doctor : firebaseDoctors) {
+                        ToggleButton button = new ToggleButton(doctor.getDoctorName() + " - " + doctor.getSpecialization());
+                        button.setWrapText(true);
+                        button.setMaxWidth(Double.MAX_VALUE);
+                        button.setUserData(doctor);
+                        button.setStyle(
+                                FONT_FAMILY +
+                                "-fx-background-color: #F8FAFC; " +
+                                "-fx-text-fill: " + TEXT_PRIMARY + "; " +
+                                "-fx-font-size: 11px; " +
+                                "-fx-font-weight: 600; " +
+                                "-fx-background-radius: 6px; " +
+                                "-fx-border-color: " + BORDER_COLOR + "; " +
+                                "-fx-border-radius: 6px; " +
+                                "-fx-padding: 6px 10px; " +
+                                "-fx-cursor: hand;"
+                        );
+
+                        button.setOnAction(e -> {
+                            Set<String> selected = assignedDoctors.get(otId);
+                            String doctorId = doctor.getDoctorId();
+
+                            if (button.isSelected()) {
+                                if (selected.size() >= 3) {
+                                    button.setSelected(false);
+                                    return;
+                                }
+                                selected.add(doctorId);
+                                button.setStyle(
+                                        FONT_FAMILY +
+                                        "-fx-background-color: " + PRIMARY_TEAL + "; " +
+                                        "-fx-text-fill: #FFFFFF; " +
+                                        "-fx-font-size: 11px; " +
+                                        "-fx-font-weight: bold; " +
+                                        "-fx-background-radius: 6px; " +
+                                        "-fx-border-color: " + TEAL_HOVER + "; " +
+                                        "-fx-border-radius: 6px; " +
+                                        "-fx-padding: 6px 10px; " +
+                                        "-fx-cursor: hand;"
+                                );
+                            } else {
+                                selected.remove(doctorId);
+                                button.setStyle(
+                                        FONT_FAMILY +
+                                        "-fx-background-color: #F8FAFC; " +
+                                        "-fx-text-fill: " + TEXT_PRIMARY + "; " +
+                                        "-fx-font-size: 11px; " +
+                                        "-fx-font-weight: 600; " +
+                                        "-fx-background-radius: 6px; " +
+                                        "-fx-border-color: " + BORDER_COLOR + "; " +
+                                        "-fx-border-radius: 6px; " +
+                                        "-fx-padding: 6px 10px; " +
+                                        "-fx-cursor: hand;"
+                                );
+                            }
+                            refreshDoctorAvailability.run();
+                        });
+
+                        otDoctorButtons.get(otId).add(button);
+                        pane.getChildren().add(button);
+                    }
+                }
+                refreshDoctorAvailability.run();
+            });
+        });
+
+        // Wire Reserve & Complete handlers
+        for (String otId : assignedDoctors.keySet()) {
+            Button reserve = otReserveButtons.get(otId);
+            Button complete = otCompleteButtons.get(otId);
+            ComboBox<String> patient = otPatients.get(otId);
+            ComboBox<String> procedure = otProcedures.get(otId);
+            ComboBox<String> time = otTimes.get(otId);
+            Label status = otStatusLabels.get(otId);
+            Label summary = otSummaryLabels.get(otId);
+
+            reserve.setOnAction(e -> {
+                Set<String> selected = assignedDoctors.get(otId);
+                if (patient.getValue() == null || procedure.getValue() == null || time.getValue() == null || selected.isEmpty()) {
+                    return;
+                }
+
+                String doctorNames = getDoctorDisplayString.apply(selected);
+                final String patientVal = patient.getValue();
+                final String procedureVal = procedure.getValue();
+                final String timeVal = time.getValue();
+                final Set<String> selectedDocs = new HashSet<>(selected);
+
+                new Thread(() -> {
+                    operationTheatreController.reserveOperationTheatre(hospitalId, otId, patientVal, procedureVal, doctorNames, timeVal);
+                    for (String doctorId : selectedDocs) {
+                        doctorController.updateDoctorStatus(hospitalId, doctorId, "BUSY");
+                    }
+                }).start();
+
+                for (String doctorId : selectedDocs) {
+                    for (DoctorModel doc : firebaseDoctors) {
+                        if (doc.getDoctorId().equals(doctorId)) {
+                            doc.setStatus("BUSY");
+                        }
+                    }
+                }
+
+                status.setText("●  RESERVED");
+                status.setStyle(FONT_FAMILY + "-fx-background-color: " + WARNING_BG + "; -fx-text-fill: " + WARNING_TEXT + "; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 5px 10px; -fx-background-radius: 20px; -fx-border-color: " + WARNING_BORDER + "; -fx-border-radius: 20px;");
+
+                summary.setText("Patient: " + patientVal + "\nProcedure: " + procedureVal + "\nSpecialists: " + doctorNames + "\nScheduled: " + timeVal);
+                summary.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-font-weight: 600; -fx-text-fill: " + TEXT_PRIMARY + ";");
+
+                patient.setDisable(true);
+                procedure.setDisable(true);
+                time.setDisable(true);
+                reserve.setDisable(true);
+                reserve.setStyle(FONT_FAMILY + "-fx-background-color: #F1F5F9; -fx-text-fill: " + TEXT_MUTED + "; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 8px;");
+
+                complete.setDisable(false);
+                complete.setStyle(FONT_FAMILY + "-fx-background-color: " + SUCCESS_TEXT + "; -fx-text-fill: #FFFFFF; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-cursor: hand;");
+
+                for (ToggleButton button : otDoctorButtons.get(otId)) {
+                    button.setDisable(true);
+                }
+                refreshDoctorAvailability.run();
+            });
+
+            complete.setOnAction(e -> {
+                Set<String> doctorsToRelease = new HashSet<>(assignedDoctors.get(otId));
+
+                // Also check if any doctor toggle button in this OT card was selected
+                if (otDoctorButtons.containsKey(otId)) {
+                    for (ToggleButton btn : otDoctorButtons.get(otId)) {
+                        if (btn.isSelected() && btn.getUserData() instanceof DoctorModel) {
+                            doctorsToRelease.add(((DoctorModel) btn.getUserData()).getDoctorId());
+                        }
+                    }
+                }
+
+                // Check stored OT in Firestore in case doctors are stored there
+                try {
+                    OperationTheatreModel existingOT = operationTheatreController.getOperationTheatre(hospitalId, otId);
+                    if (existingOT != null && existingOT.getDoctors() != null && !existingOT.getDoctors().isEmpty()) {
+                        for (DoctorModel doc : firebaseDoctors) {
+                            if (existingOT.getDoctors().contains(doc.getDoctorName()) || existingOT.getDoctors().contains(doc.getDoctorId())) {
+                                doctorsToRelease.add(doc.getDoctorId());
+                            }
+                        }
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+                final Set<String> releaseList = new HashSet<>(doctorsToRelease);
+
+                // Update doctors to AVAILABLE in Firestore
+                new Thread(() -> {
+                    for (String doctorId : releaseList) {
+                        doctorController.updateDoctorStatus(hospitalId, doctorId, "AVAILABLE");
+                    }
+                    operationTheatreController.completeOperationTheatre(hospitalId, otId);
+                }).start();
+
+                // Immediately update in-memory doctor roster so UI is responsive
+                for (String doctorId : releaseList) {
+                    for (DoctorModel doc : firebaseDoctors) {
+                        if (doc.getDoctorId().equals(doctorId)) {
+                            doc.setStatus("AVAILABLE");
+                        }
+                    }
+                }
+
+                assignedDoctors.get(otId).clear();
+
+                status.setText("●  AVAILABLE");
+                status.setStyle(FONT_FAMILY + "-fx-background-color: " + SUCCESS_BG + "; -fx-text-fill: " + SUCCESS_TEXT + "; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 5px 10px; -fx-background-radius: 20px; -fx-border-color: " + SUCCESS_BORDER + "; -fx-border-radius: 20px;");
+
+                summary.setText("No surgery currently assigned.");
+                summary.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-text-fill: " + TEXT_MUTED + ";");
+
+                patient.setValue(null);
+                procedure.setValue(null);
+                time.setValue(null);
+
+                patient.setDisable(false);
+                procedure.setDisable(false);
+                time.setDisable(false);
+
+                reserve.setDisable(false);
+                reserve.setStyle(FONT_FAMILY + "-fx-background-color: " + PRIMARY_TEAL + "; -fx-text-fill: #FFFFFF; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-cursor: hand;");
+
+                complete.setDisable(true);
+                complete.setStyle(FONT_FAMILY + "-fx-background-color: #F1F5F9; -fx-text-fill: " + TEXT_MUTED + "; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 8px;");
+
+                for (ToggleButton button : otDoctorButtons.get(otId)) {
+                    button.setSelected(false);
+                    button.setDisable(false);
+                    button.setStyle(FONT_FAMILY + "-fx-background-color: #F8FAFC; -fx-text-fill: " + TEXT_PRIMARY + "; -fx-font-size: 11px; -fx-font-weight: 600; -fx-background-radius: 6px; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 6px; -fx-padding: 6px 10px; -fx-cursor: hand;");
+                }
+                refreshDoctorAvailability.run();
+            });
+        }
+
+        // Load existing reserved state from Firestore for each OT
+        new Thread(() -> {
+            for (String otId : assignedDoctors.keySet()) {
+                try {
+                    OperationTheatreModel ot = operationTheatreController.getOperationTheatre(hospitalId, otId);
+                    if (ot != null && "RESERVED".equalsIgnoreCase(ot.getStatus())) {
+                        Platform.runLater(() -> {
+                            Label status = otStatusLabels.get(otId);
+                            Label summary = otSummaryLabels.get(otId);
+                            Button reserve = otReserveButtons.get(otId);
+                            Button complete = otCompleteButtons.get(otId);
+                            ComboBox<String> patient = otPatients.get(otId);
+                            ComboBox<String> procedure = otProcedures.get(otId);
+                            ComboBox<String> time = otTimes.get(otId);
+
+                            if (status != null) {
+                                status.setText("●  RESERVED");
+                                status.setStyle(FONT_FAMILY + "-fx-background-color: " + WARNING_BG + "; -fx-text-fill: " + WARNING_TEXT + "; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 5px 10px; -fx-background-radius: 20px; -fx-border-color: " + WARNING_BORDER + "; -fx-border-radius: 20px;");
+                            }
+                            if (summary != null) {
+                                summary.setText("Patient: " + (ot.getPatient() != null ? ot.getPatient() : "Assigned") +
+                                        "\nProcedure: " + (ot.getProcedure() != null ? ot.getProcedure() : "Scheduled") +
+                                        "\nSpecialists: " + (ot.getDoctors() != null ? ot.getDoctors() : "Assigned") +
+                                        "\nScheduled: " + (ot.getOperationTime() != null ? ot.getOperationTime() : "Active"));
+                                summary.setStyle(FONT_FAMILY + "-fx-font-size: 11.5px; -fx-font-weight: 600; -fx-text-fill: " + TEXT_PRIMARY + ";");
+                            }
+                            if (patient != null) patient.setDisable(true);
+                            if (procedure != null) procedure.setDisable(true);
+                            if (time != null) time.setDisable(true);
+
+                            if (reserve != null) {
+                                reserve.setDisable(true);
+                                reserve.setStyle(FONT_FAMILY + "-fx-background-color: #F1F5F9; -fx-text-fill: " + TEXT_MUTED + "; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 8px;");
+                            }
+                            if (complete != null) {
+                                complete.setDisable(false);
+                                complete.setStyle(FONT_FAMILY + "-fx-background-color: " + SUCCESS_TEXT + "; -fx-text-fill: #FFFFFF; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-cursor: hand;");
+                            }
+                            if (ot.getDoctors() != null) {
+                                for (DoctorModel doc : firebaseDoctors) {
+                                    if (ot.getDoctors().contains(doc.getDoctorName()) || ot.getDoctors().contains(doc.getDoctorId())) {
+                                        assignedDoctors.get(otId).add(doc.getDoctorId());
+                                    }
+                                }
+                            }
+                            if (otDoctorButtons.containsKey(otId)) {
+                                for (ToggleButton button : otDoctorButtons.get(otId)) {
+                                    button.setDisable(true);
+                                }
+                            }
+                            refreshDoctorAvailability.run();
+                        });
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+
+        VBox operationTheatreSection = new VBox(14, otHeading, otCards);
+
+        mainContent.getChildren().addAll(
+                header,
+                inventorySection,
+                operationTheatreSection
         );
-
-        StackPane occupancyCircle = createOccupancyCircle();
-        VBox occupancyChartBox = new VBox(occupancyTitle, occupancyCircle);
-        occupancyChartBox.setAlignment(Pos.CENTER);
-        occupancyChartBox.setPrefWidth(330);
-
-        VBox occupancyDetails = new VBox(10,
-                createOccupancyRow("ICU Occupancy", "84%", PRIMARY_TEAL),
-                createOccupancyRow("Emergency Ward", "60%", "#2F9AA7"),
-                createOccupancyRow("General Ward", "78%", "#72B8BF")
-        );
-
-        Region occupancyDetailSpacer = new Region();
-        VBox.setVgrow(occupancyDetailSpacer, Priority.ALWAYS);
-
-        Text occupancyMessage = new Text(
-                "Capacity reaching threshold in ICU. Recommended: Redirect non-critical cases."
-        );
-        occupancyMessage.setWrappingWidth(300);
-        occupancyMessage.setStyle(
-                "-fx-font-size: 11px;" +
-                "-fx-fill: " + TEXT_SECONDARY + ";"
-        );
-
-        occupancyDetails.getChildren().addAll(occupancyDetailSpacer, occupancyMessage);
-
-        HBox occupancyContent = new HBox(30, occupancyChartBox, occupancyDetails);
-        occupancyContent.setAlignment(Pos.CENTER);
-        occupancyCard.getChildren().add(occupancyContent);
-
-        /* =========================================================
-         * ICU USAGE TREND
-         * ========================================================= */
-
-        VBox trendCard = new VBox(14);
-        trendCard.setPadding(new Insets(18));
-        trendCard.setPrefHeight(450);
-        trendCard.setStyle(CARD_STYLE);
-
-        Text trendTitle = new Text("ICU Usage Trend (7D)");
-        trendTitle.setStyle(
-                "-fx-font-size: 17px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-fill: " + TEXT_PRIMARY + ";"
-        );
-
-        ComboBox<String> trendCombo = new ComboBox<>();
-        trendCombo.getItems().addAll("Weekly", "Monthly");
-        trendCombo.setValue("Weekly");
-        trendCombo.setPrefWidth(100);
-        trendCombo.setPrefHeight(32);
-        trendCombo.setStyle(
-                "-fx-background-color: " + SURFACE + ";" +
-                "-fx-border-color: " + BORDER_COLOR + ";" +
-                "-fx-border-radius: 6px;" +
-                "-fx-background-radius: 6px;" +
-                "-fx-font-size: 11px;"
-        );
-
-        Region trendHeaderSpacer = new Region();
-        HBox.setHgrow(trendHeaderSpacer, Priority.ALWAYS);
-
-        HBox trendHeader = new HBox(trendTitle, trendHeaderSpacer, trendCombo);
-        trendHeader.setAlignment(Pos.CENTER_LEFT);
-
-        HBox trendBars = new HBox(10,
-                createTrendBar("MON", 40),
-                createTrendBar("TUE", 65),
-                createTrendBar("WED", 55),
-                createTrendBar("THU", 88),
-                createTrendBar("FRI", 92),
-                createTrendBar("SAT", 70),
-                createTrendBar("SUN", 84)
-        );
-        trendBars.setAlignment(Pos.BOTTOM_CENTER);
-        trendBars.setPrefHeight(240);
-
-        VBox trendStatistics = new VBox(10,
-                createStatisticRow("Average Occupancy", "76.4%", TEXT_PRIMARY),
-                createStatisticRow("Peak Demand Day", "Friday", PRIMARY_TEAL),
-                createStatisticRow("Efficiency Delta", "+12% vs last week", STATUS_SUCCESS_TEXT)
-        );
-
-        trendCard.getChildren().addAll(trendHeader, trendBars, trendStatistics);
-
-        /* =========================================================
-         * RECENT ALLOCATION LOG
-         * ========================================================= */
-
-        VBox logCard = new VBox(12);
-        logCard.setPadding(new Insets(18));
-        logCard.setMinHeight(260);
-        logCard.setStyle(CARD_STYLE);
-
-        Text logTitle = new Text("Recent Allocation Log");
-        logTitle.setStyle(
-                "-fx-font-size: 17px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-fill: " + TEXT_PRIMARY + ";"
-        );
-
-        logCard.getChildren().addAll(
-                logTitle,
-                createLogRow(PRIMARY_TEAL, "ICU Bed #12 allocated to Patient P-908", "12:45 PM • Unit A-4"),
-                createLogRow(STATUS_WARN_TEXT, "Oxygen cylinder refill requested", "11:30 AM • Storage West"),
-                createLogRow(TEXT_SECONDARY, "General Bed #242 vacated", "10:15 AM • Ward C")
-        );
-
-        VBox analyticsColumn = new VBox(16, trendCard, logCard);
-
-        HBox analyticsSection = new HBox(16, resourceStatusSection, analyticsColumn);
-        HBox.setHgrow(resourceStatusSection, Priority.ALWAYS);
-        HBox.setHgrow(analyticsColumn, Priority.ALWAYS);
-
-        /* =========================================================
-         * ASSET REGISTRY
-         * ========================================================= */
-
-        VBox assetRegistry = new VBox();
-        assetRegistry.setStyle(CARD_STYLE);
-
-        Text assetTitle = new Text("Asset Registry");
-        assetTitle.setStyle(
-                "-fx-font-size: 17px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-fill: " + TEXT_PRIMARY + ";"
-        );
-
-        Button filterButton = new Button("☷");
-        filterButton.setPrefSize(36, 34);
-        filterButton.setStyle(
-                "-fx-background-color: transparent;" +
-                "-fx-text-fill: " + TEXT_SECONDARY + ";" +
-                "-fx-font-size: 15px;" +
-                "-fx-cursor: hand;"
-        );
-
-        Button downloadButton = new Button("↓");
-        downloadButton.setPrefSize(36, 34);
-        downloadButton.setStyle(
-                "-fx-background-color: transparent;" +
-                "-fx-text-fill: " + TEXT_SECONDARY + ";" +
-                "-fx-font-size: 15px;" +
-                "-fx-cursor: hand;"
-        );
-
-        HBox assetActions = new HBox(4, filterButton, downloadButton);
-        assetActions.setAlignment(Pos.CENTER_RIGHT);
-
-        Region assetHeaderSpacer = new Region();
-        HBox.setHgrow(assetHeaderSpacer, Priority.ALWAYS);
-
-        HBox assetHeader = new HBox(assetTitle, assetHeaderSpacer, assetActions);
-        assetHeader.setPadding(new Insets(14, 16, 14, 16));
-        assetHeader.setAlignment(Pos.CENTER_LEFT);
-        assetHeader.setStyle(
-                "-fx-background-color: " + SURFACE + ";" +
-                "-fx-border-color: transparent transparent " + BORDER_COLOR + " transparent;" +
-                "-fx-border-width: 0px 0px 1px 0px;"
-        );
-
-        HBox assetTableHeader = new HBox(10,
-                createTableHeader("RESOURCE ID", 120),
-                createTableHeader("CATEGORY", 145),
-                createTableHeader("LOCATION", 150),
-                createTableHeader("STATUS", 120),
-                createTableHeader("LAST SERVICE", 150),
-                createTableHeader("ACTIONS", 90)
-        );
-        assetTableHeader.setPadding(new Insets(12, 16, 12, 16));
-        assetTableHeader.setAlignment(Pos.CENTER_LEFT);
-        assetTableHeader.setStyle("-fx-background-color: " + TEAL_VERY_LIGHT + ";");
-
-        assetRegistry.getChildren().addAll(
-                assetHeader,
-                assetTableHeader,
-                createAssetRow("VT-049", "Ventilator", "ICU Bay 4", "IN USE", "Oct 12, 2023", STATUS_SUCCESS_BG, STATUS_SUCCESS_TEXT, true),
-                createAssetRow("IB-201", "ICU Bed", "ICU Bay 2", "AVAILABLE", "Nov 05, 2023", TEAL_VERY_LIGHT, PRIMARY_TEAL, false),
-                createAssetRow("OX-912", "Oxygen Conc.", "Emergency A", "MAINTENANCE", "Oct 28, 2023", STATUS_DANGER_BG, STATUS_DANGER_TEXT, true)
-        );
-
-        /* =========================================================
-         * FINAL LAYOUT
-         * ========================================================= */
-
-        mainContent.getChildren().addAll(header, analyticsSection, occupancyCard, assetRegistry);
 
         ScrollPane scrollPane = new ScrollPane(mainContent);
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-background: " + PAGE_BG + "; -fx-border-color: transparent;");
 
         VBox finalContent = new VBox(scrollPane);
         finalContent.setStyle("-fx-background-color: " + PAGE_BG + ";");
@@ -1988,302 +849,360 @@ public class HospitalResourceManagement {
         return finalContent;
     }
 
-    /* =============================================================
-     * HELPER FACTORY METHODS
-     * ============================================================= */
-
-    private VBox createResourceCard(
-            String iconSymbol, String iconColor, String iconBgColor,
-            String badgeText, String badgeBgColor, String badgeTextColor,
-            String title, String value, String unitText,
-            double progressPercent, String progressColor
-    ) {
-        VBox card = new VBox(8);
-        card.setPadding(new Insets(15));
-        card.setPrefHeight(150);
+    // =========================================================================
+    // RESOURCE CARD BUILDER (MATCHING HospitalDashboard.java)
+    // =========================================================================
+    private VBox createResourceCard(String iconStr, String iconColor, String iconBg, String title,
+                                   Text valText, Text totText, String statusStr, String statusBg, String statusColor,
+                                   double progressPct, String progressColor) {
+        VBox card = new VBox(10);
+        card.setPadding(new Insets(18, 20, 18, 20));
+        card.setPrefHeight(170);
         card.setStyle(CARD_STYLE);
 
-        Circle circle = new Circle(18, Color.web(iconBgColor));
-        Text icon = new Text(iconSymbol);
-        icon.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: " + iconColor + ";");
-        StackPane iconPane = new StackPane(circle, icon);
-        iconPane.setPrefSize(36, 36);
+        card.setOnMouseEntered(e -> {
+            card.setTranslateY(-4);
+            card.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #CBD5E1; -fx-border-radius: 18px; -fx-background-radius: 18px; -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.12), 24, 0, 0, 8);");
+        });
+        card.setOnMouseExited(e -> {
+            card.setTranslateY(0);
+            card.setStyle(CARD_STYLE);
+        });
 
-        Label badge = new Label(badgeText);
-        badge.setStyle(
-                "-fx-background-color: " + badgeBgColor + ";" +
-                "-fx-text-fill: " + badgeTextColor + ";" +
-                "-fx-font-size: 9px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 5px;" +
-                "-fx-padding: 4px 7px;"
-        );
-
-        Region topSpacer = new Region();
-        HBox.setHgrow(topSpacer, Priority.ALWAYS);
-        HBox top = new HBox(iconPane, topSpacer, badge);
+        HBox top = new HBox(8);
         top.setAlignment(Pos.CENTER_LEFT);
 
-        Text cardTitle = new Text(title);
-        cardTitle.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        StackPane iconPane = new StackPane();
+        iconPane.setPrefSize(34, 34);
+        iconPane.setStyle("-fx-background-color: " + iconBg + "; -fx-background-radius: 8px;");
+        Text icon = new Text(iconStr);
+        icon.setStyle(FONT_FAMILY + "-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: " + iconColor + ";");
+        iconPane.getChildren().add(icon);
 
-        Text mainVal = new Text(value);
-        mainVal.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Text subVal = new Text(unitText);
-        subVal.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_MUTED + ";");
+        Label statusBadge = new Label(statusStr);
+        statusBadge.setStyle(FONT_FAMILY + "-fx-background-color: " + statusBg + "; -fx-text-fill: " + statusColor + "; -fx-font-size: 9.5px; -fx-font-weight: bold; -fx-padding: 3px 8px; -fx-background-radius: 6px;");
 
-        HBox valueBox = new HBox(mainVal, subVal);
-        valueBox.setAlignment(Pos.BASELINE_LEFT);
+        top.getChildren().addAll(iconPane, spacer, statusBadge);
 
-        Region progressBg = new Region();
-        progressBg.setPrefHeight(5);
-        progressBg.setStyle("-fx-background-color: " + TRACK_BG + "; -fx-background-radius: 5px;");
+        Text titleText = new Text(title);
+        titleText.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-font-weight: 600; -fx-fill: " + TEXT_MUTED + ";");
 
-        Region progressBar = new Region();
-        progressBar.setPrefHeight(5);
-        progressBar.setPrefWidth(progressPercent);
-        progressBar.setStyle("-fx-background-color: " + progressColor + "; -fx-background-radius: 5px;");
+        valText.setStyle(FONT_FAMILY + "-fx-font-size: 26px; -fx-font-weight: 800; -fx-fill: " + TEXT_PRIMARY + ";");
+        totText.setStyle(FONT_FAMILY + "-fx-font-size: 12.5px; -fx-fill: " + TEXT_MUTED + ";");
 
-        StackPane progressPane = new StackPane(progressBg, progressBar);
-        progressPane.setAlignment(Pos.CENTER_LEFT);
+        HBox valBox = new HBox(valText, totText);
+        valBox.setAlignment(Pos.BASELINE_LEFT);
+        
+        VBox textContent = new VBox(4, titleText, valBox);
+        HBox.setHgrow(textContent, Priority.ALWAYS);
 
-        card.getChildren().addAll(top, cardTitle, valueBox, progressPane);
+        // Circular Progress
+        double safePct = Math.max(0.0, Math.min(1.0, progressPct));
+        double radius = 34;
+        double strokeWidth = 8;
+        double gap = (safePct > 0.02 && safePct < 0.98) ? 14 : 0;
+        
+        javafx.scene.shape.Arc pBg = new javafx.scene.shape.Arc();
+        pBg.setCenterX(radius);
+        pBg.setCenterY(radius);
+        pBg.setRadiusX(radius);
+        pBg.setRadiusY(radius);
+        pBg.setStartAngle(90 - (360 * safePct) - (gap > 0 ? gap / 2 : 0));
+        pBg.setLength(-(360 * (1 - safePct)) + gap);
+        pBg.setType(javafx.scene.shape.ArcType.OPEN);
+        pBg.setFill(Color.TRANSPARENT);
+        pBg.setStroke(Color.web("#E2E8F0"));
+        pBg.setStrokeWidth(strokeWidth);
+        pBg.setStrokeLineCap(javafx.scene.shape.StrokeLineCap.ROUND);
+        
+        javafx.scene.shape.Arc pFill = new javafx.scene.shape.Arc();
+        pFill.setCenterX(radius);
+        pFill.setCenterY(radius);
+        pFill.setRadiusX(radius);
+        pFill.setRadiusY(radius);
+        pFill.setStartAngle(90);
+        pFill.setLength(-(360 * safePct) + (gap > 0 ? gap / 2 : 0));
+        pFill.setType(javafx.scene.shape.ArcType.OPEN);
+        pFill.setFill(Color.TRANSPARENT);
+        pFill.setStroke(Color.web(progressColor));
+        pFill.setStrokeWidth(strokeWidth);
+        pFill.setStrokeLineCap(javafx.scene.shape.StrokeLineCap.ROUND);
+
+        Text percentText = new Text(String.format("%.0f%%", safePct * 100));
+        percentText.setStyle(FONT_FAMILY + "-fx-font-size: 13.5px; -fx-font-weight: bold; -fx-fill: " + progressColor + ";");
+
+        javafx.beans.value.ChangeListener<String> textListener = (obs, oldV, newV) -> {
+            try {
+                double val = Double.parseDouble(valText.getText().trim());
+                double tot = 100.0;
+                String totStr = totText.getText().replaceAll("[^0-9.]", "");
+                if (!totStr.isEmpty()) {
+                    tot = Double.parseDouble(totStr);
+                }
+                double newPct = Math.max(0.0, Math.min(1.0, val / Math.max(1.0, tot)));
+                double newGap = (newPct > 0.02 && newPct < 0.98) ? 14 : 0;
+
+                pBg.setStartAngle(90 - (360 * newPct) - (newGap > 0 ? newGap / 2 : 0));
+                pBg.setLength(-(360 * (1 - newPct)) + newGap);
+
+                pFill.setLength(-(360 * newPct) + (newGap > 0 ? newGap / 2 : 0));
+                
+                percentText.setText(String.format("%.0f%%", newPct * 100));
+            } catch (Exception ignored) {}
+        };
+        
+        valText.textProperty().addListener(textListener);
+        totText.textProperty().addListener(textListener);
+        
+        javafx.scene.shape.Circle boundsCircle = new javafx.scene.shape.Circle(radius);
+        boundsCircle.setCenterX(radius);
+        boundsCircle.setCenterY(radius);
+        boundsCircle.setFill(Color.TRANSPARENT);
+        boundsCircle.setStroke(Color.TRANSPARENT);
+        boundsCircle.setStrokeWidth(strokeWidth);
+
+        javafx.scene.Group arcGroup = new javafx.scene.Group(boundsCircle, pBg, pFill);
+        
+        StackPane pPane = new StackPane(arcGroup, percentText);
+        pPane.setPrefSize(radius * 2 + strokeWidth, radius * 2 + strokeWidth);
+        pPane.setMinSize(radius * 2 + strokeWidth, radius * 2 + strokeWidth);
+        
+        HBox bottomRow = new HBox(textContent, pPane);
+        bottomRow.setAlignment(Pos.CENTER);
+        
+        Region spacerMiddle = new Region();
+        VBox.setVgrow(spacerMiddle, Priority.ALWAYS);
+
+        card.getChildren().addAll(top, spacerMiddle, bottomRow);
         return card;
     }
 
-    private VBox createBloodCard() {
-        VBox card = new VBox(8);
-        card.setPadding(new Insets(15));
-        card.setPrefHeight(150);
-        card.setStyle(CARD_STYLE);
+    // =========================================================================
+    // MODAL: UPDATE AVAILABILITY POPUP
+    // =========================================================================
+    private void showUpdateAvailabilityPopup(
+            Text icuValue, Text icuTotal,
+            Text emergencyValue, Text emergencyTotal,
+            Text generalValue, Text generalTotal,
+            Text ventilatorValue, Text ventilatorTotal,
+            Text oxygenValue, Text bloodWarning
+    ) {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Update Resource Telemetry - LifeLink");
+        popupStage.setResizable(false);
 
-        Circle bloodCircle = new Circle(18, Color.web(STATUS_DANGER_BG));
-        Text bloodIcon = new Text("♥");
-        bloodIcon.setStyle("-fx-font-size: 16px; -fx-fill: " + STATUS_DANGER_TEXT + ";");
-        StackPane bloodIconPane = new StackPane(bloodCircle, bloodIcon);
-        bloodIconPane.setPrefSize(36, 36);
+        VBox popupRoot = new VBox(18);
+        popupRoot.setPadding(new Insets(26));
+        popupRoot.setPrefWidth(640);
+        popupRoot.setStyle("-fx-background-color: " + PAGE_BG + "; " + FONT_FAMILY);
 
-        Text bloodTitle = new Text("Blood Units");
-        bloodTitle.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        HBox topRow = new HBox(12);
+        topRow.setAlignment(Pos.CENTER_LEFT);
+        StackPane iconH = new StackPane();
+        iconH.setPrefSize(36, 36);
+        iconH.setStyle("-fx-background-color: " + INFO_BG + "; -fx-background-radius: 10px;");
+        Label iLbl = new Label("🔄");
+        iLbl.setStyle("-fx-font-size: 18px;");
+        iconH.getChildren().add(iLbl);
 
-        Region bloodSpacer = new Region();
-        HBox.setHgrow(bloodSpacer, Priority.ALWAYS);
+        VBox titleBox = new VBox(2);
+        Text popupTitle = new Text("Update Hospital Resource Telemetry");
+        popupTitle.setStyle(FONT_FAMILY + "-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
+        Text popupSubtitle = new Text("Real-time synchronization with Central Emergency Interlock network.");
+        popupSubtitle.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-fill: " + TEXT_MUTED + ";");
+        titleBox.getChildren().addAll(popupTitle, popupSubtitle);
+        topRow.getChildren().addAll(iconH, titleBox);
 
-        HBox bloodTop = new HBox(bloodIconPane, bloodSpacer, bloodTitle);
-        bloodTop.setAlignment(Pos.CENTER_LEFT);
+        VBox formCard = new VBox(14);
+        formCard.setPadding(new Insets(20));
+        formCard.setStyle(CARD_STYLE);
 
-        HBox bloodGroups = new HBox(5,
-                createBloodGroup("O-", "4u", true),
-                createBloodGroup("A+", "22u", false),
-                createBloodGroup("B-", "12u", false),
-                createBloodGroup("AB+", "18u", false)
+        GridPane grid = new GridPane();
+        grid.setHgap(16);
+        grid.setVgap(14);
+
+        TextField icuField = new TextField(icuValue.getText());
+        TextField icuTotalField = new TextField(extractNumber(icuTotal.getText()));
+        TextField emergencyField = new TextField(emergencyValue.getText());
+        TextField emergencyTotalField = new TextField(extractNumber(emergencyTotal.getText()));
+        TextField generalField = new TextField(generalValue.getText());
+        TextField generalTotalField = new TextField(extractNumber(generalTotal.getText()));
+        TextField ventilatorField = new TextField(ventilatorValue.getText());
+        TextField ventilatorTotalField = new TextField(extractNumber(ventilatorTotal.getText()));
+        TextField oxygenField = new TextField(oxygenValue.getText());
+
+        stylePopupField(icuField);
+        stylePopupField(icuTotalField);
+        stylePopupField(emergencyField);
+        stylePopupField(emergencyTotalField);
+        stylePopupField(generalField);
+        stylePopupField(generalTotalField);
+        stylePopupField(ventilatorField);
+        stylePopupField(ventilatorTotalField);
+        stylePopupField(oxygenField);
+
+        addPopupRow(grid, 0, "ICU Available Beds", icuField, "Total ICU Capacity", icuTotalField);
+        addPopupRow(grid, 1, "Emergency Beds Available", emergencyField, "Total Emergency Capacity", emergencyTotalField);
+        addPopupRow(grid, 2, "General Beds Available", generalField, "Total General Capacity", generalTotalField);
+        addPopupRow(grid, 3, "Ventilators Available", ventilatorField, "Total Ventilator Stock", ventilatorTotalField);
+
+        Label oxygenLabel = new Label("Oxygen Reserves (% capacity)");
+        oxygenLabel.setStyle(FONT_FAMILY + "-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_SECONDARY + ";");
+        grid.add(oxygenLabel, 0, 4);
+        grid.add(oxygenField, 1, 4);
+
+        Label bloodInfo = new Label("Notice: O- Negative critical level is monitored automatically by the Blood Bank telemetry.");
+        bloodInfo.setStyle(FONT_FAMILY + "-fx-font-size: 11px; -fx-text-fill: " + DANGER_TEXT + "; -fx-background-color: " + DANGER_BG + "; -fx-padding: 8px 12px; -fx-background-radius: 6px;");
+
+        formCard.getChildren().addAll(grid, bloodInfo);
+
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setPrefHeight(40);
+        cancelButton.setStyle(FONT_FAMILY + "-fx-background-color: " + SURFACE + "; -fx-text-fill: " + TEXT_SECONDARY + "; -fx-font-size: 12.5px; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 0 16; -fx-cursor: hand;");
+        cancelButton.setOnAction(e -> popupStage.close());
+
+        Button saveButton = new Button("Commit Telemetry Update");
+        saveButton.setPrefHeight(40);
+        saveButton.setStyle(
+                FONT_FAMILY +
+                "-fx-background-color: " + PRIMARY_TEAL + "; " +
+                "-fx-text-fill: #FFFFFF; " +
+                "-fx-font-size: 12.5px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-background-radius: 8px; " +
+                "-fx-padding: 0 20; " +
+                "-fx-cursor: hand;"
         );
-        bloodGroups.setAlignment(Pos.CENTER);
 
-        Text bloodWarning = new Text("O- Negative critical levels detected");
-        bloodWarning.setStyle("-fx-font-size: 10px; -fx-fill: " + STATUS_DANGER_TEXT + ";");
+        saveButton.setOnAction(e -> {
+            try {
+                int icuAvailable = Integer.parseInt(icuField.getText().trim());
+                int icuTotalValue = Integer.parseInt(icuTotalField.getText().trim());
+                int emergencyAvailable = Integer.parseInt(emergencyField.getText().trim());
+                int emergencyTotalValue = Integer.parseInt(emergencyTotalField.getText().trim());
+                int generalAvailable = Integer.parseInt(generalField.getText().trim());
+                int generalTotalValue = Integer.parseInt(generalTotalField.getText().trim());
+                int ventilatorAvailable = Integer.parseInt(ventilatorField.getText().trim());
+                int ventilatorTotalValue = Integer.parseInt(ventilatorTotalField.getText().trim());
+                int oxygenAvailable = Integer.parseInt(oxygenField.getText().trim());
 
-        card.getChildren().addAll(bloodTop, bloodGroups, bloodWarning);
-        return card;
+                if (icuAvailable < 0 || icuTotalValue < 0 || emergencyAvailable < 0 || emergencyTotalValue < 0 ||
+                        generalAvailable < 0 || generalTotalValue < 0 || ventilatorAvailable < 0 || ventilatorTotalValue < 0 || oxygenAvailable < 0) {
+                    return;
+                }
+
+                if (icuAvailable > icuTotalValue || emergencyAvailable > emergencyTotalValue || generalAvailable > generalTotalValue ||
+                        ventilatorAvailable > ventilatorTotalValue || oxygenAvailable > 100) {
+                    return;
+                }
+
+                icuValue.setText(String.valueOf(icuAvailable));
+                icuTotal.setText(" / " + icuTotalValue + " available");
+                emergencyValue.setText(String.valueOf(emergencyAvailable));
+                emergencyTotal.setText(" / " + emergencyTotalValue + " available");
+                generalValue.setText(String.valueOf(generalAvailable));
+                generalTotal.setText(" / " + generalTotalValue + " available");
+                ventilatorValue.setText(String.valueOf(ventilatorAvailable));
+                ventilatorTotal.setText(" / " + ventilatorTotalValue + " available");
+                oxygenValue.setText(String.valueOf(oxygenAvailable));
+
+                hospitalResourceController.saveHospitalResource(
+                        hospitalId,
+                        icuTotalValue, icuAvailable,
+                        emergencyTotalValue, emergencyAvailable,
+                        generalTotalValue, generalAvailable,
+                        ventilatorTotalValue, ventilatorAvailable,
+                        oxygenAvailable
+                );
+
+                popupStage.close();
+            } catch (NumberFormatException ignored) {}
+        });
+
+        Region bSp = new Region();
+        HBox.setHgrow(bSp, Priority.ALWAYS);
+        HBox btnBox = new HBox(12, cancelButton, bSp, saveButton);
+        btnBox.setAlignment(Pos.CENTER_RIGHT);
+
+        popupRoot.getChildren().addAll(topRow, formCard, btnBox);
+
+        Scene popupScene = new Scene(popupRoot);
+        popupStage.setScene(popupScene);
+        popupStage.showAndWait();
+    }
+
+    private void stylePopupField(TextField field) {
+        field.setPrefWidth(130);
+        field.setPrefHeight(36);
+        field.setStyle(FONT_FAMILY + "-fx-background-color: #FFFFFF; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-font-size: 12px;");
+    }
+
+    private void addPopupRow(GridPane grid, int row, String leftText, TextField leftField, String rightText, TextField rightField) {
+        Label leftLabel = new Label(leftText);
+        leftLabel.setStyle(FONT_FAMILY + "-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_SECONDARY + ";");
+
+        Label rightLabel = new Label(rightText);
+        rightLabel.setStyle(FONT_FAMILY + "-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_SECONDARY + ";");
+
+        grid.add(leftLabel, 0, row);
+        grid.add(leftField, 1, row);
+        grid.add(rightLabel, 2, row);
+        grid.add(rightField, 3, row);
+    }
+
+    private String extractNumber(String text) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : text.toCharArray()) {
+            if (Character.isDigit(c)) {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
     }
 
     private VBox createBloodGroup(String group, String units, boolean critical) {
-        VBox box = new VBox(2);
+        VBox box = new VBox(4);
         box.setAlignment(Pos.CENTER);
-        box.setPrefWidth(55);
-        box.setPadding(new Insets(5));
-        box.setStyle(
-                critical
-                        ? "-fx-background-color: " + STATUS_DANGER_BG + "; -fx-border-color: #F8B4BD; -fx-border-radius: 5px; -fx-background-radius: 5px;"
-                        : "-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 5px; -fx-background-radius: 5px;"
-        );
+        box.setMaxWidth(Double.MAX_VALUE);
+        box.setPadding(new Insets(8, 8, 8, 8));
+
+        if (critical) {
+            box.setStyle("-fx-background-color: " + DANGER_BG + "; -fx-border-color: " + DANGER_BORDER + "; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, " + DANGER_BORDER + ", 6, 0, 0, 2);");
+        } else {
+            box.setStyle("-fx-background-color: " + SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.02), 4, 0, 0, 1);");
+        }
 
         Label groupLabel = new Label(group);
-        groupLabel.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: " + (critical ? STATUS_DANGER_TEXT : TEXT_MUTED) + ";");
+        groupLabel.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-font-weight: 800; -fx-text-fill: " + (critical ? DANGER_TEXT : PRIMARY_TEAL) + ";");
 
         Label unitsLabel = new Label(units);
-        unitsLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: " + (critical ? STATUS_DANGER_TEXT : TEXT_PRIMARY) + ";");
+        unitsLabel.setStyle(FONT_FAMILY + "-fx-font-size: 11px; -fx-font-weight: 600; -fx-text-fill: " + (critical ? DANGER_TEXT : TEXT_PRIMARY) + ";");
 
         box.getChildren().addAll(groupLabel, unitsLabel);
         return box;
     }
 
-    private StackPane createOccupancyCircle() {
-        Circle backgroundCircle = new Circle(75, Color.TRANSPARENT);
-        backgroundCircle.setStroke(Color.web(TRACK_BG));
-        backgroundCircle.setStrokeWidth(18);
-
-        Circle icuCircle = new Circle(75, Color.TRANSPARENT);
-        icuCircle.setStroke(Color.web(PRIMARY_TEAL));
-        icuCircle.setStrokeWidth(18);
-        icuCircle.getStrokeDashArray().addAll(390.0, 100.0);
-
-        Circle emergencyCircle = new Circle(75, Color.TRANSPARENT);
-        emergencyCircle.setStroke(Color.web("#2F9AA7"));
-        emergencyCircle.setStrokeWidth(18);
-        emergencyCircle.getStrokeDashArray().addAll(280.0, 210.0);
-
-        Circle generalCircle = new Circle(75, Color.TRANSPARENT);
-        generalCircle.setStroke(Color.web("#72B8BF"));
-        generalCircle.setStrokeWidth(18);
-        generalCircle.getStrokeDashArray().addAll(170.0, 320.0);
-
-        Text percentage = new Text("82%");
-        percentage.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text total = new Text("TOTAL");
-        total.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: " + TEXT_MUTED + ";");
-
-        VBox centerText = new VBox(2, percentage, total);
-        centerText.setAlignment(Pos.CENTER);
-
-        StackPane pane = new StackPane(backgroundCircle, icuCircle, emergencyCircle, generalCircle, centerText);
-        pane.setPrefSize(180, 180);
-        return pane;
-    }
-
-    private HBox createOccupancyRow(String name, String value, String circleColor) {
-        Circle circle = new Circle(6, Color.web(circleColor));
-        Label nameLabel = new Label(name);
-        nameLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: " + TEXT_PRIMARY + ";");
-
-        HBox left = new HBox(8, circle, nameLabel);
-        left.setAlignment(Pos.CENTER_LEFT);
-
-        Label valueLabel = new Label(value);
-        valueLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_PRIMARY + ";");
-
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-
-        HBox row = new HBox(left, spacer, valueLabel);
-        row.setPadding(new Insets(8, 12, 8, 12));
+    private HBox createLogRow(String colorHex, String message, String timeStr) {
+        HBox row = new HBox(12);
+        row.setPadding(new Insets(10, 14, 10, 14));
         row.setAlignment(Pos.CENTER_LEFT);
-        row.setStyle("-fx-background-color: " + TEAL_PALE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 6px; -fx-background-radius: 6px;"
-        );
+        row.setStyle("-fx-background-color: #F8FAFC; -fx-background-radius: 8px; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 8px;");
 
-        return row;
-    }
+        Circle dot = new Circle(4, Color.web(colorHex));
+        Text msg = new Text(message);
+        msg.setStyle(FONT_FAMILY + "-fx-font-size: 12px; -fx-font-weight: 600; -fx-fill: " + TEXT_PRIMARY + ";");
 
-    private VBox createTrendBar(String day, int percentage) {
-        Region background = new Region();
-        background.setPrefWidth(22);
-        background.setPrefHeight(170);
-        background.setStyle("-fx-background-color: " + TRACK_BG + "; -fx-background-radius: 4px;");
+        Region sp = new Region();
+        HBox.setHgrow(sp, Priority.ALWAYS);
 
-        Region bar = new Region();
-        bar.setPrefWidth(22);
-        bar.setPrefHeight(percentage * 1.5);
-        bar.setStyle("-fx-background-color: " + TEAL_SOFT + "; -fx-background-radius: 4px 4px 0px 0px;");
+        Text time = new Text(timeStr);
+        time.setStyle(FONT_FAMILY + "-fx-font-size: 11px; -fx-fill: " + TEXT_MUTED + ";");
 
-        StackPane barPane = new StackPane(background, bar);
-        barPane.setAlignment(Pos.BOTTOM_CENTER);
-
-        Label dayLabel = new Label(day);
-        dayLabel.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: " + TEXT_MUTED + ";");
-
-        VBox box = new VBox(5, barPane, dayLabel);
-        box.setAlignment(Pos.BOTTOM_CENTER);
-        return box;
-    }
-
-    private HBox createStatisticRow(String labelText, String valueText, String valueColor) {
-        Text left = new Text(labelText);
-        left.setStyle("-fx-font-size: 11px; -fx-fill: " + TEXT_SECONDARY + ";");
-
-        Text right = new Text(valueText);
-        right.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-fill: " + valueColor + ";");
-
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-
-        HBox row = new HBox(left, spacer, right);
-        row.setAlignment(Pos.CENTER_LEFT);
-        return row;
-    }
-
-    private HBox createLogRow(String color, String message, String time) {
-        Circle dot = new Circle(4, Color.web(color));
-
-        Text messageText = new Text(message);
-        messageText.setStyle("-fx-font-size: 12px; -fx-fill: " + TEXT_PRIMARY + ";");
-
-        Text timeText = new Text(time);
-        timeText.setStyle("-fx-font-size: 10px; -fx-fill: " + TEXT_MUTED + ";");
-
-        VBox textBox = new VBox(2, messageText, timeText);
-        HBox row = new HBox(10, dot, textBox);
-        row.setAlignment(Pos.TOP_LEFT);
-        return row;
-    }
-
-    private Label createTableHeader(String text, double width) {
-        Label label = new Label(text);
-        label.setPrefWidth(width);
-        label.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: " + TEAL_DARK + ";");
-        return label;
-    }
-
-    private HBox createAssetRow(
-            String id, String category, String location,
-            String status, String lastService,
-            String statusBackground, String statusColor,
-            boolean alternate
-    ) {
-        HBox row = new HBox(10);
-        row.setPadding(new Insets(12, 16, 12, 16));
-        row.setAlignment(Pos.CENTER_LEFT);
-        row.setStyle(
-                "-fx-background-color: " + (alternate ? SURFACE : "#F8FCFC") + ";" +
-                "-fx-border-color: transparent transparent " + BORDER_COLOR + " transparent;" +
-                "-fx-border-width: 0px 0px 1px 0px;"
-        );
-
-        Label idLabel = new Label(id);
-        idLabel.setPrefWidth(120);
-        idLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: " + PRIMARY_TEAL + ";");
-
-        Label categoryLabel = new Label(category);
-        categoryLabel.setPrefWidth(145);
-        categoryLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: " + TEXT_PRIMARY + ";");
-
-        Label locationLabel = new Label(location);
-        locationLabel.setPrefWidth(150);
-        locationLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: " + TEXT_PRIMARY + ";");
-
-        Label statusLabel = new Label(status);
-        statusLabel.setStyle(
-                "-fx-background-color: " + statusBackground + ";" +
-                "-fx-text-fill: " + statusColor + ";" +
-                "-fx-font-size: 9px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 5px;" +
-                "-fx-padding: 5px 8px;"
-        );
-
-        HBox statusBox = new HBox(statusLabel);
-        statusBox.setPrefWidth(120);
-        statusBox.setAlignment(Pos.CENTER_LEFT);
-
-        Label serviceLabel = new Label(lastService);
-        serviceLabel.setPrefWidth(150);
-        serviceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: " + TEXT_PRIMARY + ";");
-
-        Button detailsButton = new Button("Details");
-        detailsButton.setStyle(
-                "-fx-background-color: transparent;" +
-                "-fx-text-fill: " + PRIMARY_TEAL + ";" +
-                "-fx-font-size: 11px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-cursor: hand;"
-        );
-
-        HBox actionBox = new HBox(detailsButton);
-        actionBox.setPrefWidth(90);
-        actionBox.setAlignment(Pos.CENTER_LEFT);
-
-        row.getChildren().addAll(idLabel, categoryLabel, locationLabel, statusBox, serviceLabel, actionBox);
+        row.getChildren().addAll(dot, msg, sp, time);
         return row;
     }
 }

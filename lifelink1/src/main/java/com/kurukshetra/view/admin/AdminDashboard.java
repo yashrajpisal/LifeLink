@@ -1,7 +1,13 @@
 package com.kurukshetra.view.admin;
 
+import com.kurukshetra.view.util.ShimmerLoader;
+import com.kurukshetra.view.util.ShimmerLoader.ShimmerPane;
+import com.kurukshetra.controller.admin.AdminAmbulanceAssignmentController;
+import com.kurukshetra.model.admin.AdminAmbulanceAssignmentModel;
+
 import com.kurukshetra.controller.admin.AdminSideEmgReqController;
 import com.kurukshetra.model.admin.AdminSideEmgReqModel;
+import com.kurukshetra.view.Welcome;
 import com.google.cloud.Timestamp;
 
 import javafx.application.Application;
@@ -16,6 +22,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -42,59 +50,77 @@ import java.util.UUID;
 
 public class AdminDashboard extends Application {
 
+    private ComboBox<String> ambulanceIdBox;
+    private List<AdminAmbulanceAssignmentModel> ambulanceAssignments = new ArrayList<>();
+    private final AdminAmbulanceAssignmentController assignmentController = new AdminAmbulanceAssignmentController();
+
     public static Stage dashboardStage;
     private Scene dashboardScene;
     private BorderPane borderPane;
     private VBox rightContent;
 
-    // Design Tokens - LifeLink Pastel Purple Theme
-    private static final String BG_PAGE = "#FAF7FB";
+    // Design Tokens - LifeLink Premium Theme
+    private static final String BG_PAGE = "#F3F4F6"; // Slate-50/100
     private static final String BG_SURFACE = "#FFFFFF";
-    private static final String BORDER_COLOR = "#E9E2EF";
-    private static final String BORDER_DIVIDER = "#F0E7F5";
+    private static final String BORDER_COLOR = "#E5E7EB"; // Gray-200
+    private static final String BORDER_DIVIDER = "#F3F4F6";
 
-    private static final String TEXT_PRIMARY = "#0F172A";
-    private static final String TEXT_SECONDARY = "#5F5A70";
-    private static final String TEXT_MUTED = "#8B8798";
+    private static final String TEXT_PRIMARY = "#111827"; // Gray-900
+    private static final String TEXT_SECONDARY = "#4B5563"; // Gray-600
+    private static final String TEXT_MUTED = "#9CA3AF"; // Gray-400
 
-    private static final String PURPLE_PRIMARY = "#9C7DF0";
-    private static final String PURPLE_DARK = "#8B68E5";
-    private static final String PURPLE_BUTTON = "#C084FC";
-    private static final String PURPLE_LIGHT = "#F3E8FF";
-    private static final String PURPLE_VARIANT = "#E9D5FF";
+    private static final String PURPLE_PRIMARY = "#6366F1"; // Indigo-500
+    private static final String PURPLE_DARK = "#4F46E5"; // Indigo-600
+    private static final String PURPLE_BUTTON = "linear-gradient(to right, #6366F1, #8B5CF6)"; // Indigo to Purple gradient
+    private static final String PURPLE_LIGHT = "#EEF2FF"; // Indigo-50
+    private static final String PURPLE_VARIANT = "#E0E7FF"; // Indigo-100
 
-    private static final String SUCCESS_TEXT = "#22C55E";
-    private static final String SUCCESS_BG = "#DCFCE7";
-    private static final String WARNING_TEXT = "#F59E0B";
+    private static final String SUCCESS_TEXT = "#059669";
+    private static final String SUCCESS_BG = "#D1FAE5";
+    private static final String WARNING_TEXT = "#D97706";
     private static final String WARNING_BG = "#FEF3C7";
-    private static final String DANGER_TEXT = "#E66A7A";
-    private static final String DANGER_BG = "#FDE7EB";
-    private static final String DANGER_BORDER = "#FCCED5";
+    private static final String DANGER_TEXT = "#DC2626";
+    private static final String DANGER_BG = "#FEE2E2";
+    private static final String DANGER_BORDER = "#FECACA";
 
-    private static final String CARD_SHADOW = "-fx-effect: dropshadow(gaussian, rgba(156, 125, 240, 0.08), 16, 0.1, 0, 4);";
-    private static final String FONT_STACK = "-fx-font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;";
+    private static final String CARD_SHADOW = "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 20, 0.1, 0, 10);";
+    private static final String FONT_STACK = "-fx-font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;";
 
     // Style Helpers
     private static final String NAV_ACTIVE_STYLE = FONT_STACK +
-            "-fx-background-color: " + PURPLE_LIGHT + ";" +
+            "-fx-background-color: #FFFFFF;" +
             "-fx-text-fill: " + PURPLE_DARK + ";" +
             "-fx-font-size: 15px;" +
             "-fx-font-weight: bold;" +
             "-fx-background-radius: 12px;" +
+            "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 4);" +
             "-fx-cursor: hand;";
 
     private static final String NAV_INACTIVE_STYLE = FONT_STACK +
             "-fx-background-color: transparent;" +
-            "-fx-text-fill: " + TEXT_SECONDARY + ";" +
+            "-fx-text-fill: #FFFFFF;" +
             "-fx-font-size: 15px;" +
+            "-fx-font-weight: 500;" +
             "-fx-background-radius: 12px;" +
+            "-fx-cursor: hand;";
+
+    private static final String NAV_HOVER_STYLE = FONT_STACK +
+            "-fx-background-color: linear-gradient(to right, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.2));" +
+            "-fx-text-fill: #FFFFFF;" +
+            "-fx-font-size: 15px;" +
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 12px;" +
+            "-fx-border-color: rgba(99, 102, 241, 0.4);" +
+            "-fx-border-radius: 12px;" +
+            "-fx-border-width: 1px;" +
+            "-fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.25), 10, 0.1, 0, 4);" +
             "-fx-cursor: hand;";
 
     private static final String BASE_CARD_STYLE = FONT_STACK +
             "-fx-background-color: " + BG_SURFACE + ";" +
-            "-fx-background-radius: 16px;" +
+            "-fx-background-radius: 20px;" +
             "-fx-border-color: " + BORDER_COLOR + ";" +
-            "-fx-border-radius: 16px;" +
+            "-fx-border-radius: 20px;" +
             "-fx-border-width: 1px;" +
             CARD_SHADOW;
 
@@ -102,10 +128,11 @@ public class AdminDashboard extends Application {
             "-fx-background-color: " + BG_SURFACE + ";" +
             "-fx-text-fill: " + TEXT_PRIMARY + ";" +
             "-fx-font-size: 13px;" +
-            "-fx-font-weight: 500;" +
+            "-fx-font-weight: bold;" +
             "-fx-border-color: " + BORDER_COLOR + ";" +
-            "-fx-border-radius: 10px;" +
-            "-fx-background-radius: 10px;" +
+            "-fx-border-radius: 12px;" +
+            "-fx-background-radius: 12px;" +
+            "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 4, 0, 0, 2);" +
             "-fx-cursor: hand;";
 
     private static final String PRIMARY_BUTTON_STYLE = FONT_STACK +
@@ -113,8 +140,8 @@ public class AdminDashboard extends Application {
             "-fx-text-fill: #FFFFFF;" +
             "-fx-font-size: 13px;" +
             "-fx-font-weight: bold;" +
-            "-fx-background-radius: 10px;" +
-            "-fx-effect: dropshadow(gaussian, rgba(192, 132, 252, 0.35), 10, 0.2, 0, 3);" +
+            "-fx-background-radius: 12px;" +
+            "-fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.4), 14, 0.2, 0, 4);" +
             "-fx-cursor: hand;";
 
     // Backend Controller & Cache
@@ -124,11 +151,12 @@ public class AdminDashboard extends Application {
     // Form Controls
     private TextField tripIdField;
     private TextField patIdField;
-    private TextField sourceField;
+    private TextField pickupLocationField;
     private TextField destinationField;
+    private TextField destLatField;
+    private TextField destLngField;
     private TextField nurseIdField;
     private TextField driverIdField;
-    private ComboBox<String> statusBox;
     private TextField timestampField;
     private Button submitDispatchBtn;
     private Label dispatchStatusLabel;
@@ -137,6 +165,52 @@ public class AdminDashboard extends Application {
     private VBox emergencyFeedCardsContainer;
     private TextField feedSearchField;
     private Text totalFeedBadge;
+    private boolean isLiveListenerStarted = false;
+
+
+    private void loadAmbulanceAssignments() {
+
+        new Thread(() -> {
+
+            try {
+
+                List<AdminAmbulanceAssignmentModel> assignments =
+                        assignmentController.getAllAssignments();
+
+                Platform.runLater(() -> {
+
+                    ambulanceAssignments.clear();
+
+                    ambulanceAssignments.addAll(
+                            assignments
+                    );
+
+                    ambulanceIdBox.getItems().clear();
+
+                    for (
+                            AdminAmbulanceAssignmentModel assignment :
+                            assignments) {
+
+                        if (assignment.getAmbulanceId() != null &&
+                                !assignment.getAmbulanceId().trim().isEmpty()) {
+
+                            ambulanceIdBox.getItems().add(
+                                    assignment.getAmbulanceId()
+                            );
+                        }
+                    }
+                });
+
+            } catch (
+                    Exception ex) {
+
+                ex.printStackTrace();
+            }
+
+        }).start();
+    }
+
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -149,18 +223,31 @@ public class AdminDashboard extends Application {
         VBox leftMenu = new VBox(10);
         leftMenu.setPadding(new Insets(25, 16, 20, 16));
         leftMenu.setPrefWidth(250);
-        leftMenu.setStyle("-fx-background-color: " + BG_SURFACE + ";" +
+        leftMenu.setStyle(
+                "-fx-background-image: url('/assets/Images/adminDashboardbackground.png');" +
+                "-fx-background-size: cover;" +
+                "-fx-background-position: center center;" +
                 "-fx-border-color: " + BORDER_COLOR + ";" +
                 "-fx-border-width: 0px 1px 0px 0px;");
 
+        HBox brandRow = new HBox(12);
+        brandRow.setAlignment(Pos.CENTER_LEFT);
+
+        ImageView logoView = new ImageView(new Image(getClass().getResourceAsStream("/assets/Images/LifeLinkLogo.png")));
+        logoView.setFitWidth(30);
+        logoView.setFitHeight(30);
+        logoView.setPreserveRatio(true);
+
         Text lifeLinkText = new Text("LifeLink");
-        lifeLinkText.setStyle(FONT_STACK + "-fx-font-size: 25px; -fx-font-weight: bold; -fx-fill: " + PURPLE_DARK + ";");
+        lifeLinkText.setStyle(FONT_STACK + "-fx-font-size: 25px; -fx-font-weight: bold; -fx-fill: #ffffff");
+
+        brandRow.getChildren().addAll(logoView, lifeLinkText);
 
         Text adminText = new Text("Admin Dashboard");
-        adminText.setStyle(FONT_STACK + "-fx-font-size: 13px; -fx-fill: " + TEXT_MUTED + ";");
+        adminText.setStyle(FONT_STACK + "-fx-font-size: 18px; -fx-fill: " + TEXT_MUTED + ";");
 
-        VBox profileBox = new VBox(4);
-        profileBox.getChildren().addAll(lifeLinkText, adminText);
+        VBox profileBox = new VBox(8);
+        profileBox.getChildren().addAll(brandRow, adminText);
         profileBox.setPadding(new Insets(0, 10, 18, 10));
 
         Button dashboardButton = new Button("Dashboard");
@@ -178,6 +265,11 @@ public class AdminDashboard extends Application {
         ambulanceButton.setPrefHeight(45);
         ambulanceButton.setStyle(NAV_INACTIVE_STYLE);
 
+        Button staffManagementButton = new Button("Staff Management");
+        staffManagementButton.setPrefWidth(220);
+        staffManagementButton.setPrefHeight(45);
+        staffManagementButton.setStyle(NAV_INACTIVE_STYLE);
+
         Button userButton = new Button("User Management");
         userButton.setPrefWidth(220);
         userButton.setPrefHeight(45);
@@ -188,20 +280,11 @@ public class AdminDashboard extends Application {
         policeButton.setPrefHeight(45);
         policeButton.setStyle(NAV_INACTIVE_STYLE);
 
-        Button emergencyButton = new Button("Emergency Monitoring");
-        emergencyButton.setPrefWidth(220);
-        emergencyButton.setPrefHeight(45);
-        emergencyButton.setStyle(NAV_INACTIVE_STYLE);
 
-        Button analyticsButton = new Button("Analytics & Reports");
-        analyticsButton.setPrefWidth(220);
-        analyticsButton.setPrefHeight(45);
-        analyticsButton.setStyle(NAV_INACTIVE_STYLE);
-
-        Button activityButton = new Button("Activity Logs");
-        activityButton.setPrefWidth(220);
-        activityButton.setPrefHeight(45);
-        activityButton.setStyle(NAV_INACTIVE_STYLE);
+        Button complaintButton = new Button("Complaint Receiver");
+        complaintButton.setPrefWidth(220);
+        complaintButton.setPrefHeight(45);
+        complaintButton.setStyle(NAV_INACTIVE_STYLE);
 
         Button settingsButton = new Button("Settings");
         settingsButton.setPrefWidth(220);
@@ -222,16 +305,29 @@ public class AdminDashboard extends Application {
                 "-fx-background-radius: 12px;" +
                 "-fx-cursor: hand;");
 
+        Button[] navButtons = {dashboardButton, hospitalButton, ambulanceButton, staffManagementButton, userButton, policeButton, complaintButton, settingsButton};
+        for (Button btn : navButtons) {
+            btn.setOnMouseEntered(e -> {
+                if (!btn.getStyle().equals(NAV_ACTIVE_STYLE)) {
+                    btn.setStyle(NAV_HOVER_STYLE);
+                }
+            });
+            btn.setOnMouseExited(e -> {
+                if (!btn.getStyle().equals(NAV_ACTIVE_STYLE)) {
+                    btn.setStyle(NAV_INACTIVE_STYLE);
+                }
+            });
+        }
+
         leftMenu.getChildren().addAll(
                 profileBox,
                 dashboardButton,
                 hospitalButton,
                 ambulanceButton,
+                staffManagementButton,
                 userButton,
                 policeButton,
-                emergencyButton,
-                analyticsButton,
-                activityButton,
+                complaintButton,
                 settingsButton,
                 spacer,
                 logoutButton
@@ -610,6 +706,7 @@ public class AdminDashboard extends Application {
         dashboard.getChildren().addAll(header, cardsRow1, cardsRow2, mainContent, quickActions);
 
         ScrollPane scrollPane = new ScrollPane(dashboard);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
@@ -623,11 +720,10 @@ public class AdminDashboard extends Application {
             ambulanceButton.setStyle(NAV_INACTIVE_STYLE);
             userButton.setStyle(NAV_INACTIVE_STYLE);
             policeButton.setStyle(NAV_INACTIVE_STYLE);
-            emergencyButton.setStyle(NAV_INACTIVE_STYLE);
-            analyticsButton.setStyle(NAV_INACTIVE_STYLE);
-            activityButton.setStyle(NAV_INACTIVE_STYLE);
             settingsButton.setStyle(NAV_INACTIVE_STYLE);
             dashboardButton.setStyle(NAV_ACTIVE_STYLE);
+            complaintButton.setStyle(NAV_INACTIVE_STYLE);
+            staffManagementButton.setStyle(NAV_INACTIVE_STYLE);
 
             borderPane.setCenter(rightContent);
         });
@@ -637,11 +733,10 @@ public class AdminDashboard extends Application {
             ambulanceButton.setStyle(NAV_INACTIVE_STYLE);
             userButton.setStyle(NAV_INACTIVE_STYLE);
             policeButton.setStyle(NAV_INACTIVE_STYLE);
-            emergencyButton.setStyle(NAV_INACTIVE_STYLE);
-            analyticsButton.setStyle(NAV_INACTIVE_STYLE);
-            activityButton.setStyle(NAV_INACTIVE_STYLE);
             settingsButton.setStyle(NAV_INACTIVE_STYLE);
             hospitalButton.setStyle(NAV_ACTIVE_STYLE);
+            complaintButton.setStyle(NAV_INACTIVE_STYLE);
+            staffManagementButton.setStyle(NAV_INACTIVE_STYLE);
 
             AdminHospitalManagement hospManagement = new AdminHospitalManagement();
             borderPane.setCenter(hospManagement.getHospitalManagement());
@@ -652,11 +747,11 @@ public class AdminDashboard extends Application {
             hospitalButton.setStyle(NAV_INACTIVE_STYLE);
             userButton.setStyle(NAV_INACTIVE_STYLE);
             policeButton.setStyle(NAV_INACTIVE_STYLE);
-            emergencyButton.setStyle(NAV_INACTIVE_STYLE);
-            analyticsButton.setStyle(NAV_INACTIVE_STYLE);
-            activityButton.setStyle(NAV_INACTIVE_STYLE);
             settingsButton.setStyle(NAV_INACTIVE_STYLE);
             ambulanceButton.setStyle(NAV_ACTIVE_STYLE);
+            complaintButton.setStyle(NAV_INACTIVE_STYLE);
+            staffManagementButton.setStyle(NAV_INACTIVE_STYLE);
+
 
             AdminAmbulanceManagement ambulManagement = new AdminAmbulanceManagement();
             borderPane.setCenter(ambulManagement.getAmbulanceManagement());
@@ -667,11 +762,10 @@ public class AdminDashboard extends Application {
             hospitalButton.setStyle(NAV_INACTIVE_STYLE);
             policeButton.setStyle(NAV_INACTIVE_STYLE);
             ambulanceButton.setStyle(NAV_INACTIVE_STYLE);
-            emergencyButton.setStyle(NAV_INACTIVE_STYLE);
-            analyticsButton.setStyle(NAV_INACTIVE_STYLE);
-            activityButton.setStyle(NAV_INACTIVE_STYLE);
             settingsButton.setStyle(NAV_INACTIVE_STYLE);
             userButton.setStyle(NAV_ACTIVE_STYLE);
+            complaintButton.setStyle(NAV_INACTIVE_STYLE);
+            staffManagementButton.setStyle(NAV_INACTIVE_STYLE);
 
             AdminUserManagement userManagement = new AdminUserManagement();
             borderPane.setCenter(userManagement.getUserManagement());
@@ -682,60 +776,48 @@ public class AdminDashboard extends Application {
             hospitalButton.setStyle(NAV_INACTIVE_STYLE);
             userButton.setStyle(NAV_INACTIVE_STYLE);
             ambulanceButton.setStyle(NAV_INACTIVE_STYLE);
-            emergencyButton.setStyle(NAV_INACTIVE_STYLE);
-            analyticsButton.setStyle(NAV_INACTIVE_STYLE);
-            activityButton.setStyle(NAV_INACTIVE_STYLE);
             settingsButton.setStyle(NAV_INACTIVE_STYLE);
             policeButton.setStyle(NAV_ACTIVE_STYLE);
+            complaintButton.setStyle(NAV_INACTIVE_STYLE);
+            staffManagementButton.setStyle(NAV_INACTIVE_STYLE);
+
 
             AdminPoliceManagement policeManagement = new AdminPoliceManagement();
             borderPane.setCenter(policeManagement.getPoliceManagement());
         });
 
-        emergencyButton.setOnAction(event -> {
+        
+
+
+        staffManagementButton.setOnAction(event -> {
             dashboardButton.setStyle(NAV_INACTIVE_STYLE);
             hospitalButton.setStyle(NAV_INACTIVE_STYLE);
             userButton.setStyle(NAV_INACTIVE_STYLE);
             policeButton.setStyle(NAV_INACTIVE_STYLE);
             ambulanceButton.setStyle(NAV_INACTIVE_STYLE);
-            analyticsButton.setStyle(NAV_INACTIVE_STYLE);
-            activityButton.setStyle(NAV_INACTIVE_STYLE);
             settingsButton.setStyle(NAV_INACTIVE_STYLE);
-            emergencyButton.setStyle(NAV_ACTIVE_STYLE);
+            staffManagementButton.setStyle(NAV_ACTIVE_STYLE);
+            complaintButton.setStyle(NAV_INACTIVE_STYLE);
 
-            AdminEmergencyMonitoring emergencyMonitoring = new AdminEmergencyMonitoring();
-            borderPane.setCenter(emergencyMonitoring.getEmergencyMonitoring());
+            AdminStaffManagement staffManagement = new AdminStaffManagement();
+            borderPane.setCenter(staffManagement.getStaffManagement());
         });
 
-        analyticsButton.setOnAction(event -> {
+        complaintButton.setOnAction(e -> {
             dashboardButton.setStyle(NAV_INACTIVE_STYLE);
             hospitalButton.setStyle(NAV_INACTIVE_STYLE);
             ambulanceButton.setStyle(NAV_INACTIVE_STYLE);
             userButton.setStyle(NAV_INACTIVE_STYLE);
             policeButton.setStyle(NAV_INACTIVE_STYLE);
-            emergencyButton.setStyle(NAV_INACTIVE_STYLE);
-            activityButton.setStyle(NAV_INACTIVE_STYLE);
+            complaintButton.setStyle(NAV_ACTIVE_STYLE);
             settingsButton.setStyle(NAV_INACTIVE_STYLE);
-            analyticsButton.setStyle(NAV_ACTIVE_STYLE);
+            staffManagementButton.setStyle(NAV_INACTIVE_STYLE);
 
-            AdminAnalyticsAndReports analyticsReports = new AdminAnalyticsAndReports();
-            borderPane.setCenter(analyticsReports.getAnalyticsAndReports());
+
+            AdminComplaintReceiver complaintReceiver = new AdminComplaintReceiver();
+            borderPane.setCenter(complaintReceiver.getComplaintReceiver());
         });
 
-        activityButton.setOnAction(event -> {
-            dashboardButton.setStyle(NAV_INACTIVE_STYLE);
-            hospitalButton.setStyle(NAV_INACTIVE_STYLE);
-            ambulanceButton.setStyle(NAV_INACTIVE_STYLE);
-            userButton.setStyle(NAV_INACTIVE_STYLE);
-            policeButton.setStyle(NAV_INACTIVE_STYLE);
-            emergencyButton.setStyle(NAV_INACTIVE_STYLE);
-            analyticsButton.setStyle(NAV_INACTIVE_STYLE);
-            settingsButton.setStyle(NAV_INACTIVE_STYLE);
-            activityButton.setStyle(NAV_ACTIVE_STYLE);
-
-            AdminActivityLogs activityLogs = new AdminActivityLogs();
-            borderPane.setCenter(activityLogs.getActivityLogsPage());
-        });
 
         settingsButton.setOnAction(event -> {
             dashboardButton.setStyle(NAV_INACTIVE_STYLE);
@@ -743,17 +825,22 @@ public class AdminDashboard extends Application {
             ambulanceButton.setStyle(NAV_INACTIVE_STYLE);
             userButton.setStyle(NAV_INACTIVE_STYLE);
             policeButton.setStyle(NAV_INACTIVE_STYLE);
-            emergencyButton.setStyle(NAV_INACTIVE_STYLE);
-            analyticsButton.setStyle(NAV_INACTIVE_STYLE);
-            activityButton.setStyle(NAV_INACTIVE_STYLE);
             settingsButton.setStyle(NAV_ACTIVE_STYLE);
+            complaintButton.setStyle(NAV_INACTIVE_STYLE);
+            staffManagementButton.setStyle(NAV_INACTIVE_STYLE);
+
 
             AdminSettings settings = new AdminSettings();
             borderPane.setCenter(settings.getSettingsPage());
         });
 
         logoutButton.setOnAction(event -> {
-            // Optional logout logic
+             try {
+                Welcome welcome = new Welcome();
+                welcome.start(dashboardStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
 
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
@@ -767,6 +854,12 @@ public class AdminDashboard extends Application {
         dashboardStage.setScene(dashboardScene);
         dashboardStage.setTitle("LifeLink Admin Dashboard");
         dashboardStage.setMaximized(true);
+
+        dashboardStage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+
         dashboardStage.show();
     }
 
@@ -819,32 +912,109 @@ public class AdminDashboard extends Application {
         grid.setAlignment(Pos.CENTER_LEFT);
 
         Label tripIdLbl = createFieldLabel("Trip ID:");
-        tripIdField = createTextField("e.g., TRIP-9081");
-        tripIdField.setText("TRIP-" + UUID.randomUUID().toString().substring(0, 6).toUpperCase());
+        tripIdField = createTextField("Auto-generated Trip ID");
+        tripIdField.setText(generateNextTripId());
+        tripIdField.setEditable(false);
+        tripIdField.setStyle(tripIdField.getStyle() + "-fx-opacity: 0.85;");
 
         Label patIdLbl = createFieldLabel("Patient ID:");
-        patIdField = createTextField("e.g., PAT-104");
+        patIdField = createTextField("Auto-generated Patient ID");
+        patIdField.setText(generateNextPatientId());
+        patIdField.setEditable(false);
+        patIdField.setStyle(patIdField.getStyle() + "-fx-opacity: 0.85;");
 
-        Label sourceLbl = createFieldLabel("Source / Pickup:");
-        sourceField = createTextField("e.g., Sector 4, Station Road");
+        Label pickupLocationLbl = createFieldLabel("Pickup Location:");
+        pickupLocationField = createTextField("Patient Pickup Location e.g., Swargate");
+        pickupLocationField.setText("Current AMB LOC ");
 
         Label destinationLbl = createFieldLabel("Destination:");
-        destinationField = createTextField("e.g., City Care Hospital, Ward 2");
+        destinationField = createTextField("e.g., pickuplocation, Ward 2");
+
+        Label destCoordsLbl = createFieldLabel("Dest Lat / Lng:");
+        destLatField = createTextField("Lat e.g., 18.5204");
+        destLatField.setPrefWidth(125);
+        destLngField = createTextField("Lng e.g., 73.8567");
+        destLngField.setPrefWidth(125);
+        HBox destCoordsBox = new HBox(10, destLatField, destLngField);
+        destCoordsBox.setAlignment(Pos.CENTER_LEFT);
+
+        Label ambulanceIdLbl = createFieldLabel("Ambulance ID:");
+
+        ambulanceIdBox = new ComboBox<>();
+        ambulanceIdBox.setPromptText("Select Ambulance");
+        ambulanceIdBox.setPrefWidth(260);
+        ambulanceIdBox.setStyle(
+                "-fx-background-color: " + BG_SURFACE + ";" +
+                "-fx-border-color: " + BORDER_COLOR + ";" +
+                "-fx-border-radius: 6;" +
+                "-fx-background-radius: 6;"
+        );
+
+
+        ambulanceIdBox.setOnAction(e -> {
+
+        String selectedAmbulance =
+                ambulanceIdBox.getValue();
+
+        if (selectedAmbulance == null ||
+                selectedAmbulance.trim().isEmpty()) {
+
+            nurseIdField.clear();
+            driverIdField.clear();
+
+            return;
+        }
+
+        for (
+                AdminAmbulanceAssignmentModel assignment :
+                ambulanceAssignments) {
+
+            if (selectedAmbulance.equals(
+                    assignment.getAmbulanceId())) {
+
+                nurseIdField.setText(
+                        assignment.getNurseEmail()
+                );
+
+                driverIdField.setText(
+                        assignment.getDriverEmail()
+                );
+
+                return;
+            }
+        }
+
+        nurseIdField.clear();
+        driverIdField.clear();
+
+        showAlert(
+                Alert.AlertType.WARNING,
+                "No Staff Assignment",
+                "No driver and nurse are assigned to ambulance " +
+                selectedAmbulance +
+                "."
+        );
+    });
+
+
+
+
 
         Label nurseIdLbl = createFieldLabel("Nurse ID / Email:");
-        nurseIdField = createTextField("nurse1@lifelink.com");
-        nurseIdField.setText("nurse1@lifelink.com");
+        nurseIdField = createTextField("Automatically assigned");
+        nurseIdField.setEditable(false);
+        nurseIdField.setStyle(
+                nurseIdField.getStyle() +
+                "-fx-opacity: 0.85;"
+        );
 
         Label driverIdLbl = createFieldLabel("Driver ID / Email:");
-        driverIdField = createTextField("driver1@lifelink.com");
-        driverIdField.setText("driver1@lifelink.com");
-
-        Label statusLbl = createFieldLabel("Status:");
-        statusBox = new ComboBox<>();
-        statusBox.getItems().addAll("PENDING", "ASSIGNED", "IN_PROGRESS", "COMPLETED", "CANCELLED");
-        statusBox.setValue("PENDING");
-        statusBox.setPrefWidth(260);
-        statusBox.setStyle("-fx-background-color: " + BG_SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 6; -fx-background-radius: 6;");
+        driverIdField = createTextField("Automatically assigned");
+        driverIdField.setEditable(false);
+        driverIdField.setStyle(
+        driverIdField.getStyle() +
+        "-fx-opacity: 0.85;"
+    );
 
         Label timeLbl = createFieldLabel("Timestamp:");
         timestampField = createTextField("Auto-generated Firestore Timestamp");
@@ -858,23 +1028,27 @@ public class AdminDashboard extends Application {
         grid.add(patIdLbl, 0, 1);
         grid.add(patIdField, 1, 1);
 
-        grid.add(sourceLbl, 0, 2);
-        grid.add(sourceField, 1, 2);
+        grid.add(pickupLocationLbl, 0, 2);
+        grid.add(pickupLocationField, 1, 2);
 
         grid.add(destinationLbl, 0, 3);
         grid.add(destinationField, 1, 3);
 
-        grid.add(nurseIdLbl, 0, 4);
-        grid.add(nurseIdField, 1, 4);
+        grid.add(destCoordsLbl, 0, 4);
+        grid.add(destCoordsBox, 1, 4);
 
-        grid.add(driverIdLbl, 0, 5);
-        grid.add(driverIdField, 1, 5);
+        grid.add(ambulanceIdLbl, 0, 5);
+        grid.add(ambulanceIdBox, 1, 5);
 
-        grid.add(statusLbl, 0, 6);
-        grid.add(statusBox, 1, 6);
+        grid.add(nurseIdLbl, 0, 6);
+        grid.add(nurseIdField, 1, 6);
 
-        grid.add(timeLbl, 0, 7);
-        grid.add(timestampField, 1, 7);
+        grid.add(driverIdLbl, 0, 7);
+        grid.add(driverIdField, 1, 7);
+
+        grid.add(timeLbl, 0, 8);
+        grid.add(timestampField, 1, 8);
+
 
         submitDispatchBtn = new Button("Dispatch Request");
         submitDispatchBtn.setStyle(PRIMARY_BUTTON_STYLE);
@@ -925,6 +1099,8 @@ public class AdminDashboard extends Application {
         emergencyFeedCardsContainer.setAlignment(Pos.TOP_CENTER);
 
         ScrollPane feedScroll = new ScrollPane(emergencyFeedCardsContainer);
+        feedScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        feedScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         feedScroll.setFitToWidth(true);
         feedScroll.setStyle("-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;");
         VBox.setVgrow(feedScroll, Priority.ALWAYS);
@@ -939,30 +1115,83 @@ public class AdminDashboard extends Application {
 
         // Start Firestore Live Stream
         startRealtimeDispatchListener();
+        loadAmbulanceAssignments();
 
         return root;
     }
 
     private void handleDispatchSubmission() {
-        String tripId = tripIdField.getText().trim();
-        String patId = patIdField.getText().trim();
-        String source = sourceField.getText().trim();
-        String destination = destinationField.getText().trim();
-        String nurseId = nurseIdField.getText().trim();
-        String driverId = driverIdField.getText().trim();
-        String status = statusBox.getValue();
+        String tripId = (tripIdField != null && !tripIdField.getText().trim().isEmpty()) 
+                ? tripIdField.getText().trim() 
+                : generateNextTripId();
+        String patId = (patIdField != null && !patIdField.getText().trim().isEmpty()) 
+                ? patIdField.getText().trim() 
+                : generateNextPatientId();
+        String source = (pickupLocationField != null && !pickupLocationField.getText().trim().isEmpty())
+                ? pickupLocationField.getText().trim()
+                : "Swargate";
+        String destination = destinationField != null ? destinationField.getText().trim() : "";
+        String ambulanceId = ambulanceIdBox != null ? ambulanceIdBox.getValue() : null;
+        String nurseId = nurseIdField != null ? nurseIdField.getText().trim() : "";
+        String driverId = driverIdField != null ? driverIdField.getText().trim() : "";
+        String status = "PENDING";
 
-        if (tripId.isEmpty() || patId.isEmpty() || source.isEmpty() || destination.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Validation Error", "Trip ID, Patient ID, Source, and Destination are required.");
+        if (destination.isEmpty()) {
+            showAlert(
+                    Alert.AlertType.WARNING,
+                    "Destination Required",
+                    "Please enter a destination hospital or location."
+            );
+            return;
+        }
+
+        Double destLat = null;
+        Double destLng = null;
+        if (destLatField != null && !destLatField.getText().trim().isEmpty()) {
+            try {
+                destLat = Double.parseDouble(destLatField.getText().trim());
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Latitude", "Please enter a valid numeric value for Latitude (e.g., 18.5204).");
+                return;
+            }
+        }
+
+        if (destLngField != null && !destLngField.getText().trim().isEmpty()) {
+            try {
+                destLng = Double.parseDouble(destLngField.getText().trim());
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Longitude", "Please enter a valid numeric value for Longitude (e.g., 73.8567).");
+                return;
+            }
+        }
+
+        if (ambulanceId == null || ambulanceId.trim().isEmpty()) {
+            showAlert(
+                    Alert.AlertType.WARNING,
+                    "Ambulance Required",
+                    "Please select an ambulance ID."
+            );
+            return;
+        }
+
+        if (driverId.isEmpty() || nurseId.isEmpty()) {
+            showAlert(
+                    Alert.AlertType.WARNING,
+                    "Staff Not Assigned",
+                    "The selected ambulance does not have an assigned driver and nurse."
+            );
             return;
         }
 
         submitDispatchBtn.setDisable(true);
         dispatchStatusLabel.setText("Writing dispatch request to Firebase Firestore...");
 
+        final Double finalLat = destLat;
+        final Double finalLng = destLng;
+
         new Thread(() -> {
             boolean success = emgController.dispatchEmergencyRequest(
-                tripId, patId, source, destination, nurseId, driverId, status
+                tripId, patId, source, destination, nurseId, driverId, status, ambulanceId, finalLat, finalLng
             );
 
             Platform.runLater(() -> {
@@ -978,23 +1207,33 @@ public class AdminDashboard extends Application {
     }
 
     private void startRealtimeDispatchListener() {
+        if (isLiveListenerStarted) return;
+        isLiveListenerStarted = true;
         emgController.subscribeToLiveRequests(list -> {
             Platform.runLater(() -> {
                 liveEmergencyList.clear();
                 liveEmergencyList.addAll(list);
-                totalFeedBadge.setText(list.size() + " Requests Logged");
+                updateAutogeneratedIds();
+                updateActiveFeedBadge();
                 filterAndRenderFeed(feedSearchField != null ? feedSearchField.getText() : "");
             });
         });
     }
 
     private void manualFetchAllDispatches() {
+        emergencyFeedCardsContainer.getChildren().clear();
+        ShimmerPane shimmer = ShimmerLoader.createListSkeleton(4, 500, 100);
+        emergencyFeedCardsContainer.getChildren().add(shimmer);
+
         new Thread(() -> {
+            try { Thread.sleep(300); } catch (InterruptedException e) {}
             List<AdminSideEmgReqModel> list = emgController.getAllRequests();
             Platform.runLater(() -> {
+                ShimmerLoader.transition(emergencyFeedCardsContainer, shimmer, null);
                 liveEmergencyList.clear();
                 liveEmergencyList.addAll(list);
-                totalFeedBadge.setText(list.size() + " Requests Logged");
+                updateAutogeneratedIds();
+                updateActiveFeedBadge();
                 filterAndRenderFeed(feedSearchField != null ? feedSearchField.getText() : "");
             });
         }).start();
@@ -1006,11 +1245,18 @@ public class AdminDashboard extends Application {
 
         List<AdminSideEmgReqModel> filtered = new ArrayList<>();
         for (AdminSideEmgReqModel item : liveEmergencyList) {
+            // Requirement 4: Requests with status COMPLETED vanish from live dispatches feed
+            String status = item.getStatus();
+            if (status != null && (status.equalsIgnoreCase("COMPLETED") || status.equalsIgnoreCase("COMPLETE"))) {
+                continue;
+            }
+
             boolean match = q.isEmpty()
                     || (item.getTripID() != null && item.getTripID().toLowerCase().contains(q))
                     || (item.getPatID() != null && item.getPatID().toLowerCase().contains(q))
                     || (item.getSource() != null && item.getSource().toLowerCase().contains(q))
                     || (item.getDestination() != null && item.getDestination().toLowerCase().contains(q))
+                    || (item.getAmbulanceId() != null && item.getAmbulanceId().toLowerCase().contains(q))
                     || (item.getNurseID() != null && item.getNurseID().toLowerCase().contains(q))
                     || (item.getDriverID() != null && item.getDriverID().toLowerCase().contains(q));
 
@@ -1022,7 +1268,9 @@ public class AdminDashboard extends Application {
             emptyBox.setAlignment(Pos.CENTER);
             emptyBox.setPadding(new Insets(30));
 
-            Text emptyText = new Text(liveEmergencyList.isEmpty() ? "No emergency requests found in Firestore." : "No records match \"" + query + "\"");
+            Text emptyText = new Text(liveEmergencyList.isEmpty() 
+                ? "No emergency requests found in Firestore." 
+                : (q.isEmpty() ? "No active dispatches right now (all completed)." : "No active records match \"" + query + "\""));
             emptyText.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-fill: " + TEXT_MUTED + ";");
             emptyBox.getChildren().add(emptyText);
             emergencyFeedCardsContainer.getChildren().add(emptyBox);
@@ -1049,7 +1297,7 @@ public class AdminDashboard extends Application {
         // 1. Google Map Action on Left
         Button mapBtn = new Button("📍 Map");
         mapBtn.setStyle(FONT_STACK + "-fx-background-color: " + PURPLE_LIGHT + "; -fx-text-fill: " + PURPLE_DARK + "; -fx-font-weight: bold; -fx-font-size: 11px; -fx-padding: 4 8; -fx-background-radius: 6; -fx-cursor: hand; -fx-border-radius: 5px;-fx-border-width: 1px; -fx-border-color:"+ PURPLE_DARK);
-        mapBtn.setOnAction(e -> openRouteMap(req.getSource(), req.getDestination()));
+        mapBtn.setOnAction(e -> openRouteMap(req.getSource(), req.getDestination(), req.getLatitude(), req.getLongitude()));
 
         Text tripText = new Text(req.getTripID() != null ? req.getTripID() : "UNASSIGNED");
         tripText.setStyle(FONT_STACK + "-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: " + PURPLE_DARK + ";");
@@ -1060,20 +1308,50 @@ public class AdminDashboard extends Application {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        // 2. Status Changer Option
+        // 2. Status Changer Option with dynamic Green/Red background
         Label statusLabel = new Label("Status:");
         statusLabel.setStyle(FONT_STACK + "-fx-font-size: 11px; -fx-text-fill: " + TEXT_SECONDARY + ";");
 
         ComboBox<String> cardStatusBox = new ComboBox<>();
         cardStatusBox.getItems().addAll("PENDING", "ASSIGNED", "IN_PROGRESS", "COMPLETED", "CANCELLED");
-        cardStatusBox.setValue(req.getStatus() != null ? req.getStatus().toUpperCase() : "PENDING");
-        cardStatusBox.setStyle(FONT_STACK + "-fx-background-color: " + BG_SURFACE + "; -fx-border-color: " + BORDER_COLOR + "; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-size: 11px;");
+        String currentStatus = req.getStatus() != null ? req.getStatus().toUpperCase().trim() : "PENDING";
+        cardStatusBox.setValue(currentStatus);
+        styleStatusBox(cardStatusBox, currentStatus);
+
+        cardStatusBox.setCellFactory(lv -> new javafx.scene.control.ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    String itm = item.toUpperCase().trim();
+                    if (itm.equals("COMPLETED") || itm.equals("ASSIGNED")) {
+                        setStyle(FONT_STACK + "-fx-text-fill: #15803D; -fx-font-weight: bold; -fx-padding: 4 8;");
+                    } else if (itm.equals("IN_PROGRESS")) {
+                        setStyle(FONT_STACK + "-fx-text-fill: #B45309; -fx-font-weight: bold; -fx-padding: 4 8;");
+                    } else {
+                        setStyle(FONT_STACK + "-fx-text-fill: #DC2626; -fx-font-weight: bold; -fx-padding: 4 8;");
+                    }
+                }
+            }
+        });
 
         cardStatusBox.setOnAction(e -> {
             String newStatus = cardStatusBox.getValue();
             if (newStatus != null && !newStatus.equalsIgnoreCase(req.getStatus())) {
                 req.setStatus(newStatus);
+                styleStatusBox(cardStatusBox, newStatus);
                 updateRequestStatus(req);
+                // Requirement 4: When marked as COMPLETED, it vanishes immediately from live dispatches feed
+                if (newStatus.equalsIgnoreCase("COMPLETED") || newStatus.equalsIgnoreCase("COMPLETE")) {
+                    Platform.runLater(() -> {
+                        updateActiveFeedBadge();
+                        filterAndRenderFeed(feedSearchField != null ? feedSearchField.getText() : "");
+                    });
+                }
             }
         });
 
@@ -1083,7 +1361,15 @@ public class AdminDashboard extends Application {
         HBox routeRow = new HBox(6);
         routeRow.setAlignment(Pos.CENTER_LEFT);
         Circle dot = new Circle(3, Color.web(PURPLE_DARK));
-        Text routeText = new Text((req.getSource() != null ? req.getSource() : "Unknown") + "  ➔  " + (req.getDestination() != null ? req.getDestination() : "Unknown"));
+
+        String coordsInfo = (req.getLatitude() != null && req.getLongitude() != null && req.getLatitude() != 0.0 && req.getLongitude() != 0.0)
+                ? " [📍 " + req.getLatitude() + ", " + req.getLongitude() + "]"
+                : "";
+        String destDisplay = (req.getDestination() != null ? req.getDestination() : "Hospital") + coordsInfo;
+        String routeStr = (req.getSource() != null && !req.getSource().equalsIgnoreCase("Emergency Location") && !req.getSource().trim().isEmpty())
+                ? req.getSource() + "  ➔  " + destDisplay
+                : "➔ Destination: " + destDisplay;
+        Text routeText = new Text(routeStr);
         routeText.setStyle(FONT_STACK + "-fx-font-size: 11px; -fx-fill: " + TEXT_SECONDARY + ";");
         routeRow.getChildren().addAll(dot, routeText);
 
@@ -1091,7 +1377,11 @@ public class AdminDashboard extends Application {
         HBox bottomRow = new HBox(12);
         bottomRow.setAlignment(Pos.CENTER_LEFT);
 
-        Text staffInfo = new Text("👩‍⚕ " + (req.getNurseID() != null ? req.getNurseID() : "None") + "  |  🚑 " + (req.getDriverID() != null ? req.getDriverID() : "None") +" | ");
+        String ambDisplay = (req.getAmbulanceId() != null && !req.getAmbulanceId().trim().isEmpty() && !req.getAmbulanceId().equalsIgnoreCase("Unassigned"))
+                ? "  |  🚑 Amb: " + req.getAmbulanceId() + " (" + (req.getDriverID() != null ? req.getDriverID() : "None") + ")"
+                : "  |  🚑 " + (req.getDriverID() != null ? req.getDriverID() : "None");
+
+        Text staffInfo = new Text("👩‍⚕ " + (req.getNurseID() != null ? req.getNurseID() : "None") + ambDisplay + " | ");
         staffInfo.setStyle(FONT_STACK + "-fx-font-size: 12px; -fx-fill: " + TEXT_MUTED + ";");
 
         Region bottomSpacer = new Region();
@@ -1101,10 +1391,57 @@ public class AdminDashboard extends Application {
         Text timeText = new Text(formattedTimestamp);
         timeText.setStyle(FONT_STACK + "-fx-font-size: 10px; -fx-fill: " + TEXT_MUTED + ";");
 
-        bottomRow.getChildren().addAll(staffInfo,mapBtn, bottomSpacer, timeText);
+        bottomRow.getChildren().addAll(staffInfo, mapBtn, bottomSpacer, timeText);
         card.getChildren().addAll(topRow, routeRow, bottomRow);
 
         return card;
+    }
+
+    private void styleStatusBox(ComboBox<String> box, String status) {
+        String s = (status != null) ? status.toUpperCase().trim() : "PENDING";
+        String bgColor;
+        String textColor;
+        String borderColor;
+
+        if (s.equals("COMPLETED") || s.equals("ASSIGNED")) {
+            // Green background
+            bgColor = "#DCFCE7";
+            textColor = "#15803D";
+            borderColor = "#86EFAC";
+        } else if (s.equals("IN_PROGRESS")) {
+            // Amber background
+            bgColor = "#FEF3C7";
+            textColor = "#B45309";
+            borderColor = "#FCD34D";
+        } else {
+            // Red background for PENDING, CANCELLED, etc.
+            bgColor = "#FEE2E2";
+            textColor = "#DC2626";
+            borderColor = "#FCA5A5";
+        }
+
+        final String finalTextColor = textColor;
+        box.setStyle(FONT_STACK +
+                "-fx-background-color: " + bgColor + ";" +
+                "-fx-border-color: " + borderColor + ";" +
+                "-fx-border-radius: 8px;" +
+                "-fx-background-radius: 8px;" +
+                "-fx-font-size: 11px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-cursor: hand;");
+
+        box.setButtonCell(new javafx.scene.control.ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item);
+                    setStyle(FONT_STACK + "-fx-text-fill: " + finalTextColor + "; -fx-font-weight: bold; -fx-font-size: 11px;");
+                }
+            }
+        });
     }
 
     private void updateRequestStatus(AdminSideEmgReqModel req) {
@@ -1115,8 +1452,19 @@ public class AdminDashboard extends Application {
     }
 
     private void openRouteMap(String source, String destination) {
+        openRouteMap(source, destination, null, null);
+    }
+
+    private void openRouteMap(String source, String destination, Double destLat, Double destLng) {
         try {
-            String dest = (destination != null && !destination.trim().isEmpty()) ? destination : "Hospital";
+            String dest;
+            if (destLat != null && destLng != null && destLat != 0.0 && destLng != 0.0) {
+                dest = destLat + "," + destLng;
+            } else if (destination != null && !destination.trim().isEmpty()) {
+                dest = destination;
+            } else {
+                dest = "Hospital";
+            }
             String src = (source != null && !source.trim().isEmpty()) ? source : "";
             
             String url = "https://www.google.com/maps/dir/?api=1&origin=" 
@@ -1143,13 +1491,74 @@ public class AdminDashboard extends Application {
         }
     }
 
+    // Helper methods for sequential ID autogeneration starting at TRIP-100 and PAT-200
+    private String generateNextTripId() {
+        int maxId = 99; // Next starts at least 100
+        for (AdminSideEmgReqModel req : liveEmergencyList) {
+            if (req != null && req.getTripID() != null) {
+                String id = req.getTripID().trim().toUpperCase();
+                if (id.startsWith("TRIP-")) {
+                    String numPart = id.substring(5).trim();
+                    try {
+                        int val = Integer.parseInt(numPart);
+                        if (val > maxId) {
+                            maxId = val;
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+        }
+        return "TRIP-" + (maxId + 1);
+    }
+
+    private String generateNextPatientId() {
+        int maxId = 199; // Next starts at least 200
+        for (AdminSideEmgReqModel req : liveEmergencyList) {
+            if (req != null && req.getPatID() != null) {
+                String id = req.getPatID().trim().toUpperCase();
+                if (id.startsWith("PAT-")) {
+                    String numPart = id.substring(4).trim();
+                    try {
+                        int val = Integer.parseInt(numPart);
+                        if (val > maxId) {
+                            maxId = val;
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+        }
+        return "PAT-" + (maxId + 1);
+    }
+
+    private void updateAutogeneratedIds() {
+        if (tripIdField != null) {
+            tripIdField.setText(generateNextTripId());
+        }
+        if (patIdField != null) {
+            patIdField.setText(generateNextPatientId());
+        }
+    }
+
+    private void updateActiveFeedBadge() {
+        if (totalFeedBadge != null) {
+            long activeCount = liveEmergencyList.stream()
+                    .filter(r -> r.getStatus() == null || (!r.getStatus().equalsIgnoreCase("COMPLETED") && !r.getStatus().equalsIgnoreCase("COMPLETE")))
+                    .count();
+            totalFeedBadge.setText(activeCount + " Active Requests");
+        }
+    }
+
     private void resetDispatchForm() {
-        tripIdField.setText("TRIP-" + UUID.randomUUID().toString().substring(0, 6).toUpperCase());
-        patIdField.clear();
-        sourceField.clear();
-        destinationField.clear();
-        timestampField.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        statusBox.setValue("PENDING");
+        if (tripIdField != null) tripIdField.setText(generateNextTripId());
+        if (patIdField != null) patIdField.setText(generateNextPatientId());
+        if (pickupLocationField != null) pickupLocationField.setText("Swargate");
+        if (destinationField != null) destinationField.clear();
+        if (destLatField != null) destLatField.clear();
+        if (destLngField != null) destLngField.clear();
+        if (ambulanceIdBox != null) ambulanceIdBox.getSelectionModel().clearSelection();
+        if (nurseIdField != null) nurseIdField.clear();
+        if (driverIdField != null) driverIdField.clear();
+        if (timestampField != null) timestampField.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
 
     private Label createFieldLabel(String text) {
@@ -1172,5 +1581,12 @@ public class AdminDashboard extends Application {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        Platform.exit();
+        System.exit(0);
     }
 }

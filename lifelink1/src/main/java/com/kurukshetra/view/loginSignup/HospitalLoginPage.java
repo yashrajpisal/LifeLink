@@ -4,6 +4,7 @@ import com.kurukshetra.controller.UserAuthController;
 import com.kurukshetra.controller.UserController;
 import com.kurukshetra.view.Welcome;
 import com.kurukshetra.view.hospital.HospitalDashboard;
+import com.kurukshetra.view.util.ModernAuthLoader;
 
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
@@ -46,7 +47,7 @@ public class HospitalLoginPage {
 
     private static final String WHITE = "#FFFFFF";
     private static final String BLACK = "#111111";
-    private static final String GRAY_BG = "#777775";
+    private static final String GRAY_BG = "#0B1329";
     private static final String BORDER = "#D7DBDF";
     private static final String PLACEHOLDER = "#A7A9AC";
 
@@ -460,7 +461,6 @@ public class HospitalLoginPage {
 
         hospitalBox.setStyle(
                 "-fx-background-color: " + WHITE + ";" +
-                // "-fx-border-color: " + BORDER + ";" +
                 "-fx-border-width: 2;" +
                 "-fx-border-radius: 10;" +
                 "-fx-background-radius: 10;"
@@ -479,7 +479,7 @@ public class HospitalLoginPage {
 
         TextField username =
                 createTextField(
-                        "Username"
+                        "Hospital Email"
                 );
 
         // =====================================================
@@ -573,7 +573,6 @@ public class HospitalLoginPage {
 
         // =====================================================
         // SIGN UP
-        // POSITION IS UNCHANGED
         // =====================================================
 
         Region signUpSpace =
@@ -636,73 +635,37 @@ public class HospitalLoginPage {
                 return;
             }
 
-            try {
+            ModernAuthLoader.runAsyncAuth(
+                    loginButton,
+                    card,
+                    "Verifying...",
+                    () -> {
+                        HospitalDashboard.hospitalEmail = emailValue;
+                        return userAuthController.signIn(emailValue, passwordValue);
+                    },
+                    isSuccess -> {
+                        if (isSuccess) {
+                            System.out.println("Hospital: Hospital Data");
+                            System.out.println("Username: " + emailValue);
+                            System.out.println("Login successful.");
 
-                boolean isSuccess =
-                        userAuthController.signIn(
-                                emailValue,
-                                passwordValue
-                        );
-
-                if (isSuccess) {
-
-                    System.out.println(
-                            "Hospital: Hospital Data"
-                    );
-
-                    System.out.println(
-                            "Username: " + emailValue
-                    );
-
-                    System.out.println(
-                            "Login successful."
-                    );
-
-                    // =================================================
-                    // SUCCESS STACKPANE
-                    // =================================================
-
-                    showSuccessPopup(
-                            "✓ Login Successful!",
-                            "Redirecting to Dashboard...",
-                            () -> {
-
-                                HospitalDashboard
-                                        hospitalDashboard =
-                                        new HospitalDashboard();
-
-                                try {
-
-                                    hospitalDashboard.start(
-                                            Welcome.WelcomeStage
-                                    );
-
-                                } catch (Exception ex) {
-
-                                    ex.printStackTrace();
-                                }
-                            }
-                    );
-
-                } else {
-
-                    showMessage(
-                            card,
-                            "Invalid username or password.",
-                            false
-                    );
-                }
-
-            } catch (Exception ex) {
-
-                ex.printStackTrace();
-
-                showMessage(
-                        card,
-                        "Login failed. Please try again.",
-                        false
-                );
-            }
+                            showSuccessPopup(
+                                    "✓ Login Successful!",
+                                    "Redirecting to Hospital Dashboard...",
+                                    () -> {
+                                        HospitalDashboard hospitalDashboard = new HospitalDashboard();
+                                        try {
+                                            hospitalDashboard.start(Welcome.WelcomeStage);
+                                        } catch (Exception ex) {
+                                            ex.printStackTrace();
+                                        }
+                                    }
+                            );
+                        }
+                    },
+                    username,
+                    password
+            );
         });
 
         // =====================================================
@@ -1099,80 +1062,31 @@ public class HospitalLoginPage {
                 return;
             }
 
-            try {
-
-                boolean isSuccess =
-                        userAuthController.signUp(
-                                nameValue,
-                                emailValue,
-                                passwordValue
-                        );
-
-                if (isSuccess) {
-
-                    System.out.println(
-                            "API Hit Successfully (SignUp)"
-                    );
-
-                    UserController userController =
-                            new UserController();
-
-                    userController.passToHospitalModel(
-                            nameValue,
-                            emailValue
-                    );
-
-                    System.out.println(
-                            "========== SIGN UP =========="
-                    );
-
-                    System.out.println(
-                            "Name: " + nameValue
-                    );
-
-                    System.out.println(
-                            "Email: " + emailValue
-                    );
-
-                    System.out.println(
-                            "Sign Up successful."
-                    );
-
-                    System.out.println(
-                            "============================="
-                    );
-
-                    // =================================================
-                    // SIGN UP SUCCESS STACKPANE
-                    // =================================================
-
-                    showSuccessPopup(
-                            "✓ Account Created!",
-                            "Hospital account created successfully.",
-                            () -> showLoginForm(card)
-                            
-                    );
-
-                    
-                } else {
-
-                    showMessage(
-                            card,
-                            "Sign up failed. Please try again.",
-                            false
-                    );
-                }
-
-            } catch (Exception ex) {
-
-                ex.printStackTrace();
-
-                showMessage(
-                        card,
-                        "Unable to create account.",
-                        false
-                );
-            }
+            ModernAuthLoader.runAsyncAuth(
+                    signUpButton,
+                    card,
+                    "Creating...",
+                    () -> {
+                        boolean isSuccess = userAuthController.signUp(nameValue, emailValue, passwordValue);
+                        if (isSuccess) {
+                            UserController userController = new UserController();
+                            userController.passToHospitalModel(nameValue, emailValue);
+                        }
+                        return isSuccess;
+                    },
+                    isSuccess -> {
+                        if (isSuccess) {
+                            showSuccessPopup(
+                                    "✓ Account Created!",
+                                    "Hospital staff account created successfully.",
+                                    () -> showLoginForm(card)
+                            );
+                        }
+                    },
+                    name,
+                    email,
+                    password
+            );
         });
 
         // =====================================================
@@ -1218,10 +1132,6 @@ public class HospitalLoginPage {
                 "-fx-background-color: rgba(0,0,0,0.40);"
         );
 
-        // =====================================================
-        // SUCCESS MESSAGE BOX
-        // =====================================================
-
         VBox messageBox =
                 new VBox(15);
 
@@ -1257,10 +1167,6 @@ public class HospitalLoginPage {
                 ");"
         );
 
-        // =====================================================
-        // SUCCESS TEXT
-        // =====================================================
-
         Label successLabel =
                 new Label(
                         successMessage
@@ -1272,10 +1178,6 @@ public class HospitalLoginPage {
                 "-fx-font-weight: bold;" +
                 "-fx-font-family: 'Segoe UI';"
         );
-
-        // =====================================================
-        // SECONDARY TEXT
-        // =====================================================
 
         Label secondaryLabel =
                 new Label(
@@ -1301,10 +1203,6 @@ public class HospitalLoginPage {
                 secondaryLabel
         );
 
-        // =====================================================
-        // ADD MESSAGE TO STACKPANE
-        // =====================================================
-
         overlay.getChildren().add(
                 messageBox
         );
@@ -1314,41 +1212,30 @@ public class HospitalLoginPage {
                 Pos.CENTER
         );
 
-        // =====================================================
-        // GET CURRENT PAGE
-        // =====================================================
-
         if (Welcome.WelcomeStage.getScene() == null) {
-
             return;
         }
 
-        javafx.scene.Parent root =
+        javafx.scene.Parent parentRoot =
                 Welcome.WelcomeStage
                         .getScene()
                         .getRoot();
 
-        if (!(root instanceof BorderPane)) {
-
+        if (!(parentRoot instanceof BorderPane)) {
             return;
         }
 
         BorderPane mainRoot =
-                (BorderPane) root;
+                (BorderPane) parentRoot;
 
         if (!(mainRoot.getCenter()
                 instanceof AnchorPane)) {
-
             return;
         }
 
         AnchorPane page =
                 (AnchorPane)
                         mainRoot.getCenter();
-
-        // =====================================================
-        // OVERLAY SIZE
-        // =====================================================
 
         AnchorPane.setTopAnchor(
                 overlay,
@@ -1370,17 +1257,9 @@ public class HospitalLoginPage {
                 0.0
         );
 
-        // =====================================================
-        // ADD OVERLAY
-        // =====================================================
-
         page.getChildren().add(
                 overlay
         );
-
-        // =====================================================
-        // DELAY
-        // =====================================================
 
         PauseTransition delay =
                 new PauseTransition(

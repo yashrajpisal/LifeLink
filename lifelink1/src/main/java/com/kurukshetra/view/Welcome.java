@@ -2,325 +2,664 @@ package com.kurukshetra.view;
 
 import com.kurukshetra.view.loginSignup.*;
 
-
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Welcome extends Application {
 
-    AalLoginStartPoint aalLoginStartPoint = new AalLoginStartPoint();
+    private static final String WELCOME_BACKGROUND = "lifelink_welcome_bg.jpg";
 
-    // Color Palette matching theme specifications
-    private static final String BG_SURFACE = "#faf8ff";
-    private static final String PRIMARY_COLOR = "#006591";
-    private static final String ON_SURFACE = "#131b2e";
-    private static final String ON_SURFACE_VARIANT = "#3e4850";
-    private static final String OUTLINE_VARIANT = "#bec8d2";
-    private static final String CONTAINER_LOW = "#f2f3ff";
-    private static final String CARD_BG = "#ffffff";
-    
-    // Icon Container Styles
-    private static final String ICON_BG_DEFAULT = "#eaedff";
-    private static final String ICON_BG_ERROR = "#ffdad6";
-    private static final String ICON_COLOR_ERROR = "#ba1a1a";
-    private static final String ICON_BG_POLICE = "#d0e1fb";
-    private static final String ICON_COLOR_POLICE = "#54647a";
+    private static final double CARD_WIDTH = 375;
+    private static final double CARD_HEIGHT = 265;
+    private static final double GRID_GAP_H = 26;
+    private static final double GRID_GAP_V = 24;
 
-    // SVG Vector Paths (Standard Material Symbols)
-    private static final String SVG_ADMIN = "M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z";
-    private static final String SVG_PATIENT = "M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z";
-    private static final String SVG_AMBULANCE = "M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z";
+    private static final Duration HOVER_DURATION = Duration.millis(180);
+    private static final Duration CLICK_DURATION = Duration.millis(70);
+    private static final Duration ENTRANCE_DURATION = Duration.millis(420);
+
     private static final String SVG_HOSPITAL = "M19 10.5h-5.5V5h-3v5.5H5v3h5.5V19h3v-5.5H19z";
+    private static final String SVG_AMBULANCE = "M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5S16.67 13 17.5 13s1.5.67 1.5 1.5S18.33 16 17.5 16zM5 11l1.5-4.5h11L19 11H5z";
     private static final String SVG_POLICE = "M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z";
+    private static final String SVG_PATIENT = "M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z";
+    private static final String SVG_ADMIN = "M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z";
+    private static final String SVG_NURSE = "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-3H8v-2h3V8h2v3h3v2h-3v3z";
 
     public static Stage WelcomeStage;
-    private Scene sc;
+    private Scene scene;
     public static BorderPane root;
+
     @Override
     public void start(Stage primaryStage) {
         WelcomeStage = primaryStage;
-
         root = new BorderPane();
-        root.setStyle("-fx-background-color: " + BG_SURFACE + ";");
 
-        // Layout Components
-        VBox leftSidebar = createSidebar();
-        VBox mainContent = createMainContent();
+        // High-definition background setup
+        Image backgroundImage = loadWelcomeBackground();
+        if (backgroundImage != null && !backgroundImage.isError()) {
+            BackgroundSize backgroundSize = new BackgroundSize(
+                    1.0, 1.0, true, true, false, true);
+            BackgroundImage background = new BackgroundImage(
+                    backgroundImage,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    backgroundSize);
+            root.setBackground(new Background(background));
+        } else {
+            root.setStyle("-fx-background-color: #06152b;");
+        }
 
-        root.setLeft(leftSidebar);
-        root.setCenter(mainContent);
+        // Cinematic deep-blue overlay to make the glossy cards and specular rims pop
+        StackPane centerOverlay = new StackPane();
+        centerOverlay.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 75%, rgba(6, 20, 44, 0.35) 0%, rgba(3, 10, 24, 0.65) 100%);");
 
-        sc = new Scene(root, WelcomeStage.getWidth(), WelcomeStage.getHeight());
-        WelcomeStage.setTitle("LifeLink - Select Role");
-        WelcomeStage.setScene(sc);
+        VBox contentContainer = new VBox(22);
+        contentContainer.setAlignment(Pos.CENTER);
+        contentContainer.setPadding(new Insets(20, 30, 28, 30));
+
+        VBox header = createHeader();
+        List<Node> cardList = new ArrayList<>();
+        GridPane cardsGrid = createCardsGrid(cardList);
+
+        contentContainer.getChildren().addAll(header, cardsGrid);
+        centerOverlay.getChildren().add(contentContainer);
+        root.setCenter(centerOverlay);
+
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+        scene = new Scene(root, visualBounds.getWidth(), visualBounds.getHeight());
+
+        WelcomeStage.setX(visualBounds.getMinX());
+        WelcomeStage.setY(visualBounds.getMinY());
+        WelcomeStage.setWidth(visualBounds.getWidth());
+        WelcomeStage.setHeight(visualBounds.getHeight());
+        WelcomeStage.setTitle("LifeLink - Healthcare & Emergency Coordination Platform");
+
+        try (var iconStream = getClass().getResourceAsStream("/assets/Images/lifelinklogonew.png")) {
+            if (iconStream != null) {
+                WelcomeStage.getIcons().setAll(new Image(iconStream));
+            } else {
+                File f = new File("src/main/resources/assets/Images/lifelinklogonew.png");
+                if (!f.exists()) f = new File("LifeLink/lifelink1/src/main/resources/assets/Images/lifelinklogonew.png");
+                if (f.exists()) {
+                    WelcomeStage.getIcons().setAll(new Image(f.toURI().toString()));
+                }
+            }
+        } catch (Exception ignored) {}
+
+        WelcomeStage.setScene(scene);
         WelcomeStage.setMaximized(true);
+
+        WelcomeStage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+
         WelcomeStage.show();
 
-        // Entrance Staggered Slide-up Animation
-        playEntranceAnimations(mainContent);
-
+        // Staggered luxury glass entrance animation
+        playEntranceAnimations(cardList);
     }
 
+    /**
+     * Top Header with Title and Marathi Devanagari Subtitle
+     */
+    private VBox createHeader() {
+        VBox header = new VBox(6);
+        header.setAlignment(Pos.CENTER);
 
-    private VBox createSidebar() {
-        VBox sidebar = new VBox(20);
-        sidebar.setPrefWidth(380);
-        sidebar.setPadding(new Insets(48));
-        sidebar.setStyle("-fx-background-color: " + CONTAINER_LOW + ";");
+        Label title = new Label("Welcome to LifeLink");
+        title.setFont(Font.font("Segoe UI", FontWeight.BOLD, 36));
+        title.setTextFill(Color.WHITE);
+        title.setEffect(new DropShadow(14, 0, 4, Color.rgb(0, 0, 0, 0.65)));
 
-        Label brandLabel = new Label("LifeLink");
-        brandLabel.setFont(Font.font("Plus Jakarta Sans", FontWeight.BOLD, 42));
-        brandLabel.setTextFill(Color.web(PRIMARY_COLOR));
+        Label subtitle = new Label("काळ रक्षा | जीवन रक्षा ||");
+        // Use Windows Devanagari UI font "Nirmala UI" or "Segoe UI"
+        Font devanagariFont = Font.font("Nirmala UI", FontWeight.BOLD, 18);
+        if (devanagariFont == null || "System".equals(devanagariFont.getFamily())) {
+            devanagariFont = Font.font("Segoe UI", FontWeight.BOLD, 18);
+        }
+        subtitle.setFont(devanagariFont);
+        subtitle.setTextFill(Color.web("#38BDF8"));
+        subtitle.setEffect(new DropShadow(10, 0, 0, Color.rgb(56, 189, 248, 0.55)));
 
-        Label descLabel = new Label("Emergency response and medical coordination system. Select your portal to continue.");
-        descLabel.setFont(Font.font("Inter", 16));
-        descLabel.setTextFill(Color.web(ON_SURFACE_VARIANT));
-        descLabel.setWrapText(true);
-
-        sidebar.getChildren().addAll(brandLabel, descLabel);
-        return sidebar;
-    }
-
-    private VBox createMainContent() {
-        VBox container = new VBox(32);
-        container.setPadding(new Insets(48, 64, 48, 64));
-        container.setAlignment(Pos.CENTER_LEFT);
-
-        // Header
-        VBox header = new VBox(8);
-        Label title = new Label("Welcome back");
-        title.setFont(Font.font("Plus Jakarta Sans", FontWeight.BOLD, 32));
-        title.setTextFill(Color.web(ON_SURFACE));
-
-        Label subtitle = new Label("Please select your access role to securely log into the system.");
-        subtitle.setFont(Font.font("Inter", 16));
-        subtitle.setTextFill(Color.web(ON_SURFACE_VARIANT));
         header.getChildren().addAll(title, subtitle);
-
-        // Cards Grid
-        GridPane grid = new GridPane();
-        grid.setHgap(24);
-        grid.setVgap(24);
-        grid.setMaxWidth(900);
-
-        ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(33.33);
-        ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(33.33);
-        ColumnConstraints col3 = new ColumnConstraints();
-        col3.setPercentWidth(33.33);
-        grid.getColumnConstraints().addAll(col1, col2, col3);
-
-        // Instantiating Role Cards
-        // ADmin card
-        StackPane adminCard = createRoleCard(SVG_ADMIN, "System Admin", "Manage users, oversee system integrity, and configure platform settings.", PRIMARY_COLOR, ICON_BG_DEFAULT);
-        adminCard.setOnMouseClicked(e ->{
-            AdminLoginPage adminLoginPage = new AdminLoginPage();
-            Scene sc = new Scene(adminLoginPage.getAdminLoginPage(),WelcomeStage.getWidth(), WelcomeStage.getHeight());
-            WelcomeStage.setScene(sc);
-            WelcomeStage.setMaximized(true);
-
-        });
-
-        // Patient Card
-        StackPane patientCard = createRoleCard(SVG_PATIENT, "Patient & Family", "Access medical records, track vitals, and communicate with healthcare providers.", PRIMARY_COLOR, ICON_BG_DEFAULT);
-        patientCard.setOnMouseClicked(e ->{
-            FamilyLoginPage familyLoginPage = new FamilyLoginPage();
-            Scene sc = new Scene(familyLoginPage.getFamilyLoginPage(),WelcomeStage.getWidth(), WelcomeStage.getHeight());
-            WelcomeStage.setScene(sc);
-            WelcomeStage.setMaximized(true);
-        });
-
-        // ambulance card
-        StackPane ambulanceDriverCard = createRoleCard(SVG_AMBULANCE, "Ambulance Driver", "Receive dispatch alerts, navigate routes, and transmit patient vitals en route.", ICON_COLOR_ERROR, ICON_BG_ERROR); 
-        ambulanceDriverCard.setOnMouseClicked(e ->{
-
-            DriverLoginPage driverLoginPage = new DriverLoginPage();
-            Scene sc = new Scene(driverLoginPage.getDriverLoginPage(),WelcomeStage.getWidth(), WelcomeStage.getHeight());
-            WelcomeStage.setScene(sc);
-            WelcomeStage.setMaximized(true);
-        });
-
-        
-        // Nurse CarFnurced
-        StackPane ambulanceNurceCard = createRoleCard(SVG_AMBULANCE, "Ambulance Nurse", "Receive dispatch alerts, navigate routes, and transmit patient vitals en route.", ICON_COLOR_ERROR, ICON_BG_ERROR);
-        ambulanceNurceCard.setOnMouseClicked(e ->{
-
-            NurseLoginPage nurseLoginPage = new NurseLoginPage();
-            Scene sc = new Scene(nurseLoginPage.getNurseLoginPage(null),WelcomeStage.getWidth(), WelcomeStage.getHeight());
-            WelcomeStage.setScene(sc);
-            WelcomeStage.setMaximized(true);
-
-        });
-
-
-        // Hospital Card
-        StackPane hospitalCard = createRoleCard(SVG_HOSPITAL, "Hospital Staff", "View incoming emergencies, manage ER capacity, and review patient data.", PRIMARY_COLOR, ICON_BG_DEFAULT);
-        hospitalCard.setOnMouseClicked(e ->{
-           
-            HospitalLoginPage hospitalLoginPage = new HospitalLoginPage();
-            Scene sc = new Scene(hospitalLoginPage.getHospitalLoginPage(),WelcomeStage.getWidth(), WelcomeStage.getHeight());
-            WelcomeStage.setScene(sc);
-            WelcomeStage.setMaximized(true);
-        });
-
-
-        // Police card
-        StackPane policeCard = createRoleCard(SVG_POLICE, "Police Control Room", "Coordinate multi-agency emergency responses, monitor active incidents, and ensure scene security.", ICON_COLOR_POLICE, ICON_BG_POLICE);
-        policeCard.setOnMouseClicked(e ->{
-
-            PoliceLoginPage policeLoginPage = new PoliceLoginPage();
-            Scene sc = new Scene(policeLoginPage.getPoliceLoginPage(),WelcomeStage.getWidth(), WelcomeStage.getHeight());
-            WelcomeStage.setScene(sc);
-            WelcomeStage.setMaximized(true);
-        });
-
-
-
-        // Grid Positioning
-        grid.add(ambulanceDriverCard, 0, 0);
-        grid.add(ambulanceNurceCard, 1, 0);
-        grid.add(hospitalCard, 2, 0);
-        grid.add(policeCard, 0, 1);
-        grid.add(patientCard, 1, 1);
-        grid.add(adminCard, 2, 1);
-                
-
-        // Footer
-        Label footer = new Label("Secure Connection • End-to-End Encrypted • HIPAA Compliant");
-        footer.setFont(Font.font("JetBrains Mono", 12));
-        footer.setTextFill(Color.web(OUTLINE_VARIANT));
-        footer.setMaxWidth(Double.MAX_VALUE);
-        footer.setAlignment(Pos.CENTER);
-
-        container.getChildren().addAll(header, grid, footer);
-        return container;
+        return header;
     }
 
-    private StackPane createRoleCard(String svgPathData, String titleText, String descText, String iconColorHex, String iconBgHex) {
+    /**
+     * 3 columns x 2 rows card grid
+     */
+    private GridPane createCardsGrid(List<Node> cardList) {
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(GRID_GAP_H);
+        grid.setVgap(GRID_GAP_V);
+
+        for (int i = 0; i < 3; i++) {
+            ColumnConstraints column = new ColumnConstraints();
+            column.setMinWidth(CARD_WIDTH);
+            column.setPrefWidth(CARD_WIDTH);
+            column.setMaxWidth(CARD_WIDTH);
+            column.setHgrow(Priority.NEVER);
+            grid.getColumnConstraints().add(column);
+        }
+
+        double cardGroupWidth = (CARD_WIDTH * 3) + (GRID_GAP_H * 2);
+        grid.setMinWidth(cardGroupWidth);
+        grid.setPrefWidth(cardGroupWidth);
+        grid.setMaxWidth(cardGroupWidth);
+
+        // 1. Ambulance Driver
+        StackPane driverCard = createRoleCard(
+                "driver.png",
+                SVG_AMBULANCE,
+                "Paramedic Dispatch",
+                "Ambulance Driver",
+                "#F87171",
+                "#FCA5A5",
+                "rgba(239, 68, 68, 0.22)",
+                "rgba(248, 113, 113, 0.50)",
+                () -> {
+                    DriverLoginPage driverLoginPage = new DriverLoginPage();
+                    Scene newScene = new Scene(
+                            driverLoginPage.getDriverLoginPage(),
+                            WelcomeStage.getWidth(),
+                            WelcomeStage.getHeight());
+                    WelcomeStage.setScene(newScene);
+                    WelcomeStage.setMaximized(true);
+                });
+
+        // 2. Ambulance Nurse
+        StackPane nurseCard = createRoleCard(
+                "nurse.png",
+                SVG_NURSE,
+                "Clinical Nurse",
+                "Ambulance Nurse",
+                "#38BDF8",
+                "#7DD3FC",
+                "rgba(14, 165, 233, 0.22)",
+                "rgba(56, 189, 248, 0.50)",
+                () -> {
+                    NurseLoginPage nurseLoginPage = new NurseLoginPage();
+                    Scene newScene = new Scene(
+                            nurseLoginPage.getNurseLoginPage(null),
+                            WelcomeStage.getWidth(),
+                            WelcomeStage.getHeight());
+                    WelcomeStage.setScene(newScene);
+                    WelcomeStage.setMaximized(true);
+                });
+
+        // 3. Hospital Staff
+        StackPane hospitalCard = createRoleCard(
+                "hospital.png",
+                SVG_HOSPITAL,
+                "Hospital ER",
+                "Hospital",
+                "#34D399",
+                "#6EE7B7",
+                "rgba(16, 185, 129, 0.22)",
+                "rgba(52, 211, 153, 0.50)",
+                () -> {
+                    HospitalLoginPage hospitalLoginPage = new HospitalLoginPage();
+                    Scene newScene = new Scene(
+                            hospitalLoginPage.getHospitalLoginPage(),
+                            WelcomeStage.getWidth(),
+                            WelcomeStage.getHeight());
+                    WelcomeStage.setScene(newScene);
+                    WelcomeStage.setMaximized(true);
+                });
+
+        // 4. Police Control Room
+        StackPane policeCard = createRoleCard(
+                "police.png",
+                SVG_POLICE,
+                "Police Command",
+                "Police Control Room",
+                "#818CF8",
+                "#A5B4FC",
+                "rgba(99, 102, 241, 0.25)",
+                "rgba(129, 140, 248, 0.50)",
+                () -> {
+                    PoliceLoginPage policeLoginPage = new PoliceLoginPage();
+                    Scene newScene = new Scene(
+                            policeLoginPage.getPoliceLoginPage(),
+                            WelcomeStage.getWidth(),
+                            WelcomeStage.getHeight());
+                    WelcomeStage.setScene(newScene);
+                    WelcomeStage.setMaximized(true);
+                });
+
+        // 5. Patient & Family
+        StackPane familyCard = createRoleCard(
+                "family.png",
+                SVG_PATIENT,
+                "Patient Care",
+                "Patient & Family",
+                "#FBBF24",
+                "#FDE68A",
+                "rgba(245, 158, 11, 0.25)",
+                "rgba(251, 191, 36, 0.50)",
+                () -> {
+                    FamilyLoginPage familyLoginPage = new FamilyLoginPage();
+                    Scene newScene = new Scene(
+                            familyLoginPage.getFamilyLoginPage(),
+                            WelcomeStage.getWidth(),
+                            WelcomeStage.getHeight());
+                    WelcomeStage.setScene(newScene);
+                    WelcomeStage.setMaximized(true);
+                });
+
+        // 6. System Admin
+        StackPane adminCard = createRoleCard(
+                "admin.png",
+                SVG_ADMIN,
+                "Administration",
+                "System Admin",
+                "#94A3B8",
+                "#CBD5E1",
+                "rgba(100, 116, 139, 0.30)",
+                "rgba(148, 163, 184, 0.50)",
+                () -> {
+                    AdminLoginPage adminLoginPage = new AdminLoginPage();
+                    Scene newScene = new Scene(
+                            adminLoginPage.getAdminLoginPage(),
+                            WelcomeStage.getWidth(),
+                            WelcomeStage.getHeight());
+                    WelcomeStage.setScene(newScene);
+                    WelcomeStage.setMaximized(true);
+                });
+
+        // Row 0
+        grid.add(driverCard, 0, 0);
+        grid.add(nurseCard, 1, 0);
+        grid.add(hospitalCard, 2, 0);
+
+        // Row 1
+        grid.add(policeCard, 0, 1);
+        grid.add(familyCard, 1, 1);
+        grid.add(adminCard, 2, 1);
+
+        cardList.add(driverCard);
+        cardList.add(nurseCard);
+        cardList.add(hospitalCard);
+        cardList.add(policeCard);
+        cardList.add(familyCard);
+        cardList.add(adminCard);
+
+        return grid;
+    }
+
+    /**
+     * Creates a high-fidelity glassmorphism card with specular rim reflection,
+     * inner showcase box for 3D character, glowing badge pill, and accent arrow.
+     */
+    private StackPane createRoleCard(
+            String imageName,
+            String fallbackSvg,
+            String badgeText,
+            String titleText,
+            String accentColorHex,
+            String badgeTextColorHex,
+            String badgeBgRgba,
+            String badgeBorderRgba,
+            Runnable onClickAction) {
+
         StackPane card = new StackPane();
-        card.setPadding(new Insets(24));
-        card.setStyle(String.format(
-            "-fx-background-color: %s; -fx-background-radius: 16; -fx-border-color: %s; -fx-border-radius: 16; -fx-border-width: 1;",
-            CARD_BG, OUTLINE_VARIANT
-        ));
+        card.setMinWidth(CARD_WIDTH);
+        card.setPrefWidth(CARD_WIDTH);
+        card.setMaxWidth(CARD_WIDTH);
+        card.setMinHeight(CARD_HEIGHT);
+        card.setPrefHeight(CARD_HEIGHT);
+        card.setMaxHeight(CARD_HEIGHT);
+        card.setCursor(Cursor.HAND);
 
-        // Background Accent Shape
-        Circle bgDecoration = new Circle(40);
-        bgDecoration.setFill(Color.web(PRIMARY_COLOR, 0.05));
-        StackPane.setAlignment(bgDecoration, Pos.TOP_RIGHT);
-        bgDecoration.setTranslateX(20);
-        bgDecoration.setTranslateY(-20);
+        // Base glossy glass styling
+        String defaultStyle = createCardRestingStyle();
+        card.setStyle(defaultStyle);
 
-        // Icon Rendering via JavaFX SVGPath
-        SVGPath iconNode = new SVGPath();
-        iconNode.setContent(svgPathData);
-        iconNode.setFill(Color.web(iconColorHex));
+        DropShadow defaultShadow = new DropShadow(26, 0, 8, Color.rgb(14, 165, 233, 0.20));
+        card.setEffect(defaultShadow);
 
-        StackPane iconBox = new StackPane(iconNode);
-        iconBox.setPrefSize(64, 64);
-        iconBox.setMaxSize(64, 64);
-        iconBox.setStyle(String.format("-fx-background-color: %s; -fx-background-radius: 12;", iconBgHex));
+        // Top specular glare sheen across the upper curve of the card
+        Region topGlare = new Region();
+        topGlare.setPrefHeight(80);
+        topGlare.setMaxHeight(80);
+        topGlare.setStyle("-fx-background-color: linear-gradient(to bottom, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%); "
+                + "-fx-background-radius: 24 24 0 0;");
+        topGlare.setMouseTransparent(true);
+        StackPane.setAlignment(topGlare, Pos.TOP_CENTER);
 
-        // Text
-        Label cardTitle = new Label(titleText);
-        cardTitle.setFont(Font.font("Plus Jakarta Sans", FontWeight.BOLD, 18));
-        cardTitle.setTextFill(Color.web(ON_SURFACE));
+        // Inner 3D character showcase container
+        StackPane showcaseBox = new StackPane();
+        showcaseBox.setPrefWidth(345);
+        showcaseBox.setPrefHeight(154);
+        showcaseBox.setMinWidth(345);
+        showcaseBox.setMinHeight(154);
+        showcaseBox.setMaxWidth(345);
+        showcaseBox.setMaxHeight(154);
+        showcaseBox.setAlignment(Pos.CENTER);
+        showcaseBox.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 65%, rgba(255, 255, 255, 0.06) 100%); "
+                + "-fx-background-radius: 18; "
+                + "-fx-border-color: linear-gradient(to bottom, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.12) 55%, rgba(255, 255, 255, 0.30) 100%); "
+                + "-fx-border-radius: 18; "
+                + "-fx-border-width: 1.2;");
 
-        Label cardDesc = new Label(descText);
-        cardDesc.setFont(Font.font("Inter", 14));
-        cardDesc.setTextFill(Color.web(ON_SURFACE_VARIANT));
-        cardDesc.setWrapText(true);
+        // Inner showcase top specular highlight
+        Region innerGleam = new Region();
+        innerGleam.setPrefHeight(40);
+        innerGleam.setMaxHeight(40);
+        innerGleam.setStyle("-fx-background-color: linear-gradient(to bottom, rgba(255, 255, 255, 0.22) 0%, transparent 100%); -fx-background-radius: 17 17 0 0;");
+        innerGleam.setMouseTransparent(true);
+        StackPane.setAlignment(innerGleam, Pos.TOP_CENTER);
 
-        VBox contentBox = new VBox(12, iconBox, cardTitle, cardDesc);
-        contentBox.setAlignment(Pos.TOP_LEFT);
+        Image roleImage = loadWelcomeImage(imageName);
+        ImageView roleImageView = null;
 
-        card.getChildren().addAll(bgDecoration, contentBox);
+        if (roleImage != null && !roleImage.isError()) {
+            roleImageView = new ImageView(roleImage);
+            roleImageView.setFitHeight(144);
+            roleImageView.setFitWidth(325);
+            roleImageView.setPreserveRatio(true);
+            roleImageView.setSmooth(true);
+            roleImageView.setEffect(new DropShadow(8, 0, 3, Color.rgb(0, 0, 0, 0.35)));
 
-        // Setup Interactive Animations
-        setupHoverAnimation(card, iconBox);
+            showcaseBox.getChildren().addAll(innerGleam, roleImageView);
+        } else {
+            Node placeholder = createReservedImagePlaceholder(fallbackSvg, accentColorHex, badgeBgRgba);
+            showcaseBox.getChildren().addAll(innerGleam, placeholder);
+        }
+
+        // Bottom text and action area
+        VBox bottomBox = new VBox(6);
+        bottomBox.setPadding(new Insets(8, 6, 2, 6));
+        bottomBox.setAlignment(Pos.CENTER_LEFT);
+
+        // Badge pill row
+        HBox badgeRow = new HBox();
+        badgeRow.setAlignment(Pos.CENTER_LEFT);
+
+        Label badgeLabel = new Label(badgeText);
+        badgeLabel.setFont(Font.font("Segoe UI", FontWeight.BOLD, 11));
+        badgeLabel.setTextFill(Color.web(badgeTextColorHex));
+        badgeLabel.setStyle(String.format(
+                "-fx-background-color: %s; -fx-padding: 3 12 3 12; -fx-background-radius: 20; -fx-border-color: %s; -fx-border-radius: 20; -fx-border-width: 1.0;",
+                badgeBgRgba, badgeBorderRgba));
+        badgeLabel.setEffect(new DropShadow(8, 0, 0, Color.web(accentColorHex, 0.35)));
+        badgeRow.getChildren().add(badgeLabel);
+
+        // Title and Arrow row
+        HBox titleRow = new HBox(8);
+        titleRow.setAlignment(Pos.CENTER_LEFT);
+
+        Label titleLabel = new Label(titleText);
+        titleLabel.setFont(Font.font("Segoe UI", FontWeight.BOLD, 18));
+        titleLabel.setTextFill(Color.WHITE);
+        titleLabel.setEffect(new DropShadow(4, 0, 2, Color.rgb(0, 0, 0, 0.5)));
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        Label arrowLabel = new Label("→");
+        arrowLabel.setFont(Font.font("Segoe UI", FontWeight.BOLD, 18));
+        arrowLabel.setTextFill(Color.web(accentColorHex));
+        arrowLabel.setEffect(new DropShadow(8, 0, 0, Color.web(accentColorHex, 0.65)));
+
+        titleRow.getChildren().addAll(titleLabel, spacer, arrowLabel);
+
+        bottomBox.getChildren().addAll(badgeRow, titleRow);
+
+        // Content layout inside card
+        VBox cardContent = new VBox(6);
+        cardContent.setPadding(new Insets(12, 12, 10, 12));
+        cardContent.setAlignment(Pos.TOP_CENTER);
+        cardContent.getChildren().addAll(showcaseBox, bottomBox);
+
+        card.getChildren().addAll(topGlare, cardContent);
+
+        // Setup interactive animations
+        setupCardInteractions(card, roleImageView, arrowLabel, defaultStyle, accentColorHex, defaultShadow, onClickAction);
 
         return card;
     }
 
-    private void setupHoverAnimation(Node card, Node iconBox) {
-        card.setOnMouseEntered(e -> {
-            TranslateTransition tt = new TranslateTransition(Duration.millis(200), card);
-            tt.setToY(-8);
+    private String createCardRestingStyle() {
+        return "-fx-background-color: linear-gradient(to bottom, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 35%, rgba(10, 28, 56, 0.50) 75%, rgba(255, 255, 255, 0.09) 100%); "
+                + "-fx-background-radius: 24; "
+                + "-fx-border-color: linear-gradient(to bottom, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.28) 40%, rgba(255, 255, 255, 0.08) 65%, rgba(255, 255, 255, 0.48) 100%); "
+                + "-fx-border-radius: 24; "
+                + "-fx-border-width: 1.8;";
+    }
 
-            ScaleTransition st = new ScaleTransition(Duration.millis(200), card);
-            st.setToX(1.02);
-            st.setToY(1.02);
+    private String createCardHoverStyle(String accentHex) {
+        return "-fx-background-color: linear-gradient(to bottom, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.07) 35%, rgba(10, 28, 56, 0.55) 75%, rgba(255, 255, 255, 0.14) 100%); "
+                + "-fx-background-radius: 24; "
+                + "-fx-border-color: linear-gradient(to bottom, #FFFFFF 0%, rgba(255, 255, 255, 0.70) 25%, " + accentHex + " 65%, #FFFFFF 100%); "
+                + "-fx-border-radius: 24; "
+                + "-fx-border-width: 2.2;";
+    }
 
-            ScaleTransition iconSt = new ScaleTransition(Duration.millis(200), iconBox);
-            iconSt.setToX(1.1);
-            iconSt.setToY(1.1);
+    private StackPane createReservedImagePlaceholder(
+            String svgPathData,
+            String accentColorHex,
+            String badgeBgHex) {
 
-            new ParallelTransition(tt, st, iconSt).play();
-            card.setStyle(String.format(
-                "-fx-background-color: %s; -fx-background-radius: 16; -fx-border-color: %s; -fx-border-radius: 16; -fx-border-width: 1.5; -fx-effect: dropshadow(three-pass-box, rgba(0, 101, 145, 0.15), 15, 0, 0, 10);",
-                CARD_BG, PRIMARY_COLOR
-            ));
+        StackPane placeholder = new StackPane();
+        placeholder.setPrefHeight(140);
+        placeholder.setMinHeight(140);
+        placeholder.setMaxHeight(140);
+        placeholder.setAlignment(Pos.CENTER);
+
+        VBox inner = new VBox(8);
+        inner.setAlignment(Pos.CENTER);
+
+        SVGPath icon = new SVGPath();
+        icon.setContent(svgPathData);
+        icon.setFill(Color.web(accentColorHex));
+
+        StackPane iconCircle = new StackPane(icon);
+        iconCircle.setPrefSize(48, 48);
+        iconCircle.setMaxSize(48, 48);
+        iconCircle.setStyle(String.format("-fx-background-color: %s; -fx-background-radius: 24;", badgeBgHex));
+
+        Label slotLabel = new Label("Live Portal Ready");
+        slotLabel.setFont(Font.font("Segoe UI", FontWeight.SEMI_BOLD, 11));
+        slotLabel.setTextFill(Color.web("#94a3b8"));
+
+        inner.getChildren().addAll(iconCircle, slotLabel);
+        placeholder.getChildren().add(inner);
+        return placeholder;
+    }
+
+    private void setupCardInteractions(
+            StackPane card,
+            ImageView roleImageView,
+            Label arrowLabel,
+            String defaultStyle,
+            String accentColorHex,
+            DropShadow defaultShadow,
+            Runnable onClickAction) {
+
+        DropShadow hoverShadow = new DropShadow(36, 0, 10, Color.web(accentColorHex, 0.45));
+
+        card.setOnMouseEntered(event -> {
+            TranslateTransition cardMove = new TranslateTransition(HOVER_DURATION, card);
+            cardMove.setToY(-8);
+
+            ScaleTransition cardScale = new ScaleTransition(HOVER_DURATION, card);
+            cardScale.setToX(1.025);
+            cardScale.setToY(1.025);
+
+            TranslateTransition arrowMove = new TranslateTransition(HOVER_DURATION, arrowLabel);
+            arrowMove.setToX(6);
+
+            ParallelTransition pt;
+            if (roleImageView != null) {
+                ScaleTransition imgScale = new ScaleTransition(HOVER_DURATION, roleImageView);
+                imgScale.setToX(1.05);
+                imgScale.setToY(1.05);
+                pt = new ParallelTransition(cardMove, cardScale, arrowMove, imgScale);
+            } else {
+                pt = new ParallelTransition(cardMove, cardScale, arrowMove);
+            }
+            pt.play();
+
+            card.setStyle(createCardHoverStyle(accentColorHex));
+            card.setEffect(hoverShadow);
         });
 
-        card.setOnMouseExited(e -> {
-            TranslateTransition tt = new TranslateTransition(Duration.millis(200), card);
-            tt.setToY(0);
+        card.setOnMouseExited(event -> {
+            TranslateTransition cardMove = new TranslateTransition(HOVER_DURATION, card);
+            cardMove.setToY(0);
 
-            ScaleTransition st = new ScaleTransition(Duration.millis(200), card);
-            st.setToX(1.0);
-            st.setToY(1.0);
+            ScaleTransition cardScale = new ScaleTransition(HOVER_DURATION, card);
+            cardScale.setToX(1.0);
+            cardScale.setToY(1.0);
 
-            ScaleTransition iconSt = new ScaleTransition(Duration.millis(200), iconBox);
-            iconSt.setToX(1.0);
-            iconSt.setToY(1.0);
+            TranslateTransition arrowMove = new TranslateTransition(HOVER_DURATION, arrowLabel);
+            arrowMove.setToX(0);
 
-            new ParallelTransition(tt, st, iconSt).play();
-            card.setStyle(String.format(
-                "-fx-background-color: %s; -fx-background-radius: 16; -fx-border-color: %s; -fx-border-radius: 16; -fx-border-width: 1;",
-                CARD_BG, OUTLINE_VARIANT
-            ));
+            ParallelTransition pt;
+            if (roleImageView != null) {
+                ScaleTransition imgScale = new ScaleTransition(HOVER_DURATION, roleImageView);
+                imgScale.setToX(1.0);
+                imgScale.setToY(1.0);
+                pt = new ParallelTransition(cardMove, cardScale, arrowMove, imgScale);
+            } else {
+                pt = new ParallelTransition(cardMove, cardScale, arrowMove);
+            }
+            pt.play();
+
+            card.setStyle(defaultStyle);
+            card.setEffect(defaultShadow);
+        });
+
+        card.setOnMousePressed(event -> {
+            ScaleTransition scale = new ScaleTransition(CLICK_DURATION, card);
+            scale.setToX(0.98);
+            scale.setToY(0.98);
+            scale.play();
+        });
+
+        card.setOnMouseReleased(event -> {
+            ScaleTransition scale = new ScaleTransition(CLICK_DURATION, card);
+            scale.setToX(1.025);
+            scale.setToY(1.025);
+            scale.play();
+        });
+
+        card.setOnMouseClicked(event -> {
+            if (onClickAction != null) {
+                onClickAction.run();
+            }
         });
     }
 
-    private void playEntranceAnimations(VBox mainContainer) {
-        GridPane grid = (GridPane) mainContainer.getChildren().get(1);
+    private void playEntranceAnimations(List<Node> cards) {
         int delay = 0;
+        for (Node card : cards) {
+            card.setOpacity(0);
+            card.setTranslateY(25);
 
-        for (Node child : grid.getChildren()) {
-            child.setOpacity(0);
-            child.setTranslateY(30);
+            FadeTransition fade = new FadeTransition(ENTRANCE_DURATION, card);
+            fade.setToValue(1.0);
 
-            FadeTransition ft = new FadeTransition(Duration.millis(500), child);
-            ft.setToValue(1.0);
+            TranslateTransition move = new TranslateTransition(ENTRANCE_DURATION, card);
+            move.setToY(0);
 
-            TranslateTransition tt = new TranslateTransition(Duration.millis(500), child);
-            tt.setToY(0);
+            ParallelTransition animation = new ParallelTransition(fade, move);
+            animation.setDelay(Duration.millis(delay));
+            animation.play();
 
-            ParallelTransition pt = new ParallelTransition(ft, tt);
-            pt.setDelay(Duration.millis(delay));
-            pt.play();
-
-            delay += 100;
+            delay += 55;
         }
     }
 
-    
+    private Image loadWelcomeImage(String filename) {
+        if (filename == null || filename.isBlank()) {
+            return null;
+        }
 
+        try {
+            var url = getClass().getResource("/assets/welcome/" + filename);
+            if (url != null) {
+                return new Image(url.toExternalForm(), false);
+            }
+        } catch (Exception ignored) {}
+
+        String[] paths = {
+                "src/main/resources/assets/welcome/" + filename,
+                "target/classes/assets/welcome/" + filename,
+                "assets/welcome/" + filename
+        };
+
+        for (String path : paths) {
+            try {
+                File file = new File(path);
+                if (file.exists() && file.isFile()) {
+                    return new Image(file.toURI().toString(), false);
+                }
+            } catch (Exception ignored) {}
+        }
+        return null;
+    }
+
+    private Image loadWelcomeBackground() {
+        try {
+            var url = getClass().getResource("/assets/welcome/" + WELCOME_BACKGROUND);
+            if (url != null) {
+                return new Image(url.toExternalForm(), false);
+            }
+        } catch (Exception ignored) {}
+
+        String[] paths = {
+                "src/main/resources/assets/welcome/" + WELCOME_BACKGROUND,
+                "target/classes/assets/welcome/" + WELCOME_BACKGROUND,
+                "assets/welcome/" + WELCOME_BACKGROUND
+        };
+
+        for (String path : paths) {
+            try {
+                File file = new File(path);
+                if (file.exists() && file.isFile()) {
+                    return new Image(file.toURI().toString(), false);
+                }
+            } catch (Exception ignored) {}
+        }
+        return null;
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        Platform.exit();
+        System.exit(0);
+    }
 }

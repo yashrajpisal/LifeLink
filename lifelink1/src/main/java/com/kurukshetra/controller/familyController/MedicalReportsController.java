@@ -20,9 +20,9 @@ public class MedicalReportsController {
         this.familyDAO = new FamilyDao();
     }
 
-    /**
-     * Subscribes to real-time updates for a given family email.
-     */
+    
+     // Subscribes to real-time updates for a given family email.
+     
     public void subscribeToFamilyMembers(String familyEmail, Consumer<List<MemberModel>> onDataLoaded, Consumer<String> onError) {
         if (activeListener != null) {
             activeListener.remove();
@@ -47,9 +47,8 @@ public class MedicalReportsController {
         });
     }
 
-    /**
-     * Saves or updates a member asynchronously.
-     */
+    // Save or update a member with error handling and success callback.
+ 
     public void saveMember(String familyEmail, MemberModel member, Runnable onSuccess, Consumer<String> onError) {
         new Thread(() -> {
             try {
@@ -61,9 +60,8 @@ public class MedicalReportsController {
         }).start();
     }
 
-    /**
-     * Deletes a member document from Firestore asynchronously.
-     */
+    // Delete a member by ID with error handling and success callback.
+
     public void deleteMember(String familyEmail, String memberId, Runnable onSuccess, Consumer<String> onError) {
         new Thread(() -> {
             try {
@@ -75,9 +73,9 @@ public class MedicalReportsController {
         }).start();
     }
 
-    /**
-     * Synchronizes entire list with batch execution.
-     */
+
+    // Synchronizes entire list with batch execution.
+     
     public void syncAllMembers(String familyEmail, List<MemberModel> members, Runnable onSuccess, Consumer<String> onError) {
         new Thread(() -> {
             try {

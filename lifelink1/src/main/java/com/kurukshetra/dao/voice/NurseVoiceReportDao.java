@@ -1,28 +1,5 @@
 package com.kurukshetra.dao.voice;
 
-
-// import com.example.config.FirebaseConfig;
-// import com.example.modell.voice.NurseVoiceReportModel;
-// import com.google.cloud.firestore.Firestore;
-
-// public class NurseVoiceReportDao {
-//     private final Firestore db = FirebaseConfig.getFirestore();
-//     private static final String COLLECTION = "nurseVoiceReports";
-
-//     public void saveVoiceReport(NurseVoiceReportModel report) {
-//         try {
-//             if (db != null && report != null) {
-//                 db.collection(COLLECTION).document(report.getReportId()).set(report);
-//                 System.out.println("[NurseVoiceReportDao] Saved voice report: " + report.getReportId());
-//             }
-//         } catch (Exception e) {
-//             e.printStackTrace();
-//         }
-//     }
-// }
-
-// package com.example.dao.voice;
-
 import com.kurukshetra.config.FirebaseConfig;
 import com.kurukshetra.model.voice.NurseVoiceReportModel;
 import com.google.api.core.ApiFuture;

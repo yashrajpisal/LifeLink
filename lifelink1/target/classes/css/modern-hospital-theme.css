@@ -1,0 +1,330 @@
+/* ==========================================================================
+   LifeLink - Modern Hospital & Healthcare Design System
+   Universal JavaFX Theme
+   ========================================================================== */
+
+/* Root Variables & Base Configuration */
+.root {
+    -fx-font-family: "Plus Jakarta Sans", "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    -fx-font-size: 13px;
+    -fx-focus-color: rgba(14, 165, 233, 0.45);
+    -fx-faint-focus-color: transparent;
+    -fx-background-color: #F8FAFC;
+    
+    /* Healthcare Color Tokens */
+    -ll-primary: #006591;
+    -ll-primary-hover: #004D70;
+    -ll-primary-light: #E0F2FE;
+    -ll-teal: #0D9488;
+    -ll-teal-light: #CCFBF1;
+    -ll-emerald: #10B981;
+    -ll-emerald-light: #D1FAE5;
+    -ll-danger: #EF4444;
+    -ll-danger-light: #FEE2E2;
+    -ll-warning: #F59E0B;
+    -ll-warning-light: #FEF3C7;
+    -ll-dark-slate: #0F172A;
+    -ll-navy-surface: #1E293B;
+    -ll-card-bg: #FFFFFF;
+    -ll-border: #E2E8F0;
+    -ll-border-subtle: #F1F5F9;
+    -ll-text-main: #0F172A;
+    -ll-text-secondary: #475569;
+    -ll-text-muted: #94A3B8;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+.label {
+    -fx-text-fill: -ll-text-main;
+}
+
+.heading-xl {
+    -fx-font-size: 28px;
+    -fx-font-weight: 800;
+    -fx-text-fill: -ll-text-main;
+}
+
+.heading-lg {
+    -fx-font-size: 22px;
+    -fx-font-weight: 700;
+    -fx-text-fill: -ll-text-main;
+}
+
+.heading-md {
+    -fx-font-size: 17px;
+    -fx-font-weight: 600;
+    -fx-text-fill: -ll-text-main;
+}
+
+.text-secondary {
+    -fx-text-fill: -ll-text-secondary;
+}
+
+.text-muted {
+    -fx-text-fill: -ll-text-muted;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.button {
+    -fx-font-family: inherit;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 9px 18px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease;
+    -fx-background-insets: 0;
+}
+
+.btn-primary {
+    -fx-background-color: -ll-primary;
+    -fx-text-fill: #FFFFFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 101, 145, 0.25), 10, 0, 0, 4);
+}
+
+.btn-primary:hover {
+    -fx-background-color: -ll-primary-hover;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 101, 145, 0.4), 14, 0, 0, 6);
+}
+
+.btn-primary:pressed {
+    -fx-background-color: #003B56;
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+.btn-teal {
+    -fx-background-color: -ll-teal;
+    -fx-text-fill: #FFFFFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(13, 148, 136, 0.25), 10, 0, 0, 4);
+}
+
+.btn-teal:hover {
+    -fx-background-color: #0F766E;
+    -fx-effect: dropshadow(three-pass-box, rgba(13, 148, 136, 0.4), 14, 0, 0, 6);
+}
+
+.btn-danger {
+    -fx-background-color: -ll-danger;
+    -fx-text-fill: #FFFFFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(239, 68, 68, 0.25), 10, 0, 0, 4);
+}
+
+.btn-danger:hover {
+    -fx-background-color: #DC2626;
+    -fx-effect: dropshadow(three-pass-box, rgba(239, 68, 68, 0.4), 14, 0, 0, 6);
+}
+
+.btn-outline {
+    -fx-background-color: transparent;
+    -fx-border-color: -ll-border;
+    -fx-border-width: 1.5px;
+    -fx-text-fill: -ll-text-secondary;
+}
+
+.btn-outline:hover {
+    -fx-background-color: #F1F5F9;
+    -fx-border-color: #CBD5E1;
+    -fx-text-fill: -ll-text-main;
+}
+
+/* ==========================================================================
+   Text Fields & Inputs
+   ========================================================================== */
+.text-field, .password-field {
+    -fx-font-family: inherit;
+    -fx-font-size: 13px;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: -ll-border;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 10px 14px;
+    -fx-text-fill: -ll-text-main;
+    -fx-prompt-text-fill: -ll-text-muted;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: -ll-primary;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 101, 145, 0.18), 8, 0, 0, 0);
+}
+
+/* ==========================================================================
+   Modern Rounded Minimalist Scrollbars
+   ========================================================================== */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical, .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar:vertical {
+    -fx-pref-width: 8px;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 8px;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 4px;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #CBD5E1;
+    -fx-background-radius: 6px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #94A3B8;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-shape: " ";
+}
+
+/* ==========================================================================
+   Cards & Surfaces
+   ========================================================================== */
+.hospital-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 16px;
+    -fx-border-color: -ll-border;
+    -fx-border-radius: 16px;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.05), 14, 0, 0, 4);
+    -fx-padding: 20px;
+}
+
+.hospital-card-hover {
+    -fx-cursor: hand;
+}
+
+.hospital-card-hover:hover {
+    -fx-border-color: rgba(0, 101, 145, 0.4);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 101, 145, 0.12), 20, 0, 0, 8);
+    -fx-translate-y: -3px;
+}
+
+/* Glassmorphic Panel */
+.glass-panel {
+    -fx-background-color: rgba(255, 255, 255, 0.92);
+    -fx-background-radius: 20px;
+    -fx-border-color: rgba(255, 255, 255, 0.8);
+    -fx-border-radius: 20px;
+    -fx-border-width: 1.5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.12), 24, 0, 0, 10);
+}
+
+.glass-panel-dark {
+    -fx-background-color: rgba(15, 23, 42, 0.88);
+    -fx-background-radius: 20px;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 20px;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 30, 0, 0, 12);
+}
+
+/* ==========================================================================
+   Badges & Pills
+   ========================================================================== */
+.badge-pill {
+    -fx-background-radius: 20px;
+    -fx-padding: 4px 12px;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+}
+
+.badge-success {
+    -fx-background-color: -ll-emerald-light;
+    -fx-text-fill: #065F46;
+}
+
+.badge-warning {
+    -fx-background-color: -ll-warning-light;
+    -fx-text-fill: #92400E;
+}
+
+.badge-danger {
+    -fx-background-color: -ll-danger-light;
+    -fx-text-fill: #991B1B;
+}
+
+.badge-info {
+    -fx-background-color: -ll-primary-light;
+    -fx-text-fill: #0369A1;
+}
+
+/* ==========================================================================
+   Modern Table View
+   ========================================================================== */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: -ll-border;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #F8FAFC;
+    -fx-background-radius: 12px 12px 0 0;
+    -fx-border-color: transparent transparent -ll-border transparent;
+    -fx-border-width: 1px;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 10px 14px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: -ll-text-secondary;
+    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #F1F5F9 transparent;
+    -fx-border-width: 1px;
+    -fx-padding: 4px 0;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #FAFCFE;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #F0F9FF;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #E0F2FE;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: -ll-text-main;
+    -fx-padding: 8px 14px;
+}
